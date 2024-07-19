@@ -1,0 +1,20 @@
+.link{
+  text-decoration: none;
+}
+.select-home{
+  text-align: right;
+  background: linear-gradient(to left, #186cc5eb 40%, #ffffffda 100%), 
+              url('../../images/1.jpg') no-repeat center center;
+  background-size: cover;
+  padding: 50px 25px;
+  margin: 25px 20px;
+  border-radius: 12px;
+  height: 50vh;
+  background-attachment: fixed;  
+  
+
+}
+.select-home h2 ,.select-home p{
+  color: #fff;
+
+}

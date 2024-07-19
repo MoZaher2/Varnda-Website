@@ -1,0 +1,12 @@
+.detailes-page .img-fluid{
+  width: 100%;
+  height: 400px;
+}
+.detailes-page h4{
+  color:#0d6efd;
+  margin-bottom: 20px;
+}
+.detailes-page p{
+  color: rgb(151, 148, 148);
+  font-weight: 600;
+}

@@ -1,0 +1,25 @@
+.alert {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translate(-50%);
+    width: 60%;
+    height: 65px;
+    animation-name: up2down;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+@keyframes up2down {
+     from {
+        top: -60px;
+     }
+  to {
+    top: 3px;
+  }
+}
+@media only screen and (max-width: 768px) {
+    .alert {
+        width: 99%;
+        height: 70px;
+    }
+  }

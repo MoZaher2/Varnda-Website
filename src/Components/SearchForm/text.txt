@@ -1,0 +1,33 @@
+<div className="search-form">
+<div className="form-group">
+  <select>
+    <option value="للبيع">للبيع</option>
+    <option value="للايجار">للايجار</option>
+  </select>
+</div>
+<div className="form-group">
+  <input type="text" placeholder="أدخل الموقع" />
+</div>
+<div className="form-group">
+  <PropertyTypeDropdown propertyType={propertyType} setPropertyType={setPropertyType} subType={subType} setSubType={setSubType} />
+</div>
+{propertyType === 'سكني' && (
+  <div className="form-group">
+    <select>
+      <option>عدد الغرف &amp; العد...</option>
+      <option value="1">1 غرفة</option>
+      <option value="2">2 غرفة</option>
+      <option value="3">3 غرف</option>
+      <option value="4">4 غرف</option>
+      <option value="5">5 غرف</option>
+    </select>
+  </div>
+)}
+<div className="form-group">
+  <input type="number" placeholder="المساحة (متر مربع)" />
+</div>
+<div className="form-group">
+  <input type="number" placeholder="السعر (ج.م)" />
+</div>
+<button>ابحث</button>
+</div>
