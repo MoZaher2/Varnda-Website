@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Form, Button,Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import "./LoginPage.css";
@@ -38,7 +38,7 @@ export default function LoginPage() {
           email: formData.email,
           password: formData.password,
         });
-        Cookies.set('token', response.data.data.token, { expires: 30 });
+        Cookies.set('token', response.data.data.token);
         console.log(response.data)
         setLoad(false)
         setOverlay(true)

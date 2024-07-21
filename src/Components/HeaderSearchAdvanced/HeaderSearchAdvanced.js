@@ -8,7 +8,9 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import Search from "../Search/Search";
 export default function HeaderSearchAdvanced() {
+  const [searchText,setSearchText]=useState()
   const [selectedOption, setSelectedOption] = useState("للبيع");
   const [rentalDuration, setRentalDuration] = useState("");
   const [propertyType, setPropertyType] = useState("سكنى");
@@ -89,6 +91,9 @@ export default function HeaderSearchAdvanced() {
     setSelectedTime("30 دقيقة");
   };
 
+
+
+  console.log(searchText);
   return (
     <>
 <Link to="/advicePage">هذا الرابط يستبدل بصورة اللوجو الخاص بالموقع  </Link>
@@ -160,12 +165,13 @@ export default function HeaderSearchAdvanced() {
             </Dropdown>
           </Form.Group>
 
-          <Form.Group className="inputLocationAdvanced">
+          {/* <Form.Group className="inputLocationAdvanced">
             <Form.Control
               type="text"
               placeholder="أدخل الموقع   "
             />
-          </Form.Group>
+          </Form.Group> */}
+          <Search className="search" setSearchText={setSearchText} />
 
           <Form.Group className="inputLocationAdvanced">
           <ButtonGroup className="d-flex align-items-center justify-content-between groub-btns">

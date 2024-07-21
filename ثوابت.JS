@@ -38,3 +38,24 @@ const handelSubmit = async (e) => {
       navigate('/details');
     };
 ///////////////////////////
+const handelSubmit = async (e) => {
+  e.preventDefault();
+  const form = e.currentTarget;
+  if (form.checkValidity() === false) {
+    e.stopPropagation();
+  }
+  else{
+    try {
+      const response = await api.get("/searchAds", null, {
+        params: {
+          mail,
+          firstname
+        }
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  setValidated(true);
+};

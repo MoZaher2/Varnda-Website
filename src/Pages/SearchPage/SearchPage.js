@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SearchPage.css";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
@@ -103,8 +103,8 @@ export default function SearchPage() {
 
       <Container>
         <Row className="d-flex justify-content-between">
-          
-        <Col md={8} dir="rtl">
+
+          <Col md={8} dir="rtl">
             <div className="d-flex align-items-center justify-content-between mb-5">
               <h5 style={{ color: "#0d6efd" }}>عقارات سكنية للبيع في مَصر</h5>
               <ButtonGroup className="d-flex align-items-center justify-content-between groub-btns">
@@ -133,7 +133,7 @@ export default function SearchPage() {
                 <div style={{ width: "50%", height: "auto" }}>
                   <Slider {...settings}>
                     {property.images.map((image, idx) => (
-                <div>
+                      <div>
                         <Link to={`/moreDeteliesPage/${idx}`} className="link" key={index}>
                           <img
                             src={image}
@@ -145,19 +145,19 @@ export default function SearchPage() {
                             الصور المتاحة لهذا العقار
                           </h6>
                         </Link>
-                  
-              
-<Button variant="primary" className="m-2 btn-sm">
-<FontAwesomeIcon icon={faPhone} /> اتصل
-</Button>
-<Button variant="secondary" className="m-2 btn-sm">
-<FontAwesomeIcon icon={faEnvelope} /> الإيميل
-</Button>
-<Button variant="success" className="m-2 btn-sm">
-<FontAwesomeIcon icon={faWhatsapp} /> واتساب
-</Button>
-                  
-                </div>
+
+
+                        <Button variant="primary" className="m-2 btn-sm">
+                          <FontAwesomeIcon icon={faPhone} /> اتصل
+                        </Button>
+                        <Button variant="secondary" className="m-2 btn-sm">
+                          <FontAwesomeIcon icon={faEnvelope} /> الإيميل
+                        </Button>
+                        <Button variant="success" className="m-2 btn-sm">
+                          <FontAwesomeIcon icon={faWhatsapp} /> واتساب
+                        </Button>
+
+                      </div>
                     ))}
                   </Slider>
                 </div>
@@ -200,7 +200,7 @@ export default function SearchPage() {
                       <Col>{property.location}</Col>
                     </Row>
                   </Card.Text>
-                
+
                 </Card.Body>
               </Card>
             ))}

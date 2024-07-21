@@ -35,7 +35,7 @@
 
 .property-category {
  width: 32%;
- min-height: 250px !important;
+ /* min-height: 250px !important; */
   margin-bottom: 20px;
   padding: 10px;
   border: 1px solid #ddd;
@@ -52,8 +52,8 @@
 .property-category ul {
   list-style: none;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex;
+  flex-wrap: wrap; */
 }
 
 .property-category ul li {
@@ -89,7 +89,7 @@
 @media (min-width:500px) and (max-width:900px){
   .property-category {
     width: 48%;
-    min-height: 250px !important;
+    /* min-height: 250px !important; */
      margin-bottom: 20px;
      padding: 6px;
 

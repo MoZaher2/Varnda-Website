@@ -1,4 +1,3 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import HomePage from "./Pages/HomePage/HomePage";
@@ -37,8 +36,8 @@ import MyPropertiesPage from "./Pages/MyPropertiesPage/MyPropertiesPage";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Cookies from "js-cookie";
 
+// 
 const token = Cookies.get("Token");
-
 const router = createBrowserRouter([
   // ProtectedRoute
   // {
@@ -64,6 +63,12 @@ const router = createBrowserRouter([
     path: "/card/:id",
     element: <Swapper />,
   },
+  // 
+  {
+    path: "/searchPage/:id",
+    element: <SearchPage />,
+  },
+  // 
   {
     path: '/aboutUs',
     element: <AboutPage />,

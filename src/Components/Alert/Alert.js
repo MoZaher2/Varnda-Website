@@ -1,13 +1,12 @@
 import { Alert } from "react-bootstrap";
 import Style from "./alert.module.css";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import {User} from "../../Context/UserContext"
+// import { useContext } from "react";
+// import {User} from "../../Context/UserContext"
 export default function AlertMessage({ msg, setShow, variant }) {
-  const color =
-    variant === 1 ? "success" : variant === 2 ? "danger" : "warning";
-    const user=useContext(User)
-    console.log(user);
+  const color =variant === 1 ? "success" : variant === 2 ? "danger" : "warning";
+    // const user=useContext(User)
+    // console.log(user);
   return (
     <>
       <Alert
