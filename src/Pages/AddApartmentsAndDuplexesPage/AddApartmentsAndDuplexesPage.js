@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faDollarSign, faBed, faBath, faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 
 const AddApartmentsAndDuplexesPage = () => {
+
   const myIcon = new L.Icon({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     iconSize: [25, 41],
@@ -52,7 +53,8 @@ const AddApartmentsAndDuplexesPage = () => {
   const [cities, setCities] = useState([]);
   const [regions, setRegions] = useState([]);
   const [position, setPosition] = useState([27.640569, 30.864143]);
-
+  const [validated, setValidated] = useState(false);
+  const [validated2, setValidated2] = useState(false);
 
   const governorates = [
     'القاهرة', 'الإسكندرية', 'الجيزة', 'الدقهلية', 'البحيرة',
@@ -86,6 +88,14 @@ const AddApartmentsAndDuplexesPage = () => {
       setRegions([]);
     }
   }, [formData.city]);
+
+  const isValidPhone = (phoneNumber) => {
+    const egPhone = /^(010|011|012|015)\d{8}$/;
+    return egPhone.test(phoneNumber);
+  };
+
+
+
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     if (type === 'file') {
@@ -103,6 +113,13 @@ const AddApartmentsAndDuplexesPage = () => {
         ...formData,
         [name]: value,
       });
+    }
+    if (name === "phone") {
+      if (!isValidPhone(value)) {
+        e.target.setCustomValidity("يرجى إدخال رقم هاتف صحيح");
+      } else {
+        e.target.setCustomValidity("");
+      }
     }
   };
   const toggleAmenity = (amenity) => {
@@ -144,14 +161,36 @@ const AddApartmentsAndDuplexesPage = () => {
     setFormData({ ...formData, servicesAmenities: selectedServices });
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit1 = (e) => {
     e.preventDefault();
-    console.log(formData);
-    console.log('Selected position:', position);
-    // Handle form submission
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    }
+    else {
+      console.log(formData);
+      console.log('Selected position:', position);
+      // Handle form submission
+
+      // للانتقال لاخر صفحه و حفظ الاعلان
+      setCurrentPage(currentPage + 1);
+    }
+    setValidated(true);
   };
-
-
+  const handleSubmit2 = (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    }
+    else {
+      console.log(formData);
+      console.log('Selected position:', position);
+      // Handle form submission
+    }
+    setValidated2(true);
+  };
 
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -160,7 +199,7 @@ const AddApartmentsAndDuplexesPage = () => {
   const handlePreviousPage = () => {
     setCurrentPage(currentPage - 1);
   };
-  const totalPages = 7; // Total number of form pages
+  const totalPages = 8; // Total number of form pages
 
   // Calculate progress percentage
   const progress = Math.ceil((currentPage / totalPages) * 100);
@@ -169,7 +208,9 @@ const AddApartmentsAndDuplexesPage = () => {
       <Header />
       <Container fluid className="px-0">
         <div className="bg-primary text-white py-3 mb-4">
-          <h1 className="text-center mb-0">إضافة إعلان جديد</h1>
+          <h1 className="text-center mb-0">
+            {currentPage === 8 ? "إضافة معلومات التواصل" : "إضافة إعلان جديد"}
+          </h1>
         </div>
         <Container>
           <Row className="justify-content-center">
@@ -179,7 +220,9 @@ const AddApartmentsAndDuplexesPage = () => {
                 {/* <UploadWidget /> */}
                 <ProgressBar now={progress} label={`${progress}%`} className="my-4" />
 
-                <Form onSubmit={handleSubmit}>
+                <Form noValidate
+                  validated={validated}
+                  onSubmit={handleSubmit1}>
                   {currentPage === 1 && (
                     <>
                       <Row>
@@ -248,32 +291,23 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
-                          <Form.Group controlId="negotiable" className="mb-3">
-                            <Form.Label>قابلية التفاوض على السعر</Form.Label>
-                            <Form.Select
-                              name="negotiable"
-                              value={formData.negotiable}
+                          <Form.Group controlId="discount" className="mb-3">
+                            <Form.Label>خصم حصري (إن وجد)</Form.Label>
+                            <Form.Control
+                              type="number"
+                              name="discount"
+                              value={formData.discount}
                               onChange={handleChange}
-                              required
-                            >
-                              <option value="">اختر</option>
-                              <option value="yes">نعم</option>
-                              <option value="no">لا</option>
-                            </Form.Select>
+
+                              min={0}
+                              max={99.9}
+                              step={0.1}
+                            />
                           </Form.Group>
                         </Col>
-
                       </Row>
 
-                      <Form.Group controlId="discount" className="mb-3">
-                        <Form.Label>خصم حصري (إن وجد)</Form.Label>
-                        <Form.Control
-                          type="number"
-                          name="discount"
-                          value={formData.discount}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
+
                       <div className="text-center d-flex justify-content-end">
                         <Button variant="secondary" onClick={handleNextPage}>
                           الصفحة التالية
@@ -335,7 +369,7 @@ const AddApartmentsAndDuplexesPage = () => {
                             </Form.Select>
                           </Form.Group>
 
-                          <Form.Group controlId="constructionYear" className="mb-3">
+                          {/* <Form.Group controlId="constructionYear" className="mb-3">
                             <Form.Label>سنة البناء</Form.Label>
                             <Form.Control
                               type="number"
@@ -344,7 +378,7 @@ const AddApartmentsAndDuplexesPage = () => {
                               onChange={handleChange}
                               required
                             />
-                          </Form.Group>
+                          </Form.Group> */}
 
                           <Form.Group controlId="legalPapers" className="mb-3">
                             <Form.Label>الأوراق القانونية للعقار</Form.Label>
@@ -707,12 +741,80 @@ const AddApartmentsAndDuplexesPage = () => {
                           الصفحة السابقة
                         </Button>
                         <Button variant="primary" type="submit">
-                          حفظ الإعلان
+                          تجهيز الاعلان
                         </Button>
                       </div>
                     </>
                   )}
                 </Form>
+                {currentPage === 8 && (
+                  <>
+                    <Form noValidate
+                      validated={validated2} onSubmit={handleSubmit2}>
+                      <Form.Group controlId="phone" className="mb-3">
+                        <Form.Label>رقم الهاتف للتواصل</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="phone"
+                          onChange={handleChange}
+                          required
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          ادخل رقم الهاتف بشكل صحيح "01xxxxxxxxx"
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Form.Group controlId="whatsapp" className="mb-3">
+                        <Form.Label>رقم الواتس اب</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="whatsapp"
+                          onChange={handleChange}
+                          required
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          ادخل رقم الهاتف بشكل صحيح "01xxxxxxxxx"
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Form.Group controlId="formBasicEmail" className="mt-3">
+                        <Form.Label className="fs-5 mb-3">البريد الإلكتروني</Form.Label>
+                        <Form.Control
+                          type="email"
+                          name="email"
+                          placeholder="ادخل البريد الإلكتروني"
+                          onChange={handleChange}
+                          required
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          ادخل الايميل بشكل صحيح
+                        </Form.Control.Feedback>
+                      </Form.Group>
+
+                      <Form.Group controlId="formUserType">
+                        <Form.Label className='mt-2'>نوع المستخدم</Form.Label>
+                        <Form.Select
+                          name="userType"
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">اختر</option>
+                          <option key="1" value="مالك">مالك</option>
+                          <option key="2" value="سماسر ">سمسار</option>
+                          <option key="3" value="شركة تسويق">شركة تسويق</option>
+                          <option key="4" value="شركة عقارية">شركة عقارية</option>
+                        </Form.Select>
+                        <Form.Control.Feedback type="invalid">
+                          الرجاء اختيار نوع المستخدم.
+                        </Form.Control.Feedback>
+                      </Form.Group>
+
+                      <div className="text-center d-flex justify-content-center mt-4">
+                        <Button variant="primary" type="submit">
+                          حفظ الإعلان
+                        </Button>
+                      </div>
+                    </Form>
+                  </>
+                )}
               </div>
             </Col>
           </Row>
