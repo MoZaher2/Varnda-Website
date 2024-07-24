@@ -7,7 +7,9 @@ import L from 'leaflet';
 import { Form, Button, Container, Row, Col, ProgressBar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faDollarSign, faBed, faBath, faRulerCombined } from '@fortawesome/free-solid-svg-icons';
-
+import { AllGovernments } from '../../utility/AllGovernments';
+import api from "../../API/ApiLink.js";
+import Cookies from 'js-cookie';
 const AddApartmentsAndDuplexesPage = () => {
 
   const myIcon = new L.Icon({
@@ -20,74 +22,135 @@ const AddApartmentsAndDuplexesPage = () => {
   });
 
   const [formData, setFormData] = useState({
-    adName: '',
-    adDescription: '',
+    name_ad_ar: '',
+    details_ar: '',
     adGoal: '',
-    unitPrice: '',
+    price: '',
     negotiable: '',
     discount: '',
     unitType: '',
-    paymentMethod: '',
+    payment_method: '',
     deliveryDate: '',
     constructionYear: '',
     legalPapers: '',
     area: '',
-    bedrooms: '',
+    rooms: '',
     bathrooms: '',
     floor: '',
     compound: '',
     finishStage: '',
     furnished: '',
-    mainImage: '',
+    mainImage: '',///////////////////////////////
     additionalImages: '',
-    videoLink: '',
+    video_link: '',
     fullAddress: '',
     governorate: '',
     city: '',
     region: '',
+    street: '',
     servicesAmenities: [],
   });
-  const [mainImage, setMainImage] = useState(null);
-  const [additionalImages, setAdditionalImages] = useState([]);
+  const [primary_picture, setPrimary_picture] = useState(null);//API
+  const [additionalImages, setAdditionalImages] = useState([]);//API
   const [currentPage, setCurrentPage] = useState(1);
   const [cities, setCities] = useState([]);
   const [regions, setRegions] = useState([]);
-  const [position, setPosition] = useState([27.640569, 30.864143]);
+  const [streets, setStreets] = useState([]);
+  const [position, setPosition] = useState([30.044376903556085, 31.235749743857397]);//ابعته ف ال API  latitude longitude
   const [validated, setValidated] = useState(false);
   const [validated2, setValidated2] = useState(false);
-
-  const governorates = [
-    'القاهرة', 'الإسكندرية', 'الجيزة', 'الدقهلية', 'البحيرة',
-    'المنوفية', 'الغربية', 'الشرقية', 'كفر الشيخ', 'القليوبية',
-    'الفيوم', 'بني سويف', 'المنيا', 'أسيوط', 'سوهاج',
-    'قنا', 'الأقصر', 'أسوان', 'دمياط', 'بورسعيد',
-    'الإسماعيلية', 'السويس', 'مطروح', 'شمال سيناء', 'جنوب سيناء',
-  ];
+  
   const categories = {
     مرافق: ["عداد كهرباء", "عداد مياه", "غاز طبيعي", "تليفون أرضي"],
     ميزات: ["شرفة", "غرف خدم", "غرفة غسيل", "غرفة ملابس", "حديقة خاصة", "موقف سيارات مغطي"],
     خدمات: ["حمام سباحة", "أسانسير", "أمن"],
     أجهزة: ["تدفئة", "تكييف", "اجهزة المطبخ", "أجهزة كشف الحريق"]
   };
+
+  const [governorates, setGovernorates] = useState(AllGovernments)
+  // API for get data to choose from it
   useEffect(() => {
-    // تحديث قائمة المدن بناءً على المحافظة المختارة
-    if (formData.governorate === 'القاهرة') {
-      setCities(['مدينة نصر', 'التجمع الخامس', 'المعادي']);
-    } else if (formData.governorate === 'الجيزة') {
-      setCities(['6 أكتوبر', 'الشيخ زايد']);
-    } else {
-      setCities([]);
-    }
+    const fetchGov = async () => {
+      try {
+        const token = Cookies.get('token');
+        const response = await api.get("/governorates", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setGovernorates(response.data.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchGov();
+  }, []);
+  //City
+  useEffect(() => {
+    const fetchCity = async () => {
+      const govId=governorates.find((e)=>{
+        return e.name===formData.governorate
+      })["id"]
+      
+      try {
+        const token = Cookies.get('token');
+        const response = await api.get(`/governorates/${govId}/cities`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCities(response.data.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCity();
   }, [formData.governorate]);
 
+  // Region
   useEffect(() => {
-    // تحديث قائمة المناطق بناءً على المدينة المختارة
-    if (formData.city === 'التجمع الخامس') {
-      setRegions(['الحي الأول', 'الحي الثاني', 'الحي الثالث']);
-    } else {
-      setRegions([]);
-    }
+    
+    const fetchCity = async () => {
+      const cityId=cities.find((e)=>{
+        return e.name===formData.city
+      })["id"]
+      try {
+        const token = Cookies.get('token');
+        const response = await api.get(`/governorates/city/${cityId}/regions`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setRegions(response.data.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCity();
   }, [formData.city]);
+  // Street
+  useEffect(() => {
+    
+    const fetchStreet = async () => {
+      const streetId=regions.find((e)=>{
+        return e.name===formData.region
+      })["id"]
+      try {
+        const token = Cookies.get('token');
+        const response = await api.get(`/streetsByRegion/${streetId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.data.data)
+        setStreets(response.data.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchStreet();
+  }, [formData.region]);
+
 
   const isValidPhone = (phoneNumber) => {
     const egPhone = /^(010|011|012|015)\d{8}$/;
@@ -100,7 +163,8 @@ const AddApartmentsAndDuplexesPage = () => {
     const { name, value, type, files } = e.target;
     if (type === 'file') {
       if (name === 'mainImage') {
-        setMainImage(files[0]);
+        setPrimary_picture(files[0]);
+        console.log(primary_picture)
       } else if (name === 'additionalImages') {
         setAdditionalImages(Array.from(files));
       }
@@ -203,6 +267,21 @@ const AddApartmentsAndDuplexesPage = () => {
 
   // Calculate progress percentage
   const progress = Math.ceil((currentPage / totalPages) * 100);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /////////////////////////////////////////////////////////////
   return (
     <>
       <Header />
@@ -227,15 +306,15 @@ const AddApartmentsAndDuplexesPage = () => {
                     <>
                       <Row>
                         <Col xs={12} md={6}>
-                          <Form.Group controlId="adName" className="mb-3">
+                          <Form.Group controlId="name_ad_ar" className="mb-3">
                             <Form.Label>
                               <FontAwesomeIcon icon={faHome} className="me-2" />
                               اسم الإعلان
                             </Form.Label>
                             <Form.Control
                               type="text"
-                              name="adName"
-                              value={formData.adName}
+                              name="name_ad_ar"
+                              value={formData.name_ad_ar}
                               onChange={handleChange}
                               maxLength="70"
                               required
@@ -259,13 +338,13 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Form.Group controlId="adDescription" className="mb-3">
+                      <Form.Group controlId="details_ar" className="mb-3">
                         <Form.Label>أضف تفاصيل العقار</Form.Label>
                         <Form.Control
                           as="textarea"
                           rows={4}
-                          name="adDescription"
-                          value={formData.adDescription}
+                          name="details_ar"
+                          value={formData.details_ar}
                           onChange={handleChange}
                           maxLength="4000"
                           required
@@ -273,7 +352,7 @@ const AddApartmentsAndDuplexesPage = () => {
                       </Form.Group>
                       <Row>
                         <Col xs={12} md={6}>
-                          <Form.Group controlId="unitPrice" className="mb-3">
+                          <Form.Group controlId="price" className="mb-3">
                             <Form.Label>
                               <FontAwesomeIcon
                                 icon={faDollarSign}
@@ -283,8 +362,8 @@ const AddApartmentsAndDuplexesPage = () => {
                             </Form.Label>
                             <Form.Control
                               type="number"
-                              name="unitPrice"
-                              value={formData.unitPrice}
+                              name="price"
+                              value={formData.price}
                               onChange={handleChange}
                               required
                             />
@@ -335,11 +414,11 @@ const AddApartmentsAndDuplexesPage = () => {
                       </Form.Group>
                       {formData.adGoal !== 'rent' && (
                         <>
-                          <Form.Group controlId="paymentMethod" className="mb-3">
+                          <Form.Group controlId="payment_method" className="mb-3">
                             <Form.Label>طريقة الدفع</Form.Label>
                             <Form.Select
-                              name="paymentMethod"
-                              value={formData.paymentMethod}
+                              name="payment_method"
+                              value={formData.payment_method}
                               onChange={handleChange}
                               required
                             >
@@ -359,7 +438,7 @@ const AddApartmentsAndDuplexesPage = () => {
                             >
                               <option value="">اختر</option>
                               <option value="immediate">استلام فوري</option>
-                              {Array.from({ length: 9 }, (_, i) => 2022 + i).map(
+                              {Array.from({ length: 9 }, (_, i) => new Date().getFullYear() + i).map(
                                 (year) => (
                                   <option key={year} value={year}>
                                     {year}
@@ -423,19 +502,20 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="area"
                               value={formData.area}
                               onChange={handleChange}
+                              min={2}
                               required
                             />
                           </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
-                          <Form.Group controlId="bedrooms" className="mb-3">
+                          <Form.Group controlId="rooms" className="mb-3">
                             <Form.Label>
                               <FontAwesomeIcon icon={faBed} className="me-2" />
                               عدد غرف النوم
                             </Form.Label>
                             <Form.Select
-                              name="bedrooms"
-                              value={formData.bedrooms}
+                              name="rooms"
+                              value={formData.rooms}
                               onChange={handleChange}
                               required
                             >
@@ -488,6 +568,7 @@ const AddApartmentsAndDuplexesPage = () => {
                               required
                             >
                               <option value="">اختر</option>
+                              <option value="ground">أرضي</option>
                               {Array.from({ length: 10 }, (_, i) => i + 1).map(
                                 (floor) => (
                                   <option key={floor} value={floor}>
@@ -496,7 +577,6 @@ const AddApartmentsAndDuplexesPage = () => {
                                 )
                               )}
                               <option value="ground">+10</option>
-                              <option value="ground">أرضي</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>
@@ -520,6 +600,7 @@ const AddApartmentsAndDuplexesPage = () => {
                           onChange={handleChange}
                           required
                         >
+                          <option value="">اختر</option>
                           <option value="علي الطوب">علي الطوب</option>
                           <option value="محارة وحلوق">محارة وحلوق</option>
                           <option value="نصف تشطيب">نصف تشطيب</option>
@@ -560,7 +641,7 @@ const AddApartmentsAndDuplexesPage = () => {
                             <Row>
                               {items.map(item => (
                                 <Col key={item} xs="auto" className="mb-2">
-                                  <Button
+                                  <Button 
                                     variant={formData.servicesAmenities.includes(item) ? "primary" : "outline-secondary"}
                                     onClick={() => toggleAmenity(item)}
                                     className="amenity-button"
@@ -598,16 +679,19 @@ const AddApartmentsAndDuplexesPage = () => {
                             onChange={handleChange}
                             required
                           />
-                          {mainImage && (
+                          {primary_picture && (
                             <div className="mt-2">
                               <h5>الصورة الأساسية</h5>
                               <img
-                                src={URL.createObjectURL(mainImage)}
+                                src={URL.createObjectURL(primary_picture)}
                                 alt="Main Image"
                                 style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
                               />
                             </div>
                           )}
+                           <Form.Control.Feedback type="invalid">
+                         يجب اختيار صوره للاعلان
+                        </Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group controlId="additionalImages" className="mb-3">
@@ -648,12 +732,12 @@ const AddApartmentsAndDuplexesPage = () => {
                   )}
                   {currentPage === 6 && (
                     <>
-                      <Form.Group controlId="videoLink" className="mb-3">
-                        <Form.Label>رابط الفيديو</Form.Label>
+                      <Form.Group controlId="video_link" className="mb-3">
+                        <Form.Label>رابط فيديو لعرض العقار</Form.Label>
                         <Form.Control
                           type="url"
-                          name="videoLink"
-                          value={formData.videoLink}
+                          name="video_link"
+                          value={formData.video_link}
                           onChange={handleChange}
                         />
                       </Form.Group>
@@ -704,7 +788,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         >
                           <option value="">اختر المحافظة</option>
                           {governorates.map((gov, index) => (
-                            <option key={index} value={gov}>{gov}</option>
+                            <option key={gov.id} value={gov.name}>{gov.name}</option>
                           ))}
                         </Form.Select>
                       </Form.Group>
@@ -717,8 +801,8 @@ const AddApartmentsAndDuplexesPage = () => {
                           required
                         >
                           <option value="">اختر المدينة</option>
-                          {cities.map((city, index) => (
-                            <option key={index} value={city}>{city}</option>
+                          {cities.map((city) => (
+                            <option key={city.name} value={city.name}>{city.name}</option>
                           ))}
                         </Form.Select>
                       </Form.Group>
@@ -728,11 +812,23 @@ const AddApartmentsAndDuplexesPage = () => {
                           name="region"
                           value={formData.region}
                           onChange={handleChange}
-                          required
                         >
                           <option value="">اختر المنطقة</option>
-                          {regions.map((region, index) => (
-                            <option key={index} value={region}>{region}</option>
+                          {regions.map((region) => (
+                            <option key={region.id} value={region.name}>{region.name}</option>
+                          ))}
+                        </Form.Select>
+                      </Form.Group>
+                      <Form.Group controlId="street" className="mb-3">
+                        <Form.Label>الشارع</Form.Label>
+                        <Form.Select
+                          name="street"
+                          value={formData.street}
+                          onChange={handleChange}
+                        >
+                          <option value="">اختر المنطقة</option>
+                          {streets.map((street) => (
+                            <option key={street.id} value={street.name}>{street.name}</option>
                           ))}
                         </Form.Select>
                       </Form.Group>
