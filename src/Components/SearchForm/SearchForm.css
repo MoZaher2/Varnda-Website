@@ -4,10 +4,10 @@
   padding: 50px 0;
   margin: 25px 20px;
   border-radius: 12px;
-  height: 95vh;
-  background-attachment: fixed;
+  /* height: 95vh; */
+    background: rgb(13,110,253) !important;
+background: linear-gradient(180deg, rgba(13, 110, 253, 1) 65%, rgba(254, 253, 253, 1) 100%) !important;
 }
-
 .search-form-container h2 {
   color: #fff;
 }
@@ -51,12 +51,9 @@
   scale: 0.9;
 }
 .link-search {
-  display: block;
-  margin: 25px auto;
-  font-size: 20px;
-  font-weight: 700;
-  text-decoration: none;
-  color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
 }
 .option-item {
   border-radius: 5px !important;
@@ -113,4 +110,13 @@
   font-size: 13px;
   color: #919191;
   font-weight: 500;
+}
+
+@media only screen and (max-width: 435px) {
+  .searchBtn{
+    margin-top: 16px;
+  }
+  .custToggle{
+    width: 85% !important;
+  }
 }
