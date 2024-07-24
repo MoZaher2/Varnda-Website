@@ -323,7 +323,7 @@ const AddCommercialUnitsPage = () => {
                             </Form.Select>
                           </Form.Group>
 
-                          <Form.Group controlId="constructionYear" className="mb-3">
+                          {/* <Form.Group controlId="constructionYear" className="mb-3">
                             <Form.Label>سنة البناء</Form.Label>
                             <Form.Control
                               type="number"
@@ -332,7 +332,7 @@ const AddCommercialUnitsPage = () => {
                               onChange={handleChange}
                               required
                             />
-                          </Form.Group>
+                          </Form.Group> */}
 
                           <Form.Group controlId="legalPapers" className="mb-3">
                             <Form.Label>الأوراق القانونية للعقار</Form.Label>

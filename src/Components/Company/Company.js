@@ -18,7 +18,7 @@ import imgcompany6 from "../../images/com6_new.webp";
 import imgcompany7 from "../../images/com7_new.webp";
 import imgcompany8 from "../../images/com8_new.webp";
 import { Container } from "react-bootstrap";
-export default function Company() {
+export default function قيهCompany() {
 
 
 
@@ -27,12 +27,9 @@ export default function Company() {
               <h2 className="company-h2 mt-4 mb-3">
   تصفح المدن والمناطق العقارية فى مصر 
         </h2>
-        <p className="company-p">
-          مشاهدة الوكالات العقارية التي تعمل في إمارة أو منطقة معينة فقط
-        </p>
 
         <Row className="my-3">
-          <Col>
+          <Col xs={12} md={6} lg={3} className="mb-4">
             <Card>
               <Card.Img variant="top" src={imgcompany1} />
               <Card.Body>
@@ -40,7 +37,7 @@ export default function Company() {
               </Card.Body>
             </Card>
           </Col>
-          <Col>
+          <Col xs={12} md={6} lg={3} className="mb-4" >
             <Card>
               <Card.Img variant="top" src={imgcompany2} />
               <Card.Body>
@@ -48,8 +45,7 @@ export default function Company() {
               </Card.Body>
             </Card>
           </Col>
-          <Col>
-            {" "}
+          <Col xs={12} md={6} lg={3} className="mb-4" >
             <Card>
               <Card.Img variant="top" src={imgcompany3} />
               <Card.Body>
@@ -57,8 +53,7 @@ export default function Company() {
               </Card.Body>
             </Card>
           </Col>
-          <Col>
-            {" "}
+          <Col xs={12} md={6} lg={3} className="mb-4" >
             <Card>
               <Card.Img variant="top" src={imgcompany4} />
               <Card.Body>
@@ -68,7 +63,7 @@ export default function Company() {
           </Col>
         </Row>
         <Row className="my-3">
-          <Col>
+          <Col xs={12} md={6} lg={3} className="mb-4" >
             <Card>
               <Card.Img variant="top" src={imgcompany5} />
               <Card.Body>
@@ -76,7 +71,7 @@ export default function Company() {
               </Card.Body>
             </Card>
           </Col>
-          <Col>
+          <Col xs={12} md={6} lg={3} className="mb-4" >
             <Card>
               <Card.Img variant="top" src={imgcompany6} />
               <Card.Body>
@@ -84,8 +79,7 @@ export default function Company() {
               </Card.Body>
             </Card>
           </Col>
-          <Col>
-            {" "}
+          <Col xs={12} md={6} lg={3} className="mb-4" >
             <Card>
               <Card.Img variant="top" src={imgcompany7} />
               <Card.Body>
@@ -93,8 +87,7 @@ export default function Company() {
               </Card.Body>
             </Card>
           </Col>
-          <Col>
-            {" "}
+          <Col xs={12} md={6} lg={3} className="mb-4" >
             <Card>
               <Card.Img variant="top" src={imgcompany8} />
               <Card.Body>

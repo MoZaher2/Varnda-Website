@@ -99,7 +99,7 @@ export default function SignupPage() {
   };
 
   return (
-    <Container className="signup-container mt-5" dir="rtl">
+    <Container className="signup-container mt-3" dir="rtl">
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={7}>
           <h2 className="text-center mb-4" style={{ color: "#007bff" }}>
@@ -112,7 +112,7 @@ export default function SignupPage() {
             validated={validated}
             onSubmit={handelSubmit}
           >
-            <Row className="mb-3">
+            <Row className="mb-2">
               <Form.Group as={Col} controlId="formFirstName">
                 <Form.Label>الاسم الشخصى</Form.Label>
                 <Form.Control
@@ -135,8 +135,8 @@ export default function SignupPage() {
               </Form.Group>
             </Row>
 
-            <Form.Group controlId="formBasicEmail" className="mt-3">
-              <Form.Label className="fs-5 mb-3">البريد الإلكتروني</Form.Label>
+            <Form.Group controlId="formBasicEmail" className="mt-2">
+              <Form.Label className="fs-5 mb-2">البريد الإلكتروني</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
@@ -160,8 +160,8 @@ export default function SignupPage() {
                 ادخل رقم الهاتف بشكل صحيح "01xxxxxxxxx"
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId="formBasicPassword" className="mt-3">
-              <Form.Label className="fs-5 mb-3">كلمة المرور</Form.Label>
+            <Form.Group controlId="formBasicPassword" className="mt-2">
+              <Form.Label className="fs-5 mb-2">كلمة المرور</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
@@ -175,8 +175,8 @@ export default function SignupPage() {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword" className="mt-3">
-              <Form.Label className="fs-5 mb-3"> تأكيد كلمة المرور</Form.Label>
+            <Form.Group controlId="formBasicPassword" className="mt-2">
+              <Form.Label className="fs-5 mb-2"> تأكيد كلمة المرور</Form.Label>
               <Form.Control
                 type="password"
                 name="password_confirmation"
@@ -190,20 +190,20 @@ export default function SignupPage() {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="w-100 mt-3">
+            <Button variant="primary" type="submit" className="w-100 mt-2">
               {load ? <LoadingBtn /> : "إنشاء حساب"}
             </Button>
           </Form>
 
           {/*  */}
-          <div className="text-center mt-3">
+          <div className="text-center mt-2">
             <Button variant="light" className="google-button w-100">
               إنشاء حساب باستخدام جوجل
               <FontAwesomeIcon icon={faGoogle} className="google-icon" />
             </Button>
           </div>
 
-          <div className="text-center mt-3">
+          <div className="text-center mt-2">
             <Link to="/login">لديك حساب بالفعل؟ تسجيل الدخول هنا</Link>
           </div>
         </Col>

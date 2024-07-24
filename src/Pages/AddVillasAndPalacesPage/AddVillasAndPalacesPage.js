@@ -247,7 +247,7 @@ const AddVillasAndPalacesPage = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col xs={12} md={6}>
+                        {/* <Col xs={12} md={6}>
                           <Form.Group controlId="negotiable" className="mb-3">
                             <Form.Label>قابلية التفاوض على السعر</Form.Label>
                             <Form.Select
@@ -261,7 +261,7 @@ const AddVillasAndPalacesPage = () => {
                               <option value="no">لا</option>
                             </Form.Select>
                           </Form.Group>
-                        </Col>
+                        </Col> */}
 
                       </Row>
 
@@ -333,7 +333,7 @@ const AddVillasAndPalacesPage = () => {
                             </Form.Select>
                           </Form.Group>
 
-                          <Form.Group controlId="constructionYear" className="mb-3">
+                          {/* <Form.Group controlId="constructionYear" className="mb-3">
                             <Form.Label>سنة البناء</Form.Label>
                             <Form.Control
                               type="number"
@@ -342,7 +342,7 @@ const AddVillasAndPalacesPage = () => {
                               onChange={handleChange}
                               required
                             />
-                          </Form.Group>
+                          </Form.Group> */}
 
                           <Form.Group controlId="legalPapers" className="mb-3">
                             <Form.Label>الأوراق القانونية للعقار</Form.Label>

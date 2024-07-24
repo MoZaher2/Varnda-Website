@@ -24,19 +24,20 @@ const AddApartmentsAndDuplexesPage = () => {
   const [formData, setFormData] = useState({
     name_ad_ar: '',
     details_ar: '',
-    adGoal: '',
+    type: '',
     price: '',
     negotiable: '',
     discount: '',
     unitType: '',
     payment_method: '',
+    rent_type:'',
     deliveryDate: '',
     constructionYear: '',
     legalPapers: '',
     area: '',
     rooms: '',
     bathrooms: '',
-    floor: '',
+    floor_number: '',
     compound: '',
     finishStage: '',
     furnished: '',
@@ -51,7 +52,7 @@ const AddApartmentsAndDuplexesPage = () => {
     servicesAmenities: [],
   });
   const [primary_picture, setPrimary_picture] = useState(null);//API
-  const [additionalImages, setAdditionalImages] = useState([]);//API
+  const [images, setImages] = useState([]);//API
   const [currentPage, setCurrentPage] = useState(1);
   const [cities, setCities] = useState([]);
   const [regions, setRegions] = useState([]);
@@ -166,7 +167,8 @@ const AddApartmentsAndDuplexesPage = () => {
         setPrimary_picture(files[0]);
         console.log(primary_picture)
       } else if (name === 'additionalImages') {
-        setAdditionalImages(Array.from(files));
+        setImages(Array.from(files));
+        console.log(images)
       }
       setFormData({
         ...formData,
@@ -323,11 +325,11 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
-                          <Form.Group controlId="adGoal" className="mb-3">
+                          <Form.Group controlId="type" className="mb-3">
                             <Form.Label>هدف الإعلان</Form.Label>
                             <Form.Select
-                              name="adGoal"
-                              value={formData.adGoal}
+                              name="type"
+                              value={formData.type}
                               onChange={handleChange}
                               required
                             >
@@ -377,7 +379,7 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="discount"
                               value={formData.discount}
                               onChange={handleChange}
-
+                              placeholder='ادخل نسبه الخصم'
                               min={0}
                               max={99.9}
                               step={0.1}
@@ -412,7 +414,25 @@ const AddApartmentsAndDuplexesPage = () => {
 
                         </Form.Select>
                       </Form.Group>
-                      {formData.adGoal !== 'rent' && (
+
+                      {formData.type === 'rent' && (
+                      <Form.Group controlId="rent_type" className="mb-3">
+                            <Form.Label>نوع الايجار</Form.Label>
+                            <Form.Select
+                              name="rent_type"
+                              value={formData.rent_type}
+                              onChange={handleChange}
+                              required
+                            >
+                              <option value="">اختر</option>
+                              <option value="1">شهرى</option>
+                              <option value="3">ربع ثانوى</option>
+                              <option value="6">نصف ثانوى</option>
+                              <option value="12">ثانوى</option>
+                            </Form.Select>
+                          </Form.Group>
+                      )}
+                      {formData.type === 'sale' && (
                         <>
                           <Form.Group controlId="payment_method" className="mb-3">
                             <Form.Label>طريقة الدفع</Form.Label>
@@ -423,8 +443,8 @@ const AddApartmentsAndDuplexesPage = () => {
                               required
                             >
                               <option value="">اختر</option>
-                              <option value="cash">كاش</option>
-                              <option value="installments">تقسيط</option>
+                              <option value="كاش">كاش</option>
+                              <option value="تقسيط">تقسيط</option>
                             </Form.Select>
                           </Form.Group>
 
@@ -447,17 +467,6 @@ const AddApartmentsAndDuplexesPage = () => {
                               )}
                             </Form.Select>
                           </Form.Group>
-
-                          {/* <Form.Group controlId="constructionYear" className="mb-3">
-                            <Form.Label>سنة البناء</Form.Label>
-                            <Form.Control
-                              type="number"
-                              name="constructionYear"
-                              value={formData.constructionYear}
-                              onChange={handleChange}
-                              required
-                            />
-                          </Form.Group> */}
 
                           <Form.Group controlId="legalPapers" className="mb-3">
                             <Form.Label>الأوراق القانونية للعقار</Form.Label>
@@ -559,20 +568,20 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
-                          <Form.Group controlId="floor" className="mb-3">
+                          <Form.Group controlId="floor_number" className="mb-3">
                             <Form.Label>الدور</Form.Label>
                             <Form.Select
-                              name="floor"
-                              value={formData.floor}
+                              name="floor_number"
+                              value={formData.floor_number}
                               onChange={handleChange}
                               required
                             >
                               <option value="">اختر</option>
-                              <option value="ground">أرضي</option>
+                              <option value="0">أرضي</option>
                               {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                                (floor) => (
-                                  <option key={floor} value={floor}>
-                                    {floor}
+                                (floor_number) => (
+                                  <option key={floor_number} value={floor_number}>
+                                    {floor_number}
                                   </option>
                                 )
                               )}
@@ -702,11 +711,11 @@ const AddApartmentsAndDuplexesPage = () => {
                             onChange={handleChange}
                             multiple
                           />
-                          {additionalImages.length > 0 && (
+                          {images.length > 0 && (
                             <div className="mt-2">
                               <h5>الصور الإضافية</h5>
                               <div className="d-flex flex-wrap">
-                                {additionalImages.map((image, index) => (
+                                {images.map((image, index) => (
                                   <img
                                     key={index}
                                     src={URL.createObjectURL(image)}

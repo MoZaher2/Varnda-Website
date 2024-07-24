@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './PropertySection.css';
 
-const PropertySection = ({ propertiesForSale, propertiesForRent ,heading }) => {
+const PropertySection = ({ propertiesForSale, propertiesForRent, heading }) => {
   const [expansionState, setExpansionState] = useState({});
 
   const toggleExpand = (category) => {
@@ -34,9 +34,11 @@ const PropertySection = ({ propertiesForSale, propertiesForRent ,heading }) => {
               ))}
             </ul>
             {items.length > 3 && (
-              <span className="toggle" onClick={() => toggleExpand(category)}>
-                {expansionState[category] ? 'عرض أقل' : 'عرض الكل'}
-              </span>
+              <div className='togglr-cont'>
+                <span className="toggle" onClick={() => toggleExpand(category)}>
+                  {expansionState[category] ? 'عرض أقل' : 'عرض الكل'}
+                </span>
+              </div>
             )}
           </div>
         ))}

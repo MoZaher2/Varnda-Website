@@ -316,7 +316,7 @@ const AddBuildingsPage = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col xs={12} md={6}>
+                        {/* <Col xs={12} md={6}>
                           <Form.Group controlId="negotiable" className="mb-3">
                             <Form.Label>قابلية التفاوض على السعر</Form.Label>
                             <Form.Select
@@ -330,7 +330,7 @@ const AddBuildingsPage = () => {
                               <option value="no">لا</option>
                             </Form.Select>
                           </Form.Group>
-                        </Col>
+                        </Col> */}
                       </Row>
                       <div className="text-center d-flex justify-content-end">
                         <Button variant="secondary" onClick={handleNextPage}>

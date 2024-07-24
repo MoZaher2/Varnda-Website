@@ -74,8 +74,7 @@ export default function HomePage() {
         propertiesForRent={propertiesForRent} 
         heading="مصر"
       />
-
-<Company />
+      <Company />
       <Footer />
     </>
   );
