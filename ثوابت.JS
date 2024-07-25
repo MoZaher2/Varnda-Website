@@ -9,6 +9,7 @@ const getTokenFromCookie = () => {
 const token = getTokenFromCookie();
 //////////////////////////////////////////////////////////////////////////////////
 //Axios api
+import api from "../../API/ApiLink.js";
 const handelSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -59,3 +60,8 @@ const handelSubmit = async (e) => {
   }
   setValidated(true);
 };
+
+///////////
+window.scrollTo({ top: 0, behavior: 'smooth' });
+/////////////
+// Post with Token

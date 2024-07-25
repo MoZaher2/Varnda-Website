@@ -4,12 +4,13 @@ import Header from "../../Components/Header/Header";
 import Footer from '../../Components/Footer/Footer';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
-import { Form, Button, Container, Row, Col, ProgressBar } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, ProgressBar} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faDollarSign, faBed, faBath, faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 import { AllGovernments } from '../../utility/AllGovernments';
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
+import "./AddApartmentsAndDuplexesPage.css"
 const AddApartmentsAndDuplexesPage = () => {
 
   const myIcon = new L.Icon({
@@ -30,7 +31,7 @@ const AddApartmentsAndDuplexesPage = () => {
     discount: '',
     unitType: '',
     payment_method: '',
-    rent_type:'',
+    rent_type: '',
     deliveryDate: '',
     constructionYear: '',
     legalPapers: '',
@@ -50,6 +51,10 @@ const AddApartmentsAndDuplexesPage = () => {
     region: '',
     street: '',
     servicesAmenities: [],
+    advertiser_type:"",
+    phone:Cookies.get('phone'),
+    email:Cookies.get('email'),
+    whats_phone:Cookies.get('whats_phone')
   });
   const [primary_picture, setPrimary_picture] = useState(null);//API
   const [images, setImages] = useState([]);//API
@@ -60,7 +65,7 @@ const AddApartmentsAndDuplexesPage = () => {
   const [position, setPosition] = useState([30.044376903556085, 31.235749743857397]);//ابعته ف ال API  latitude longitude
   const [validated, setValidated] = useState(false);
   const [validated2, setValidated2] = useState(false);
-  
+
   const categories = {
     مرافق: ["عداد كهرباء", "عداد مياه", "غاز طبيعي", "تليفون أرضي"],
     ميزات: ["شرفة", "غرف خدم", "غرفة غسيل", "غرفة ملابس", "حديقة خاصة", "موقف سيارات مغطي"],
@@ -89,10 +94,10 @@ const AddApartmentsAndDuplexesPage = () => {
   //City
   useEffect(() => {
     const fetchCity = async () => {
-      const govId=governorates.find((e)=>{
-        return e.name===formData.governorate
+      const govId = governorates.find((e) => {
+        return e.name === formData.governorate
       })["id"]
-      
+
       try {
         const token = Cookies.get('token');
         const response = await api.get(`/governorates/${govId}/cities`, {
@@ -110,10 +115,10 @@ const AddApartmentsAndDuplexesPage = () => {
 
   // Region
   useEffect(() => {
-    
+
     const fetchCity = async () => {
-      const cityId=cities.find((e)=>{
-        return e.name===formData.city
+      const cityId = cities.find((e) => {
+        return e.name === formData.city
       })["id"]
       try {
         const token = Cookies.get('token');
@@ -131,10 +136,10 @@ const AddApartmentsAndDuplexesPage = () => {
   }, [formData.city]);
   // Street
   useEffect(() => {
-    
+
     const fetchStreet = async () => {
-      const streetId=regions.find((e)=>{
-        return e.name===formData.region
+      const streetId = regions.find((e) => {
+        return e.name === formData.region
       })["id"]
       try {
         const token = Cookies.get('token');
@@ -309,7 +314,7 @@ const AddApartmentsAndDuplexesPage = () => {
                       <Row>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="name_ad_ar" className="mb-3">
-                            <Form.Label>
+                            <Form.Label className='required'>
                               <FontAwesomeIcon icon={faHome} className="me-2" />
                               اسم الإعلان
                             </Form.Label>
@@ -326,7 +331,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         </Col>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="type" className="mb-3">
-                            <Form.Label>هدف الإعلان</Form.Label>
+                            <Form.Label className='required'>هدف الإعلان</Form.Label>
                             <Form.Select
                               name="type"
                               value={formData.type}
@@ -341,7 +346,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         </Col>
                       </Row>
                       <Form.Group controlId="details_ar" className="mb-3">
-                        <Form.Label>أضف تفاصيل العقار</Form.Label>
+                        <Form.Label className='required'>أضف تفاصيل العقار</Form.Label>
                         <Form.Control
                           as="textarea"
                           rows={4}
@@ -367,7 +372,6 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="price"
                               value={formData.price}
                               onChange={handleChange}
-                              required
                             />
                           </Form.Group>
                         </Col>
@@ -384,6 +388,9 @@ const AddApartmentsAndDuplexesPage = () => {
                               max={99.9}
                               step={0.1}
                             />
+                            <Form.Control.Feedback type="invalid">
+                              ادخل نسبه مئويه صحيحه (0-99.9)
+                            </Form.Control.Feedback>
                           </Form.Group>
                         </Col>
                       </Row>
@@ -416,21 +423,21 @@ const AddApartmentsAndDuplexesPage = () => {
                       </Form.Group>
 
                       {formData.type === 'rent' && (
-                      <Form.Group controlId="rent_type" className="mb-3">
-                            <Form.Label>نوع الايجار</Form.Label>
-                            <Form.Select
-                              name="rent_type"
-                              value={formData.rent_type}
-                              onChange={handleChange}
-                              required
-                            >
-                              <option value="">اختر</option>
-                              <option value="1">شهرى</option>
-                              <option value="3">ربع ثانوى</option>
-                              <option value="6">نصف ثانوى</option>
-                              <option value="12">ثانوى</option>
-                            </Form.Select>
-                          </Form.Group>
+                        <Form.Group controlId="rent_type" className="mb-3">
+                          <Form.Label>نوع الايجار</Form.Label>
+                          <Form.Select
+                            name="rent_type"
+                            value={formData.rent_type}
+                            onChange={handleChange}
+                            required
+                          >
+                            <option value="">اختر</option>
+                            <option value="1">شهرى</option>
+                            <option value="3">ربع ثانوى</option>
+                            <option value="6">نصف ثانوى</option>
+                            <option value="12">ثانوى</option>
+                          </Form.Select>
+                        </Form.Group>
                       )}
                       {formData.type === 'sale' && (
                         <>
@@ -650,7 +657,7 @@ const AddApartmentsAndDuplexesPage = () => {
                             <Row>
                               {items.map(item => (
                                 <Col key={item} xs="auto" className="mb-2">
-                                  <Button 
+                                  <Button
                                     variant={formData.servicesAmenities.includes(item) ? "primary" : "outline-secondary"}
                                     onClick={() => toggleAmenity(item)}
                                     className="amenity-button"
@@ -698,9 +705,9 @@ const AddApartmentsAndDuplexesPage = () => {
                               />
                             </div>
                           )}
-                           <Form.Control.Feedback type="invalid">
-                         يجب اختيار صوره للاعلان
-                        </Form.Control.Feedback>
+                          <Form.Control.Feedback type="invalid">
+                            يجب اختيار صوره للاعلان
+                          </Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group controlId="additionalImages" className="mb-3">
@@ -751,7 +758,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         />
                       </Form.Group>
                       <Form.Group controlId="fullAddress" className="mb-3">
-                        <Form.Label>العنوان بالكامل</Form.Label>
+                        <Form.Label className='required'>العنوان بالكامل</Form.Label>
                         <Form.Control
                           type="text"
                           name="fullAddress"
@@ -760,7 +767,7 @@ const AddApartmentsAndDuplexesPage = () => {
                           required
                         />
                       </Form.Group>
-                      <span>اضغط على العلامة الزرقاء واسحبها إلى موقع العقار.</span>
+                      <span>اضغط على العلامة الزرقاء فى مكان موقع العقار.</span>
 
 
                       <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{ height: '400px', width: '100%' }}>
@@ -788,7 +795,7 @@ const AddApartmentsAndDuplexesPage = () => {
                   {currentPage === 7 && (
                     <>
                       <Form.Group controlId="governorate" className="mb-3">
-                        <Form.Label>المحافظة</Form.Label>
+                        <Form.Label className='required'>المحافظة</Form.Label>
                         <Form.Select
                           name="governorate"
                           value={formData.governorate}
@@ -802,7 +809,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         </Form.Select>
                       </Form.Group>
                       <Form.Group controlId="city" className="mb-3">
-                        <Form.Label>المدينة</Form.Label>
+                        <Form.Label className='required'>المدينة</Form.Label>
                         <Form.Select
                           name="city"
                           value={formData.city}
@@ -835,11 +842,21 @@ const AddApartmentsAndDuplexesPage = () => {
                           value={formData.street}
                           onChange={handleChange}
                         >
-                          <option value="">اختر المنطقة</option>
+                          <option value="">اختر الشارع</option>
                           {streets.map((street) => (
                             <option key={street.id} value={street.name}>{street.name}</option>
                           ))}
                         </Form.Select>
+                        {/* فى حاله عدم وجود شارع */}
+                        <Form.Control
+                          className='mt-3'
+                          type="text"
+                          name="street"
+                          placeholder='فى حاله عدم وجود الشارع يرجى كتابته هنا'
+                          value={formData.street}
+                          onChange={handleChange}
+                          maxLength="30"
+                        />
                       </Form.Group>
                       <div className="text-center d-flex justify-content-between">
                         <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
@@ -861,6 +878,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         <Form.Control
                           type="number"
                           name="phone"
+                          value={formData.phone}
                           onChange={handleChange}
                           required
                         />
@@ -872,7 +890,8 @@ const AddApartmentsAndDuplexesPage = () => {
                         <Form.Label>رقم الواتس اب</Form.Label>
                         <Form.Control
                           type="number"
-                          name="whatsapp"
+                          name="whats_phone"
+                          value={formData.whats_phone}
                           onChange={handleChange}
                           required
                         />
@@ -885,6 +904,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         <Form.Control
                           type="email"
                           name="email"
+                          value={formData.email}
                           placeholder="ادخل البريد الإلكتروني"
                           onChange={handleChange}
                           required
@@ -897,7 +917,8 @@ const AddApartmentsAndDuplexesPage = () => {
                       <Form.Group controlId="formUserType">
                         <Form.Label className='mt-2'>نوع المستخدم</Form.Label>
                         <Form.Select
-                          name="userType"
+                          name="advertiser_type"
+                          value={formData.advertiser_type}
                           onChange={handleChange}
                           required
                         >

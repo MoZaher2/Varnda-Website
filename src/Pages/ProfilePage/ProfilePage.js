@@ -4,23 +4,31 @@ import personImage from "../../images/personImage.jpg";
 import Header from '../../Components/Header/Header';
 import { Image, Col, Container, Row, Form, Button } from 'react-bootstrap';
 import styles from './ProfilePage.module.css';
-
+import AlertMessage from "../../Components/Alert/Alert.js";
+import LoadingBtn from "../../Components/LoadingBtn.js";
+import api from "../../API/ApiLink.js";
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 const ProfilePage = () => {
+  const [validated, setValidated] = useState(false);
+  const [show, setShow] = useState(false);
+  const [alert, setAlert] = useState({ msg: "", variant: 0 });
+  const [load, setLoad] = useState(false);
+  const [load2, setLoad2] = useState(false);
+  const navigate = useNavigate();
   // State for password form
   const [passwordForm, setPasswordForm] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmNewPassword: ''
+    old_password: '',
+    new_password: '',
+    new_password_confirmation: ''
   });
 
   // State for user details form
   const [userForm, setUserForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    whatsapp: '',
-    userType: ' ',
-    about: ''
+    first_name: Cookies.get("first_name"),
+    last_name: Cookies.get("last_name"),
+    whats_phone: Cookies.get("whats_phone"),
+    bio:Cookies.get("bio")
   });
 
   // State for profile image
@@ -46,21 +54,93 @@ const ProfilePage = () => {
     }));
   };
 
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    if (passwordForm.newPassword !== passwordForm.confirmNewPassword) {
-      alert('كلمات المرور الجديدة غير متطابقة');
-      return;
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else {
+      if (passwordForm.new_password !== passwordForm.new_password_confirmation) {
+        setAlert({
+          msg: "كلمات المرور الجديدة غير متطابقة",
+          variant: 3
+        })
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setShow(true);
+      } else {
+        setLoad(true);
+        try {
+          const token = Cookies.get('token');
+          const response = await api.post("/change_password", {
+            ...passwordForm
+          },{
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          });
+          setAlert({
+            msg: "تم تحديث كلمه السر بنجاح",
+            variant: 1
+          })
+          Cookies.remove("token")
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(()=>navigate('/login'),2000);
+        } catch (err) {
+          if(err.response.data.status===400){
+            setAlert({
+              msg: "كلمه المرور غير صحيحه",
+              variant: 3
+            })
+          }
+          else{
+            setAlert({
+              msg: "حدث خطا اثناء تغيير كلمه السر",
+              variant: 2
+            })
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          
+         }
+         setShow(true);
+         setLoad(false)
+      }
     }
-
-    console.log('Password form submitted:', passwordForm);
-    setPasswordForm({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
+    setValidated(true);
   };
 
-  const handleUserFormSubmit = (e) => {
+  const handleUserFormSubmit = async (e) => {
     e.preventDefault();
-    console.log('User form submitted:', userForm);
-  };
+    setLoad2(true);
+    try {
+      const token = Cookies.get('token');
+      const response = await api.post("/updateUser", {
+        ...userForm
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      const userData = response.data.data
+      Cookies.set("first_name", userData.first_name)
+      Cookies.set("last_name", userData.last_name)
+      Cookies.set("whats_phone", userData.whats_phone)
+      Cookies.set("bio", userData.bio)
+      setAlert({
+        msg: "تم تحديث بياناتك بنجاح",
+        variant: 1
+      })
+      setShow(true)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      setAlert({
+        msg: "حدث خطا اثناء تغيير كلمه السر",
+        variant: 2
+      })
+    setShow(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  setLoad2(false);
+};
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -78,8 +158,10 @@ const ProfilePage = () => {
     // Here you would typically send the image to your backend
     setImageSelected(false);
   };
+
   return (
     <>
+      
       <Header />
       <Container className={`${styles.container} mt-5`}>
         <h2>صفحتي الشخصية</h2>
@@ -113,89 +195,89 @@ const ProfilePage = () => {
                 </Button>
               </div>
             </div>
-            <Form className={styles.box} onSubmit={handlePasswordSubmit}>
+
+            {/* تغيير كلمه السر */}
+            <Form className={styles.box} noValidate validated={validated} onSubmit={handlePasswordSubmit}>
               <h5 className={`${styles.heading} mt-2`}>تغير كلمة المرور</h5>
               <Form.Group controlId="formCurrentPassword">
                 <Form.Label className="mt-2">كلمة المرور الحالية</Form.Label>
                 <Form.Control
                   type="password"
-                  name="currentPassword"
-                  value={passwordForm.currentPassword}
+                  name="old_password"
+                  value={passwordForm.old_password}
                   onChange={handlePasswordChange}
+                  required
+                  minLength={8}
                 />
               </Form.Group>
-              <Form.Group controlId="formNewPassword">
-                <Form.Label className="mt-2">كلمة مرور جديدة</Form.Label>
+
+              <Form.Group controlId="formNewPassword" className="mt-2">
+                <Form.Label className="fs-5 mb-2">كلمة المرور الجديده</Form.Label>
                 <Form.Control
                   type="password"
-                  name="newPassword"
-                  value={passwordForm.newPassword}
+                  name="new_password"
+                  value={passwordForm.new_password}
                   onChange={handlePasswordChange}
+                  required
+                  minLength={8}
                 />
+                <Form.Control.Feedback type="invalid">
+                  كلمه المرور لا تقل عن 8 احرف
+                </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group controlId="formConfirmNewPassword">
-                <Form.Label className="mt-2">تأكيد كلمة المرور الجديدة</Form.Label>
+
+              <Form.Group controlId="formConfirmNewPassword" className="mt-2">
+                <Form.Label className="fs-5 mb-2"> تأكيد كلمة المرور الجديده</Form.Label>
                 <Form.Control
                   type="password"
-                  name="confirmNewPassword"
-                  value={passwordForm.confirmNewPassword}
+                  name="new_password_confirmation"
+                  value={passwordForm.new_password_confirmation}
                   onChange={handlePasswordChange}
+                  required
+                  minLength={8}
                 />
+                <Form.Control.Feedback type="invalid">
+                  كلمه المرور لا تقل عن 8 احرف
+                </Form.Control.Feedback>
               </Form.Group>
-              <Button type="submit" className="btn btn-primary mt-3 w-50">حفظ التعديل</Button>
+              <Button type="submit" className="btn btn-primary mt-3 w-50" disabled={load}>{load ? <LoadingBtn /> : "حفظ التعديل"}</Button>
             </Form>
           </Col>
+
+          {/* تعديل البيانات */}
           <Col md={6} xs={12}>
             <Form className={styles.box} onSubmit={handleUserFormSubmit}>
-              <h5 className={`${styles.heading} mt-2`}>بياناتي</h5>
-              <Form.Group controlId="formName">
-                <Form.Label className='mt-5'>الاسم</Form.Label>
+              <h5 className={`${styles.heading} mt-2`}>تعديل بياناتي</h5>
+              <Row className="mb-2">
+              <Form.Group as={Col} controlId="formFirstName">
+                <Form.Label>الاسم الشخصى</Form.Label>
                 <Form.Control
                   type="text"
-                  name="name"
-                  value={userForm.name}
+                  name="first_name"
+                  placeholder="الاسم الشخصى"
+                  value={userForm.first_name}
                   onChange={handleUserFormChange}
                 />
               </Form.Group>
-              <Form.Group controlId="formEmail">
-                <Form.Label className='mt-2'>البريد الإلكتروني</Form.Label>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  value={userForm.email}
-                  onChange={handleUserFormChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="formPhone">
-                <Form.Label className='mt-2'>رقم التليفون</Form.Label>
+              <Form.Group as={Col} controlId="formLastName">
+                <Form.Label>ااسم العائله</Form.Label>
                 <Form.Control
                   type="text"
-                  name="phone"
-                  value={userForm.phone}
+                  name="last_name"
+                  placeholder="اسم العائله"
+                  value={userForm.last_name}
                   onChange={handleUserFormChange}
                 />
               </Form.Group>
+            </Row>
               <Form.Group controlId="formWhatsApp">
                 <Form.Label className='mt-2'>رقم الواتس اب</Form.Label>
                 <Form.Control
                   type="text"
-                  name="whatsapp"
-                  value={userForm.whatsapp}
+                  name="whats_phone"
+                  value={userForm.whats_phone}
                   onChange={handleUserFormChange}
                 />
-              </Form.Group>
-              <Form.Group controlId="formUserType">
-                <Form.Label className='mt-2'>نوع المستخدم</Form.Label>
-                <Form.Select
-                  name="userType"
-                  value={userForm.userType}
-                  onChange={handleUserFormChange}
-                >
-                  <option>اختر</option>
-                  <option>مسوق عقاري</option>
-                  <option>مالك عقار</option>
-                  <option>مطور عقاري</option>
-                </Form.Select>
               </Form.Group>
               <Form.Group controlId="formAbout">
                 <Form.Label className='mt-4'>تكلم عن نفسك</Form.Label>
@@ -203,19 +285,28 @@ const ProfilePage = () => {
                   as="textarea"
                   rows={3}
                   placeholder="تكلم عن نفسك ..."
-                  name="about"
-                  value={userForm.about}
+                  name="bio"
+                  value={userForm.bio}
                   onChange={handleUserFormChange}
                 />
               </Form.Group>
-              <Button type="submit" className="btn btn-primary mt-5 w-50">حفظ التعديل</Button>
+              <Button type="submit" className="btn btn-primary mt-5 w-50" disabled={load2}>{load2 ? <LoadingBtn /> : "حفظ التعديل"}</Button>
             </Form>
           </Col>
         </Row>
       </Container>
+      {show && (
+        <>
+          <AlertMessage
+            msg={alert.msg}
+            setShow={setShow}
+            variant={alert.variant}
+          />
+        </>
+      )}
       <Footer />
     </>
   );
-};
+}
 
 export default ProfilePage;

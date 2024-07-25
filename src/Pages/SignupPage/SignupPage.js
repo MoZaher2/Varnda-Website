@@ -50,7 +50,7 @@ export default function SignupPage() {
     if (form.checkValidity() === false) {
       e.stopPropagation();
     } else {
-      
+
       if (formData.password !== formData.password_confirmation) {
         setAlert({
           msg: "كلمات المرور الجديدة غير متطابقة",
@@ -64,6 +64,9 @@ export default function SignupPage() {
             ...formData,
           });
           Cookies.set("token", response.data.data.token);
+          Cookies.set('email', response.data.data.user.email);
+          Cookies.set('phone', response.data.data.user.phone);
+          Cookies.set('whats_phone', response.data.data.user.whats_phone);
           setLoad(false);
           setOverlay(true);
           setShow(true);
@@ -73,7 +76,7 @@ export default function SignupPage() {
           setLoad(false);
           setShow(true);
           let message = "";
-          let errData=error.response.data.data
+          let errData = error.response.data.data
           if (error.code === "ERR_NETWORK") {
             setAlert({
               msg: "خطا فى الشبكه. تأكد من الاتصال بالانترنت و اعد المحاوله",
@@ -124,7 +127,7 @@ export default function SignupPage() {
                 />
               </Form.Group>
               <Form.Group as={Col} controlId="formLastName">
-                <Form.Label>ااسم العائله</Form.Label>
+                <Form.Label>اسم العائله</Form.Label>
                 <Form.Control
                   type="text"
                   name="last_name"

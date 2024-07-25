@@ -13,10 +13,10 @@ import OverPage from "../../Components/OverPage/OverPage.js";
 export default function LoginPage() {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
-  const [load,setLoad]=useState(false);
-  const [show,setShow]=useState(false);
-  const [overlay,setOverlay]=useState(false);
-  const [alert,setAlert]=useState({msg:"",variant:0})
+  const [load, setLoad] = useState(false);
+  const [show, setShow] = useState(false);
+  const [overlay, setOverlay] = useState(false);
+  const [alert, setAlert] = useState({ msg: "", variant: 0 })
   const [formData, setFormData] = useState({});
   const handelChange = (e) => {
     const { name, value } = e.target;
@@ -24,14 +24,14 @@ export default function LoginPage() {
   };
   const handelSubmit = async (e) => {
     setShow(false
-      
+
     )
     e.preventDefault();
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.stopPropagation();
     }
-    else{
+    else {
       setLoad(true)
       try {
         const response = await api.post("/login", {
@@ -39,24 +39,27 @@ export default function LoginPage() {
           password: formData.password,
         });
         Cookies.set('token', response.data.data.token);
+        Cookies.set('email', response.data.data.user.email);
+        Cookies.set('phone', response.data.data.user.phone);
+        Cookies.set('whats_phone', response.data.data.user.whats_phone);
         console.log(response.data)
         setLoad(false)
         setOverlay(true)
         setShow(true)
-        setAlert({msg:"تم تسجيل الدخول بنجاح",variant:1})
+        setAlert({ msg: "تم تسجيل الدخول بنجاح", variant: 1 })
         navigate('/')
       } catch (error) {
         setLoad(false)
         setShow(true)
         console.log(error)
-        if(error.code === 'ERR_NETWORK'){
-          setAlert({msg:"خطا فى الشبكه. تأكد من الاتصال بالانترنت و اعد المحاوله",variant:2})
+        if (error.code === 'ERR_NETWORK') {
+          setAlert({ msg: "خطا فى الشبكه. تأكد من الاتصال بالانترنت و اعد المحاوله", variant: 2 })
         }
-        else if(error.response.status===401){
-          setAlert({msg:"البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى التحقق والمحاولة مرة أخرى.",variant:3})
+        else if (error.response.status === 401) {
+          setAlert({ msg: "البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى التحقق والمحاولة مرة أخرى.", variant: 3 })
         }
-        else if(error.response.status===404){
-          setAlert({msg:"هذا البريد الإلكتروني غير مسجل لدينا: هل تريد",variant:4})
+        else if (error.response.status === 404) {
+          setAlert({ msg: "هذا البريد الإلكتروني غير مسجل لدينا: هل تريد", variant: 4 })
         }
       }
     }
@@ -129,9 +132,9 @@ export default function LoginPage() {
       </Row>
       {/*  */}
       {show && <>
-      <AlertMessage msg={alert.msg} setShow={setShow} variant={alert.variant} />
+        <AlertMessage msg={alert.msg} setShow={setShow} variant={alert.variant} />
       </>}
-      {overlay && <><OverPage/></>}
+      {overlay && <><OverPage /></>}
       {/*  */}
     </Container>
   );

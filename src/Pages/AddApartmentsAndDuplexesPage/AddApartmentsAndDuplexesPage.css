@@ -28,3 +28,15 @@
   padding-right: 5px;
   padding-left: 5px;
 }
+/*  */
+.required{
+position: relative;
+}
+.required::after{
+  content: "*";
+  position: absolute;
+  top: -2px;
+  left: -15px;
+  font-size: 30px;
+  color: red;
+}
