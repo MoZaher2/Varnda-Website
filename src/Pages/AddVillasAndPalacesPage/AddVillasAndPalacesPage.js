@@ -234,7 +234,7 @@ const AddVillasAndPalacesPage = () => {
 
   const handleChange2 = (e) => {
     const { name, value } = e.target;
-    if (name === "phone") {
+    if (name === "phone"||name === "whats_phone") {
       if (!isValidPhone(value)) {
         e.target.setCustomValidity("يرجى إدخال رقم هاتف صحيح");
       } else {
@@ -243,6 +243,7 @@ const AddVillasAndPalacesPage = () => {
     }
     setFormData2({ ...formData2, [name]: value })
   }
+
 
 
   const fetchAddress = async (lat, lng) => {

@@ -230,10 +230,10 @@ const AddApartmentsAndDuplexesPage = () => {
     }));
     console.log(formData['facilities[]'])
   };
-
+  
   const handleChange2 = (e) => {
     const { name, value } = e.target;
-    if (name === "phone") {
+    if (name === "phone"||name === "whats_phone") {
       if (!isValidPhone(value)) {
         e.target.setCustomValidity("يرجى إدخال رقم هاتف صحيح");
       } else {
@@ -242,7 +242,6 @@ const AddApartmentsAndDuplexesPage = () => {
     }
     setFormData2({ ...formData2, [name]: value })
   }
-
 
   const fetchAddress = async (lat, lng) => {
     const apiKey = 'ede130c0ba4f4355b0e56461701f0455';

@@ -44,13 +44,11 @@ export default function SignupPage() {
 
 
   const handelSubmit = async (e) => {
-    setShow(false);
     e.preventDefault();
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.stopPropagation();
     } else {
-
       if (formData.password !== formData.password_confirmation) {
         setAlert({
           msg: "كلمات المرور الجديدة غير متطابقة",
@@ -58,49 +56,91 @@ export default function SignupPage() {
         })
         setShow(true);
       } else {
-        setLoad(true);
         try {
+          setLoad(true);
           const response = await api.post("/register", {
             ...formData,
           });
-          Cookies.set("token", response.data.data.token);
-          Cookies.set("user_id", response.data.data.user_id);
-          Cookies.set('email', response.data.data.user.email);
-          Cookies.set('phone', response.data.data.user.phone);
-          Cookies.set('whats_phone', response.data.data.user.whats_phone);
-          setLoad(false);
           setOverlay(true);
-          setShow(true);
           setAlert({ msg: "تم انشاء الحساب بنجاح", variant: 1 });
-          navigate("/");
-        } catch (error) {
-          setLoad(false);
           setShow(true);
-          let message = "";
-          let errData = error.response.data.data
-          if (error.code === "ERR_NETWORK") {
-            setAlert({
-              msg: "خطا فى الشبكه. تأكد من الاتصال بالانترنت و اعد المحاوله",
-              variant: 2,
-            });
-          } else if (error.response.status === 422) {
-            if (errData.phone && errData.email) {
-              message = "الايميل و رقم الهاتق مستخدمين من قبل";
-            } else if (errData.email) {
-              message = "الايميل مستخدم من قبل";
-            } else if (errData.phone) {
-              message = "رقم الهاتف مستخدم من قبل";
-            }
-            setAlert({
-              msg: message,
-              variant: 3,
-            });
+          setTimeout(() => {
+            navigate("/");
+          }, 2000)
+        } catch (err) {
+          try {
+            const errdata = err.response.data
+            setAlert({ msg: "الايميل او الرقم مستخدم بالفعل", variant: 3 });
+          } catch (err) {
+            setAlert({ msg: "حدث خطأ. تاكد من الاتصال بالانترنت", variant: 2 });
           }
         }
+        setShow(true)
+        setLoad(false)
+        }
       }
-    }
+    
     setValidated(true);
   };
+  // const handelSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const form = e.currentTarget;
+  //   if (form.checkValidity() === false) {
+  //     e.stopPropagation();
+  //   } else {
+
+  //     if (formData.password !== formData.password_confirmation) {
+  //       setAlert({
+  //         msg: "كلمات المرور الجديدة غير متطابقة",
+  //         variant: 3
+  //       })
+  //       setShow(true);
+  //     } else {
+  //       setLoad(true);
+  //       try {
+  //         console.log(formData)
+  //         const response = await api.post("/register", {
+  //           ...formData,
+  //         });
+  //         Cookies.set("token", response.data.data.token);
+  //         Cookies.set("user_id", response.data.data.user_id);
+  //         Cookies.set('email', response.data.data.user.email);
+  //         Cookies.set('phone', response.data.data.user.phone);
+  //         Cookies.set('whats_phone', response.data.data.user.whats_phone);
+  //         setLoad(false);
+  //         setOverlay(true);
+  //         setShow(true);
+  //         setAlert({ msg: "تم انشاء الحساب بنجاح", variant: 1 });
+  //         navigate("/");
+  //       } catch (error) {
+  //         console.log(error)
+  //         setLoad(false);
+  //         setShow(true);
+  //         let message = "";
+  //         let errData = error.response.data.data
+  //         if (error.code === "ERR_NETWORK") {
+  //           setAlert({
+  //             msg: "خطا فى الشبكه. تأكد من الاتصال بالانترنت و اعد المحاوله",
+  //             variant: 2,
+  //           });
+  //         } else if (error.response.status === 422) {
+  //           if (errData.phone && errData.email) {
+  //             message = "الايميل و رقم الهاتق مستخدمين من قبل";
+  //           } else if (errData.email) {
+  //             message = "الايميل مستخدم من قبل";
+  //           } else if (errData.phone) {
+  //             message = "رقم الهاتف مستخدم من قبل";
+  //           }
+  //           setAlert({
+  //             msg: message,
+  //             variant: 3,
+  //           });
+  //         }
+  //       }
+  //     }
+  //   }
+  //   setValidated(true);
+  // };
 
   return (
     <Container className="signup-container mt-3" dir="rtl">
@@ -179,7 +219,7 @@ export default function SignupPage() {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword" className="mt-2">
+            <Form.Group controlId="passwordConfirmation" className="mt-2">
               <Form.Label className="fs-5 mb-2"> تأكيد كلمة المرور</Form.Label>
               <Form.Control
                 type="password"
@@ -194,9 +234,10 @@ export default function SignupPage() {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="w-100 mt-2">
+            <Button variant="primary" type="submit" disabled={load} className="w-100 mt-2">
               {load ? <LoadingBtn /> : "إنشاء حساب"}
             </Button>
+
           </Form>
 
           {/*  */}
