@@ -224,7 +224,7 @@ const AddApartmentsAndDuplexesPage = () => {
 
   const handleChange2 = (e) => {
     const { name, value } = e.target;
-    if (name === "phone"||name === "whats_phone") {
+    if (name === "phone" || name === "whats_phone") {
       if (!isValidPhone(value)) {
         e.target.setCustomValidity("يرجى إدخال رقم هاتف صحيح");
       } else {
@@ -398,23 +398,23 @@ const AddApartmentsAndDuplexesPage = () => {
                   onSubmit={handleSubmit1}>
                   {currentPage === 1 && (
                     <>
-                        <Col>
-                          <Form.Group controlId="name_ad_ar" className="mb-3">
-                            <Form.Label className='required'>
-                              <FontAwesomeIcon icon={faHome} className="me-2" />
-                              اسم الإعلان
-                            </Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="name_ad_ar"
-                              value={formData.name_ad_ar}
-                              onChange={handleChange}
-                              maxLength="70"
-                              required
-                            />
+                      <Col>
+                        <Form.Group controlId="name_ad_ar" className="mb-3">
+                          <Form.Label className='required'>
+                            <FontAwesomeIcon icon={faHome} className="me-2" />
+                            اسم الإعلان
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="name_ad_ar"
+                            value={formData.name_ad_ar}
+                            onChange={handleChange}
+                            maxLength="70"
+                            required
+                          />
 
-                          </Form.Group>
-                        </Col>
+                        </Form.Group>
+                      </Col>
                       <Form.Group controlId="details_ar" className="mb-3">
                         <Form.Label className='required'>أضف تفاصيل العقار</Form.Label>
                         <Form.Control
@@ -465,22 +465,22 @@ const AddApartmentsAndDuplexesPage = () => {
                         </Col>
                       </Row>
                       <Row>
-                      <Col xs={12} md={6}>
-                        <Form.Group controlId="payment_method" className="mb-3">
-                          <Form.Label>طريقة الدفع</Form.Label>
-                          <Form.Select
-                            name="payment_method"
-                            value={formData.payment_method}
-                            onChange={handleChange}
-                            required
-                          >
-                            <option value="">اختر</option>
-                            <option value="كاش">كاش</option>
-                            <option value="تقسيط">تقسيط</option>
-                          </Form.Select>
-                        </Form.Group>
-                      </Col>
-                      <Col xs={12} md={6}>
+                        <Col xs={12} md={6}>
+                          <Form.Group controlId="payment_method" className="mb-3">
+                            <Form.Label>طريقة الدفع</Form.Label>
+                            <Form.Select
+                              name="payment_method"
+                              value={formData.payment_method}
+                              onChange={handleChange}
+                              required
+                            >
+                              <option value="">اختر</option>
+                              <option value="كاش">كاش</option>
+                              <option value="تقسيط">تقسيط</option>
+                            </Form.Select>
+                          </Form.Group>
+                        </Col>
+                        <Col xs={12} md={6}>
                           <Form.Group controlId="area" className="mb-3">
                             <Form.Label>
                               <FontAwesomeIcon
@@ -511,7 +511,7 @@ const AddApartmentsAndDuplexesPage = () => {
                   )}
                   {currentPage === 2 && (
                     <>
- <Container className="amenities-container">
+                      <Container className="amenities-container">
                         {Object.entries(categories).map(([category, items]) => (
                           <div key={category} className="category-section">
                             <h5>{category}</h5>
@@ -532,7 +532,10 @@ const AddApartmentsAndDuplexesPage = () => {
                         ))}
                       </Container>
 
-                       <div className="text-center d-flex justify-content-end">
+                      <div className="text-center d-flex justify-content-between">
+                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
+                          الصفحة السابقة
+                        </Button>
                         <Button variant="secondary" onClick={handleNextPage}>
                           الصفحة التالية
                         </Button>
@@ -541,8 +544,8 @@ const AddApartmentsAndDuplexesPage = () => {
                   )}
                   {currentPage === 3 && (
                     <>
-                    <>
-<Form.Group controlId="primary_picture" className="mb-3">
+                      <>
+                        <Form.Group controlId="primary_picture" className="mb-3">
                           <Form.Label>الصورة الأساسية للإعلان</Form.Label>
                           <Form.Control
                             type="file"
@@ -597,134 +600,134 @@ const AddApartmentsAndDuplexesPage = () => {
                             الصفحة التالية
                           </Button>
                         </div>
-                        </>
+                      </>
                     </>
                   )}
                   {currentPage === 4 && (
                     <>
-                    <Form.Group controlId="video_link" className="mb-3">
-                      <Form.Label>رابط فيديو لعرض العقار</Form.Label>
-                      <Form.Control
-                        type="url"
-                        name="video_link"
-                        value={formData.video_link}
-                        onChange={handleChange}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        اكتب رابط بشكل صحيح
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="full_address" className="mb-3">
-                      <Form.Label className='required'>العنوان بالكامل</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="full_address"
-                        value={formData.full_address}
-                        onChange={handleChange}
-                        required
-                      />
-                    </Form.Group>
-                    <span>اضغط على العلامة الزرقاء فى مكان موقع العقار.</span>
+                      <Form.Group controlId="video_link" className="mb-3">
+                        <Form.Label>رابط فيديو لعرض العقار</Form.Label>
+                        <Form.Control
+                          type="url"
+                          name="video_link"
+                          value={formData.video_link}
+                          onChange={handleChange}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          اكتب رابط بشكل صحيح
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Form.Group controlId="full_address" className="mb-3">
+                        <Form.Label className='required'>العنوان بالكامل</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="full_address"
+                          value={formData.full_address}
+                          onChange={handleChange}
+                          required
+                        />
+                      </Form.Group>
+                      <span>اضغط على العلامة الزرقاء فى مكان موقع العقار.</span>
 
 
-                    <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{ height: '400px', width: '100%' }}>
-                      <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                      />
-                      <Marker position={position} icon={myIcon}>
-                        <Popup>
-                          {formData.full_address}
-                        </Popup>
-                      </Marker>
-                      <MyComponent />
-                    </MapContainer>
-                    <div className="text-center  d-flex justify-content-between mt-5 ">
-                      <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
-                        الصفحة السابقة
-                      </Button>
-                      <Button variant="secondary" onClick={handleNextPage}>
-                        الصفحة التالية
-                      </Button>
-                    </div>
-                  </>
+                      <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{ height: '400px', width: '100%' }}>
+                        <TileLayer
+                          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        />
+                        <Marker position={position} icon={myIcon}>
+                          <Popup>
+                            {formData.full_address}
+                          </Popup>
+                        </Marker>
+                        <MyComponent />
+                      </MapContainer>
+                      <div className="text-center  d-flex justify-content-between mt-5 ">
+                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
+                          الصفحة السابقة
+                        </Button>
+                        <Button variant="secondary" onClick={handleNextPage}>
+                          الصفحة التالية
+                        </Button>
+                      </div>
+                    </>
                   )}
                   {currentPage === 5 && (
                     <>
-                    <Form.Group controlId="governorate" className="mb-3">
-                      <Form.Label className='required'>المحافظة</Form.Label>
-                      <Form.Select
-                        name="governorate"
-                        value={formData.governorate}
-                        onChange={handleChange}
-                        required
-                      >
-                        <option value="">اختر المحافظة</option>
-                        {governorates.map((gov, index) => (
-                          <option key={gov.id} value={gov.name}>{gov.name}</option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                    <Form.Group controlId="city" className="mb-3">
-                      <Form.Label className='required'>المدينة</Form.Label>
-                      <Form.Select
-                        name="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                        required
-                      >
-                        <option value="">اختر المدينة</option>
-                        {cities.map((city) => (
-                          <option key={city.name} value={city.name}>{city.name}</option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                    <Form.Group controlId="region" className="mb-3">
-                      <Form.Label>المنطقة</Form.Label>
-                      <Form.Select
-                        name="region"
-                        value={formData.region}
-                        onChange={handleChange}
-                      >
-                        <option value="">اختر المنطقة</option>
-                        {regions.map((region) => (
-                          <option key={region.id} value={region.name}>{region.name}</option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                    <Form.Group controlId="street" className="mb-3">
-                      <Form.Label>الشارع</Form.Label>
-                      <Form.Select
-                        name="street"
-                        value={formData.street}
-                        onChange={handleChange}
-                      >
-                        <option value="">اختر الشارع</option>
-                        {streets.map((street) => (
-                          <option key={street.id} value={street.name}>{street.name}</option>
-                        ))}
-                      </Form.Select>
-                      {/* فى حاله عدم وجود شارع */}
-                      <Form.Control
-                        className='mt-3'
-                        type="text"
-                        name="street"
-                        placeholder='فى حاله عدم وجود الشارع يرجى كتابته هنا'
-                        value={formData.street}
-                        onChange={handleChange}
-                        maxLength="30"
-                      />
-                    </Form.Group>
+                      <Form.Group controlId="governorate" className="mb-3">
+                        <Form.Label className='required'>المحافظة</Form.Label>
+                        <Form.Select
+                          name="governorate"
+                          value={formData.governorate}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">اختر المحافظة</option>
+                          {governorates.map((gov, index) => (
+                            <option key={gov.id} value={gov.name}>{gov.name}</option>
+                          ))}
+                        </Form.Select>
+                      </Form.Group>
+                      <Form.Group controlId="city" className="mb-3">
+                        <Form.Label className='required'>المدينة</Form.Label>
+                        <Form.Select
+                          name="city"
+                          value={formData.city}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">اختر المدينة</option>
+                          {cities.map((city) => (
+                            <option key={city.name} value={city.name}>{city.name}</option>
+                          ))}
+                        </Form.Select>
+                      </Form.Group>
+                      <Form.Group controlId="region" className="mb-3">
+                        <Form.Label>المنطقة</Form.Label>
+                        <Form.Select
+                          name="region"
+                          value={formData.region}
+                          onChange={handleChange}
+                        >
+                          <option value="">اختر المنطقة</option>
+                          {regions.map((region) => (
+                            <option key={region.id} value={region.name}>{region.name}</option>
+                          ))}
+                        </Form.Select>
+                      </Form.Group>
+                      <Form.Group controlId="street" className="mb-3">
+                        <Form.Label>الشارع</Form.Label>
+                        <Form.Select
+                          name="street"
+                          value={formData.street}
+                          onChange={handleChange}
+                        >
+                          <option value="">اختر الشارع</option>
+                          {streets.map((street) => (
+                            <option key={street.id} value={street.name}>{street.name}</option>
+                          ))}
+                        </Form.Select>
+                        {/* فى حاله عدم وجود شارع */}
+                        <Form.Control
+                          className='mt-3'
+                          type="text"
+                          name="street"
+                          placeholder='فى حاله عدم وجود الشارع يرجى كتابته هنا'
+                          value={formData.street}
+                          onChange={handleChange}
+                          maxLength="30"
+                        />
+                      </Form.Group>
 
-                    <div className="text-center d-flex justify-content-between">
-                      <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
-                        الصفحة السابقة
-                      </Button>
-                      <Button variant="primary" type="submit" disabled={load1}>
-                        {load1 ? <LoadingBtn /> : "تجهيز الاعلان "}
-                      </Button>
-                    </div>
-                  </>
+                      <div className="text-center d-flex justify-content-between">
+                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
+                          الصفحة السابقة
+                        </Button>
+                        <Button variant="primary" type="submit" disabled={load1}>
+                          {load1 ? <LoadingBtn /> : "تجهيز الاعلان "}
+                        </Button>
+                      </div>
+                    </>
                   )}
                 </Form>
                 {currentPage === 6 && (
@@ -811,5 +814,4 @@ const AddApartmentsAndDuplexesPage = () => {
     </>
   );
 };
-
 export default AddApartmentsAndDuplexesPage;
