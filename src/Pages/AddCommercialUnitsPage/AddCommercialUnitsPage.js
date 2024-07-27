@@ -238,8 +238,7 @@ const AddApartmentsAndDuplexesPage = () => {
     }
     setFormData2({ ...formData2, [name]: value })
   }
-etFormData2({ ...formData2, [name]: value })
-  }
+
 
 
   const fetchAddress = async (lat, lng) => {
