@@ -280,15 +280,19 @@ const AddApartmentsAndDuplexesPage = () => {
       setShow(true)
     }
     else {
-      setLoad1(true)
       const token = Cookies.get("token")
       try {
+        setLoad1(true)
         const allFormData = new FormData();
 
         // Append other form fields
         for (const [key, value] of Object.entries(formData)) {
-          allFormData.append(key, value);
+          if(key!=="images[]"&&key!=="primary_picture"){
+            allFormData.append(key, value);
+            console.log(key+" : "+value)
+          }
         }
+        
         // Append images
         if (images) {
           for (let i = 0; i < images.length; i++) {
@@ -311,14 +315,18 @@ const AddApartmentsAndDuplexesPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        const prop_id = response.data.data.Property.property_id
+        const prop_id = response.data.property_id
         setFormData2({ ...formData2, "property_id": prop_id })
+        setLoad1(false)
         // للانتقال لاخر صفحه و حفظ الاعلان
         setCurrentPage(currentPage + 1);
       } catch (err) {
+        setAlert({ msg: "حدث خطا اثناء حفظ الاعلان يرجى المحاوله مره ثانيه", variant: 2 })
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setShow(true)
         console.log(err)
+        setLoad1(false)
       }
-      setLoad1(false)
     }
     setValidated(true);
   };
