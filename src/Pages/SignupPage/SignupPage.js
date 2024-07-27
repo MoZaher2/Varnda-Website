@@ -64,6 +64,7 @@ export default function SignupPage() {
             ...formData,
           });
           Cookies.set("token", response.data.data.token);
+          Cookies.set("user_id", response.data.data.user_id);
           Cookies.set('email', response.data.data.user.email);
           Cookies.set('phone', response.data.data.user.phone);
           Cookies.set('whats_phone', response.data.data.user.whats_phone);

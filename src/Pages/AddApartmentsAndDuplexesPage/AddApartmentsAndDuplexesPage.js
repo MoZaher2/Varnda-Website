@@ -4,14 +4,23 @@ import Header from "../../Components/Header/Header";
 import Footer from '../../Components/Footer/Footer';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
-import { Form, Button, Container, Row, Col, ProgressBar} from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, ProgressBar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faDollarSign, faBed, faBath, faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 import { AllGovernments } from '../../utility/AllGovernments';
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
-import "./AddApartmentsAndDuplexesPage.css"
+import "../AddApartmentsAndDuplexesPage/AddApartmentsAndDuplexesPage.css"
+import LoadingBtn from "../../Components/LoadingBtn.js";
+import AlertMessage from "../../Components/Alert/Alert.js";
+import { useNavigate } from 'react-router-dom';
 const AddApartmentsAndDuplexesPage = () => {
+
+  const [load1, setLoad1] = useState(false);
+  const [load2, setLoad2] = useState(false);
+  const [show, setShow] = useState(false);
+  const [alert, setAlert] = useState({ msg: "", variant: 0 })
+  const navigate = useNavigate();
 
   const myIcon = new L.Icon({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
@@ -22,46 +31,52 @@ const AddApartmentsAndDuplexesPage = () => {
     shadowSize: [41, 41],
   });
 
+  const [formData2, setFormData2] = useState({
+    property_id: "",
+    advertiser_type: "",
+    phone: Cookies.get('phone'),
+    email: Cookies.get('email'),
+    whats_phone: Cookies.get('whats_phone')
+  })
   const [formData, setFormData] = useState({
-    name_ad_ar: '',
-    details_ar: '',
-    type: '',
-    price: '',
-    negotiable: '',
-    discount: '',
-    unitType: '',
-    payment_method: '',
-    rent_type: '',
-    deliveryDate: '',
-    constructionYear: '',
-    legalPapers: '',
-    area: '',
-    rooms: '',
-    bathrooms: '',
-    floor_number: '',
-    compound: '',
-    finishStage: '',
-    furnished: '',
-    mainImage: '',///////////////////////////////
-    additionalImages: '',
-    video_link: '',
-    fullAddress: '',
-    governorate: '',
-    city: '',
-    region: '',
-    street: '',
-    servicesAmenities: [],
-    advertiser_type:"",
-    phone:Cookies.get('phone'),
-    email:Cookies.get('email'),
-    whats_phone:Cookies.get('whats_phone')
+    user_id: Cookies.get("user_id"),//👍
+    category: 'أراضي',//👍
+    name_ad_ar: '',//👍
+    details_ar: '',//👍
+    type: '',//👍
+    price: '',//👍
+    discount: '',//👍
+    payment_method: '',//👍
+    rent_type: '',//👍
+    legal_papers: '',//👍
+    area: '',//👍
+    rooms: '',//👍
+    bathrooms: '',//👍
+    floor_number: '',//👍
+    compound_name: '',//👍
+    primary_picture: '',//👍  
+    'images[]': '',//👍
+    video_link: '',//👍
+    full_address: '',//👍
+    governorate: '',//👍
+    city: '',//👍
+    region: '',//👍
+    street: '',//👍
+    deliver_date: '',//👍
+    finishing_type: '',//👍
+    furnished: '',//👍
+    'facilities[]': [],//👍
+    'features[]': [],//👍
+    'services[]': [],//👍
+    'devices[]': [],//👍
   });
-  const [primary_picture, setPrimary_picture] = useState(null);//API
-  const [images, setImages] = useState([]);//API
+  const [primary_picture, setPrimary_picture] = useState(null);
+  const [images, setImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [cities, setCities] = useState([]);
   const [regions, setRegions] = useState([]);
   const [streets, setStreets] = useState([]);
+  const [compounds, setCompounds] = useState([{ id: 1, name: "com1" }, { id: 2, name: "com2" }]);
   const [position, setPosition] = useState([30.044376903556085, 31.235749743857397]);//ابعته ف ال API  latitude longitude
   const [validated, setValidated] = useState(false);
   const [validated2, setValidated2] = useState(false);
@@ -165,13 +180,22 @@ const AddApartmentsAndDuplexesPage = () => {
 
 
 
+
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
+
+    if (name === "video_link") {
+      if (!validateUrl(value)) {
+        e.target.setCustomValidity("يرجى إدخال رابط صحيح");
+      } else {
+        e.target.setCustomValidity("");
+      }
+    }
+
     if (type === 'file') {
-      if (name === 'mainImage') {
+      if (name === 'primary_picture') {
         setPrimary_picture(files[0]);
-        console.log(primary_picture)
-      } else if (name === 'additionalImages') {
+      } else if (name === 'images[]') {
         setImages(Array.from(files));
         console.log(images)
       }
@@ -185,6 +209,30 @@ const AddApartmentsAndDuplexesPage = () => {
         [name]: value,
       });
     }
+
+
+  };
+  const fieldMapping = {
+    "مرافق": "facilities[]",
+    "ميزات": "features[]",
+    "خدمات": "services[]",
+    "أجهزة": "devices[]"
+  };
+  const toggleAmenity = (category, amenity) => {
+
+    const fieldName = fieldMapping[category];
+
+    setFormData(prevState => ({
+      ...prevState,
+      [fieldName]: prevState[fieldName].includes(amenity)
+        ? prevState[fieldName].filter(item => item !== amenity)
+        : [...prevState[fieldName], amenity]
+    }));
+    console.log(formData['facilities[]'])
+  };
+
+  const handleChange2 = (e) => {
+    const { name, value } = e.target;
     if (name === "phone") {
       if (!isValidPhone(value)) {
         e.target.setCustomValidity("يرجى إدخال رقم هاتف صحيح");
@@ -192,15 +240,10 @@ const AddApartmentsAndDuplexesPage = () => {
         e.target.setCustomValidity("");
       }
     }
-  };
-  const toggleAmenity = (amenity) => {
-    setFormData(prevState => ({
-      ...prevState,
-      servicesAmenities: prevState.servicesAmenities.includes(amenity)
-        ? prevState.servicesAmenities.filter(item => item !== amenity)
-        : [...prevState.servicesAmenities, amenity]
-    }));
-  };
+    setFormData2({ ...formData2, [name]: value })
+  }
+
+
   const fetchAddress = async (lat, lng) => {
     const apiKey = 'ede130c0ba4f4355b0e56461701f0455';
     try {
@@ -209,7 +252,7 @@ const AddApartmentsAndDuplexesPage = () => {
       const address = response.data.features[0].properties.formatted;
       setFormData({
         ...formData,
-        fullAddress: address,
+        full_address: address,
       });
     } catch (error) {
       console.error('Error fetching address:', error);
@@ -226,39 +269,91 @@ const AddApartmentsAndDuplexesPage = () => {
     return null;
   }
 
-
-  const handleServicesChange = (event) => {
-    const selectedServices = Array.from(event.target.selectedOptions, (option) => option.value);
-    setFormData({ ...formData, servicesAmenities: selectedServices });
-  };
-
-
-  const handleSubmit1 = (e) => {
+  const handleSubmit1 = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if (form.checkValidity() === false) {
+    if (form.checkValidity() === false || !formData.primary_picture) {
       e.stopPropagation();
+      setAlert({ msg: "يرجى التأكد من ملئ الحقول المطلوبه *", variant: 3 })
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setShow(true)
     }
     else {
-      console.log(formData);
-      console.log('Selected position:', position);
-      // Handle form submission
+      setLoad1(true)
+      const token = Cookies.get("token")
+      try {
+        const allFormData = new FormData();
 
-      // للانتقال لاخر صفحه و حفظ الاعلان
-      setCurrentPage(currentPage + 1);
+        // Append other form fields
+        for (const [key, value] of Object.entries(formData)) {
+          allFormData.append(key, value);
+        }
+        // Append images
+        if (images) {
+          for (let i = 0; i < images.length; i++) {
+            allFormData.append('images[]', formData['images[]'][i]);
+          }
+        }
+
+        if (primary_picture) {
+          allFormData.append('primary_picture', formData.primary_picture[0]);
+        }
+
+        // Append position
+        allFormData.append('latitude', position[0]);
+        allFormData.append('longitude', position[1]);
+
+        // Post the data
+        const response = await api.post("/AddProperties", allFormData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const prop_id = response.data.data.Property.property_id
+        setFormData2({ ...formData2, "property_id": prop_id })
+        // للانتقال لاخر صفحه و حفظ الاعلان
+        setCurrentPage(currentPage + 1);
+      } catch (err) {
+        console.log(err)
+      }
+      setLoad1(false)
     }
     setValidated(true);
   };
-  const handleSubmit2 = (e) => {
+
+  const handleSubmit2 = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.stopPropagation();
+      setAlert({ msg: "يرجى التأكد من ملئ الحقول المطلوبه *", variant: 3 })
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setShow(true)
     }
     else {
-      console.log(formData);
-      console.log('Selected position:', position);
-      // Handle form submission
+      setLoad2(true)
+      const token = Cookies.get("token")
+      try {
+        const response = await api.post("/makeAd", {
+          ...formData2
+        }, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setAlert({ msg: "تم حفظ الإعلان بنجاح", variant: 1 })
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setShow(true)
+        setTimeout(() => {
+          navigate('/submit-property');
+        }, 2000)
+        console.log(response.data)
+      } catch (err) {
+        console.log(err)
+      }
+      setLoad2(false)
     }
     setValidated2(true);
   };
@@ -278,17 +373,17 @@ const AddApartmentsAndDuplexesPage = () => {
 
 
 
+  const validateUrl = (url) => {
+    const urlPattern = new RegExp('^(https?:\\/\\/)?' + // Protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // Domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // Port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // Query string
+      '(\\#[-a-z\\d_]*)?$', 'i'); // Fragment locator
+    return !!urlPattern.test(url);
+  };
 
 
-
-
-
-
-
-
-
-
-  /////////////////////////////////////////////////////////////
   return (
     <>
       <Header />
@@ -302,7 +397,7 @@ const AddApartmentsAndDuplexesPage = () => {
           <Row className="justify-content-center">
             <Col xs={12} md={10} lg={8}>
               <div className="shadow-sm p-4 mb-5 bg-white rounded">
-                <h2 className="text-center mb-4">شقق و دوبلكس</h2>
+                <h2 className="text-center mb-4">أراضي</h2>
                 {/* <UploadWidget /> */}
                 <ProgressBar now={progress} label={`${progress}%`} className="my-4" />
 
@@ -414,10 +509,10 @@ const AddApartmentsAndDuplexesPage = () => {
                           required
                         >
                           <option value="">اختر</option>
-                          <option value="apartment">شقة</option>
-                          <option value="duplex">دوبلكس</option>
-                          <option value="penthouse">بنتهاوس</option>
-                          <option value="studio">ستوديو</option>
+                          <option value="شقة">شقة</option>
+                          <option value="دوبلكس">دوبلكس</option>
+                          <option value="بنتهاوس">بنتهاوس</option>
+                          <option value="ستوديو">ستوديو</option>
 
                         </Form.Select>
                       </Form.Group>
@@ -455,16 +550,16 @@ const AddApartmentsAndDuplexesPage = () => {
                             </Form.Select>
                           </Form.Group>
 
-                          <Form.Group controlId="deliveryDate" className="mb-3">
+                          <Form.Group controlId="deliver_date" className="mb-3">
                             <Form.Label>تاريخ التسليم</Form.Label>
                             <Form.Select
-                              name="deliveryDate"
-                              value={formData.deliveryDate}
+                              name="deliver_date"
+                              value={formData.deliver_date}
                               onChange={handleChange}
                               required
                             >
                               <option value="">اختر</option>
-                              <option value="immediate">استلام فوري</option>
+                              <option value="0">استلام فوري</option>
                               {Array.from({ length: 9 }, (_, i) => new Date().getFullYear() + i).map(
                                 (year) => (
                                   <option key={year} value={year}>
@@ -475,18 +570,18 @@ const AddApartmentsAndDuplexesPage = () => {
                             </Form.Select>
                           </Form.Group>
 
-                          <Form.Group controlId="legalPapers" className="mb-3">
+                          <Form.Group controlId="legal_papers" className="mb-3">
                             <Form.Label>الأوراق القانونية للعقار</Form.Label>
                             <Form.Select
-                              name="legalPapers"
-                              value={formData.legalPapers}
+                              name="legal_papers"
+                              value={formData.legal_papers}
                               onChange={handleChange}
                               required
                             >
                               <option value="">اختر</option>
-                              <option value="licensed">مرخص</option>
-                              <option value="licensable">قابل للترخيص</option>
-                              <option value="unlicensed">غير مرخص</option>
+                              <option value="مرخص">مرخص</option>
+                              <option value="قابل للترخيص">قابل للترخيص</option>
+                              <option value="غير مرخص">غير مرخص</option>
                             </Form.Select>
                           </Form.Group>
                         </>
@@ -598,21 +693,11 @@ const AddApartmentsAndDuplexesPage = () => {
                         </Col>
                       </Row>
 
-                      <Form.Group controlId="compound" className="mb-3">
-                        <Form.Label>الكمبوند (إن وجد)</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="compound"
-                          value={formData.compound}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-
-                      <Form.Group controlId="finishStage" className="mb-3">
+                      <Form.Group controlId="finishing_type" className="mb-3">
                         <Form.Label>مرحلة التشطيب</Form.Label>
                         <Form.Select
-                          name="finishStage"
-                          value={formData.finishStage}
+                          name="finishing_type"
+                          value={formData.finishing_type}
                           onChange={handleChange}
                           required
                         >
@@ -624,20 +709,21 @@ const AddApartmentsAndDuplexesPage = () => {
                           <option value="تشطيب بالأجهزة">تشطيب بالأجهزة</option>
                         </Form.Select>
                       </Form.Group>
-
-                      <Form.Group controlId="furnished" className="mb-3">
-                        <Form.Label>مفروش</Form.Label>
-                        <Form.Select
-                          name="furnished"
-                          value={formData.furnished}
-                          onChange={handleChange}
-                          required
-                        >
-                          <option value="">اختر</option>
-                          <option value="yes">نعم</option>
-                          <option value="no">لا</option>
-                        </Form.Select>
-                      </Form.Group>
+                      {(formData.finishing_type === "تشطيب بالأجهزة" || formData.finishing_type === "تشطيب كامل") &&
+                        <Form.Group controlId="furnished" className="mb-3">
+                          <Form.Label>مفروش</Form.Label>
+                          <Form.Select
+                            name="furnished"
+                            value={formData.furnished}
+                            onChange={handleChange}
+                            required
+                          >
+                            <option value="">اختر</option>
+                            <option value="1">نعم</option>
+                            <option value="0">لا</option>
+                          </Form.Select>
+                        </Form.Group>
+                      }
                       <div className="text-center d-flex justify-content-between">
                         <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
                           الصفحة السابقة
@@ -650,6 +736,7 @@ const AddApartmentsAndDuplexesPage = () => {
                   )}
                   {currentPage === 4 && (
                     <>
+
                       <Container className="amenities-container">
                         {Object.entries(categories).map(([category, items]) => (
                           <div key={category} className="category-section">
@@ -658,8 +745,8 @@ const AddApartmentsAndDuplexesPage = () => {
                               {items.map(item => (
                                 <Col key={item} xs="auto" className="mb-2">
                                   <Button
-                                    variant={formData.servicesAmenities.includes(item) ? "primary" : "outline-secondary"}
-                                    onClick={() => toggleAmenity(item)}
+                                    variant={formData[fieldMapping[category]].includes(item) ? "primary" : "outline-secondary"}
+                                    onClick={() => toggleAmenity(category, item)}
                                     className="amenity-button"
                                   >
                                     {item}
@@ -687,13 +774,12 @@ const AddApartmentsAndDuplexesPage = () => {
 
 
                       <>
-                        <Form.Group controlId="mainImage" className="mb-3">
+                        <Form.Group controlId="primary_picture" className="mb-3">
                           <Form.Label>الصورة الأساسية للإعلان</Form.Label>
                           <Form.Control
                             type="file"
-                            name="mainImage"
+                            name="primary_picture"
                             onChange={handleChange}
-                            required
                           />
                           {primary_picture && (
                             <div className="mt-2">
@@ -710,11 +796,11 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Form.Control.Feedback>
                         </Form.Group>
 
-                        <Form.Group controlId="additionalImages" className="mb-3">
+                        <Form.Group controlId="images[]" className="mb-3">
                           <Form.Label>قم بتحميل باقي الصور</Form.Label>
                           <Form.Control
                             type="file"
-                            name="additionalImages"
+                            name="images[]"
                             onChange={handleChange}
                             multiple
                           />
@@ -756,13 +842,16 @@ const AddApartmentsAndDuplexesPage = () => {
                           value={formData.video_link}
                           onChange={handleChange}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          اكتب رابط بشكل صحيح
+                        </Form.Control.Feedback>
                       </Form.Group>
-                      <Form.Group controlId="fullAddress" className="mb-3">
+                      <Form.Group controlId="full_address" className="mb-3">
                         <Form.Label className='required'>العنوان بالكامل</Form.Label>
                         <Form.Control
                           type="text"
-                          name="fullAddress"
-                          value={formData.fullAddress}
+                          name="full_address"
+                          value={formData.full_address}
                           onChange={handleChange}
                           required
                         />
@@ -777,7 +866,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         />
                         <Marker position={position} icon={myIcon}>
                           <Popup>
-                            {formData.fullAddress}
+                            {formData.full_address}
                           </Popup>
                         </Marker>
                         <MyComponent />
@@ -858,12 +947,29 @@ const AddApartmentsAndDuplexesPage = () => {
                           maxLength="30"
                         />
                       </Form.Group>
+
+
+                      <Form.Group controlId="compound" className="mb-3">
+                        <Form.Label>الكومباوند (إن وجد)</Form.Label>
+                        <Form.Select
+                          name="compound_name"
+                          value={formData.compound_name}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">اختر الكومباوند</option>
+                          {compounds.map((compound) => (
+                            <option key={compound.id} value={compound.name}>{compound.name}</option>
+                          ))}
+                        </Form.Select>
+                      </Form.Group>
+
                       <div className="text-center d-flex justify-content-between">
                         <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
                           الصفحة السابقة
                         </Button>
-                        <Button variant="primary" type="submit">
-                          تجهيز الاعلان
+                        <Button variant="primary" type="submit" disabled={load1}>
+                          {load1 ? <LoadingBtn /> : "تجهيز الاعلان "}
                         </Button>
                       </div>
                     </>
@@ -878,8 +984,8 @@ const AddApartmentsAndDuplexesPage = () => {
                         <Form.Control
                           type="number"
                           name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
+                          value={formData2.phone}
+                          onChange={handleChange2}
                           required
                         />
                         <Form.Control.Feedback type="invalid">
@@ -891,8 +997,8 @@ const AddApartmentsAndDuplexesPage = () => {
                         <Form.Control
                           type="number"
                           name="whats_phone"
-                          value={formData.whats_phone}
-                          onChange={handleChange}
+                          value={formData2.whats_phone}
+                          onChange={handleChange2}
                           required
                         />
                         <Form.Control.Feedback type="invalid">
@@ -904,9 +1010,9 @@ const AddApartmentsAndDuplexesPage = () => {
                         <Form.Control
                           type="email"
                           name="email"
-                          value={formData.email}
+                          value={formData2.email}
                           placeholder="ادخل البريد الإلكتروني"
-                          onChange={handleChange}
+                          onChange={handleChange2}
                           required
                         />
                         <Form.Control.Feedback type="invalid">
@@ -918,8 +1024,8 @@ const AddApartmentsAndDuplexesPage = () => {
                         <Form.Label className='mt-2'>نوع المستخدم</Form.Label>
                         <Form.Select
                           name="advertiser_type"
-                          value={formData.advertiser_type}
-                          onChange={handleChange}
+                          value={formData2.advertiser_type}
+                          onChange={handleChange2}
                           required
                         >
                           <option value="">اختر</option>
@@ -934,8 +1040,8 @@ const AddApartmentsAndDuplexesPage = () => {
                       </Form.Group>
 
                       <div className="text-center d-flex justify-content-center mt-4">
-                        <Button variant="primary" type="submit">
-                          حفظ الإعلان
+                        <Button variant="primary" type="submit" disabled={load2}>
+                          {load2 ? <LoadingBtn /> : "حفظ الإعلان"}
                         </Button>
                       </div>
                     </Form>
@@ -945,6 +1051,9 @@ const AddApartmentsAndDuplexesPage = () => {
             </Col>
           </Row>
         </Container>
+        {show && <>
+          <AlertMessage msg={alert.msg} setShow={setShow} variant={alert.variant} />
+        </>}
       </Container >
       <Footer />
     </>

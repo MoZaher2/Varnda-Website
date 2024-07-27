@@ -178,7 +178,7 @@ const AddLandPage = () => {
           <Row className="justify-content-center">
             <Col xs={12} md={10} lg={8}>
               <div className="shadow-sm p-4 mb-5 bg-white rounded">
-                <h2 className="text-center mb-4"> أراضي</h2>
+                <h2 className="text-center mb-4"> عاوز زى كده</h2>
 
                 <ProgressBar now={progress} label={`${progress}%`} className="my-4" />
 

@@ -23,9 +23,7 @@ export default function LoginPage() {
     setFormData({ ...formData, [name]: value });
   };
   const handelSubmit = async (e) => {
-    setShow(false
-
-    )
+    setShow(false)
     e.preventDefault();
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
@@ -41,6 +39,7 @@ export default function LoginPage() {
         Cookies.set('token', response.data.data.token);
         Cookies.set('email', response.data.data.user.email);
         Cookies.set('phone', response.data.data.user.phone);
+        Cookies.set("user_id", response.data.data.user.id);
         Cookies.set('whats_phone', response.data.data.user.whats_phone);
         console.log(response.data)
         setLoad(false)

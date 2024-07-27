@@ -65,3 +65,10 @@ const handelSubmit = async (e) => {
 window.scrollTo({ top: 0, behavior: 'smooth' });
 /////////////
 // Post with Token
+const response = await api.post("/updateUser", {
+  ...userForm
+}, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  }
+});
