@@ -19,10 +19,6 @@ export default function SignupPage() {
   const [overlay, setOverlay] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
   const [formData, setFormData] = useState({});
-  // const handelChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData({ ...formData, [name]: value });
-  // };
   const isValidPhone = (phoneNumber) => {
     const egPhone = /^(010|011|012|015)\d{8}$/;
     return egPhone.test(phoneNumber);
@@ -40,9 +36,6 @@ export default function SignupPage() {
       }
     }
   };
-
-
-
   const handelSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -61,6 +54,11 @@ export default function SignupPage() {
           const response = await api.post("/register", {
             ...formData,
           });
+          Cookies.set("token", response.data.data.token);
+          Cookies.set("user_id", response.data.data.user_id);
+          Cookies.set('email', response.data.data.user.email);
+          Cookies.set('phone', response.data.data.user.phone);
+          Cookies.set('whats_phone', response.data.data.user.whats_phone);
           setOverlay(true);
           setAlert({ msg: "تم انشاء الحساب بنجاح", variant: 1 });
           setShow(true);
