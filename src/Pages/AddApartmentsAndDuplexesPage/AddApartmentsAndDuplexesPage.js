@@ -288,7 +288,7 @@ const AddApartmentsAndDuplexesPage = () => {
         for (const [key, value] of Object.entries(formData)) {
           if(key!=="images[]"&&key!=="primary_picture"){
             allFormData.append(key, value);
-            console.log(key+" : "+value)
+             
           }
         }
 
@@ -314,9 +314,9 @@ const AddApartmentsAndDuplexesPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data.property_id)
+        console.log(response.data.data.property_id)
 
-        const prop_id = response.data.property_id
+        const prop_id = response.data.data.property_id
         setFormData2({ ...formData2, "property_id": prop_id })
         setLoad1(false)
         // للانتقال لاخر صفحه و حفظ الاعلان
