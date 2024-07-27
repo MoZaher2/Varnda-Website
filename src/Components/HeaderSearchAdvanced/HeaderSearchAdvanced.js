@@ -96,7 +96,7 @@ export default function HeaderSearchAdvanced() {
   console.log(searchText);
   return (
     <>
-<Link to="/advicePage">هذا الرابط يستبدل بصورة اللوجو الخاص بالموقع  </Link>
+{/* <Link to="/advicePage">هذا الرابط يستبدل بصورة اللوجو الخاص بالموقع  </Link> */}
 <Navbar bg="light" expand="lg">
 <Navbar.Toggle aria-controls="basic-navbar-nav" />
 <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">

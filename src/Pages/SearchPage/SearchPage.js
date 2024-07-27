@@ -123,9 +123,9 @@ export default function SearchPage() {
                   </Dropdown.Menu>
                 </Dropdown>
                 <Button variant="outline-primary">قائمة</Button>
-                <Link to="/findHomePage">
+                {/* <Link to="/findHomePage">
                   <Button variant="outline-primary">الخريطة</Button>
-                </Link>
+                </Link> */}
               </ButtonGroup>
             </div>
             {properties.map((property, index) => (
@@ -206,9 +206,9 @@ export default function SearchPage() {
             ))}
           </Col>
           <Col md={4} dir="rtl">
-            <Link to="/findHomePage">
+            {/* <Link to="/findHomePage">
               <img src={imgCard} alt="imgCard" />
-            </Link>
+            </Link> */}
 
             <h4 className="my-3 h4">نتائج مقترحة</h4>
             <ListGroup variant="flush">

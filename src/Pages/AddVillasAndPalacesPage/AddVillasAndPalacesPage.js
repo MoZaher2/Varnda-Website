@@ -316,6 +316,11 @@ const AddVillasAndPalacesPage = () => {
         // للانتقال لاخر صفحه و حفظ الاعلان
         setCurrentPage(currentPage + 1);
       } catch (err) {
+
+        setAlert({ msg: "حدث خطا اثناء حفظ الاعلان يرجى التاكد من تسجيلك الدخول", variant: 2 })
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setShow(true)
+        
         console.log(err)
       }
       setLoad1(false)
