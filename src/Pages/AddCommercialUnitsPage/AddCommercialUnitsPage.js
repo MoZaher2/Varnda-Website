@@ -671,6 +671,18 @@ const AddApartmentsAndDuplexesPage = () => {
                         </Col>
                       </Row>
 
+                      <Form.Group controlId="area" className="mb-3">
+                        <Form.Label>
+                          المول التجاري او الإداري
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="compound_name"
+                          value={formData.compound_name}
+                          onChange={handleChange}
+                        />
+                      </Form.Group>
+
                       <Form.Group controlId="finishing_type" className="mb-3">
                         <Form.Label>مرحلة التشطيب</Form.Label>
                         <Form.Select
@@ -924,22 +936,6 @@ const AddApartmentsAndDuplexesPage = () => {
                           onChange={handleChange}
                           maxLength="30"
                         />
-                      </Form.Group>
-
-
-                      <Form.Group controlId="compound" className="mb-3">
-                        <Form.Label>الكومباوند (إن وجد)</Form.Label>
-                        <Form.Select
-                          name="compound_name"
-                          value={formData.compound_name}
-                          onChange={handleChange}
-                          required
-                        >
-                          <option value="">اختر الكومباوند</option>
-                          {compounds.map((compound) => (
-                            <option key={compound.id} value={compound.name}>{compound.name}</option>
-                          ))}
-                        </Form.Select>
                       </Form.Group>
 
                       <div className="text-center d-flex justify-content-between">

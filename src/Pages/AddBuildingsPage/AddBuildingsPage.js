@@ -40,7 +40,7 @@ const AddApartmentsAndDuplexesPage = () => {
   })
   const [formData, setFormData] = useState({
     user_id: Cookies.get("user_id"),//👍
-    category: 'شقق',//👍
+    category: 'مبانى',//👍
     name_ad_ar: '',//👍
     details_ar: '',//👍
     type: '',//👍
@@ -397,7 +397,7 @@ const AddApartmentsAndDuplexesPage = () => {
           <Row className="justify-content-center">
             <Col xs={12} md={10} lg={8}>
               <div className="shadow-sm p-4 mb-5 bg-white rounded">
-                <h2 className="text-center mb-4">شقق و دوبلكس</h2>
+                <h2 className="text-center mb-4">مباني</h2>
                 {/* <UploadWidget /> */}
                 <ProgressBar now={progress} label={`${progress}%`} className="my-4" />
 
@@ -441,7 +441,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         </Col>
                       </Row>
                       <Form.Group controlId="details_ar" className="mb-3">
-                        <Form.Label className='required'>أضف تفاصيل العقار</Form.Label>
+                        <Form.Label className='required'>أضف تفاصيل المبنى</Form.Label>
                         <Form.Control
                           as="textarea"
                           rows={4}
@@ -454,13 +454,62 @@ const AddApartmentsAndDuplexesPage = () => {
                       </Form.Group>
                       <Row>
                         <Col xs={12} md={6}>
+                          <Form.Group controlId="unitType" className="mb-3">
+                            <Form.Label>نوع المبنى</Form.Label>
+                            <Form.Select
+                              name="unitType"
+                              value={formData.unitType}
+                              onChange={handleChange}
+                              required
+                            >
+                              <option value="">اختر</option>
+                              <option value="مصنع">مصنع</option>
+                              <option value="عمارة">عمارة</option>
+                              <option value="مول">مول</option>
+                              <option value="مستودع">مستودع</option>
+                            </Form.Select>
+                          </Form.Group>
+                        </Col>
+                        <Col xs={12} md={6}>
+                          <Form.Group controlId="floor" className="mb-3">
+                            <Form.Label>
+                              عدد ادوار المبني
+                            </Form.Label>
+                            <Form.Control
+                              type="number"
+                              name="floor"
+                              value={formData.floor}
+                              onChange={handleChange}
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Form.Group controlId="area" className="mb-3">
+                        <Form.Label>
+                          <FontAwesomeIcon
+                            icon={faRulerCombined}
+                            className="me-2"
+                          />
+                          المساحة (م2)
+                        </Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="area"
+                          value={formData.area}
+                          onChange={handleChange}
+                          min={2}
+                          required
+                        />
+                      </Form.Group>
+                      <Row>
+                        <Col xs={12} md={6}>
                           <Form.Group controlId="price" className="mb-3">
                             <Form.Label>
                               <FontAwesomeIcon
                                 icon={faDollarSign}
                                 className="me-2"
                               />
-                              سعر الوحدة
+                              سعر المبنى
                             </Form.Label>
                             <Form.Control
                               type="number"
@@ -500,93 +549,36 @@ const AddApartmentsAndDuplexesPage = () => {
                   )}
                   {currentPage === 2 && (
                     <>
-                      <Form.Group controlId="unitType" className="mb-3">
-                        <Form.Label>نوع الوحدة</Form.Label>
+                      <Form.Group controlId="payment_method" className="mb-3">
+                        <Form.Label>طريقة الدفع</Form.Label>
                         <Form.Select
-                          name="unitType"
-                          value={formData.unitType}
+                          name="payment_method"
+                          value={formData.payment_method}
                           onChange={handleChange}
                           required
                         >
                           <option value="">اختر</option>
-                          <option value="شقة">شقة</option>
-                          <option value="دوبلكس">دوبلكس</option>
-                          <option value="بنتهاوس">بنتهاوس</option>
-                          <option value="ستوديو">ستوديو</option>
-
+                          <option value="كاش">كاش</option>
+                          <option value="تقسيط">تقسيط</option>
                         </Form.Select>
                       </Form.Group>
 
-                      {formData.type === 'rent' && (
-                        <Form.Group controlId="rent_type" className="mb-3">
-                          <Form.Label>نوع الايجار</Form.Label>
-                          <Form.Select
-                            name="rent_type"
-                            value={formData.rent_type}
-                            onChange={handleChange}
-                            required
-                          >
-                            <option value="">اختر</option>
-                            <option value="1">شهرى</option>
-                            <option value="3">ربع ثانوى</option>
-                            <option value="6">نصف ثانوى</option>
-                            <option value="12">ثانوى</option>
-                          </Form.Select>
-                        </Form.Group>
-                      )}
-                      {formData.type === 'sale' && (
-                        <>
-                          <Form.Group controlId="payment_method" className="mb-3">
-                            <Form.Label>طريقة الدفع</Form.Label>
-                            <Form.Select
-                              name="payment_method"
-                              value={formData.payment_method}
-                              onChange={handleChange}
-                              required
-                            >
-                              <option value="">اختر</option>
-                              <option value="كاش">كاش</option>
-                              <option value="تقسيط">تقسيط</option>
-                            </Form.Select>
-                          </Form.Group>
-
-                          <Form.Group controlId="deliver_date" className="mb-3">
-                            <Form.Label>تاريخ التسليم</Form.Label>
-                            <Form.Select
-                              name="deliver_date"
-                              value={formData.deliver_date}
-                              onChange={handleChange}
-                              required
-                            >
-                              <option value="">اختر</option>
-                              <option value="0">استلام فوري</option>
-                              {Array.from({ length: 9 }, (_, i) => new Date().getFullYear() + i).map(
-                                (year) => (
-                                  <option key={year} value={year}>
-                                    {year}
-                                  </option>
-                                )
-                              )}
-                            </Form.Select>
-                          </Form.Group>
-
-                          <Form.Group controlId="legal_papers" className="mb-3">
-                            <Form.Label>الأوراق القانونية للعقار</Form.Label>
-                            <Form.Select
-                              name="legal_papers"
-                              value={formData.legal_papers}
-                              onChange={handleChange}
-                              required
-                            >
-                              <option value="">اختر</option>
-                              <option value="مرخص">مرخص</option>
-                              <option value="قابل للترخيص">قابل للترخيص</option>
-                              <option value="غير مرخص">غير مرخص</option>
-                            </Form.Select>
-                          </Form.Group>
-                        </>
-                      )}
-                      <div className="text-center d-flex justify-content-between">
+                      <Form.Group controlId="legal_papers" className="mb-3">
+                        <Form.Label>الأوراق القانونية للعقار</Form.Label>
+                        <Form.Select
+                          name="legal_papers"
+                          value={formData.legal_papers}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">اختر</option>
+                          <option value="مرخص">مرخص</option>
+                          <option value="قابل للترخيص">قابل للترخيص</option>
+                          <option value="غير مرخص">غير مرخص</option>
+                        </Form.Select>
+                      </Form.Group>
+                      
+                      <div className="text-center  d-flex justify-content-between mt-5 ">
                         <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
                           الصفحة السابقة
                         </Button>
@@ -598,132 +590,53 @@ const AddApartmentsAndDuplexesPage = () => {
                   )}
                   {currentPage === 3 && (
                     <>
-                      <Row>
-                        <Col xs={12} md={6}>
-                          <Form.Group controlId="area" className="mb-3">
-                            <Form.Label>
-                              <FontAwesomeIcon
-                                icon={faRulerCombined}
-                                className="me-2"
-                              />
-                              المساحة (م2)
-                            </Form.Label>
-                            <Form.Control
-                              type="number"
-                              name="area"
-                              value={formData.area}
-                              onChange={handleChange}
-                              min={2}
-                              required
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col xs={12} md={6}>
-                          <Form.Group controlId="rooms" className="mb-3">
-                            <Form.Label>
-                              <FontAwesomeIcon icon={faBed} className="me-2" />
-                              عدد غرف النوم
-                            </Form.Label>
-                            <Form.Select
-                              name="rooms"
-                              value={formData.rooms}
-                              onChange={handleChange}
-                              required
-                            >
-                              <option value="">اختر</option>
-                              {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                                (number) => (
-                                  <option key={number} value={number}>
-                                    {number}
-                                  </option>
-                                )
-                              )}
-                              <option value="10+">+10</option>
-                            </Form.Select>
-                          </Form.Group>
-                        </Col>
-                      </Row>
-
-                      <Row>
-                        <Col xs={12} md={6}>
-                          <Form.Group controlId="bathrooms" className="mb-3">
-                            <Form.Label>
-                              <FontAwesomeIcon icon={faBath} className="me-2" />
-                              عدد الحمامات
-                            </Form.Label>
-                            <Form.Select
-                              name="bathrooms"
-                              value={formData.bathrooms}
-                              onChange={handleChange}
-                              required
-                            >
-                              <option value="">اختر</option>
-                              {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                                (number) => (
-                                  <option key={number} value={number}>
-                                    {number}
-                                  </option>
-                                )
-                              )}
-                              <option value="10+">+10</option>
-                            </Form.Select>
-                          </Form.Group>
-                        </Col>
-                        <Col xs={12} md={6}>
-                          <Form.Group controlId="floor_number" className="mb-3">
-                            <Form.Label>الدور</Form.Label>
-                            <Form.Select
-                              name="floor_number"
-                              value={formData.floor_number}
-                              onChange={handleChange}
-                              required
-                            >
-                              <option value="">اختر</option>
-                              <option value="0">أرضي</option>
-                              {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                                (floor_number) => (
-                                  <option key={floor_number} value={floor_number}>
-                                    {floor_number}
-                                  </option>
-                                )
-                              )}
-                              <option value="ground">+10</option>
-                            </Form.Select>
-                          </Form.Group>
-                        </Col>
-                      </Row>
-
-                      <Form.Group controlId="finishing_type" className="mb-3">
-                        <Form.Label>مرحلة التشطيب</Form.Label>
-                        <Form.Select
-                          name="finishing_type"
-                          value={formData.finishing_type}
+                      <Form.Group controlId="primary_picture" className="mb-3">
+                        <Form.Label>الصورة الأساسية للإعلان</Form.Label>
+                        <Form.Control
+                          type="file"
+                          name="primary_picture"
                           onChange={handleChange}
-                          required
-                        >
-                          <option value="">اختر</option>
-                          <option value="علي الطوب">علي الطوب</option>
-                          <option value="محارة وحلوق">محارة وحلوق</option>
-                          <option value="نصف تشطيب">نصف تشطيب</option>
-                          <option value="تشطيب كامل">تشطيب كامل</option>
-                          <option value="تشطيب بالأجهزة">تشطيب بالأجهزة</option>
-                        </Form.Select>
+                        />
+                        {primary_picture && (
+                          <div className="mt-2">
+                            <h5>الصورة الأساسية</h5>
+                            <img
+                              src={URL.createObjectURL(primary_picture)}
+                              alt="Main Image"
+                              style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
+                            />
+                          </div>
+                        )}
+                        <Form.Control.Feedback type="invalid">
+                          يجب اختيار صوره للاعلان
+                        </Form.Control.Feedback>
                       </Form.Group>
-                      {(formData.finishing_type === "تشطيب بالأجهزة" || formData.finishing_type === "تشطيب كامل") &&
-                        <Form.Group controlId="furnished" className="mb-3">
-                          <Form.Label>مفروش</Form.Label>
-                          <Form.Select
-                            name="furnished"
-                            value={formData.furnished}
-                            onChange={handleChange}
-                            required
-                          >
-                            <option value="">اختر</option>
-                            <option value="1">نعم</option>
-                            <option value="0">لا</option>
-                          </Form.Select>
-                        </Form.Group>
-                      }
+
+                      <Form.Group controlId="images[]" className="mb-3">
+                        <Form.Label>قم بتحميل باقي الصور</Form.Label>
+                        <Form.Control
+                          type="file"
+                          name="images[]"
+                          onChange={handleChange}
+                          multiple
+                        />
+                        {images.length > 0 && (
+                          <div className="mt-2">
+                            <h5>الصور الإضافية</h5>
+                            <div className="d-flex flex-wrap">
+                              {images.map((image, index) => (
+                                <img
+                                  key={index}
+                                  src={URL.createObjectURL(image)}
+                                  alt={`Additional Image ${index}`}
+                                  style={{ maxWidth: '150px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </Form.Group>
+
                       <div className="text-center d-flex justify-content-between">
                         <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
                           الصفحة السابقة
@@ -735,104 +648,6 @@ const AddApartmentsAndDuplexesPage = () => {
                     </>
                   )}
                   {currentPage === 4 && (
-                    <>
-
-                      <Container className="amenities-container">
-                        {Object.entries(categories).map(([category, items]) => (
-                          <div key={category} className="category-section">
-                            <h5>{category}</h5>
-                            <Row>
-                              {items.map(item => (
-                                <Col key={item} xs="auto" className="mb-2">
-                                  <Button
-                                    variant={formData[fieldMapping[category]].includes(item) ? "primary" : "outline-secondary"}
-                                    onClick={() => toggleAmenity(category, item)}
-                                    className="amenity-button"
-                                  >
-                                    {item}
-                                  </Button>
-                                </Col>
-                              ))}
-                            </Row>
-                          </div>
-                        ))}
-                      </Container>
-
-                      <div className="text-center d-flex justify-content-between mt-4">
-                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
-                          الصفحة السابقة
-                        </Button>
-                        <Button variant="secondary" onClick={handleNextPage}>
-                          الصفحة التالية
-                        </Button>
-                      </div>
-                    </>
-                  )}
-                  {currentPage === 5 && (
-                    <>
-
-
-
-                      <>
-                        <Form.Group controlId="primary_picture" className="mb-3">
-                          <Form.Label>الصورة الأساسية للإعلان</Form.Label>
-                          <Form.Control
-                            type="file"
-                            name="primary_picture"
-                            onChange={handleChange}
-                          />
-                          {primary_picture && (
-                            <div className="mt-2">
-                              <h5>الصورة الأساسية</h5>
-                              <img
-                                src={URL.createObjectURL(primary_picture)}
-                                alt="Main Image"
-                                style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
-                              />
-                            </div>
-                          )}
-                          <Form.Control.Feedback type="invalid">
-                            يجب اختيار صوره للاعلان
-                          </Form.Control.Feedback>
-                        </Form.Group>
-
-                        <Form.Group controlId="images[]" className="mb-3">
-                          <Form.Label>قم بتحميل باقي الصور</Form.Label>
-                          <Form.Control
-                            type="file"
-                            name="images[]"
-                            onChange={handleChange}
-                            multiple
-                          />
-                          {images.length > 0 && (
-                            <div className="mt-2">
-                              <h5>الصور الإضافية</h5>
-                              <div className="d-flex flex-wrap">
-                                {images.map((image, index) => (
-                                  <img
-                                    key={index}
-                                    src={URL.createObjectURL(image)}
-                                    alt={`Additional Image ${index}`}
-                                    style={{ maxWidth: '150px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </Form.Group>
-
-                        <div className="text-center d-flex justify-content-between">
-                          <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
-                            الصفحة السابقة
-                          </Button>
-                          <Button variant="secondary" onClick={handleNextPage}>
-                            الصفحة التالية
-                          </Button>
-                        </div>
-                      </>
-                    </>
-                  )}
-                  {currentPage === 6 && (
                     <>
                       <Form.Group controlId="video_link" className="mb-3">
                         <Form.Label>رابط فيديو لعرض العقار</Form.Label>
@@ -881,7 +696,7 @@ const AddApartmentsAndDuplexesPage = () => {
                       </div>
                     </>
                   )}
-                  {currentPage === 7 && (
+                  {currentPage === 5 && (
                     <>
                       <Form.Group controlId="governorate" className="mb-3">
                         <Form.Label className='required'>المحافظة</Form.Label>
@@ -948,22 +763,6 @@ const AddApartmentsAndDuplexesPage = () => {
                         />
                       </Form.Group>
 
-
-                      <Form.Group controlId="compound" className="mb-3">
-                        <Form.Label>الكومباوند (إن وجد)</Form.Label>
-                        <Form.Select
-                          name="compound_name"
-                          value={formData.compound_name}
-                          onChange={handleChange}
-                          required
-                        >
-                          <option value="">اختر الكومباوند</option>
-                          {compounds.map((compound) => (
-                            <option key={compound.id} value={compound.name}>{compound.name}</option>
-                          ))}
-                        </Form.Select>
-                      </Form.Group>
-
                       <div className="text-center d-flex justify-content-between">
                         <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
                           الصفحة السابقة
@@ -975,7 +774,7 @@ const AddApartmentsAndDuplexesPage = () => {
                     </>
                   )}
                 </Form>
-                {currentPage === 8 && (
+                {currentPage === 6 && (
                   <>
                     <Form noValidate
                       validated={validated2} onSubmit={handleSubmit2}>

@@ -2,7 +2,7 @@ import React from "react";
 import "./AboutPage.css";
 import Header from "../../Components/Header/Header";
 import { Container, Row, Col, Dropdown, DropdownButton } from "react-bootstrap";
-import about_1 from "../../images/About_1.png";
+import about_1 from "../../images/About_1.jpg";
 import about_2 from "../../images/About_2.jpeg";
 import about_3 from "../../images/About_3.jpeg";
 import about_4 from "../../images/About_4.jpeg";
@@ -21,7 +21,7 @@ export default function AboutPage() {
           <Col md={5} dir="rtl">
             <h3 className="h1 title-about">نبذة عنا</h3>
             <p className="fs-5 mt-4 about-text">
-              بيوت هى منصة الإعلانات المبوبة الرائدة للعقارات في مصر، هدفها
+              فرندا هى منصة الإعلانات المبوبة الرائدة للعقارات في مصر، هدفها
               الأساسي هو الربط بين المشترين والمستثمرين وأصحاب العقارات
               والبائعين والمستأجرين والوسطاء لتسهيل عملية البحث عن العقارات. لأن
               عملية البحث عن العقارات عملية مرهقة وتحتاج إلى كثير من الوقت

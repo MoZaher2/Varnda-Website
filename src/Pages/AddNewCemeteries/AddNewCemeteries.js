@@ -381,7 +381,7 @@ const AddApartmentsAndDuplexesPage = () => {
       <Container fluid className="px-0">
         <div className="bg-primary text-white py-3 mb-4">
           <h1 className="text-center mb-0">
-            {currentPage === 8 ? "إضافة معلومات التواصل" : "إضافة إعلان جديد"}
+            {currentPage === 6 ? "إضافة معلومات التواصل" : "إضافة إعلان جديد"}
           </h1>
         </div>
         <Container>

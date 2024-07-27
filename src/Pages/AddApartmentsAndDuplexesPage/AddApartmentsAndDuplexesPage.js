@@ -10,7 +10,7 @@ import { faHome, faDollarSign, faBed, faBath, faRulerCombined } from '@fortaweso
 import { AllGovernments } from '../../utility/AllGovernments';
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
-import "../AddApartmentsAndDuplexesPage/AddApartmentsAndDuplexesPage.css"
+import "./AddApartmentsAndDuplexesPage.css"
 import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
@@ -40,7 +40,7 @@ const AddApartmentsAndDuplexesPage = () => {
   })
   const [formData, setFormData] = useState({
     user_id: Cookies.get("user_id"),//👍
-    category: 'أراضي',//👍
+    category: 'شقق',//👍
     name_ad_ar: '',//👍
     details_ar: '',//👍
     type: '',//👍
@@ -397,7 +397,7 @@ const AddApartmentsAndDuplexesPage = () => {
           <Row className="justify-content-center">
             <Col xs={12} md={10} lg={8}>
               <div className="shadow-sm p-4 mb-5 bg-white rounded">
-                <h2 className="text-center mb-4">أراضي</h2>
+                <h2 className="text-center mb-4">شقق و دوبلكس</h2>
                 {/* <UploadWidget /> */}
                 <ProgressBar now={progress} label={`${progress}%`} className="my-4" />
 
@@ -489,8 +489,6 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-
-
                       <div className="text-center d-flex justify-content-end">
                         <Button variant="secondary" onClick={handleNextPage}>
                           الصفحة التالية
