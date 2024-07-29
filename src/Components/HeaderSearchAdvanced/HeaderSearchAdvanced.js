@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import "./HeaderSearchAdvanced.css";
+import "./HeaderSearchAdvanced.css";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -9,19 +9,82 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
-
 import { Navbar, Nav, Container, NavDropdown, Col, ToggleButton } from 'react-bootstrap';
-import Search from "../Search/Search";
-export default function HeaderSearchAdvanced() {
-  const token = Cookies.get("token")
-  const [searchText, setSearchText] = useState([])
-  const [selectedOption, setSelectedOption] = useState("sale");
-  const [subCategory, setSubCategory] = useState("");
-  const [propertyType, setPropertyType] = useState("سكنى");
+import Search from "../Search/Search.js";
+import SaveSearch from "../SaveSearch/SaveSearch.js";
+import queryString from "query-string";
+import { useParams } from "react-router-dom";
+export default function HeaderSearchAdvanced({query,navigate}) {
+  let { gov } = useParams();
+  const token = Cookies.get("token");
+  const [searchText, setSearchText] = useState(query.get("searchText") ? query.get("searchText").split(',') : []);
+  const [selectedOption, setSelectedOption] = useState(query.get("selectedOption") || "");
+  const [subCategory, setSubCategory] = useState(query.get("subCategory") || "");
+  const [propertyType, setPropertyType] = useState(query.get("propertyType") || "سكنى");
+  const [rooms, setRooms] = useState(query.get("rooms") ? query.get("rooms").split(',') : []);
+  const [bathrooms, setBathrooms] = useState(query.get("bathrooms") ? query.get("bathrooms").split(',') : []);
+  const [price, setPrice] = useState({ min: query.get("minPrice") || "", max: query.get("maxPrice") || "" });
+  const [area, setArea] = useState({ min: query.get("minArea") || "", max: query.get("maxArea") || "" });
+  const [radioValue, setRadioValue] = useState(query.get("status") || '');
+  const [address, setAddress] = useState({
+    governorate: query.get("governorate") ? query.get("governorate").split(',') : [],
+    city: query.get("city") ? query.get("city").split(',') : [],
+    street: query.get("street") ? query.get("street").split(',') : [],
+    region: query.get("region") ? query.get("region").split(',') : []
+  });
+
+
+  const updateURL = () => {
+    const currentParams = {
+      selectedOption,
+      subCategory,
+      rooms: rooms.join(','),
+      bathrooms: bathrooms.join(','),
+      minPrice: price.min,
+      maxPrice: price.max,
+      minArea: area.min,
+      maxArea: area.max,
+      status: radioValue,
+    };
+    let filterCurrentParams = Object.fromEntries(
+      Object.entries(currentParams).filter(
+        ([key, value]) =>
+          value != null && value !== "" && !(Array.isArray(value) && value.length === 0)
+      )
+    );
+
+    if (Array.isArray(address.governorate) && address.governorate.length > 0) {
+      filterCurrentParams.governorate = address.governorate.join(',');
+    }
+    if (Array.isArray(address.city) && address.city.length > 0) {
+      filterCurrentParams.city = address.city.join(',');
+    }
+    if (Array.isArray(address.street) && address.street.length > 0) {
+      filterCurrentParams.street = address.street.join(',');
+    }
+    if (Array.isArray(address.region) && address.region.length > 0) {
+      filterCurrentParams.region = address.region.join(',');
+    }
+
+
+    if (Array.isArray(address.governorate) && address.governorate.length > 0) {
+      gov = address.governorate[0];
+    }
+    navigate({
+      pathname: `/SearchPage/${gov?gov:""}`,
+      search: queryString.stringify(filterCurrentParams),
+    });
+  };
+  // updateURL()
+  // const [address, setAddress] = useState({
+  //   governorate: [],
+  //   city: [],
+  //   street: [],
+  //   region: []
+  // });
+
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // const [showDropdownArea, setShowDropdownArea] = useState(false);
-  // const [showDropdownPrice, setShowDropdownPrice] = useState(false);
   const [showPropertyTypeDropdown, setShowPropertyTypeDropdown] =
     useState(false);
 
@@ -63,20 +126,10 @@ export default function HeaderSearchAdvanced() {
     setShowPropertyTypeDropdown(false);
   };
 
-  const [selectedRooms, setSelectedRooms] = useState([]);
-  const [selectedBathRooms, setSelectedBathRooms] = useState([]);
   const [showRoomsDropdown, setShowRoomsDropdown] = useState(false);
-
-
   const [showPriceDropdown, setShowPriceDropdown] = useState(false);
-  const [price, setPrice] = useState({ min: "", max: "" });
-  const [area, setArea] = useState({ min: "", max: "" });
+  
 
-
-
-
-  const [rooms, setRooms] = useState([]);
-  const [bathrooms, setBathrooms] = useState([]);
 
   const roomValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8"];
   const bathroomValues = ["1", "2", "3", "4", "5", "6"];
@@ -103,41 +156,17 @@ export default function HeaderSearchAdvanced() {
   };
 
 
-  const getDropdownTitle = () => {
-    const roomsTitle = ` الغرف: ${selectedRooms.join(", ")}`;
-    const bathroomsTitle = ` الحمامات: ${selectedBathRooms.join(", ")}`;
-    return `${roomsTitle} | ${bathroomsTitle}`;
-
-
-  };
-
-  const [showDropdownSpeed, setShowDropdownSpeed] = useState(false);
-  const [selectedTime, setSelectedTime] = useState("30 دقيقة");
-
-  const handleSelectTime = (time) => {
-    setSelectedTime(time);
-  };
-  const resetSelection = () => {
-    setSelectedTime("30 دقيقة");
-  };
-
 
   const [doSearch, setDoSearch] = useState(true)
 
-  const [radioValue, setRadioValue] = useState('الجميع');
-
+  
   const radios = [
-    { name: 'قيد الانشاء', value: 'قيد الانشاء' },
-    { name: 'جاهز', value: 'جاهز' },
-    { name: 'الجميع', value: 'الجميع' },
+    { name: 'قيد الانشاء', value: 'under construction' },
+    { name: 'جاهز', value: 'done' },
+    { name: 'الجميع', value: '' },
   ];
   // ظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظ
-  const [address, setAddress] = useState({
-    governorate: [],
-    city: [],
-    street: [],
-    region: []
-  });
+ 
   useEffect(() => {
     const groupedAddress = searchText.reduce((acc, item) => {
       acc[item.type] = acc[item.type] || [];
@@ -154,13 +183,15 @@ export default function HeaderSearchAdvanced() {
     console.log(bathrooms)// هبعت عدد الحمامات فى  bathrooms
     console.log(area)//سيتم ارشال area  من حيث  max_area min_area
     console.log(price)//سيتم ارسال price  من حيث min_price max_price
+    console.log(radioValue)//هبعت فيه حاله العقار سواء جاهز او تحت الانشاء  status
     console.log("___________")
     setDoSearch(!doSearch)
-  }, [searchText, selectedOption, subCategory, rooms, bathrooms, area, price]);
+    updateURL()
+  }, [searchText, selectedOption, subCategory, rooms, bathrooms, area, price, radioValue]);
 
   // API
   useEffect(() => {
-    const handelSearch = async (e) => {
+    const handelSearch = async () => {
       try {
         const params = {
           governorate: address.governorate,
@@ -175,21 +206,34 @@ export default function HeaderSearchAdvanced() {
           min_price: price.min,
           max_area: area.max,
           min_area: area.min,
+          status: radioValue,
         };
-        console.log(params)
+
+        // Filter out parameters with null, undefined, empty string, or empty arrays
+        const filteredParams = Object.fromEntries(
+          Object.entries(params).filter(
+            ([key, value]) =>
+              value != null && value !== "" && !(Array.isArray(value) && value.length === 0)
+          )
+        );
+
+        console.log(filteredParams);
+
         const response = await api.get("/searchAds", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          params: params,
+          params: filteredParams,
         });
-        console.log(response.data)
+
+        console.log(response.data);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
-    }
-    handelSearch()
-  }, [doSearch])
+    };
+
+    handelSearch();
+  }, [doSearch]);
 
   return (
     <>
@@ -211,7 +255,7 @@ export default function HeaderSearchAdvanced() {
                         onClick={() => setShowDropdown(!showDropdown)}
                         className="w-100"
                       >
-                        {selectedOption === "sale" ? "للبيع" : "للايجار"}
+                        {selectedOption === "rent" ? "للايجار" : "للبيع"}
                       </Button>
 
                       <Dropdown.Menu
@@ -364,18 +408,19 @@ export default function HeaderSearchAdvanced() {
                     <Dropdown
                       show={showRoomsDropdown}
                       onToggle={(isOpen) => setShowRoomsDropdown(isOpen)}
+                      align="end"
                     >
                       <DropdownButton
                         id="dropdown-basic-button"
-                        title={getDropdownTitle()}
+                        title="الغرف | الحمامات"
                         onClick={() => setShowRoomsDropdown(!showRoomsDropdown)}
                         variant="light"
                       >
                         <div className="p-3 numRoomsAndBath">
                           <h5>عدد الغرف</h5>
-                          <div className="d-flex align-items-center justify-content-center mb-3">
+                          <div className="d-flex align-items-center justify-content-center mb-3 flex-wrap">
                             {roomValues.map((room, idx) => (
-                              <div key={idx} className="me-2 roomAndBath">
+                              <div key={idx} className="me-2">
                                 <Form.Check
                                   type="checkbox"
                                   label={room === "0" ? "استوديو" : room === "8" ? `+${room}` : room}
@@ -512,12 +557,13 @@ export default function HeaderSearchAdvanced() {
                       ))}
                     </ButtonGroup>
 
-
-
-
                   </Form.Group>
                 </Col>
-
+                <Col>
+                  <div className="d-flex flex-row-reverse pr-3">
+                    <SaveSearch />
+                  </div>
+                </Col>
               </Row>
             </Form>
           </Navbar.Collapse>

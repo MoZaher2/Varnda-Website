@@ -33,8 +33,20 @@ import card12 from "../../images/card_12.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import PropertyCard from "../../Components/Cards/Card";
+
+
+import { useLocation, useNavigate } from "react-router-dom";
+import queryString from "query-string";
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 export default function SearchPage() {
+
+  const query = useQuery();//
+  const navigate = useNavigate();//
+
   const properties = [
     {
       price: "23,503,500 ج.م",
@@ -89,46 +101,42 @@ export default function SearchPage() {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+  // Filter search result
+  const [filter,setFilter]=useState("الأحدث")
+  const searchFilter=["الأحدث","الاقل سعر","الاعلى سعر"]
+  const handleFilterChange = (option) => {
+    setFilter(option);
+  };
 
   return (
     <>
       <Header />
-      <HeaderSearchAdvanced />
-
-      <div className="d-flex align-items-center justify-content-between my-3 container">
-        <Button variant="primary">حفظ البحث</Button>
-        <Button variant="outline-primary">إعلانات المطورين أول</Button>
-      </div>
+      <HeaderSearchAdvanced query={query} navigate={navigate}/>
       <hr />
 
       <Container>
         <Row className="d-flex justify-content-between">
-
           <Col md={8} dir="rtl">
             <div className="d-flex align-items-center justify-content-between mb-5">
               <h5 style={{ color: "#0d6efd" }}>عقارات سكنية للبيع في مَصر</h5>
-              <ButtonGroup className="d-flex align-items-center justify-content-between groub-btns">
-                <Dropdown>
-                  <Dropdown.Toggle variant="primary">الاحدث</Dropdown.Toggle>
-                  <Dropdown.Menu style={{ textAlign: "right" }}>
-                    <Dropdown.Item href="#">
-                      الاكثر مشاهدة
+              <Dropdown>
+                <Dropdown.Toggle variant="primary">{filter}</Dropdown.Toggle>
+                <Dropdown.Menu style={{ textAlign: "right" }}>
+                  {searchFilter.map((option) => (
+                    <Dropdown.Item
+                      key={option}
+                      onClick={() => handleFilterChange(option)}
+                      active={filter === option}
+                    >
+                      {option}
                     </Dropdown.Item>
-                    <Dropdown.Item href="#">مطور عقارى</Dropdown.Item>
-                    <Dropdown.Item href="#" active>
-                      الاحدث
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">الاقل سعرا</Dropdown.Item>
-                    <Dropdown.Item href="#">الاعلى سعرا</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Button variant="outline-primary">قائمة</Button>
-                {/* <Link to="/findHomePage">
-                  <Button variant="outline-primary">الخريطة</Button>
-                </Link> */}
-              </ButtonGroup>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
-            {properties.map((property, index) => (
+            {/* ال Card */}
+            <PropertyCard />
+            {/* {properties.map((property, index) => (
               <Card className="d-flex flex-row mb-3">
                 <div style={{ width: "50%", height: "auto" }}>
                   <Slider {...settings}>
@@ -145,9 +153,10 @@ export default function SearchPage() {
                             الصور المتاحة لهذا العقار
                           </h6>
                         </Link>
-
-
-                        <Button variant="primary" className="m-2 btn-sm">
+                      </div>
+                    ))}
+                  </Slider>
+                  <Button variant="primary" className="m-2 btn-sm">
                           <FontAwesomeIcon icon={faPhone} /> اتصل
                         </Button>
                         <Button variant="secondary" className="m-2 btn-sm">
@@ -156,10 +165,6 @@ export default function SearchPage() {
                         <Button variant="success" className="m-2 btn-sm">
                           <FontAwesomeIcon icon={faWhatsapp} /> واتساب
                         </Button>
-
-                      </div>
-                    ))}
-                  </Slider>
                 </div>
                 <Card.Body style={{ textAlign: "right" }}>
                   <Card.Title
@@ -203,8 +208,9 @@ export default function SearchPage() {
 
                 </Card.Body>
               </Card>
-            ))}
+            ))} */}
           </Col>
+
           <Col md={4} dir="rtl">
             {/* <Link to="/findHomePage">
               <img src={imgCard} alt="imgCard" />
@@ -254,7 +260,6 @@ export default function SearchPage() {
               </Link>
             </ListGroup>
           </Col>
-
         </Row>
       </Container>
       <Footer />

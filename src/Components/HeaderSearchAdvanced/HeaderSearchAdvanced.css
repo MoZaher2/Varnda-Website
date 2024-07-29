@@ -1,4 +1,4 @@
-.formInfoAdvanced{
+/* .formInfoAdvanced{
   background-color: #09f3f3;
   padding: 10px 7px;
   margin: 15px 0 !important;
@@ -67,7 +67,7 @@
     font-size: 16px !important;
     font-weight: 700 !important;
 
-  }
+  } */
 
   /* @media (max-width:1100px) {
     .formInfoAdvanced{
@@ -87,3 +87,8 @@
       
       }
   } */
+
+  .dropdown-menu[data-bs-popper]{
+    right: 0px !important;
+    left: unset !important;
+  }

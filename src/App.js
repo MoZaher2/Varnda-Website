@@ -65,7 +65,7 @@ const router = createBrowserRouter([
   },
   // 
   {
-    path: "/searchPage/:id",
+    path: "/searchPage/:gov",
     element: <SearchPage />,
   },
   // 
