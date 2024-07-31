@@ -53,9 +53,20 @@ export default function HeaderSearchAdvanced({query,navigate}) {
       )
     );
 
+    // if (Array.isArray(address.governorate) && address.governorate.length > 0) {
+    //   filterCurrentParams.governorate = address.governorate.join(',');
+    // }
     if (Array.isArray(address.governorate) && address.governorate.length > 0) {
-      filterCurrentParams.governorate = address.governorate.join(',');
+      // استبعاد العنصر الأول من المصفوفة
+      const governoratesExcludingFirst = address.governorate.slice(1);
+    console.log(governoratesExcludingFirst);
+      // إذا كانت المصفوفة بعد الاستبعاد تحتوي على عناصر
+      if (governoratesExcludingFirst.length > 0) {
+        filterCurrentParams.governorate = governoratesExcludingFirst.join(',');
+        console.log(filterCurrentParams.governorate);
+      }
     }
+    
     if (Array.isArray(address.city) && address.city.length > 0) {
       filterCurrentParams.city = address.city.join(',');
     }
@@ -165,8 +176,8 @@ export default function HeaderSearchAdvanced({query,navigate}) {
     { name: 'جاهز', value: 'done' },
     { name: 'الجميع', value: '' },
   ];
-  // ظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظ
- 
+  /////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     const groupedAddress = searchText.reduce((acc, item) => {
       acc[item.type] = acc[item.type] || [];

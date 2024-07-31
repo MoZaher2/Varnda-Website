@@ -304,8 +304,8 @@ const AddApartmentsAndDuplexesPage = () => {
         // Post the data
         const response = await api.post("/AddProperties", allFormData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
         });
         const prop_id = response.data.data.property_id

@@ -65,6 +65,7 @@ const AddApartmentsAndDuplexesPage = () => {
     finishing_type: '',//👍
     furnished: '',//👍
     'features[]': [],//👍
+    type: 'sale',//👍
   });
   const [primary_picture, setPrimary_picture] = useState(null);
   const [images, setImages] = useState([]);
@@ -301,8 +302,8 @@ const AddApartmentsAndDuplexesPage = () => {
         // Post the data
         const response = await api.post("/AddProperties", allFormData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
         });
         console.log("page number"+currentPage)

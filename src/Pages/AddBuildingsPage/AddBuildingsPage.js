@@ -53,6 +53,7 @@ const AddApartmentsAndDuplexesPage = () => {
     rooms: '',//👍
     bathrooms: '',//👍
     floor_number: '',//👍
+    floors:'',
     compound_name: '',//👍
     primary_picture: '',//👍  
     'images[]': '',//👍
@@ -69,6 +70,7 @@ const AddApartmentsAndDuplexesPage = () => {
     'features[]': [],//👍
     'services[]': [],//👍
     'devices[]': [],//👍
+    sub_category:'',
   });
   const [primary_picture, setPrimary_picture] = useState(null);
   const [images, setImages] = useState([]);
@@ -309,8 +311,8 @@ const AddApartmentsAndDuplexesPage = () => {
         // Post the data
         const response = await api.post("/AddProperties", allFormData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
         });
         const prop_id = response.data.data.property_id
@@ -366,11 +368,13 @@ const AddApartmentsAndDuplexesPage = () => {
   };
 
   const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
+    if (formData.type === 'rent' && currentPage === 1) { setCurrentPage(currentPage + 2); }
+    else setCurrentPage(currentPage + 1);
   };
 
   const handlePreviousPage = () => {
-    setCurrentPage(currentPage - 1);
+    if (formData.type === 'rent' && currentPage === 3) { setCurrentPage(currentPage - 2); }
+    else setCurrentPage(currentPage - 1);
   };
   const totalPages = 8; // Total number of form pages
 
@@ -461,11 +465,11 @@ const AddApartmentsAndDuplexesPage = () => {
                       </Form.Group>
                       <Row>
                         <Col xs={12} md={6}>
-                          <Form.Group controlId="unitType" className="mb-3">
+                          <Form.Group controlId="sub_category" className="mb-3">
                             <Form.Label>نوع المبنى</Form.Label>
                             <Form.Select
-                              name="unitType"
-                              value={formData.unitType}
+                              name="sub_category"
+                              value={formData.sub_category}
                               onChange={handleChange}
                               required
                             >
@@ -478,14 +482,14 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
-                          <Form.Group controlId="floor" className="mb-3">
+                          <Form.Group controlId="floors" className="mb-3">
                             <Form.Label>
                               عدد ادوار المبني
                             </Form.Label>
                             <Form.Control
                               type="number"
-                              name="floor"
-                              value={formData.floor}
+                              name="floors"
+                              value={formData.floors}
                               onChange={handleChange}
                             />
                           </Form.Group>
@@ -554,23 +558,22 @@ const AddApartmentsAndDuplexesPage = () => {
                       </div>
                     </>
                   )}
-                  {currentPage === 2 && (
-                    <>
-                      <Form.Group controlId="payment_method" className="mb-3">
-                        <Form.Label>طريقة الدفع</Form.Label>
-                        <Form.Select
-                          name="payment_method"
-                          value={formData.payment_method}
-                          onChange={handleChange}
-                          required
-                        >
-                          <option value="">اختر</option>
-                          <option value="كاش">كاش</option>
-                          <option value="تقسيط">تقسيط</option>
-                        </Form.Select>
-                      </Form.Group>
-
-                      <Form.Group controlId="legal_papers" className="mb-3">
+                  {currentPage === 2 && formData.type === 'sale' && (
+                        <>
+                          <Form.Group controlId="payment_method" className="mb-3">
+                            <Form.Label>طريقة الدفع</Form.Label>
+                            <Form.Select
+                              name="payment_method"
+                              value={formData.payment_method}
+                              onChange={handleChange}
+                              required
+                            >
+                              <option value="">اختر</option>
+                              <option value="كاش">كاش</option>
+                              <option value="تقسيط">تقسيط</option>
+                            </Form.Select>
+                          </Form.Group>
+                          <Form.Group controlId="legal_papers" className="mb-3">
                         <Form.Label>الأوراق القانونية للعقار</Form.Label>
                         <Form.Select
                           name="legal_papers"
@@ -593,8 +596,7 @@ const AddApartmentsAndDuplexesPage = () => {
                           الصفحة التالية
                         </Button>
                       </div>
-                    </>
-                  )}
+                        </>)}
                   {currentPage === 3 && (
                     <>
                       <Form.Group controlId="primary_picture" className="mb-3">

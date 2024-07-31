@@ -41,7 +41,7 @@ export default function Search({setSearchText}) {
     getOptionLabel={(option) => option.name}
     defaultValue={[]}
     getOptionSelected={(option, value) => option.id === value.id}
-    sx={{ width: 300 }}
+    sx={{ width: "100%" ,background:"white",borderRadius:'10px' }}
     renderInput={(params) => (
       <TextField
         {...params}
@@ -58,9 +58,3 @@ export default function Search({setSearchText}) {
 
   );
 }
-
-
-
-
-
-

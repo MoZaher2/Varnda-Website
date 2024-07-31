@@ -47,6 +47,7 @@ const handelSubmit = async (e) => {
   }
   else{
     try {
+      
       const response = await api.get("/searchAds", null, {
         params: {
           mail,
@@ -72,3 +73,7 @@ const response = await api.post("/updateUser", {
     Authorization: `Bearer ${token}`,
   }
 });
+/////
+import { Link } from 'react-router-dom';
+<Link to={`/card/${card.id}`} className="card">
+</Link>

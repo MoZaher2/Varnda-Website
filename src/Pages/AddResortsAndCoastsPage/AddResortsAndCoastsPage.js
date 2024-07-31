@@ -70,6 +70,7 @@ const AddApartmentsAndDuplexesPage = () => {
     'features[]': [],//👍
     'services[]': [],//👍
     'devices[]': [],//👍
+    sub_category:'',
   });
   const [primary_picture, setPrimary_picture] = useState(null);
   const [images, setImages] = useState([]);
@@ -204,14 +205,13 @@ const AddApartmentsAndDuplexesPage = () => {
         ...formData,
         [name]: files,
       });
-    } else {
+    }
+    else {
       setFormData({
         ...formData,
         [name]: value,
       });
     }
-
-
   };
   const fieldMapping = {
     "مرافق": "facilities[]",
@@ -281,6 +281,7 @@ const AddApartmentsAndDuplexesPage = () => {
       setShow(true)
     }
     else {
+      console.log(formData)
       const token = Cookies.get("token")
       try {
         setLoad1(true)
@@ -290,7 +291,6 @@ const AddApartmentsAndDuplexesPage = () => {
         for (const [key, value] of Object.entries(formData)) {
           if(key!=="images[]"&&key!=="primary_picture"){
             allFormData.append(key, value);
-             
           }
         }
         
@@ -312,8 +312,8 @@ const AddApartmentsAndDuplexesPage = () => {
         // Post the data
         const response = await api.post("/AddProperties", allFormData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
         });
         const prop_id = response.data.data.property_id
@@ -510,26 +510,11 @@ const AddApartmentsAndDuplexesPage = () => {
                   )}
                   {currentPage === 2 && (
                     <>
-                      {/* <Form.Group controlId="unitType" className="mb-3">
+                      <Form.Group controlId="sub_category" className="mb-3">
                         <Form.Label>نوع الوحدة</Form.Label>
                         <Form.Select
-                          name="unitType"
-                          value={formData.unitType}
-                          onChange={handleChange}
-                          required
-                        >
-                          <option value="">اختر</option>
-                          <option value="شقة">شقة</option>
-                          <option value="دوبلكس">دوبلكس</option>
-                          <option value="بنتهاوس">بنتهاوس</option>
-                          <option value="ستوديو">ستوديو</option>
-                        </Form.Select>
-                      </Form.Group> */}
-                      <Form.Group controlId="unitType" className="mb-3">
-                        <Form.Label>نوع الوحدة</Form.Label>
-                        <Form.Select
-                          name="unitType"
-                          value={formData.unitType}
+                          name="sub_category"
+                          value={formData.sub_category}
                           onChange={handleChange}
                           required
                         >
@@ -695,7 +680,7 @@ const AddApartmentsAndDuplexesPage = () => {
                             </Form.Select>
                           </Form.Group>
                         </Col>
-                        {(formData.unitType !== "فيلا منفصلة" && formData.unitType !== "تاون هاوس" && formData.unitType !== "توين هاوس") ?
+                        {(formData.sub_category !== "فيلا منفصلة" && formData.sub_category !== "تاون هاوس" && formData.sub_category !== "توين هاوس") ?
                           (
                             <Col xs={12} md={6}>
                               <Form.Group controlId="floor_number" className="mb-3">

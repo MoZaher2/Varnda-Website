@@ -69,6 +69,7 @@ const AddApartmentsAndDuplexesPage = () => {
     'features[]': [],//👍
     'services[]': [],//👍
     'devices[]': [],//👍
+    'sub_category':''
   });
   const [primary_picture, setPrimary_picture] = useState(null);
   const [images, setImages] = useState([]);
@@ -310,8 +311,8 @@ const AddApartmentsAndDuplexesPage = () => {
         // Post the data
         const response = await api.post("/AddProperties", allFormData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
         });
         console.log(response.data.data.property_id)
@@ -508,11 +509,11 @@ const AddApartmentsAndDuplexesPage = () => {
                   )}
                   {currentPage === 2 && (
                     <>
-                      <Form.Group controlId="unitType" className="mb-3">
+                      <Form.Group controlId="sub_category" className="mb-3">
                         <Form.Label>نوع الوحدة</Form.Label>
                         <Form.Select
-                          name="unitType"
-                          value={formData.unitType}
+                          name="sub_category"
+                          value={formData.sub_category}
                           onChange={handleChange}
                           required
                         >
