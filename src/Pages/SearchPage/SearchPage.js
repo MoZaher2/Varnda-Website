@@ -112,12 +112,12 @@ export default function SearchPage() {
     <>
       <Header />
       <HeaderSearchAdvanced query={query} navigate={navigate}/>
-      <hr />
+      {/* <hr /> */}
 
       <Container>
         <Row className="d-flex justify-content-between">
           <Col md={8} dir="rtl">
-            <div className="d-flex align-items-center justify-content-between mb-5">
+            {/* <div className="d-flex align-items-center justify-content-between mb-5">
               <h5 style={{ color: "#0d6efd" }}>عقارات سكنية للبيع في مَصر</h5>
               <Dropdown>
                 <Dropdown.Toggle variant="primary">{filter}</Dropdown.Toggle>
@@ -133,7 +133,7 @@ export default function SearchPage() {
                   ))}
                 </Dropdown.Menu>
               </Dropdown>
-            </div>
+            </div> */}
             {/* ال Card */}
             <PropertyCard />
             {/* {properties.map((property, index) => (

@@ -16,6 +16,7 @@ import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
 const AddApartmentsAndDuplexesPage = () => {
 
+  const token = Cookies.get('token');
   const [load1, setLoad1] = useState(false);
   const [load2, setLoad2] = useState(false);
   const [show, setShow] = useState(false);
@@ -53,7 +54,7 @@ const AddApartmentsAndDuplexesPage = () => {
     rooms: '',//👍
     bathrooms: '',//👍
     floor_number: '',//👍
-    compound_name: '',//👍
+    mall_name: '',//👍
     primary_picture: '',//👍  
     'images[]': '',//👍
     video_link: '',//👍
@@ -68,6 +69,7 @@ const AddApartmentsAndDuplexesPage = () => {
     'facilities[]': [],//👍
     'services[]': [],//👍
     'devices[]': [],//👍
+    sub_category: ''
   });
   const [primary_picture, setPrimary_picture] = useState(null);
   const [images, setImages] = useState([]);
@@ -75,7 +77,7 @@ const AddApartmentsAndDuplexesPage = () => {
   const [cities, setCities] = useState([]);
   const [regions, setRegions] = useState([]);
   const [streets, setStreets] = useState([]);
-  const [compounds, setCompounds] = useState([{ id: 1, name: "com1" }, { id: 2, name: "com2" }]);
+  const [molls, setMolls] = useState([]);
   const [position, setPosition] = useState([30.044376903556085, 31.235749743857397]);//ابعته ف ال API  latitude longitude
   const [validated, setValidated] = useState(false);
   const [validated2, setValidated2] = useState(false);
@@ -90,7 +92,6 @@ const AddApartmentsAndDuplexesPage = () => {
   useEffect(() => {
     const fetchGov = async () => {
       try {
-        const token = Cookies.get('token');
         const response = await api.get("/governorates", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -111,7 +112,6 @@ const AddApartmentsAndDuplexesPage = () => {
       })["id"]
 
       try {
-        const token = Cookies.get('token');
         const response = await api.get(`/governorates/${govId}/cities`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -133,7 +133,6 @@ const AddApartmentsAndDuplexesPage = () => {
         return e.name === formData.city
       })["id"]
       try {
-        const token = Cookies.get('token');
         const response = await api.get(`/governorates/city/${cityId}/regions`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -154,7 +153,6 @@ const AddApartmentsAndDuplexesPage = () => {
         return e.name === formData.region
       })["id"]
       try {
-        const token = Cookies.get('token');
         const response = await api.get(`/streetsByRegion/${streetId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -169,6 +167,25 @@ const AddApartmentsAndDuplexesPage = () => {
     fetchStreet();
   }, [formData.region]);
 
+  // Compound
+  useEffect(() => {
+    const fetchMolls = async () => {
+      const cityId = cities.find((e) => {
+        return e.name === formData.city
+      })["id"]
+      try {
+        const response = await api.get(`/get_malls_by_city/${cityId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setMolls(response.data.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchMolls();
+  }, [formData.governorate, formData.city]);
 
   const isValidPhone = (phoneNumber) => {
     const egPhone = /^(010|011|012|015)\d{8}$/;
@@ -229,7 +246,7 @@ const AddApartmentsAndDuplexesPage = () => {
 
   const handleChange2 = (e) => {
     const { name, value } = e.target;
-    if (name === "phone"||name === "whats_phone") {
+    if (name === "phone" || name === "whats_phone") {
       if (!isValidPhone(value)) {
         e.target.setCustomValidity("يرجى إدخال رقم هاتف صحيح");
       } else {
@@ -283,11 +300,11 @@ const AddApartmentsAndDuplexesPage = () => {
 
         // Append other form fields
         for (const [key, value] of Object.entries(formData)) {
-          if(key!=="images[]"&&key!=="primary_picture"){
+          if (key !== "images[]" && key !== "primary_picture") {
             allFormData.append(key, value);
           }
         }
-        
+
         // Append images
         if (images) {
           for (let i = 0; i < images.length; i++) {
@@ -493,8 +510,6 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-
-
                       <div className="text-center d-flex justify-content-end">
                         <Button variant="secondary" onClick={handleNextPage}>
                           الصفحة التالية
@@ -504,6 +519,26 @@ const AddApartmentsAndDuplexesPage = () => {
                   )}
                   {currentPage === 2 && (
                     <>
+                      <Form.Group controlId="sub_category" className="mb-3">
+                        <Form.Label className='required'>نوع الوحدة</Form.Label>
+                        <Form.Select
+                          name="sub_category"
+                          value={formData.sub_category}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">اختر</option>
+                          <option value="محل تجارى">محل تجارى</option>
+                          <option value="مكتب ادارى">مكتب ادارى</option>
+                          <option value="عيادة طبية">عيادة طبية</option>
+                          <option value="معمل تحاليل">معمل تحاليل</option>
+                          <option value="صيدلية">صيدلية</option>
+                          <option value="مطعم">مطعم</option>
+                          <option value="كافيه">كافيه</option>
+                          <option value="مخزن">مخزن</option>
+                          <option value="جراج">جراج</option>
+                        </Form.Select>
+                      </Form.Group>
                       {formData.type === 'rent' && (
                         <Form.Group controlId="rent_type" className="mb-3">
                           <Form.Label>نوع الايجار</Form.Label>
@@ -679,18 +714,6 @@ const AddApartmentsAndDuplexesPage = () => {
                         </Col>
                       </Row>
 
-                      <Form.Group controlId="area" className="mb-3">
-                        <Form.Label>
-                          المول التجاري او الإداري
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="compound_name"
-                          value={formData.compound_name}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-
                       <Form.Group controlId="finishing_type" className="mb-3">
                         <Form.Label>مرحلة التشطيب</Form.Label>
                         <Form.Select
@@ -784,7 +807,7 @@ const AddApartmentsAndDuplexesPage = () => {
                               <h5>الصورة الأساسية</h5>
                               <img
                                 src={URL.createObjectURL(primary_picture)}
-                                alt="Main Image"
+                                alt="MainImage"
                                 style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
                               />
                             </div>
@@ -810,7 +833,7 @@ const AddApartmentsAndDuplexesPage = () => {
                                   <img
                                     key={index}
                                     src={URL.createObjectURL(image)}
-                                    alt={`Additional Image ${index}`}
+                                    alt={`AdditionalImage ${index}`}
                                     style={{ maxWidth: '150px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
                                   />
                                 ))}
@@ -944,6 +967,19 @@ const AddApartmentsAndDuplexesPage = () => {
                           onChange={handleChange}
                           maxLength="30"
                         />
+                      </Form.Group>
+                      <Form.Group controlId="mall" className="mb-3">
+                        <Form.Label>المول التجاري او الإداري (إن وجد)</Form.Label>
+                        <Form.Select
+                          name="mall_name"
+                          value={formData.mall_name}
+                          onChange={handleChange}
+                        >
+                          <option value="">اختر المول</option>
+                          {molls.map((moll) => (
+                            <option key={moll.id} value={moll.name}>{moll.name}</option>
+                          ))}
+                        </Form.Select>
                       </Form.Group>
 
                       <div className="text-center d-flex justify-content-between">

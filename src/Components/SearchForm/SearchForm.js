@@ -23,7 +23,7 @@ const SearchForm = ({ backgroundImage }) => {
   const [showDropdownPrice, setShowDropdownPrice] = useState(false);
   const [showPropertyTypeDropdown, setShowPropertyTypeDropdown] = useState(false);
   const [subCategory, setSubCategory] = useState("");
-  const [searchText, setSearchText] = useState( []);
+  // const [searchText, setSearchText] = useState( []);
   const [address, setAddress] = useState({
     governorate: [],
     city: [],
@@ -93,23 +93,15 @@ const SearchForm = ({ backgroundImage }) => {
   };
 
 
-  // const [selectedRooms, setSelectedRooms] = useState([]);
-  // const [selectedBathRooms, setSelectedBathRooms] = useState([]);
   const [showRoomsDropdown, setShowRoomsDropdown] = useState(false);
 
 
-  // const getDropdownTitle = () => {
-  //   const roomsTitle = ` الغرف: ${selectedRooms.join(", ")}`;
-  //   const bathroomsTitle = ` الحمامات: ${selectedBathRooms.join(", ")}`;
-  //   return `${roomsTitle} | ${bathroomsTitle}`;
-  // };
 
   const residentialOptions = [
-    "شقة", "فيلا", "دوبلكس", "بنتهاوس", "شاليه", "تاون هاوس", "توين هاوس", "أرض سكنيه"
-  ];
+    "شقة", "فيلا منفصلة", "دوبلكس", "بنتهاوس", "شاليه", "تاون هاوس", "توين هاوس", "أرض سكنية","ستوديو" ];
 
   const commercialOptions = [
-    "زراعى", "صناعى", "محلات تجارية"
+    "زراعية","تجارية","صناعية","محل تجارى","مكتب ادارى","عيادة طبية","معمل تحاليل","صيدلية","مطعم","مخزن","كافيه","جراج",
   ];
 let gov
   const handleSearch = () => {
@@ -136,17 +128,6 @@ let gov
           value != null && value !== "" && !(Array.isArray(value) && value.length === 0)
       )
     );
-
-    // if (Array.isArray(address.governorate) && address.governorate.length > 0) {
-    //   // استبعاد العنصر الأول من المصفوفة
-    //   const governoratesExcludingFirst = address.governorate.slice(1);
-    // console.log(governoratesExcludingFirst);
-    //   // إذا كانت المصفوفة بعد الاستبعاد تحتوي على عناصر
-    //   if (governoratesExcludingFirst.length > 0) {
-    //     filterCurrentParams.governorate = governoratesExcludingFirst.join(',');
-    //     console.log(filterCurrentParams.governorate);
-    //   }
-    // }
      if (Array.isArray(address.governorate) && address.governorate.length > 0) {
       filterCurrentParams.governorate = address.governorate.join(',');
     }
@@ -170,16 +151,16 @@ let gov
       search: queryString.stringify(filterCurrentParams),
     });
 
-
   }
-  useEffect(() => {
-    const groupedAddress = searchText.reduce((acc, item) => {
-      acc[item.type] = acc[item.type] || [];
-      acc[item.type].push(item.name);
-      return acc;
-    }, {});
-    setAddress(groupedAddress);
-  }, [searchText]);
+
+  // useEffect(() => {
+  //   const groupedAddress = searchText.reduce((acc, item) => {
+  //     acc[item.type] = acc[item.type] || [];
+  //     acc[item.type].push(item.name);
+  //     return acc;
+  //   }, {});
+  //   setAddress(groupedAddress);
+  // }, [searchText]);
 
 
   return (
@@ -348,13 +329,11 @@ let gov
                 </Dropdown>
               </Form.Group>
 
-
-
             </div>
 
             <Form.Group as={Col} xs={12}>
               {/* <Form.Control type="text" placeholder="أدخل الموقع " /> */}
-              <Search setSearchText={setSearchText}/>
+              <Search setAddress={setAddress}/>
               {/* <Search className="search" setSearchText={setSearchText} /> */}
             </Form.Group>
 

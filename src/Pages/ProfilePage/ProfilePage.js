@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Footer from '../../Components/Footer/Footer';
-import personImage from "../../images/personImage.jpg";
 import Header from '../../Components/Header/Header';
 import { Image, Col, Container, Row, Form, Button } from 'react-bootstrap';
 import styles from './ProfilePage.module.css';
@@ -15,7 +14,10 @@ const ProfilePage = () => {
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
   const [load, setLoad] = useState(false);
   const [load2, setLoad2] = useState(false);
+  const [load3, setLoad3] = useState(false);
   const navigate = useNavigate();
+  const [profileImageFile, setProfileImageFile] = useState(null); // State for the image file
+
   // State for password form
   const [passwordForm, setPasswordForm] = useState({
     old_password: '',
@@ -28,11 +30,11 @@ const ProfilePage = () => {
     first_name: Cookies.get("first_name"),
     last_name: Cookies.get("last_name"),
     whats_phone: Cookies.get("whats_phone"),
-    bio:Cookies.get("bio")
+    bio: Cookies.get("bio"),
   });
 
   // State for profile image
-  const [profileImage, setProfileImage] = useState(personImage);
+  const [profileImage, setProfileImage] = useState(Cookies.get("image"));
   const [imageSelected, setImageSelected] = useState(false);
 
 
@@ -73,7 +75,7 @@ const ProfilePage = () => {
           const token = Cookies.get('token');
           const response = await api.post("/change_password", {
             ...passwordForm
-          },{
+          }, {
             headers: {
               Authorization: `Bearer ${token}`,
             }
@@ -84,25 +86,25 @@ const ProfilePage = () => {
           })
           Cookies.remove("token")
           window.scrollTo({ top: 0, behavior: 'smooth' });
-          setTimeout(()=>navigate('/login'),2000);
+          setTimeout(() => navigate('/login'), 2000);
         } catch (err) {
-          if(err.response.data.status===400){
+          if (err.response.data.status === 400) {
             setAlert({
               msg: "كلمه المرور غير صحيحه",
               variant: 3
             })
           }
-          else{
+          else {
             setAlert({
               msg: "حدث خطا اثناء تغيير كلمه السر",
               variant: 2
             })
           }
           window.scrollTo({ top: 0, behavior: 'smooth' });
-          
-         }
-         setShow(true);
-         setLoad(false)
+
+        }
+        setShow(true);
+        setLoad(false)
       }
     }
     setValidated(true);
@@ -132,15 +134,16 @@ const ProfilePage = () => {
       setShow(true)
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
+      console.log(err);
       setAlert({
-        msg: "حدث خطا اثناء تغيير كلمه السر",
+        msg: "حدث خطا اثناء تغيير البيانات",
         variant: 2
       })
-    setShow(true)
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  setLoad2(false);
-};
+      setShow(true)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    setLoad2(false);
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -151,17 +154,49 @@ const ProfilePage = () => {
         setImageSelected(true);
       };
       reader.readAsDataURL(file);
+
+      setProfileImageFile(file); // Save the image file to state
     }
   };
-  const handleSaveImage = () => {
-    console.log('Image saved:', profileImage);
-    // Here you would typically send the image to your backend
-    setImageSelected(false);
+
+  const handleSaveImage = async () => {
+    setLoad3(true);
+    try {
+      const token = Cookies.get('token');
+      // Create FormData and append image file
+      const formData = new FormData();
+      if (profileImageFile) {
+        formData.append("image", profileImageFile); // Append image file
+      }
+      const response = await api.post("/updateUser", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data' // Ensure correct content type
+        }
+      });
+      const userData = response.data.data;
+      Cookies.set("image", userData.image);
+      setAlert({
+        msg: "تم تحديث الصوره بنجاخ",
+        variant: 1
+      });
+      setShow(true);
+      setImageSelected(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      setAlert({
+        msg: "حدث خطا اثناء تغيير الصوره",
+        variant: 2
+      });
+      setShow(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    setLoad3(false);
   };
 
   return (
     <>
-      
+
       <Header />
       <Container className={`${styles.container} mt-5`}>
         <h2>صفحتي الشخصية</h2>
@@ -169,8 +204,8 @@ const ProfilePage = () => {
           <Col md={6} xs={12} className={`${styles.responsiveColumn} mb-4`}>
             <div className={styles.box}>
               <h5 className={styles.heading}>تغير الصورة الشخصية</h5>
-              <Col xs={6} md={4} className="mx-auto">
-                <Image src={profileImage} className='rounded-circle w-100 mt-3 mb-4' />
+              <Col xs={6} md={4} className={`mx-auto ${styles.avatar_cont}`}>
+                <Image src={profileImage} className={`${styles.avatar}`}/>
               </Col>
               <input
                 type="file"
@@ -181,17 +216,17 @@ const ProfilePage = () => {
               />
               <div className="d-flex gap-5 flex-column flex-sm-row justify-content-between align-items-center mt-3">
                 <Button
-                  className="btn btn-primary  w-50 "
+                  className="btn btn-primary  w-40 "
                   onClick={() => document.getElementById('imageInput').click()}
                 >
                   اختيار الصورة
                 </Button>
                 <Button
-                  className="btn btn-success  w-50 "
+                  className="btn btn-success  w-40 "
                   onClick={handleSaveImage}
                   disabled={!imageSelected}
                 >
-                  حفظ الصورة
+                  {load3 ? <LoadingBtn /> : "حفظ الصورة"}
                 </Button>
               </div>
             </div>
@@ -249,27 +284,27 @@ const ProfilePage = () => {
             <Form className={styles.box} onSubmit={handleUserFormSubmit}>
               <h5 className={`${styles.heading} mt-2`}>تعديل بياناتي</h5>
               <Row className="mb-2">
-              <Form.Group as={Col} controlId="formFirstName">
-                <Form.Label>الاسم الشخصى</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="first_name"
-                  placeholder="الاسم الشخصى"
-                  value={userForm.first_name}
-                  onChange={handleUserFormChange}
-                />
-              </Form.Group>
-              <Form.Group as={Col} controlId="formLastName">
-                <Form.Label>ااسم العائله</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="last_name"
-                  placeholder="اسم العائله"
-                  value={userForm.last_name}
-                  onChange={handleUserFormChange}
-                />
-              </Form.Group>
-            </Row>
+                <Form.Group as={Col} controlId="formFirstName">
+                  <Form.Label>الاسم الشخصى</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="first_name"
+                    placeholder="الاسم الشخصى"
+                    value={userForm.first_name}
+                    onChange={handleUserFormChange}
+                  />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formLastName">
+                  <Form.Label>ااسم العائله</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="last_name"
+                    placeholder="اسم العائله"
+                    value={userForm.last_name}
+                    onChange={handleUserFormChange}
+                  />
+                </Form.Group>
+              </Row>
               <Form.Group controlId="formWhatsApp">
                 <Form.Label className='mt-2'>رقم الواتس اب</Form.Label>
                 <Form.Control

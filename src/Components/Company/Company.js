@@ -87,7 +87,7 @@ export default function Company() {
             <Card>
               <Card.Img variant="top" src={imgcompany6} />
               <Card.Body>
-                <Card.Title>dالمعادى </Card.Title>
+                <Card.Title>المعادى </Card.Title>
               </Card.Body>
             </Card>
           </Link>

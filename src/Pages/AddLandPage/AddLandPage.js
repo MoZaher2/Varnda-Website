@@ -16,6 +16,7 @@ import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
 const AddApartmentsAndDuplexesPage = () => {
 
+  const token = Cookies.get('token');
   const [load1, setLoad1] = useState(false);
   const [load2, setLoad2] = useState(false);
   const [show, setShow] = useState(false);
@@ -94,7 +95,7 @@ const AddApartmentsAndDuplexesPage = () => {
   useEffect(() => {
     const fetchGov = async () => {
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get("/governorates", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -115,7 +116,6 @@ const AddApartmentsAndDuplexesPage = () => {
       })["id"]
 
       try {
-        const token = Cookies.get('token');
         const response = await api.get(`/governorates/${govId}/cities`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -137,7 +137,7 @@ const AddApartmentsAndDuplexesPage = () => {
         return e.name === formData.city
       })["id"]
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get(`/governorates/city/${cityId}/regions`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -158,7 +158,7 @@ const AddApartmentsAndDuplexesPage = () => {
         return e.name === formData.region
       })["id"]
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get(`/streetsByRegion/${streetId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -476,14 +476,13 @@ const AddApartmentsAndDuplexesPage = () => {
                               value={formData.area}
                               onChange={handleChange}
                               min={2}
-                              required
                             />
                           </Form.Group>
 
                       <Row>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="price" className="mb-3">
-                            <Form.Label>
+                            <Form.Label className='required'>
                               <FontAwesomeIcon
                                 icon={faDollarSign}
                                 className="me-2"
@@ -495,6 +494,7 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="price"
                               value={formData.price}
                               onChange={handleChange}
+                              required
                             />
                           </Form.Group>
                         </Col>
@@ -529,7 +529,7 @@ const AddApartmentsAndDuplexesPage = () => {
                   {currentPage === 2 && (
                     <>
                       <Form.Group controlId="sub_category" className="mb-3">
-                        <Form.Label>نوع الأرض</Form.Label>
+                        <Form.Label className='required'>نوع الأرض</Form.Label>
                         <Form.Select
                           name="sub_category"
                           value={formData.sub_category}
@@ -553,7 +553,6 @@ const AddApartmentsAndDuplexesPage = () => {
                             name="rent_type"
                             value={formData.rent_type}
                             onChange={handleChange}
-                            required
                           >
                             <option value="">اختر</option>
                             <option value="1">شهرى</option>
@@ -571,7 +570,6 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="payment_method"
                               value={formData.payment_method}
                               onChange={handleChange}
-                              required
                             >
                               <option value="">اختر</option>
                               <option value="كاش">كاش</option>
@@ -585,7 +583,6 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="deliver_date"
                               value={formData.deliver_date}
                               onChange={handleChange}
-                              required
                             >
                               <option value="">اختر</option>
                               <option value="0">استلام فوري</option>
@@ -605,7 +602,6 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="legal_papers"
                               value={formData.legal_papers}
                               onChange={handleChange}
-                              required
                             >
                               <option value="">اختر</option>
                               <option value="مرخص">مرخص</option>
@@ -628,7 +624,7 @@ const AddApartmentsAndDuplexesPage = () => {
                   {currentPage === 3 && (
                     <>
                         <Form.Group controlId="primary_picture" className="mb-3">
-                          <Form.Label>الصورة الأساسية للإعلان</Form.Label>
+                          <Form.Label className='required'>الصورة الأساسية للإعلان</Form.Label>
                           <Form.Control
                             type="file"
                             name="primary_picture"
@@ -639,7 +635,7 @@ const AddApartmentsAndDuplexesPage = () => {
                               <h5>الصورة الأساسية</h5>
                               <img
                                 src={URL.createObjectURL(primary_picture)}
-                                alt="Main Image"
+                                alt="MainImage"
                                 style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
                               />
                             </div>
@@ -665,7 +661,7 @@ const AddApartmentsAndDuplexesPage = () => {
                                   <img
                                     key={index}
                                     src={URL.createObjectURL(image)}
-                                    alt={`Additional Image ${index}`}
+                                    alt={`AdditionalImage ${index}`}
                                     style={{ maxWidth: '150px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
                                   />
                                 ))}

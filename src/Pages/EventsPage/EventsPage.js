@@ -2,7 +2,7 @@ import React from 'react'
 import "./EventsPage.css"
 import Footer from '../../Components/Footer/Footer'
 import HeaderPageLink from '../../Components/HeaderPageLink/HeaderPageLink'
-import SectionCards from '../../Components/SectionCards/SectionCards'
+// import ArticleCards from '../../Components/Articles/ArticlesInCategory'
 
 import img1 from "../../images/advice_6.png"
 import img2 from "../../images/advice_8.png"
@@ -42,7 +42,7 @@ export default function EventsPage() {
 <HeaderPageLink title="فعاليات واخبار بيوت مصر" />
 
 
-<SectionCards images={images} articles={articles} />
+{/* <ArticleCards images={images} articles={articles} /> */}
     <Footer />
       
     </>

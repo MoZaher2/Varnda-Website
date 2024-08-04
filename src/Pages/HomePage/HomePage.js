@@ -8,12 +8,7 @@ import Footer from "../../Components/Footer/Footer";
 import DescoverySection from "../../Components/DescoverySection/DescoverySection";
 import bgimage from "../../images/1.jpg"
 
-import img1 from '../../images/5.jpeg';
-import img2 from '../../images/6.jpeg';
-import img3 from '../../images/7.jpeg';
-import img4 from '../../images/8.jpeg';
-import img5 from '../../images/9.jpeg';
-import img6 from '../../images/12.jpeg';
+
 // *****************
 import img15 from '../../images/15.jpeg';
 import img16 from '../../images/16.webp';
@@ -26,14 +21,7 @@ import Company from "../../Components/Company/Company";
 export default function HomePage() {
 
 
-  const cards = [
-    { id: 1, image: img1, text: 'مشروعات متطورة في الساحل الشمالي عام 2024' },
-    { id: 2, image: img2, text: 'أفضل الكومبوندات في الساحل الشمالي لمصايف الصيفي' },
-    { id: 3, image: img3, text: 'الاستثمار في العقارات: أفضل الأماكن في مصر' },
-    { id: 4, image: img4, text: 'شقق مطلة على نهر النيل: اختيار الموقع المناسب' },
-    { id: 5, image: img5, text: 'مشروعات متطورة في الساحل الشمالي عام 2024' },
-    { id: 6, image: img6, text: 'شقق مطلة على نهر النيل: اختيار الموقع المناسب' },
-  ];
+
 
   const propertiesForSale = {
     'شقق في مدن أخرى': ['مدينتي', 'المقصد', 'بداية بالم هيلز', 'الروح', 'صن كابيتال'],
@@ -68,7 +56,7 @@ export default function HomePage() {
       <SearchForm backgroundImage={bgimage} />
 
   
-  <Swapper cards={cards} heading="مصر"/>
+  <Swapper/>
   <PropertySection 
         propertiesForSale={propertiesForSale} 
         propertiesForRent={propertiesForRent} 

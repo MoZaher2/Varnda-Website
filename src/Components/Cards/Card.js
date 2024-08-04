@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import "./Card.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconButton } from '@mui/joy';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+
 import {
     faBed,
     faBath,
@@ -49,39 +52,6 @@ export default function PropertyCard() {
             location: "هايد بارك القاهرة الجديدة، القاهرة الجديدة",
             images: [card1, card2, card3],
         },
-        // {
-        //     price: "23,503,500 ج.م",
-        //     type: "هاوس",
-        //     beds: 4,
-        //     baths: 4,
-        //     area: "216 متر مربع",
-        //     description: "تاون هاوس في هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-        //     rooms: "4 غرف 03500...",
-        //     location: "هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-        //     images: [card4, card5, card6],
-        // },
-        // {
-        //     price: "23,503,500 ج.م",
-        //     type: "هاوس",
-        //     beds: 4,
-        //     baths: 4,
-        //     area: "216 متر مربع",
-        //     description: "تاون هاوس في هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-        //     rooms: "4 غرف 03500...",
-        //     location: "هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-        //     images: [card7, card8, card9],
-        // },
-        // {
-        //     price: "23,503,500 ج.م",
-        //     type: "هاوس",
-        //     beds: 4,
-        //     baths: 4,
-        //     area: "216 متر مربع",
-        //     description: "تاون هاوس في هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-        //     rooms: "4 غرف 03500...",
-        //     location: "هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-        //     images: [card10, card11, card12],
-        // },
     ];
 
     const properties = [
@@ -99,16 +69,16 @@ export default function PropertyCard() {
                 "property_id": 3,
                 "primary_picture": "https://images.unsplash.com/photo-1722232778560-a56742074a31?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 "images": [
-                {
-                    "image": "https://images.unsplash.com/photo-1722232778560-a56742074a31?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                },
-                {
-                    "image": "https://images.unsplash.com/photo-1722232778560-a56742074a31?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                },
-                {
-                    "image": "https://images.unsplash.com/photo-1722232778560-a56742074a31?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                }
-            ],
+                    {
+                        "image": "https://images.unsplash.com/photo-1722232778560-a56742074a31?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    {
+                        "image": "https://images.unsplash.com/photo-1722232778560-a56742074a31?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    {
+                        "image": "https://images.unsplash.com/photo-1722232778560-a56742074a31?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    }
+                ],
                 "Arabic Name": "فيلا فاخرة",
                 "English Name": null,
                 "Type": "sale",
@@ -171,11 +141,6 @@ export default function PropertyCard() {
     ]
 
     const settings = {
-        // dots: false,
-        // infinite: true,
-        // speed: 500,
-        // slidesToShow: 1,
-        // slidesToScroll: 1,
         dots: false,
         infinite: true,
         speed: 500,
@@ -185,11 +150,11 @@ export default function PropertyCard() {
         autoplaySpeed: 3500, // الوقت بين كل حركة تلقائية (بالملي ثانية)
         // arrows: true, // تفعيل الأسهم الجانبية
     };
-    //WhatsApp 
-    const phoneNumber = "201118936185"; // استبدل هذا بالرقم الذي تريد مراسلته
-    const message = "مرحباً، أنا مهتم بعقارك الموجود على فارندا"; // الرسالة التي تريد إرسالها
-    const url = `https://api.whatsapp.com/send?phone="201118936185"&text=${encodeURIComponent("مرحباً، أنا مهتم بعقارك الموجود على فارندا")}`;
-    //Email
+    // //WhatsApp 
+    // const phoneNumber = "201118936185"; // استبدل هذا بالرقم الذي تريد مراسلته
+    // const message = "مرحباً، أنا مهتم بعقارك الموجود على فارندا"; // الرسالة التي تريد إرسالها
+    // const url = `https://api.whatsapp.com/send?phone="201118936185"&text=${encodeURIComponent("مرحباً، أنا مهتم بعقارك الموجود على فارندا")}`;
+    // //Email
     // const emailAddress = "www.mohamedzaher19@gmail.com"; // استبدل هذا بعنوان البريد الإلكتروني الذي تريد إرسال الرسالة إليه
     // const subject = "About Varnda"; // موضوع البريد الإلكتروني
     // const body = encodeURIComponent(message); // محتوى البريد الإلكتروني
@@ -198,13 +163,24 @@ export default function PropertyCard() {
 
     // // فتح عميل البريد الإلكتروني مع النص
     // window.open(mailtoLink, '_blank');
+    const [load, setLoad] = useState(false)
+    const [love, setLove] = useState(false)
+    const handleLove = async () => {
+        setLoad(true)
+        try {
 
+            setLove(true)
+        } catch (err) { console.log(err); }
+        finally {
+            setLoad(false)
+        }
+    }
     return (
         <>
             {/* ال Card */}
             {properties.map((property, index) => (
 
-                <Card className="d-flex flex-row mb-3 small">
+                <Card className="d-flex flex-row mb-3 small position-relative">
                     <div className="imgCont" style={{ width: "50%", height: "auto" }}>
                         <Link to={`/moreDeteliesPage/${property.property_id}`} className="link" key={index}>
                             <Slider {...settings}>
@@ -266,7 +242,7 @@ export default function PropertyCard() {
                                         <Col xs={4} style={{
                                             color: 'rgb(13, 110, 253)',
                                             display: 'flex',
-                                            justifyContent: 'space-evenly',
+                                            gap:'5px',
                                             alignItems: 'center'
                                         }}>
                                             <FontAwesomeIcon icon={faHome} style={{ marginLeft: "5px" }} /> {property.property.Category}
@@ -274,7 +250,7 @@ export default function PropertyCard() {
                                         <Col xs={4} style={{
                                             color: 'rgb(13, 110, 253)',
                                             display: 'flex',
-                                            justifyContent: 'space-evenly',
+                                            gap:'5px',
                                             alignItems: 'center'
                                         }}>
                                             <FontAwesomeIcon icon={faBed} style={{ marginLeft: "5px" }} /> {property.property.rooms}
@@ -282,7 +258,7 @@ export default function PropertyCard() {
                                         <Col xs={4} style={{
                                             color: 'rgb(13, 110, 253)',
                                             display: 'flex',
-                                            justifyContent: 'space-evenly',
+                                            gap:'5px',
                                             alignItems: 'center'
                                         }}>
                                             <FontAwesomeIcon icon={faBath} style={{ marginLeft: "5px" }} /> {property.property.bathrooms}
@@ -308,6 +284,15 @@ export default function PropertyCard() {
                             </Card.Body>
                         </Link>
                     </div>
+
+                    {/* Love button */}
+                    <IconButton variant={love ? "solid" : "outlined"} loading={load} onClick={() => {handleLove() }} color="danger" size="lg" sx={{
+                        mr: 'auto', position: 'absolute',
+                        bottom: '10px',
+                        left: '10px'
+                    }}>
+                        <FavoriteBorder />
+                    </IconButton>
                 </Card>
             ))}
         </>

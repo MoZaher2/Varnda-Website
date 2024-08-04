@@ -223,7 +223,6 @@ const CardDetails = ({ propertyDetails }) => {
                             </Marker>
                         </MapContainer>
                     </Row>
-
                 </Container>
             </div>
         </>

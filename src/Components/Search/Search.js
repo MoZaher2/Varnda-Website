@@ -3,7 +3,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import api from "../../API/ApiLink.js";
 import { AllSearchOptions } from "../../utility/AllSearchOption.js";
-export default function Search({setSearchText}) {
+export default function Search({setAddress}) {
+  // const [searchText, setSearchText] = useState([]);//===========
   // Get all data for search
   const [searchOptions,setSearchOptions]=useState(AllSearchOptions)
 
@@ -26,35 +27,45 @@ export default function Search({setSearchText}) {
   };
     const handleOptionSelect = (event, value) => {
     if (value) {
-      setSearchText(value)
+      // console.log(value);
+      // setSearchText(value)
+
+      const groupedAddress = value.reduce((acc, item) => {
+        acc[item.type] = acc[item.type] || [];
+        acc[item.type].push(item.name);
+        return acc;
+      }, {});
+      setAddress(groupedAddress);
+
     }
   };
-
   return (
 
-    <Autocomplete
-    multiple
-    limitTags={2}
-    id="multiple-limit-tags"
-    options={searchOptions}
-    onChange={handleOptionSelect}
-    getOptionLabel={(option) => option.name}
-    defaultValue={[]}
-    getOptionSelected={(option, value) => option.id === value.id}
-    sx={{ width: "100%" ,background:"white",borderRadius:'10px' }}
-    renderInput={(params) => (
-      <TextField
-        {...params}
-        label="اختر الموقع"
-        onKeyDown={handleKeyDown}
-      />
-    )}
-    renderOption={(props, option, { selected }) => (
-      <li {...props} key={`${option.name}-${props['data-option-index']}`}>
-        {option.name}
-      </li>
-    )}
-  />
+<Autocomplete
+  multiple
+  limitTags={2}
+  id="multiple-limit-tags"
+  options={searchOptions}
+  onChange={handleOptionSelect}
+  getOptionLabel={(option) => option.name}
+  // defaultValue={[{name:"Hello"}]}
+  getOptionSelected={(option, value) => option.name === value.name}
+  sx={{ width: "100%", background: "white", borderRadius: '10px' }}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      placeholder='ادخل الموقع' 
+      onKeyDown={handleKeyDown}
+    />
+  )}
+  renderOption={(props, option, { selected }) => (
+    <li {...props} key={`${option.name}-${props['data-option-index']}`}>
+      {option.name}
+    </li>
+  )}
+/>
+
+
 
   );
 }

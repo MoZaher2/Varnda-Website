@@ -2,7 +2,7 @@ import React from 'react'
 import "./RegionsOfEgyptPage.css"
 import Footer from '../../Components/Footer/Footer'
 import HeaderPageLink from '../../Components/HeaderPageLink/HeaderPageLink'
-import SectionCards from '../../Components/SectionCards/SectionCards'
+// import ArticleCards from '../../Components/Articles/ArticlesInCategory'
 
 import img1 from "../../images/area1.png"
 import img2 from "../../images/area2.png"
@@ -42,7 +42,7 @@ export default function RegionsOfEgyptPage() {
 <HeaderPageLink title=" مناطق مصر" />
 
 
-<SectionCards images={images} articles={articles} />
+{/* <ArticleCards images={images} articles={articles} /> */}
     <Footer />
       
     </>

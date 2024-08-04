@@ -16,6 +16,7 @@ import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
 const AddApartmentsAndDuplexesPage = () => {
 
+  const token = Cookies.get('token');
   const [load1, setLoad1] = useState(false);
   const [load2, setLoad2] = useState(false);
   const [show, setShow] = useState(false);
@@ -40,7 +41,7 @@ const AddApartmentsAndDuplexesPage = () => {
   })
   const [formData, setFormData] = useState({
     user_id: Cookies.get("user_id"),//👍
-    category: 'بيوت',//👍
+    category: 'منازل',//👍
     name_ad_ar: '',//👍
     details_ar: '',//👍
     type: '',//👍
@@ -67,6 +68,7 @@ const AddApartmentsAndDuplexesPage = () => {
     furnished: '',//👍
     'facilities[]': [],//👍
     'accessories[]':[],//👍
+    sub_category:'منازل'
   });
   const [primary_picture, setPrimary_picture] = useState(null);
   const [images, setImages] = useState([]);
@@ -74,7 +76,7 @@ const AddApartmentsAndDuplexesPage = () => {
   const [cities, setCities] = useState([]);
   const [regions, setRegions] = useState([]);
   const [streets, setStreets] = useState([]);
-  const [compounds, setCompounds] = useState([{ id: 1, name: "com1" }, { id: 2, name: "com2" }]);
+  const [compounds, setCompounds] = useState([]);
   const [position, setPosition] = useState([30.044376903556085, 31.235749743857397]);//ابعته ف ال API  latitude longitude
   const [validated, setValidated] = useState(false);
   const [validated2, setValidated2] = useState(false);
@@ -89,7 +91,7 @@ const AddApartmentsAndDuplexesPage = () => {
   useEffect(() => {
     const fetchGov = async () => {
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get("/governorates", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -110,7 +112,7 @@ const AddApartmentsAndDuplexesPage = () => {
       })["id"]
 
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get(`/governorates/${govId}/cities`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -132,7 +134,7 @@ const AddApartmentsAndDuplexesPage = () => {
         return e.name === formData.city
       })["id"]
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get(`/governorates/city/${cityId}/regions`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -153,7 +155,7 @@ const AddApartmentsAndDuplexesPage = () => {
         return e.name === formData.region
       })["id"]
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get(`/streetsByRegion/${streetId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -168,6 +170,25 @@ const AddApartmentsAndDuplexesPage = () => {
     fetchStreet();
   }, [formData.region]);
 
+// Compound
+useEffect(() => {
+  const fetchCompound = async () => {
+    const cityId = cities.find((e) => {
+      return e.name === formData.city
+    })["id"]
+      try {
+          const response = await api.get(`/get_compounds_by_city/${cityId}`, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          });
+          setCompounds(response.data.data)
+      } catch (error) {
+          console.log(error);
+      }
+  };
+  fetchCompound();
+}, [formData.governorate,formData.city]);
 
   const isValidPhone = (phoneNumber) => {
     const egPhone = /^(010|011|012|015)\d{8}$/;
@@ -467,7 +488,7 @@ const AddApartmentsAndDuplexesPage = () => {
                     <Row>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="price" className="mb-3">
-                            <Form.Label>
+                            <Form.Label className='required'>
                               <FontAwesomeIcon
                                 icon={faDollarSign}
                                 className="me-2"
@@ -479,6 +500,7 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="price"
                               value={formData.price}
                               onChange={handleChange}
+                              required
                             />
                           </Form.Group>
                         </Col>
@@ -525,7 +547,6 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="payment_method"
                               value={formData.payment_method}
                               onChange={handleChange}
-                              required
                             >
                               <option value="">اختر</option>
                               <option value="كاش">كاش</option>
@@ -539,7 +560,6 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="deliver_date"
                               value={formData.deliver_date}
                               onChange={handleChange}
-                              required
                             >
                               <option value="">اختر</option>
                               <option value="0">استلام فوري</option>
@@ -597,7 +617,6 @@ const AddApartmentsAndDuplexesPage = () => {
                               value={formData.area}
                               onChange={handleChange}
                               min={2}
-                              required
                             />
                           </Form.Group>
                         </Col>
@@ -605,7 +624,7 @@ const AddApartmentsAndDuplexesPage = () => {
                           <Form.Group controlId="rooms" className="mb-3">
                             <Form.Label>
                               <FontAwesomeIcon icon={faBed} className="me-2" />
-                              عدد غرف النوم
+                              عدد الغرف
                             </Form.Label>
                             <Form.Select
                               name="rooms"
@@ -638,7 +657,6 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="bathrooms"
                               value={formData.bathrooms}
                               onChange={handleChange}
-                              required
                             >
                               <option value="">اختر</option>
                               {Array.from({ length: 10 }, (_, i) => i + 1).map(
@@ -653,20 +671,19 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
-                          <Form.Group controlId="floor_number" className="mb-3">
-                            <Form.Label>الدور</Form.Label>
+                          <Form.Group controlId="floors" className="mb-3">
+                            <Form.Label className='required'> عدد الأدوار</Form.Label>
                             <Form.Select
-                              name="floor_number"
-                              value={formData.floor_number}
+                              name="floors"
+                              value={formData.floors}
                               onChange={handleChange}
                               required
                             >
                               <option value="">اختر</option>
-                              <option value="0">أرضي</option>
                               {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                                (floor_number) => (
-                                  <option key={floor_number} value={floor_number}>
-                                    {floor_number}
+                                (floors) => (
+                                  <option key={floors} value={floors}>
+                                    {floors}
                                   </option>
                                 )
                               )}
@@ -677,7 +694,7 @@ const AddApartmentsAndDuplexesPage = () => {
                       </Row>
 
                       <Form.Group controlId="finishing_type" className="mb-3">
-                        <Form.Label>مرحلة التشطيب</Form.Label>
+                        <Form.Label className='required'>مرحلة التشطيب</Form.Label>
                         <Form.Select
                           name="finishing_type"
                           value={formData.finishing_type}
@@ -699,7 +716,6 @@ const AddApartmentsAndDuplexesPage = () => {
                             name="furnished"
                             value={formData.furnished}
                             onChange={handleChange}
-                            required
                           >
                             <option value="">اختر</option>
                             <option value="1">نعم</option>
@@ -719,7 +735,6 @@ const AddApartmentsAndDuplexesPage = () => {
                   )}
                   {currentPage === 4 && (
                     <>
-
                       <Container className="amenities-container">
                         {Object.entries(categories).map(([category, items]) => (
                           <div key={category} className="category-section">
@@ -752,13 +767,9 @@ const AddApartmentsAndDuplexesPage = () => {
                     </>
                   )}
                   {currentPage === 5 && (
-                    <>
-
-
-
                       <>
                         <Form.Group controlId="primary_picture" className="mb-3">
-                          <Form.Label>الصورة الأساسية للإعلان</Form.Label>
+                          <Form.Label className='required'>الصورة الأساسية للإعلان</Form.Label>
                           <Form.Control
                             type="file"
                             name="primary_picture"
@@ -769,7 +780,7 @@ const AddApartmentsAndDuplexesPage = () => {
                               <h5>الصورة الأساسية</h5>
                               <img
                                 src={URL.createObjectURL(primary_picture)}
-                                alt="Main Image"
+                                alt="MainImage"
                                 style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
                               />
                             </div>
@@ -795,7 +806,7 @@ const AddApartmentsAndDuplexesPage = () => {
                                   <img
                                     key={index}
                                     src={URL.createObjectURL(image)}
-                                    alt={`Additional Image ${index}`}
+                                    alt={`AdditionalImage ${index}`}
                                     style={{ maxWidth: '150px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
                                   />
                                 ))}
@@ -813,7 +824,6 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Button>
                         </div>
                       </>
-                    </>
                   )}
                   {currentPage === 6 && (
                     <>
@@ -938,7 +948,6 @@ const AddApartmentsAndDuplexesPage = () => {
                           name="compound_name"
                           value={formData.compound_name}
                           onChange={handleChange}
-                          required
                         >
                           <option value="">اختر الكومباوند</option>
                           {compounds.map((compound) => (

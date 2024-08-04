@@ -56,9 +56,9 @@ export default function SignupPage() {
           });
           Cookies.set("token", response.data.data.token);
           Cookies.set("user_id", response.data.data.user_id);
-          Cookies.set('email', response.data.data.user.email);
-          Cookies.set('phone', response.data.data.user.phone);
-          Cookies.set('whats_phone', response.data.data.user.whats_phone);
+          Cookies.set('email', response.data.data.email);
+          Cookies.set('phone', response.data.data.phone);
+          Cookies.set('role', response.data.data.role);
           setOverlay(true);
           setAlert({ msg: "تم انشاء الحساب بنجاح", variant: 1 });
           setShow(true);
@@ -80,65 +80,6 @@ export default function SignupPage() {
     
     setValidated(true);
   };
-  // const handelSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const form = e.currentTarget;
-  //   if (form.checkValidity() === false) {
-  //     e.stopPropagation();
-  //   } else {
-
-  //     if (formData.password !== formData.password_confirmation) {
-  //       setAlert({
-  //         msg: "كلمات المرور الجديدة غير متطابقة",
-  //         variant: 3
-  //       })
-  //       setShow(true);
-  //     } else {
-  //       setLoad(true);
-  //       try {
-  //         console.log(formData)
-  //         const response = await api.post("/register", {
-  //           ...formData,
-  //         });
-  //         Cookies.set("token", response.data.data.token);
-  //         Cookies.set("user_id", response.data.data.user_id);
-  //         Cookies.set('email', response.data.data.user.email);
-  //         Cookies.set('phone', response.data.data.user.phone);
-  //         Cookies.set('whats_phone', response.data.data.user.whats_phone);
-  //         setLoad(false);
-  //         setOverlay(true);
-  //         setShow(true);
-  //         setAlert({ msg: "تم انشاء الحساب بنجاح", variant: 1 });
-  //         navigate("/");
-  //       } catch (error) {
-  //         console.log(error)
-  //         setLoad(false);
-  //         setShow(true);
-  //         let message = "";
-  //         let errData = error.response.data.data
-  //         if (error.code === "ERR_NETWORK") {
-  //           setAlert({
-  //             msg: "خطا فى الشبكه. تأكد من الاتصال بالانترنت و اعد المحاوله",
-  //             variant: 2,
-  //           });
-  //         } else if (error.response.status === 422) {
-  //           if (errData.phone && errData.email) {
-  //             message = "الايميل و رقم الهاتق مستخدمين من قبل";
-  //           } else if (errData.email) {
-  //             message = "الايميل مستخدم من قبل";
-  //           } else if (errData.phone) {
-  //             message = "رقم الهاتف مستخدم من قبل";
-  //           }
-  //           setAlert({
-  //             msg: message,
-  //             variant: 3,
-  //           });
-  //         }
-  //       }
-  //     }
-  //   }
-  //   setValidated(true);
-  // };
 
   return (
     <Container className="signup-container mt-3" dir="rtl">

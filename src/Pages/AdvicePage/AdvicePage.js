@@ -2,7 +2,8 @@ import React from 'react'
 import "./AdvicePage.css"
 import Footer from '../../Components/Footer/Footer'
 import HeaderPageLink from '../../Components/HeaderPageLink/HeaderPageLink'
-import SectionCards from '../../Components/SectionCards/SectionCards'
+// import ArticleCards from '../../Components/Articles/ArticlesInCategory'
+import ArticlesInCategory from '..//Articles/ArticlesInCategory'
 import { Container, Row, Col, Dropdown, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import img1 from "../../images/advice_1.png"
@@ -23,12 +24,6 @@ import card6 from "../../images/advice_card_6.png"
 import card7 from "../../images/advice_card_7.png"
 import card8 from "../../images/advice_card_8.png"
 import card9 from "../../images/advice_card_9.png"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-
-  faInstagram,
-
-} from "@fortawesome/free-brands-svg-icons";
 export default function AdvicePage() {
 
   const articles = [
@@ -48,7 +43,7 @@ export default function AdvicePage() {
 <HeaderPageLink title="نصائح" />
 
 
-<SectionCards images={images} articles={articles} />
+{/* <ArticleCards images={images} articles={articles} /> */}
     <Footer />
       
     </>

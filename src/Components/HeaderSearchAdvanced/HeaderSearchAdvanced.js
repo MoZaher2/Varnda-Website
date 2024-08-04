@@ -17,7 +17,8 @@ import { useParams } from "react-router-dom";
 export default function HeaderSearchAdvanced({query,navigate}) {
   let { gov } = useParams();
   const token = Cookies.get("token");
-  const [searchText, setSearchText] = useState(query.get("searchText") ? query.get("searchText").split(',') : []);
+  // const [searchText, setSearchText] = useState(query.get("searchText") ? query.get("searchText").split(',') : []);
+  // const [searchText, setSearchText] = useState([]);
   const [selectedOption, setSelectedOption] = useState(query.get("selectedOption") || "");
   const [subCategory, setSubCategory] = useState(query.get("subCategory") || "");
   const [propertyType, setPropertyType] = useState(query.get("propertyType") || "سكنى");
@@ -32,10 +33,24 @@ export default function HeaderSearchAdvanced({query,navigate}) {
     street: query.get("street") ? query.get("street").split(',') : [],
     region: query.get("region") ? query.get("region").split(',') : []
   });
-
+  const [filter,setFilter]=useState(query.get("filter") || "الأحدث")
+  
+  useEffect(() => {
+    // Add gov to governorate if it's not already included
+    setAddress(prevAddress => {
+      if (!prevAddress.governorate.includes(gov)) {
+        return {
+          ...prevAddress,
+          governorate: [...prevAddress.governorate, gov]
+        };
+      }
+      return prevAddress;
+    });
+  }, [gov]);
 
   const updateURL = () => {
     const currentParams = {
+      filter,
       selectedOption,
       subCategory,
       rooms: rooms.join(','),
@@ -99,13 +114,12 @@ export default function HeaderSearchAdvanced({query,navigate}) {
   const [showPropertyTypeDropdown, setShowPropertyTypeDropdown] =
     useState(false);
 
-  const residentialOptions = [
-    "شقة", "فيلا", "دوبلكس", "بنتهاوس", "شاليه", "تاون هاوس", "توين هاوس", "أرض سكنيه"
-  ];
-
-  const commercialOptions = [
-    "زراعى", "صناعى", "محلات تجارية"
-  ];
+    const residentialOptions = [
+      "شقة", "فيلا منفصلة", "دوبلكس", "بنتهاوس", "شاليه", "تاون هاوس", "توين هاوس", "أرض سكنية","ستوديو" ];
+  
+    const commercialOptions = [
+      "زراعية","تجارية","صناعية","محل تجارى","مكتب ادارى","عيادة طبية","معمل تحاليل","صيدلية","مطعم","مخزن","كافيه","جراج",
+    ];
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
@@ -179,12 +193,12 @@ export default function HeaderSearchAdvanced({query,navigate}) {
   /////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    const groupedAddress = searchText.reduce((acc, item) => {
-      acc[item.type] = acc[item.type] || [];
-      acc[item.type].push(item.name);
-      return acc;
-    }, {});
-    setAddress(groupedAddress);
+    // const groupedAddress = searchText.reduce((acc, item) => {
+    //   acc[item.type] = acc[item.type] || [];
+    //   acc[item.type].push(item.name);
+    //   return acc;
+    // }, {});
+    // setAddress(groupedAddress);
 
     console.log("///////////")
     console.log(address);//سيتم ارسال المحافظه و المدينه و المنطقه و الشارع فى هذا المتغير
@@ -198,7 +212,7 @@ export default function HeaderSearchAdvanced({query,navigate}) {
     console.log("___________")
     setDoSearch(!doSearch)
     updateURL()
-  }, [searchText, selectedOption, subCategory, rooms, bathrooms, area, price, radioValue]);
+  }, [address, selectedOption, subCategory, rooms, bathrooms, area, price, radioValue,filter]);
 
   // API
   useEffect(() => {
@@ -245,6 +259,15 @@ export default function HeaderSearchAdvanced({query,navigate}) {
 
     handelSearch();
   }, [doSearch]);
+
+  // Filter search result
+  
+
+  const searchFilter=["الأحدث","الاقل سعر","الاعلى سعر"]
+  const handleFilterChange = (option) => {
+    setFilter(option);
+  };
+
 
   return (
     <>
@@ -317,7 +340,7 @@ export default function HeaderSearchAdvanced({query,navigate}) {
                 </Col>
 
                 <Col lg="4" md="6" className="mb-2" >
-                  <Search className="search" setSearchText={setSearchText} />
+                  <Search className="search" setAddress={setAddress} />
                 </Col>
 
                 <Col lg="1" md="2" className="mb-2" >
@@ -570,15 +593,40 @@ export default function HeaderSearchAdvanced({query,navigate}) {
 
                   </Form.Group>
                 </Col>
-                <Col>
+
+                {/* حفظ الاعلان مرحله تانيه */}
+                {/* <Col>
                   <div className="d-flex flex-row-reverse pr-3">
                     <SaveSearch />
                   </div>
-                </Col>
+                </Col> */}
               </Row>
             </Form>
           </Navbar.Collapse>
         </Navbar>
+      </Container>
+      <hr />
+      <Container>
+        <Row className="d-flex justify-content-between">
+          <Col md={8} dir="rtl">
+            <div className="d-flex align-items-center justify-content-between mb-5">
+              <h5 style={{ color: "#0d6efd" }}>عقارات سكنية للبيع في مَصر</h5>
+              <Dropdown>
+                <Dropdown.Toggle variant="primary">{filter}</Dropdown.Toggle>
+                <Dropdown.Menu style={{ textAlign: "right" }}>
+                  {searchFilter.map((option) => (
+                    <Dropdown.Item
+                      key={option}
+                      onClick={() => handleFilterChange(option)}
+                      active={filter === option}
+                    >
+                      {option}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          </Col></Row>
       </Container>
     </>
   );

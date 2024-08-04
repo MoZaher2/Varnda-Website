@@ -1,16 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import HomePage from "./Pages/HomePage/HomePage";
-import Swapper from "./Pages/SwapperDetailes/SwapperDetailes";
 import AboutPage from "./Pages/AboutPage/AboutPage";
 import ContactPage from "./Pages/ContactPage/ContactPage";
 import TermsPage from "./Pages/TermsPage/TermsPage";
-
 import FindHomePage from "./Pages/FindHomePage/FindHomePage";
 import SearchPage from "./Pages/SearchPage/SearchPage";
 import AdvicePage from "./Pages/AdvicePage/AdvicePage";
 import MixPage from "./Pages/MixPage/MixPage";
-import MarketPage from "./Pages/MarketPage/MarketPage";
 import RegionsOfEgyptPage from "./Pages/RegionsOfEgyptPage/RegionsOfEgyptPage";
 import EventsPage from "./Pages/EventsPage/EventsPage";
 import DetailesPage from "./Pages/DetailesPage/DetailesPage";
@@ -35,6 +32,10 @@ import ProfilePage from "./Pages/ProfilePage/ProfilePage";
 import MyPropertiesPage from "./Pages/MyPropertiesPage/MyPropertiesPage";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Cookies from "js-cookie";
+import ArticleDetailes from "./Pages/Articles/ArticleDetailes/ArticleDetailes";
+import Articles from "./Pages/Articles/Articles";
+import ArticlesLayout from "./Components/Articles/ArticlesLayout";
+import ArticlesInCategory from "./Pages//Articles/ArticlesInCategory";
 
 // 
 const token = Cookies.get("Token");
@@ -60,8 +61,22 @@ const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
-    path: "/card/:id",
-    element: <Swapper />,
+    path: "/articles",
+    element: <ArticlesLayout />,
+    children: [
+      {
+        path: "",
+        element: <Articles />,
+      },
+      {
+        path: ":category",
+        element: <ArticlesInCategory />,
+      },
+    ]
+  },
+  {
+    path: "/article/:id",
+    element: <ArticleDetailes />,
   },
   // 
   {
@@ -97,10 +112,6 @@ const router = createBrowserRouter([
   {
     path: "/mixPage",
     element: <MixPage />,
-  },
-  {
-    path: "/marketPage",
-    element: <MarketPage />,
   },
   {
     path: "/regionsOfEgyptPage",

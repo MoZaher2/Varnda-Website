@@ -16,6 +16,8 @@ import Cookies from 'js-cookie';
 import api from "../../API/ApiLink.js";
 import CardDetails from "../../Components/CardDetails/CardDetails.js";
 import { useParams } from "react-router-dom";
+import CommentCardAds from "../../Components/Comments/CommentCardAds.js";
+import AddCommentAds from "../../Components/Comments/AddCommentAds.js";
 
 
 const MoreDeteliesPage = () => {
@@ -44,6 +46,14 @@ const[data,setData]=useState("")
     <>
       <Header />
       <CardDetails propertyDetails={data}/>
+      <hr/>
+        <Container>
+          {/* <CommentCardAds post_id={article.id} /> */}
+          <CommentCardAds ads_id={1} />
+          <hr/>
+          {/* <AddCommentAds id={article.id} /> */}
+          <AddCommentAds ads_id={1} />
+        </Container>
       <Footer />
     </>
   );

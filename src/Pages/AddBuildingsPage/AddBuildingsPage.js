@@ -16,6 +16,7 @@ import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
 const AddApartmentsAndDuplexesPage = () => {
 
+  const token = Cookies.get('token');
   const [load1, setLoad1] = useState(false);
   const [load2, setLoad2] = useState(false);
   const [show, setShow] = useState(false);
@@ -70,7 +71,7 @@ const AddApartmentsAndDuplexesPage = () => {
     'features[]': [],//👍
     'services[]': [],//👍
     'devices[]': [],//👍
-    sub_category:'',
+    sub_category:'مبانى',
   });
   const [primary_picture, setPrimary_picture] = useState(null);
   const [images, setImages] = useState([]);
@@ -95,7 +96,7 @@ const AddApartmentsAndDuplexesPage = () => {
   useEffect(() => {
     const fetchGov = async () => {
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get("/governorates", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -116,7 +117,7 @@ const AddApartmentsAndDuplexesPage = () => {
       })["id"]
 
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get(`/governorates/${govId}/cities`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -138,7 +139,7 @@ const AddApartmentsAndDuplexesPage = () => {
         return e.name === formData.city
       })["id"]
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get(`/governorates/city/${cityId}/regions`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -159,7 +160,7 @@ const AddApartmentsAndDuplexesPage = () => {
         return e.name === formData.region
       })["id"]
       try {
-        const token = Cookies.get('token');
+         
         const response = await api.get(`/streetsByRegion/${streetId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -368,13 +369,15 @@ const AddApartmentsAndDuplexesPage = () => {
   };
 
   const handleNextPage = () => {
-    if (formData.type === 'rent' && currentPage === 1) { setCurrentPage(currentPage + 2); }
-    else setCurrentPage(currentPage + 1);
+    // if (formData.type === 'rent' && currentPage === 1) { setCurrentPage(currentPage + 2); }
+    // else setCurrentPage(currentPage + 1);
+    setCurrentPage(currentPage + 1);
   };
 
   const handlePreviousPage = () => {
-    if (formData.type === 'rent' && currentPage === 3) { setCurrentPage(currentPage - 2); }
-    else setCurrentPage(currentPage - 1);
+    // if (formData.type === 'rent' && currentPage === 3) { setCurrentPage(currentPage - 2); }
+    // else setCurrentPage(currentPage - 1);
+    setCurrentPage(currentPage - 1);
   };
   const totalPages = 8; // Total number of form pages
 
@@ -466,7 +469,7 @@ const AddApartmentsAndDuplexesPage = () => {
                       <Row>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="sub_category" className="mb-3">
-                            <Form.Label>نوع المبنى</Form.Label>
+                            <Form.Label className='required'>نوع المبنى</Form.Label>
                             <Form.Select
                               name="sub_category"
                               value={formData.sub_category}
@@ -483,7 +486,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         </Col>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="floors" className="mb-3">
-                            <Form.Label>
+                            <Form.Label className='required'>
                               عدد ادوار المبني
                             </Form.Label>
                             <Form.Control
@@ -491,6 +494,7 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="floors"
                               value={formData.floors}
                               onChange={handleChange}
+                              required
                             />
                           </Form.Group>
                         </Col>
@@ -509,13 +513,12 @@ const AddApartmentsAndDuplexesPage = () => {
                           value={formData.area}
                           onChange={handleChange}
                           min={2}
-                          required
                         />
                       </Form.Group>
                       <Row>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="price" className="mb-3">
-                            <Form.Label>
+                            <Form.Label className='required'>
                               <FontAwesomeIcon
                                 icon={faDollarSign}
                                 className="me-2"
@@ -527,6 +530,7 @@ const AddApartmentsAndDuplexesPage = () => {
                               name="price"
                               value={formData.price}
                               onChange={handleChange}
+                              required
                             />
                           </Form.Group>
                         </Col>
@@ -558,36 +562,52 @@ const AddApartmentsAndDuplexesPage = () => {
                       </div>
                     </>
                   )}
-                  {currentPage === 2 && formData.type === 'sale' && (
+                  {currentPage === 2 && (
                         <>
-                          <Form.Group controlId="payment_method" className="mb-3">
-                            <Form.Label>طريقة الدفع</Form.Label>
-                            <Form.Select
-                              name="payment_method"
-                              value={formData.payment_method}
-                              onChange={handleChange}
-                              required
-                            >
-                              <option value="">اختر</option>
-                              <option value="كاش">كاش</option>
-                              <option value="تقسيط">تقسيط</option>
-                            </Form.Select>
-                          </Form.Group>
-                          <Form.Group controlId="legal_papers" className="mb-3">
-                        <Form.Label>الأوراق القانونية للعقار</Form.Label>
-                        <Form.Select
-                          name="legal_papers"
-                          value={formData.legal_papers}
-                          onChange={handleChange}
-                          required
-                        >
-                          <option value="">اختر</option>
-                          <option value="مرخص">مرخص</option>
-                          <option value="قابل للترخيص">قابل للترخيص</option>
-                          <option value="غير مرخص">غير مرخص</option>
-                        </Form.Select>
-                      </Form.Group>
-                      
+                        {formData.type === 'rent' && (
+                        <Form.Group controlId="rent_type" className="mb-3">
+                          <Form.Label>نوع الايجار</Form.Label>
+                          <Form.Select
+                            name="rent_type"
+                            value={formData.rent_type}
+                            onChange={handleChange}
+                          >
+                            <option value="">اختر</option>
+                            <option value="1">شهرى</option>
+                            <option value="3">ربع ثانوى</option>
+                            <option value="6">نصف ثانوى</option>
+                            <option value="12">ثانوى</option>
+                          </Form.Select>
+                        </Form.Group>
+                      )}
+                      {formData.type === 'sale' && (<>
+                        <Form.Group controlId="payment_method" className="mb-3">
+                          <Form.Label>طريقة الدفع</Form.Label>
+                          <Form.Select
+                            name="payment_method"
+                            value={formData.payment_method}
+                            onChange={handleChange}
+                          >
+                            <option value="">اختر</option>
+                            <option value="كاش">كاش</option>
+                            <option value="تقسيط">تقسيط</option>
+                          </Form.Select>
+                        </Form.Group>
+                        <Form.Group controlId="legal_papers" className="mb-3">
+                          <Form.Label>الأوراق القانونية للعقار</Form.Label>
+                          <Form.Select
+                            name="legal_papers"
+                            value={formData.legal_papers}
+                            onChange={handleChange}
+                          >
+                            <option value="">اختر</option>
+                            <option value="مرخص">مرخص</option>
+                            <option value="قابل للترخيص">قابل للترخيص</option>
+                            <option value="غير مرخص">غير مرخص</option>
+                          </Form.Select>
+                        </Form.Group>
+                      </>
+                      )}
                       <div className="text-center  d-flex justify-content-between mt-5 ">
                         <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
                           الصفحة السابقة
@@ -600,7 +620,7 @@ const AddApartmentsAndDuplexesPage = () => {
                   {currentPage === 3 && (
                     <>
                       <Form.Group controlId="primary_picture" className="mb-3">
-                        <Form.Label>الصورة الأساسية للإعلان</Form.Label>
+                        <Form.Label className='required'>الصورة الأساسية للإعلان</Form.Label>
                         <Form.Control
                           type="file"
                           name="primary_picture"
@@ -611,7 +631,7 @@ const AddApartmentsAndDuplexesPage = () => {
                             <h5>الصورة الأساسية</h5>
                             <img
                               src={URL.createObjectURL(primary_picture)}
-                              alt="Main Image"
+                              alt="MainImage"
                               style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
                             />
                           </div>
@@ -637,7 +657,7 @@ const AddApartmentsAndDuplexesPage = () => {
                                 <img
                                   key={index}
                                   src={URL.createObjectURL(image)}
-                                  alt={`Additional Image ${index}`}
+                                  alt={`AdditionalImage ${index}`}
                                   style={{ maxWidth: '150px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
                                 />
                               ))}
