@@ -1,0 +1,46 @@
+*{
+    /* font-family: 'Poppins', sans-serif; */
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+:root{
+    --body-color:"#ece9e9";
+    --text-color:#FFF;
+    --main-color: #186cc5eb;
+    --second-color: #39b2eb;
+
+}
+.sidebar{
+    /* height: 99vh; */
+    width: 230px;
+    background-color: var(--main-color);
+    padding: 10px 14px;
+    /* margin-top: -8px; */
+}
+
+.nav-li{
+    /* background: rgb(0, 0, 0); */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style: none;
+
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sideDropdown button{
+    font-size: 20px;
+    width: 100%;
+}
+
+.button-link {
+    color: white; /* اللون الأساسي للرابط */
+    text-decoration: none; /* إزالة التسطير */
+  }
+  
+  .button-link:hover {
+    color: #ccc; /* اللون عند المرور على الرابط */
+  }
+  

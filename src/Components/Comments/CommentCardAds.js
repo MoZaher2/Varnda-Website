@@ -9,6 +9,7 @@ export default function CommentCardAds({ ads_id }) {
     const userId = Cookies.get("user_id")
     const token = Cookies.get("token")
     const role = Cookies.get("role")
+    console.log("user regester: "+ userId);
     const [open, setOpen] = useState(false);
     const [load, setLoad] = useState(false);
     const [comments, setComments] = useState([])
@@ -17,6 +18,7 @@ export default function CommentCardAds({ ads_id }) {
             try {
                 const response = await api.get(`get-ad-comments/${ads_id}`);
                 setComments(response.data.data)
+                console.log(response.data.data[0].user_id);
             } catch (err) {
                 console.log(err);
             }
@@ -72,7 +74,7 @@ export default function CommentCardAds({ ads_id }) {
                                         {comment.comment}
                                     </Typography>
                                 </CardContent>
-                                {( role === "admin"|| (userId === comment.user_id&&comment.user_role==="user")) &&
+                                {( role === "admin" ||(userId == comment.user_id && comment.user_role==="user")) &&
                                     <>
                                         <IconButton
                                             color="danger"

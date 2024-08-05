@@ -46,54 +46,7 @@ export default function SearchPage() {
 
   const query = useQuery();//
   const navigate = useNavigate();//
-
-  const properties = [
-    {
-      price: "23,503,500 ج.م",
-      type: "هاوس",
-      beds: 4,
-      baths: 4,
-      area: "216 متر مربع",
-      description: "تاون هاوس في هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-      rooms: "4 غرف 03500...",
-      location: "هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-      images: [card1, card2, card3],
-    },
-    {
-      price: "23,503,500 ج.م",
-      type: "هاوس",
-      beds: 4,
-      baths: 4,
-      area: "216 متر مربع",
-      description: "تاون هاوس في هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-      rooms: "4 غرف 03500...",
-      location: "هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-      images: [card4, card5, card6],
-    },
-    {
-      price: "23,503,500 ج.م",
-      type: "هاوس",
-      beds: 4,
-      baths: 4,
-      area: "216 متر مربع",
-      description: "تاون هاوس في هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-      rooms: "4 غرف 03500...",
-      location: "هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-      images: [card7, card8, card9],
-    },
-    {
-      price: "23,503,500 ج.م",
-      type: "هاوس",
-      beds: 4,
-      baths: 4,
-      area: "216 متر مربع",
-      description: "تاون هاوس في هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-      rooms: "4 غرف 03500...",
-      location: "هايد بارك القاهرة الجديدة، القاهرة الجديدة",
-      images: [card10, card11, card12],
-    },
-  ];
-
+  const [properties,setProperties]=useState([])
   const settings = {
     dots: true,
     infinite: true,
@@ -111,7 +64,7 @@ export default function SearchPage() {
   return (
     <>
       <Header />
-      <HeaderSearchAdvanced query={query} navigate={navigate}/>
+      <HeaderSearchAdvanced query={query} navigate={navigate} setProperties={setProperties}/>
       {/* <hr /> */}
 
       <Container>
@@ -135,80 +88,7 @@ export default function SearchPage() {
               </Dropdown>
             </div> */}
             {/* ال Card */}
-            <PropertyCard />
-            {/* {properties.map((property, index) => (
-              <Card className="d-flex flex-row mb-3">
-                <div style={{ width: "50%", height: "auto" }}>
-                  <Slider {...settings}>
-                    {property.images.map((image, idx) => (
-                      <div>
-                        <Link to={`/moreDeteliesPage/${idx}`} className="link" key={index}>
-                          <img
-                            src={image}
-                            alt={`imgCard-${idx}`}
-                            key={idx}
-                            style={{ width: "100%", height: "100%" }}
-                          />
-                          <h6 style={{ color: "#0d6efd" }} className="my-3">
-                            الصور المتاحة لهذا العقار
-                          </h6>
-                        </Link>
-                      </div>
-                    ))}
-                  </Slider>
-                  <Button variant="primary" className="m-2 btn-sm">
-                          <FontAwesomeIcon icon={faPhone} /> اتصل
-                        </Button>
-                        <Button variant="secondary" className="m-2 btn-sm">
-                          <FontAwesomeIcon icon={faEnvelope} /> الإيميل
-                        </Button>
-                        <Button variant="success" className="m-2 btn-sm">
-                          <FontAwesomeIcon icon={faWhatsapp} /> واتساب
-                        </Button>
-                </div>
-                <Card.Body style={{ textAlign: "right" }}>
-                  <Card.Title
-                    style={{
-                      color: "#123",
-                      fontWeight: "700",
-                      fontSize: "28px",
-                    }}
-                  >
-                    {property.price}
-                  </Card.Title>
-                  <Card.Text>
-                    <Row className="mb-2">
-                      <Col style={{ color: "#0d6efd" }}>
-                        <FontAwesomeIcon icon={faHome} /> {property.type}
-                      </Col>
-                      <Col style={{ color: "#0d6efd" }}>
-                        <FontAwesomeIcon icon={faBed} /> {property.beds}
-                      </Col>
-                      <Col style={{ color: "#0d6efd" }}>
-                        <FontAwesomeIcon icon={faBath} /> {property.baths}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col style={{ color: "#868686" }}>
-                        المساحة: {property.area}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col style={{ color: "#0d6efd" }} className="my-2">
-                        {property.description}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>{property.rooms}</Col>
-                    </Row>
-                    <Row>
-                      <Col>{property.location}</Col>
-                    </Row>
-                  </Card.Text>
-
-                </Card.Body>
-              </Card>
-            ))} */}
+            <PropertyCard properties={properties}/>
           </Col>
 
           <Col md={4} dir="rtl">
@@ -218,27 +98,27 @@ export default function SearchPage() {
 
             <h4 className="my-3 h4">نتائج مقترحة</h4>
             <ListGroup variant="flush">
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/SearchPage/القاهرة?filter=الأحدث&rooms=1&selectedOption=sale" className="link-item">
                 <ListGroup.Item className="item">
-                  عقارات 1 غرفة للبيع فى مصر
+                  عقارات 1 غرفة للبيع فى القاهرة
                 </ListGroup.Item>
               </Link>
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/SearchPage/القاهرة?filter=الأحدث&rooms=2&selectedOption=sale" className="link-item">
                 <ListGroup.Item className="item">
-                  عقارات 2 غرفة للبيع فى مصر
+                  عقارات 2 غرفة للبيع فى القاهرة
                 </ListGroup.Item>
               </Link>
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/SearchPage/القاهرة?filter=الأحدث&rooms=0&selectedOption=sale" className="link-item">
                 <ListGroup.Item className="item">
-                  عقارات استوديو للبيع
+                 عقارات استوديو للبيع فى القاهرة
                 </ListGroup.Item>
               </Link>
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/SearchPage?selectedOption=rent" className="link-item">
                 <ListGroup.Item className="item">عقارات للايجار</ListGroup.Item>
               </Link>
             </ListGroup>
 
-            <h4 className="my-3 h4">روابط مفيدة</h4>
+            {/* <h4 className="my-3 h4">روابط مفيدة</h4>
             <ListGroup variant="flush">
               <Link to="/SearchPage" className="link-item">
                 <ListGroup.Item className="item">
@@ -258,7 +138,8 @@ export default function SearchPage() {
               <Link to="/SearchPage" className="link-item">
                 <ListGroup.Item className="item">عقارات للايجار</ListGroup.Item>
               </Link>
-            </ListGroup>
+            </ListGroup> */}
+
           </Col>
         </Row>
       </Container>

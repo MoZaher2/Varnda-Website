@@ -34,25 +34,22 @@ const[data,setData]=useState("")
           })
           const adsData=response.data.data
           setData(adsData)
-          console.log(adsData)
+          // console.log(adsData)
         }catch(err){
           console.log(err)
         }
       }
       getOneAds()
   },[])
-
   return (
     <>
       <Header />
       <CardDetails propertyDetails={data}/>
       <hr/>
         <Container>
-          {/* <CommentCardAds post_id={article.id} /> */}
-          <CommentCardAds ads_id={1} />
+          <CommentCardAds ads_id={id} />
           <hr/>
-          {/* <AddCommentAds id={article.id} /> */}
-          <AddCommentAds ads_id={1} />
+          <AddCommentAds ads_id={id} />
         </Container>
       <Footer />
     </>

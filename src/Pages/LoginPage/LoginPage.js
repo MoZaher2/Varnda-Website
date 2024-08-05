@@ -10,6 +10,7 @@ import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
 import OverPage from "../../Components/OverPage/OverPage.js";
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
@@ -43,12 +44,19 @@ export default function LoginPage() {
         Cookies.set('phone', response.data.data.user.phone);
         Cookies.set("user_id", response.data.data.user.id);
         Cookies.set('whats_phone', response.data.data.user.whats_phone);
+        Cookies.set("verify",response.data.data.user.email_verified_at)
         console.log(response.data)
         setLoad(false)
         setOverlay(true)
         setShow(true)
         setAlert({ msg: "تم تسجيل الدخول بنجاح", variant: 1 })
-        navigate('/')
+        if(response.data.data.user.role==="admin"){
+          navigate('/dashboard')
+        }
+        else{
+          navigate('/')
+        }
+        
       } catch (error) {
         setLoad(false)
         setShow(true)
@@ -67,6 +75,41 @@ export default function LoginPage() {
     setValidated(true);
   };
 
+//Google
+
+  
+
+const [userData, setUserData] = useState(null);
+
+const logWithGoogle = async () => {
+  try {
+    const response = await api.get("/auth/google");
+    // const googleAuthUrl = response.data.authUrl;
+    // window.location.href = googleAuthUrl;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const handleGoogleCallback = async () => {
+  try {
+    const response = await api.get("/auth/google/callback"); // endpoint which handles Google OAuth callback
+    const data = response.data;
+    console.log(data);
+
+    // Store the user data and token in state
+    setUserData(data.data);
+
+    // Optionally, store the token in localStorage or cookies for future use
+    localStorage.setItem('token', data.data.token);
+    localStorage.setItem('user', JSON.stringify(data.data.user));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+//
   return (
     <Container className="login-container mt-5" dir="rtl">
       <Row className="justify-content-center">
@@ -118,14 +161,13 @@ export default function LoginPage() {
               {load ? <LoadingBtn /> : "تسجيل الدخول"}
             </Button>
           </Form>
-
-          <div className="text-center mt-3">
-            <Button variant="light" className="google-button w-100">
+          {/* Google */}
+          {/* <div className="text-center mt-3">
+            <Button variant="light" className="google-button w-100" onClick={logWithGoogle}>
               تسجيل الدخول باستخدام جوجل
               <FontAwesomeIcon icon={faGoogle} className="google-icon" />
             </Button>
-          </div>
-
+          </div> */}
           <div className="text-center mt-3">
             <Link to="/signup">ليس لديك حساب؟ سجل هنا</Link>
           </div>

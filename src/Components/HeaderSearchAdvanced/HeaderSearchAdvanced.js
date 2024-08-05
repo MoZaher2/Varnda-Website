@@ -14,7 +14,9 @@ import Search from "../Search/Search.js";
 import SaveSearch from "../SaveSearch/SaveSearch.js";
 import queryString from "query-string";
 import { useParams } from "react-router-dom";
-export default function HeaderSearchAdvanced({query,navigate}) {
+
+export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
+
   let { gov } = useParams();
   const token = Cookies.get("token");
   // const [searchText, setSearchText] = useState(query.get("searchText") ? query.get("searchText").split(',') : []);
@@ -37,15 +39,18 @@ export default function HeaderSearchAdvanced({query,navigate}) {
   
   useEffect(() => {
     // Add gov to governorate if it's not already included
-    setAddress(prevAddress => {
-      if (!prevAddress.governorate.includes(gov)) {
-        return {
-          ...prevAddress,
-          governorate: [...prevAddress.governorate, gov]
-        };
-      }
-      return prevAddress;
-    });
+    if(gov){
+      setAddress(prevAddress => {
+        if (!prevAddress.governorate.includes(gov)) {
+          return {
+            ...prevAddress,
+            governorate: [...prevAddress.governorate, gov]
+          };
+        }
+        return prevAddress;
+      });
+    }
+
   }, [gov]);
 
   const updateURL = () => {
@@ -67,10 +72,6 @@ export default function HeaderSearchAdvanced({query,navigate}) {
           value != null && value !== "" && !(Array.isArray(value) && value.length === 0)
       )
     );
-
-    // if (Array.isArray(address.governorate) && address.governorate.length > 0) {
-    //   filterCurrentParams.governorate = address.governorate.join(',');
-    // }
     if (Array.isArray(address.governorate) && address.governorate.length > 0) {
       // استبعاد العنصر الأول من المصفوفة
       const governoratesExcludingFirst = address.governorate.slice(1);
@@ -250,8 +251,8 @@ export default function HeaderSearchAdvanced({query,navigate}) {
           },
           params: filteredParams,
         });
-
-        console.log(response.data);
+        setProperties(response.data.data)
+        console.log(response.data.data);
       } catch (err) {
         console.log(err);
       }

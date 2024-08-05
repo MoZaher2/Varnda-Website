@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
+import Phone from "../Cards/Phone";
+import {
+    faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// تضمين الصور اللازمة
-import card1 from "../../images/card_1.png";
-import card2 from "../../images/card_2.png";
-import card3 from "../../images/card_3.png";
-import card4 from "../../images/card_4.png";
+
 
 const CardDetails = ({ propertyDetails }) => {
     // التأكد من أن `propertyDetails` تم تعريفه قبل استخدامه
@@ -54,7 +56,7 @@ const CardDetails = ({ propertyDetails }) => {
                                 color: '#0d6efd',
                                 border: '1px solid #0d6efd'
                             }}>{propertyDetails.property.Type === "sale" ? "للبيع" : "للاجار"}</span>
-                            <Slider {...sliderSettings}>
+                            {propertyDetails.property.images.length>0?<Slider {...sliderSettings}>
                                 <div key={100}>
                                     <img
                                         src={propertyDetails.property.primary_picture}
@@ -72,9 +74,16 @@ const CardDetails = ({ propertyDetails }) => {
                                     </div>
                                 ))}
 
-                            </Slider>
+                            </Slider>:<div key={100}>
+                                    <img
+                                        src={propertyDetails.property.primary_picture}
+                                        alt={`صوره الاعلان الرئيسيه`}
+                                        className="img-fluid w-100"
+                                    />
+                                </div>}
+                           
                             {/* <div style={{ display: propertyDetails.property.facilities.length > 0 ? "block" : "none" }}> */}
-                            {propertyDetails.property.facilities && <>
+                            {propertyDetails.property.facilities.length > 0 && <>
                                 <h3 className="mb-3" style={{ color: "#0d6efd" }} >المرافق</h3>
                                 <ul className="list-group mb-3">
                                     {propertyDetails.property.facilities.map((advantage, index) => (
@@ -88,7 +97,7 @@ const CardDetails = ({ propertyDetails }) => {
                             {/* </div> */}
 
                             {/* <div style={{ display: propertyDetails.property.features.length > 0 ? "block" : "none" }}> */}
-                            {propertyDetails.property.facilities && <>
+                            {propertyDetails.property.facilities.length > 0 && <>
                                 <h3 className="mb-3" style={{ color: "#0d6efd" }} >المميزات</h3>
                                 <ul className="list-group mb-3">
                                     {propertyDetails.property.features.map((advantage, index) => (
@@ -102,7 +111,7 @@ const CardDetails = ({ propertyDetails }) => {
                             {/* </div> */}
 
                             {/* <div style={{ display: propertyDetails.property.services.length > 0 ? "block" : "none" }}> */}
-                            {propertyDetails.property.services && <>
+                            {propertyDetails.property.services.length > 0 && <>
                                 <h3 className="mb-3" style={{ color: "#0d6efd" }} >الخدمات</h3>
                                 <ul className="list-group mb-3">
                                     {propertyDetails.property.services.map((advantage, index) => (
@@ -117,7 +126,7 @@ const CardDetails = ({ propertyDetails }) => {
 
                             {/* <div style={{ display: propertyDetails.property.devices.length > 0 ? "block" : "none" }}> */}
                             {
-                                propertyDetails.property.devices && <>
+                                propertyDetails.property.devices.length > 0 && <>
                                     <h3 className="mb-3" style={{ color: "#0d6efd" }} >الأجهزه</h3>
                                     <ul className="list-group mb-3">
                                         {propertyDetails.property.devices.map((advantage, index) => (
@@ -132,7 +141,7 @@ const CardDetails = ({ propertyDetails }) => {
                             {/* </div> */}
 
                             {/* <div style={{ display: propertyDetails.property.accessories.length > 0 ? "block" : "none" }}> */}
-                            {propertyDetails.property.accessories && <>
+                            {propertyDetails.property.accessories.length > 0 && <>
                                 <h3 className="mb-3" style={{ color: "#0d6efd" }} >الملحقات</h3>
                                 <ul className="list-group mb-3">
                                     {propertyDetails.property.accessories.map((advantage, index) => (
@@ -205,11 +214,30 @@ const CardDetails = ({ propertyDetails }) => {
                                         {rentName && <p style={{ color: "#888", fontWeight: "700" }}>نوع الايجار: {rentName}</p>}
                                     </>
                             }
+                            <h3 className="mb-2" style={{ color: "#0d6efd" }}>تواصل مع صاحب الاعلان:</h3>
+                            <Row>
+                                <div>
+                                    <Phone phone={propertyDetails.phone} />
+                                    <Button
+                                        variant="secondary"
+                                        className="m-2 btn-sm"
+                                        onClick={() => {
+                                            const mailtoLink = `mailto:${propertyDetails.email}?subject=${encodeURIComponent('عقار على فارندا')}&body=${encodeURIComponent(`الرقم التعريفى للاعلان: ${propertyDetails.id}`)}`;
+                                            window.location.href = mailtoLink;
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faEnvelope} /> الإيميل
+                                    </Button>
+                                    <a href={`https://api.whatsapp.com/send?phone=2${propertyDetails.whats_phone}&text=${encodeURIComponent("مرحباً، أنا مهتم بعقارك الموجود على فارندا")}`} target="_blank" rel="noopener noreferrer">
+                                        <Button variant="success" className="m-2 btn-sm">
+                                            <FontAwesomeIcon icon={faWhatsapp} /> واتساب
+                                        </Button>
+                                    </a>
+                                </div>
+                            </Row>
                         </Col>
                     </Row>
-
-
-                    <h3 className="mb-5" style={{ color: "#0d6efd" }}>العنوان بالكامل: {propertyDetails.property.full_address}</h3>
+                    <h3 className="mb-3" style={{ color: "#0d6efd" }}>العنوان بالكامل: {propertyDetails.property.full_address}</h3>
                     <Row>
                         <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{ height: '400px', width: '100%' }}>
                             <TileLayer

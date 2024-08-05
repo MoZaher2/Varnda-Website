@@ -10,6 +10,7 @@ import api from "../../API/ApiLink.js";
 import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 import OverPage from "../../Components/OverPage/OverPage.js";
+import AlertSignUp from "../../Components/Alert/AlertVerifySignup.js";
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -59,12 +60,14 @@ export default function SignupPage() {
           Cookies.set('email', response.data.data.email);
           Cookies.set('phone', response.data.data.phone);
           Cookies.set('role', response.data.data.role);
+          Cookies.set('verify',null)
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           setOverlay(true);
-          setAlert({ msg: "تم انشاء الحساب بنجاح", variant: 1 });
-          setShow(true);
-          setTimeout(() => {
-            navigate("/");
-          }, 2000)
+          // setAlert({ msg: "تم انشاء الحساب بنجاح", variant: 1 });
+          // setShow(true);
+          // setTimeout(() => {
+          //   navigate("/");
+          // }, 2000)
         } catch (err) {
           try {
             const errdata = err.response.data
@@ -73,11 +76,10 @@ export default function SignupPage() {
             setAlert({ msg: "حدث خطأ. تاكد من الاتصال بالانترنت", variant: 2 });
           }
         }
-        setShow(true)
         setLoad(false)
-        }
       }
-    
+    }
+
     setValidated(true);
   };
 
@@ -179,13 +181,13 @@ export default function SignupPage() {
 
           </Form>
 
-          {/*  */}
-          <div className="text-center mt-2">
+          {/* Google */}
+          {/* <div className="text-center mt-2">
             <Button variant="light" className="google-button w-100">
               إنشاء حساب باستخدام جوجل
               <FontAwesomeIcon icon={faGoogle} className="google-icon" />
             </Button>
-          </div>
+          </div> */}
 
           <div className="text-center mt-2">
             <Link to="/login">لديك حساب بالفعل؟ تسجيل الدخول هنا</Link>
@@ -204,7 +206,16 @@ export default function SignupPage() {
       )}
       {overlay && (
         <>
-          <OverPage />
+          <div style={{
+            position: 'absolute',
+            top: '5px',
+            left: '0px',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            <AlertSignUp />
+          </div>
         </>
       )}
       {/*  */}

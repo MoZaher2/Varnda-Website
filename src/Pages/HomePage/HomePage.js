@@ -57,11 +57,11 @@ export default function HomePage() {
 
   
   <Swapper/>
-  <PropertySection 
+  {/* <PropertySection 
         propertiesForSale={propertiesForSale} 
         propertiesForRent={propertiesForRent} 
         heading="مصر"
-      />
+      /> */}
       <Company />
       <Footer />
     </>
