@@ -168,9 +168,9 @@ let gov
       className="search-form-container"
       style={{ backgroundImage: `url(${backgroundImage})`, backgroundAttachment: "fixed" }}
     >
-      <h2 className="mb-4">اكتشف بيتك الجديد للبيع او الايجار</h2>
+      <h1 className="mb-4">اكتشف بيتك الجديد للبيع او الايجار</h1>
       <div className="search-form">
-        <Form dir="rtl" className="w-100">
+        <Form dir="rtl" className="w-100 homepageForm">
           <Row className="mb-3">
             <div className="d-flex justify-content-around align-items-center mb-3">
 

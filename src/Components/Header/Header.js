@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./Header.css"
-import logo from "../../images/logo.png"
+import { ReactComponent as Logo } from '../../images/logo.svg';
 import {
   faSignInAlt,
   faStar,
@@ -44,8 +44,8 @@ export default function Header() {
     <>
       <Navbar bg="light" expand="lg">
         <Container>
-          <Link to="/" className='logo-cont'>
-            <img src={logo} alt='logo' className='logo' />
+          <Link to="/" className="logo-cont">
+            <Logo className="logo" />
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">

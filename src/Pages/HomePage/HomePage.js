@@ -6,8 +6,8 @@ import Swapper from "../../Components/Swapper/Swapper";
 import PropertySection from "../../Components/PropertySection/PropertySection";
 import Footer from "../../Components/Footer/Footer";
 import DescoverySection from "../../Components/DescoverySection/DescoverySection";
-import bgimage from "../../images/1.jpg"
-
+// import bgimage from "../../images/1.jpg"
+import bgimage from "../../images/homeland.jpg"
 
 // *****************
 import img15 from '../../images/15.jpeg';
@@ -54,7 +54,6 @@ export default function HomePage() {
     <>
       <Header />
       <SearchForm backgroundImage={bgimage} />
-
   
   <Swapper/>
   {/* <PropertySection 
