@@ -71,9 +71,12 @@ export default function SignupPage() {
         } catch (err) {
           try {
             const errdata = err.response.data
+            console.log(errdata);
             setAlert({ msg: "الايميل او الرقم مستخدم بالفعل", variant: 3 });
+            setShow(true)
           } catch (err) {
             setAlert({ msg: "حدث خطأ. تاكد من الاتصال بالانترنت", variant: 2 });
+            setShow(true)
           }
         }
         setLoad(false)

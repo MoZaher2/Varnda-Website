@@ -49,6 +49,7 @@ import Molls from "./Pages/Dashboard/Places/Molls";
 import AllAds from "./Pages/Dashboard/AllAds";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 
+
 function App() {
   return (
     <BrowserRouter>

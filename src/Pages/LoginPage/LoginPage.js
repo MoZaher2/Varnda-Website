@@ -80,13 +80,12 @@ export default function LoginPage() {
 
 //Google
 
-  
-
 const [userData, setUserData] = useState(null);
 
 const logWithGoogle = async () => {
   try {
     const response = await api.get("/auth/google");
+    console.log(response.data);
     // const googleAuthUrl = response.data.authUrl;
     // window.location.href = googleAuthUrl;
   } catch (err) {
@@ -165,12 +164,12 @@ const handleGoogleCallback = async () => {
             </Button>
           </Form>
           {/* Google */}
-          {/* <div className="text-center mt-3">
+          <div className="text-center mt-3">
             <Button variant="light" className="google-button w-100" onClick={logWithGoogle}>
               تسجيل الدخول باستخدام جوجل
               <FontAwesomeIcon icon={faGoogle} className="google-icon" />
             </Button>
-          </div> */}
+          </div>
           <div className="text-center mt-3">
             <Link to="/signup">ليس لديك حساب؟ سجل هنا</Link>
           </div>

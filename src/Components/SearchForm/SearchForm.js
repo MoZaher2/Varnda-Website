@@ -166,7 +166,7 @@ let gov
   return (
     <div
       className="search-form-container"
-      style={{ backgroundImage: `url(${backgroundImage})`, backgroundAttachment: "fixed" }}
+      style={{ backgroundImage: `url(${backgroundImage})`}}
     >
       <h1 className="mb-4">اكتشف بيتك الجديد للبيع او الايجار</h1>
       <div className="search-form">

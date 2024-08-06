@@ -8,6 +8,7 @@ import Footer from "../../Components/Footer/Footer";
 import DescoverySection from "../../Components/DescoverySection/DescoverySection";
 // import bgimage from "../../images/1.jpg"
 import bgimage from "../../images/homeland.jpg"
+import mobilebgimage from "../../images/mobile-homeland.jpg"
 
 // *****************
 import img15 from '../../images/15.jpeg';
@@ -18,9 +19,10 @@ import img19 from '../../images/19.jpeg';
 import img20 from '../../images/20.jpeg';
 import Company from "../../Components/Company/Company";
 
+import api from "../../API/ApiLink.js";
+
+
 export default function HomePage() {
-
-
 
 
   const propertiesForSale = {
@@ -53,7 +55,8 @@ export default function HomePage() {
   return (
     <>
       <Header />
-      <SearchForm backgroundImage={bgimage} />
+      {/* <SearchForm backgroundImage={bgimage} /> */}
+      <SearchForm backgroundImage={mobilebgimage} />
   
   <Swapper/>
   {/* <PropertySection 

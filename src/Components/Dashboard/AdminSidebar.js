@@ -18,6 +18,7 @@ export default function SideBar() {
     } catch (error) {
       console.log(error);
     } finally {
+      localStorage.removeItem("role");
       Object.keys(Cookies.get()).forEach(function (cookieName) {
         Cookies.remove(cookieName);
       });
