@@ -6,8 +6,7 @@ import Cookies from 'js-cookie';
 
 export default function ArticleEditor({setArticle_body}) {
 
-  // const token = Cookies.get("token")
-  const token="5|La4abzhpfFId0eEviSAHrPYiYAicrcPPG96SQopq043bcd30"
+  const token=Cookies.get("token")
   const [content, setContent] = useState('<h1>اكتب مقالتك هنا!</h1>');
   const [loading, setLoading] = useState(false);
 

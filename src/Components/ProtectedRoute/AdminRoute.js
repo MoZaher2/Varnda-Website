@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-const ProtectedRoute = ({ role }) => {
+const AdminRoute = ({ role }) => {
   return role==="admin" ? <Outlet /> : <Navigate to="/" replace />;
 };
 
-export default ProtectedRoute;
+export default AdminRoute;

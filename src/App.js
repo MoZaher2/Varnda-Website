@@ -30,7 +30,6 @@ import AddBuildingsPage from "./Pages/AddBuildingsPage/AddBuildingsPage";
 import AddNewCemeteries from "./Pages/AddNewCemeteries/AddNewCemeteries";
 import ProfilePage from "./Pages/ProfilePage/ProfilePage";
 import MyPropertiesPage from "./Pages/MyPropertiesPage/MyPropertiesPage";
-import Cookies from "js-cookie";
 import ArticleDetailes from "./Pages/Articles/ArticleDetailes/ArticleDetailes";
 import Articles from "./Pages/Articles/Articles";
 import ArticlesLayout from "./Components/Articles/ArticlesLayout";
@@ -50,184 +49,166 @@ import ArticlesCategory from "./Pages/Dashboard/Articles/ArticlesCategory";
 import Molls from "./Pages/Dashboard/Places/Molls";
 import AllAds from "./Pages/Dashboard/AllAds";
 
-// Protect Routes
-import UserRoute from "./Components/ProtectedRoute/UserRoute";
-import AdminRoute from "./Components/ProtectedRoute/AdminRoute"
-// ///
-const token = Cookies.get("token");
-const role = Cookies.get("role");
-
-////
 const router = createBrowserRouter([
+    ////Public Route
+    {
+      path: "/",
+      element: <HomePage />,
+    },
+    {
+      path: "/articles",
+      element: <ArticlesLayout />,
+      children: [
+        {
+          path: "",
+          element: <Articles />,
+        },
+        {
+          path: ":category",
+          element: <ArticlesInCategory />,
+        },
+      ]
+    },
+    {
+      path: "/article/:id",
+      element: <ArticleDetailes />,
+    },
+    {
+      path: "/searchPage/:gov",
+      element: <SearchPage />,
+    },
+    {
+      path: '/aboutUs',
+      element: <AboutPage />,
+    },
+    {
+      path: '/contactUs',
+      element: <ContactPage />,
+    },
+    {
+      path: "/terms",
+      element: <TermsPage />,
+    },
+    {
+      path: "/searchPage",
+      element: <SearchPage />,
+    },
+    {
+      path: "/moreDeteliesPage/:id",
+      element: <MoreDeteliesPage />,
+    },
+    {
+      path: "/login",
+      element: <LoginPage />,
+    },
+    {
+      path: "/signup",
+      element: <SignupPage />,
+    },
+    {
+      path: "/submit-property",
+      element: <SubmitpropertyPage />,
+    },
   // AdminRoute
   {
-    element: <AdminRoute role={role} />,
-    children: [
-      {
-        path: "/dashboard",
-        element: <AdminLayout />,
-        children: [
-          {
-            path: "",
-            element: <h1>Dashboard</h1>,
-          },
-          {
-            path: "all-ads",
-            element: <AllAds />
-          },
-          {
-            path: "articles",
-            element: <AllArticles />,
-          },
-          {
-            path: "articles-category",
-            element: <ArticlesCategory />,
-          },
-          {
-            path: "add-article",
-            element: <AddArticle />,
-          },
-          {
-            path: "category",
-            element: <CategoryArticle />,
-          },
-          {
-            path: "governments",
-            element: <Governments />
-          },
-          {
-            path: "cities",
-            element: <Cities />
-          },
-          {
-            path: "regions",
-            element: <Regions />
-          },
-          {
-            path: "streets",
-            element: <Streets />
-          },
-          {
-            path: "compounds",
-            element: <Compounds />
-          },
-          {
-            path: "molls",
-            element: <Molls />
-          },
-        ],
-      },
-    ],
-  },
-
-  ///User Route
-  {
-    element: <UserRoute isAuth={token} role={role} />,
-    children: [
-      {
-        path: "/fav",
-        element: <FavPage />,
-      },
-      {
-        path: "/add-apartments-duplexes",
-        element: <AddApartmentsAndDuplexesPage />,
-      },
-      {
-        path: "/add-villas-palaces",
-        element: <AddVillasAndPalacesPage />,
-      },
-      {
-        path: "/add-home-property",
-        element: <AddHomePropertyPage />,
-      },
-      {
-        path: "/add-resorts-coasts",
-        element: <AddResortsAndCoastsPage />,
-      },
-      {
-        path: "/add-commercial-units",
-        element: <AddCommercialUnitsPage />,
-      },
-      {
-        path: "/add-lands",
-        element: <AddLandPage />,
-      },
-      {
-        path: "/add-buildings",
-        element: <AddBuildingsPage />,
-      },
-      {
-        path: "/add-cemeteries",
-        element: <AddNewCemeteries />,
-      },
-      {
-        path: "/myprofile",
-        element: <ProfilePage />,
-      },
-      {
-        path: "/myproperties",
-        element: <MyPropertiesPage />,
-      },
-    ],
-  },
-  ///////
-  {
-    path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "/articles",
-    element: <ArticlesLayout />,
+    path: "/dashboard",
+    element: <AdminLayout />,
     children: [
       {
         path: "",
-        element: <Articles />,
+        element: <h1>Dashboard</h1>,
       },
       {
-        path: ":category",
-        element: <ArticlesInCategory />,
+        path: "all-ads",
+        element: <AllAds />
       },
-    ]
+      {
+        path: "articles",
+        element: <AllArticles />,
+      },
+      {
+        path: "articles-category",
+        element: <ArticlesCategory />,
+      },
+      {
+        path: "add-article",
+        element: <AddArticle />,
+      },
+      {
+        path: "category",
+        element: <CategoryArticle />,
+      },
+      {
+        path: "governments",
+        element: <Governments />
+      },
+      {
+        path: "cities",
+        element: <Cities />
+      },
+      {
+        path: "regions",
+        element: <Regions />
+      },
+      {
+        path: "streets",
+        element: <Streets />
+      },
+      {
+        path: "compounds",
+        element: <Compounds />
+      },
+      {
+        path: "molls",
+        element: <Molls />
+      },
+    ],
+  },
+  
+  ///User Route
+  {
+    path: "/fav",
+    element: <FavPage />,
   },
   {
-    path: "/article/:id",
-    element: <ArticleDetailes />,
+    path: "/add-apartments-duplexes",
+    element: <AddApartmentsAndDuplexesPage />,
   },
   {
-    path: "/searchPage/:gov",
-    element: <SearchPage />,
+    path: "/add-villas-palaces",
+    element: <AddVillasAndPalacesPage />,
   },
   {
-    path: '/aboutUs',
-    element: <AboutPage />,
+    path: "/add-home-property",
+    element: <AddHomePropertyPage />,
   },
   {
-    path: '/contactUs',
-    element: <ContactPage />,
+    path: "/add-resorts-coasts",
+    element: <AddResortsAndCoastsPage />,
   },
   {
-    path: "/terms",
-    element: <TermsPage />,
+    path: "/add-commercial-units",
+    element: <AddCommercialUnitsPage />,
   },
   {
-    path: "/searchPage",
-    element: <SearchPage />,
+    path: "/add-lands",
+    element: <AddLandPage />,
   },
   {
-    path: "/moreDeteliesPage/:id",
-    element: <MoreDeteliesPage />,
+    path: "/add-buildings",
+    element: <AddBuildingsPage />,
   },
   {
-    path: "/login",
-    element: <LoginPage />,
+    path: "/add-cemeteries",
+    element: <AddNewCemeteries />,
   },
   {
-    path: "/signup",
-    element: <SignupPage />,
+    path: "/myprofile",
+    element: <ProfilePage />,
   },
   {
-    path: "/submit-property",
-    element: <SubmitpropertyPage />,
+    path: "/myproperties",
+    element: <MyPropertiesPage />,
   },
   {
     path: "*",
