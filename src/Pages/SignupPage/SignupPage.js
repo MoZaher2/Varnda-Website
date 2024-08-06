@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";//
+// import { faGoogle } from "@fortawesome/free-brands-svg-icons";//
 import "./SignupPage.css";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
@@ -9,11 +9,11 @@ import { useNavigate } from "react-router-dom";
 import api from "../../API/ApiLink.js";
 import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
-import OverPage from "../../Components/OverPage/OverPage.js";
+// import OverPage from "../../Components/OverPage/OverPage.js";//
 import AlertSignUp from "../../Components/Alert/AlertVerifySignup.js";
 
 export default function SignupPage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();//
   const [validated, setValidated] = useState(false);
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);

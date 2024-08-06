@@ -39,7 +39,10 @@ export default function LoginPage() {
         });
         Cookies.set('token', response.data.data.token);
         Cookies.set("image", response.data.data.user.image);
+
         Cookies.set('role', response.data.data.user.role);
+        localStorage.setItem('role', response.data.data.user.role);
+
         Cookies.set('email', response.data.data.user.email);
         Cookies.set('phone', response.data.data.user.phone);
         Cookies.set("user_id", response.data.data.user.id);
