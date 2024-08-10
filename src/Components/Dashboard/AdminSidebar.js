@@ -43,15 +43,15 @@ export default function SideBar() {
             </Button>
           </Link>
 
-          <DropdownButton id="dropdown-basic-button" align="end" title="المقالات" className="w-100 sideDropdown">
-            <Dropdown.Item href="/dashboard/articles">عرض المقالات</Dropdown.Item>
-            <Dropdown.Item href="/dashboard/articles-category">المقالات حسب التصنيف</Dropdown.Item>
-            <Dropdown.Item href="/dashboard/add-article">اضافه مقاله</Dropdown.Item>
+          <DropdownButton id="dropdown-basic-button" align="end" title="المدونات" className="w-100 sideDropdown">
+            <Dropdown.Item href="/dashboard/articles">عرض المدونات</Dropdown.Item>
+            <Dropdown.Item href="/dashboard/articles-category">المدونات حسب التصنيف</Dropdown.Item>
+            <Dropdown.Item href="/dashboard/add-article">اضافه مدونة</Dropdown.Item>
           </DropdownButton>
 
           <Link to="/dashboard/category" className="w-100 button-link">
             <Button variant="primary" className="w-100">
-              تصنيف المقالات
+              تصنيف المدونات
             </Button>
           </Link>
 

@@ -7,7 +7,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 export default function HeaderSearch() {
-  const [selectedOption, setSelectedOption] = useState("للبيع");
+  const [selectedOption, setSelectedOption] = useState("sale");
   const [rentalDuration, setRentalDuration] = useState("");
   const [propertyType, setPropertyType] = useState("سكنى");
   const [showDropdown, setShowDropdown] = useState(false);

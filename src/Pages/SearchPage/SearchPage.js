@@ -2,41 +2,17 @@ import React, { useState } from "react";
 import "./SearchPage.css";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
-// import Button from "react-bootstrap/Button";//
 import ListGroup from "react-bootstrap/ListGroup";
-// import ButtonGroup from "react-bootstrap/ButtonGroup";//
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";//
-// import {
-//   faBed,
-//   faBath,
-//   faPhone,
-//   faEnvelope,
-//   faHome,
-// } from "@fortawesome/free-solid-svg-icons";//
-// import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";//
 import { Container, Row, Col} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import HeaderSearchAdvanced from "../../Components/HeaderSearchAdvanced/HeaderSearchAdvanced";
-// import imgCard from "../../images/image_card.png";
-// import card1 from "../../images/card_1.png";
-// import card2 from "../../images/card_2.png";
-// import card3 from "../../images/card_3.png";
-// import card4 from "../../images/card_4.png";
-// import card5 from "../../images/card_5.png";
-// import card6 from "../../images/card_6.png";
-// import card7 from "../../images/card_13.png";
-// import card8 from "../../images/card_8.png";
-// import card9 from "../../images/card_9.png";
-// import card10 from "../../images/card_10.png";
-// import card11 from "../../images/card_11.png";
-// import card12 from "../../images/card_12.png";
-// import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PropertyCard from "../../Components/Cards/Card";
 
 
 import { useLocation, useNavigate } from "react-router-dom";
+import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard";
 // import queryString from "query-string";
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -47,19 +23,6 @@ export default function SearchPage() {
   const query = useQuery();//
   const navigate = useNavigate();//
   const [properties,setProperties]=useState([])
-  // const settings = {
-  //   dots: true,
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  // };
-  // Filter search result
-  // const [filter,setFilter]=useState("الأحدث")
-  // const searchFilter=["الأحدث","الاقل سعر","الاعلى سعر"]
-  // const handleFilterChange = (option) => {
-  //   setFilter(option);
-  // };
 
   return (
     <>
@@ -143,6 +106,7 @@ export default function SearchPage() {
           </Col>
         </Row>
       </Container>
+      <AddPropertyCard/>
       <Footer />
     </>
   );

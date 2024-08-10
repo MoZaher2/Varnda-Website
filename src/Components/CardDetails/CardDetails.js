@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
 
 
 const CardDetails = ({ propertyDetails }) => {
@@ -38,7 +38,7 @@ const CardDetails = ({ propertyDetails }) => {
         slidesToScroll: 1,
     };
 
-    const rentName = propertyDetails.property.renting_type === 1 ? "شهرى" : propertyDetails.property.renting_type === 3 ? "ربع ثانوى" : propertyDetails.property.renting_type === 6 ? "نصف ثانوى" : propertyDetails.property.renting_type === 12 ? "ثانوى" : "";
+    const rentName = propertyDetails.property.renting_type === 1 ? "شهرى" : propertyDetails.property.renting_type === 3 ? "ربع سنوى" : propertyDetails.property.renting_type === 6 ? "نصف سنوى" : propertyDetails.property.renting_type === 12 ? "سنوى" : "";
     const subCategoryName = propertyDetails.property["Sub Category"] === "فيلا منفصلة" || propertyDetails.property["Sub Category"] === "تاون هاوس" || propertyDetails.property["Sub Category"] === "توين هاوس";
 
     return (
@@ -56,7 +56,7 @@ const CardDetails = ({ propertyDetails }) => {
                                 color: '#0d6efd',
                                 border: '1px solid #0d6efd'
                             }}>{propertyDetails.property.Type === "sale" ? "للبيع" : "للاجار"}</span>
-                            {propertyDetails.property.images.length>0?<Slider {...sliderSettings}>
+                            {propertyDetails.property.images.length > 0 ? <Slider {...sliderSettings}>
                                 <div key={100}>
                                     <img
                                         src={propertyDetails.property.primary_picture}
@@ -74,14 +74,14 @@ const CardDetails = ({ propertyDetails }) => {
                                     </div>
                                 ))}
 
-                            </Slider>:<div key={100}>
-                                    <img
-                                        src={propertyDetails.property.primary_picture}
-                                        alt={`صوره الاعلان الرئيسيه`}
-                                        className="img-fluid w-100"
-                                    />
-                                </div>}
-                           
+                            </Slider> : <div key={100}>
+                                <img
+                                    src={propertyDetails.property.primary_picture}
+                                    alt={`صوره الاعلان الرئيسيه`}
+                                    className="img-fluid w-100"
+                                />
+                            </div>}
+
                             {/* <div style={{ display: propertyDetails.property.facilities.length > 0 ? "block" : "none" }}> */}
                             {propertyDetails.property.facilities.length > 0 && <>
                                 <h3 className="mb-3" style={{ color: "#0d6efd" }} >المرافق</h3>
@@ -158,7 +158,9 @@ const CardDetails = ({ propertyDetails }) => {
                         <Col xs={12} lg={6} className="details">
                             <Row className="mb-3">
                                 <div className="d-flex align-items-center">
-                                    <h1 className="mb-3" style={{ color: "#0d6efd", marginLeft: "10px" }}>{propertyDetails.property.price} ج.م</h1>
+                                    <h1 className="mb-3" style={{ color: "#0d6efd", marginLeft: "10px" }}>
+                                        {Number(propertyDetails.property.price).toLocaleString('ar-EG')} ج.م
+                                    </h1>
                                     {propertyDetails.property.Discount && <p>يوجد خصم {propertyDetails.property.Discount}%</p>}
                                 </div>
                             </Row>
@@ -206,7 +208,7 @@ const CardDetails = ({ propertyDetails }) => {
                                 propertyDetails.property.Type === "sale" ?
                                     <>
                                         {propertyDetails.property.payment_method && <p style={{ color: "#888", fontWeight: "700" }}>طريقة الدفع: {propertyDetails.property.payment_method}</p>}
-                                        {propertyDetails.property.deliver_date && <p style={{ color: "#888", fontWeight: "700" }}>تاريخ التسليم: {propertyDetails.property.deliver_date}</p>}
+                                        {propertyDetails.property.deliver_date && <p style={{ color: "#888", fontWeight: "700" }}>تاريخ التسليم: {propertyDetails.property.deliver_date == 0 ? "فورى" : propertyDetails.property.deliver_date}</p>}
                                         {propertyDetails.property.legal_papers && <p style={{ color: "#888", fontWeight: "700" }}>الأوراق القانونيه: {propertyDetails.property.legal_papers}</p>}
                                     </>
                                     :
@@ -217,10 +219,14 @@ const CardDetails = ({ propertyDetails }) => {
                             <h3 className="mb-2" style={{ color: "#0d6efd" }}>تواصل مع صاحب الاعلان:</h3>
                             <Row>
                                 <div>
-                                    <Phone phone={propertyDetails.phone} />
+                                    <a href={`tel:+2${propertyDetails.phone}`} >
+                                        <Button variant="primary" className="m-2 btn-md">
+                                            <FontAwesomeIcon icon={faPhone} /> اتصل
+                                        </Button>
+                                    </a>
                                     <Button
                                         variant="secondary"
-                                        className="m-2 btn-sm"
+                                        className="m-2 btn-md"
                                         onClick={() => {
                                             const mailtoLink = `mailto:${propertyDetails.email}?subject=${encodeURIComponent('عقار على فارندا')}&body=${encodeURIComponent(`الرقم التعريفى للاعلان: ${propertyDetails.id}`)}`;
                                             window.location.href = mailtoLink;
@@ -229,7 +235,7 @@ const CardDetails = ({ propertyDetails }) => {
                                         <FontAwesomeIcon icon={faEnvelope} /> الإيميل
                                     </Button>
                                     <a href={`https://api.whatsapp.com/send?phone=2${propertyDetails.whats_phone}&text=${encodeURIComponent("مرحباً، أنا مهتم بعقارك الموجود على فارندا")}`} target="_blank" rel="noopener noreferrer">
-                                        <Button variant="success" className="m-2 btn-sm">
+                                        <Button variant="success" className="m-2 btn-md">
                                             <FontAwesomeIcon icon={faWhatsapp} /> واتساب
                                         </Button>
                                     </a>

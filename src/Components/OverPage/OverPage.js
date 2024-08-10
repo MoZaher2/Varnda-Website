@@ -7,5 +7,4 @@ const OverPage = () => {
         </div>
     );
 }
-
 export default OverPage;

@@ -48,6 +48,7 @@ import ArticlesCategory from "./Pages/Dashboard/Articles/ArticlesCategory";
 import Molls from "./Pages/Dashboard/Places/Molls";
 import AllAds from "./Pages/Dashboard/AllAds";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import AuthGoogle from "./Pages/AuthGoogle/AuthGoogle";
 
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
         <Route path="/moreDeteliesPage/:id" element={<MoreDeteliesPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/google-auth" element={<AuthGoogle />} />
         <Route path="/submit-property" element={<SubmitpropertyPage />} />
 
         {/* Admin Routes */}

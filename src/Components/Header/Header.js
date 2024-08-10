@@ -5,6 +5,7 @@ import "./Header.css"
 import { ReactComponent as Logo } from '../../images/logo.svg';
 import {
   faSignInAlt,
+  faUserPlus,
   faStar,
   faHeart,
   faPlus,
@@ -13,15 +14,23 @@ import {
   faSignOutAlt,
   faUser,
   faFileAlt,
-  faTachometerAlt
+  faTachometerAlt,
+  faBuilding
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'js-cookie';
 import api from "../../API/ApiLink";
+import { Box, Avatar, Card, CardContent, Typography, Button, IconButton, Modal, ModalDialog } from '@mui/joy';
+
+
+
 export default function Header() {
+
   const navigate = useNavigate()
   const token = Cookies.get('token')
+  const image = Cookies.get('image')
+  const first_name = Cookies.get('first_name')
   const role = localStorage.getItem("role")
   const Logout = async () => {
     try {
@@ -33,11 +42,11 @@ export default function Header() {
       console.log(response.data)
     } catch (error) {
       console.log(error);
-    }finally{
+    } finally {
       localStorage.removeItem("role");
-      Object.keys(Cookies.get()).forEach(function(cookieName) {
+      Object.keys(Cookies.get()).forEach(function (cookieName) {
         Cookies.remove(cookieName);
-    });
+      });
       navigate("/")
     }
   }
@@ -45,25 +54,44 @@ export default function Header() {
     <>
       <Navbar bg="light" expand="lg">
         <Container>
-          <Link to="/" className="logo-cont">
-            <Logo className="logo" />
-          </Link>
+
+          <div style={{
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <Link to="/" className="logo-cont">
+              <Logo className="logo" />
+            </Link>
+            <Link to="/myprofile" style={{ textDecoration: 'none' }}>
+              <div style={{
+                background: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                borderRadius: '50px',
+                paddingLeft: '10px',
+                maxWidth: '200px',
+                overflow: 'hidden',
+              }}>
+                <Avatar src={image} sx={{ '--Avatar-size': '2rem' }} />
+                <span style={{
+                  display: 'inline-block',
+                  maxWidth: '147px',
+                  textWrap: 'nowrap',
+                  color: 'black',
+                }}>
+                  {first_name}
+                </span>
+              </div>
+            </Link>
+
+          </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
-            <Nav className="d-flex">
-              {!token && <Nav.Link as={Link} to="/login">
-                <FontAwesomeIcon icon={faSignInAlt} className="ms-2" />
-                تسجيل الدخول
-              </Nav.Link>}
-              {/* <Nav.Link>
-               <FontAwesomeIcon icon={faStar} className="ms-2" />
-               البحث المحفوظ
-             </Nav.Link> */}
-              <Nav.Link as={Link} to="/fav">
-                <FontAwesomeIcon icon={faHeart} className="ms-2" />
-                المفضلة
-              </Nav.Link>
-            </Nav>
+          <Navbar.Collapse id="basic-navbar-nav" style={{
+            width: 'fit-content',
+            alignItems: 'end',
+            flexDirection: 'column'
+          }}>
             <Nav>
               <NavDropdown
                 title={
@@ -74,18 +102,35 @@ export default function Header() {
                 }
                 id="navbarScrollingDropdown"
               >
+
+                {!token && <>
+                  <NavDropdown.Item as={Link} to="/login" className="text-end">
+                    <FontAwesomeIcon icon={faSignInAlt} className="ms-2" />
+                    تسجيل الدخول
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/signup" className="text-end">
+                    <FontAwesomeIcon icon={faUserPlus} className="ms-2" />
+                    تسجيل الحساب
+                  </NavDropdown.Item>
+                </>}
+                <NavDropdown.Item as={Link} to="/fav" className="text-end">
+                  <FontAwesomeIcon icon={faHeart} className="ms-2" />
+                  المفضلة
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/myproperties" className="text-end">
+                  <FontAwesomeIcon icon={faBuilding} className="ms-2" />
+                  تصفح عقاراتك
+                </NavDropdown.Item>
+
+
+
+
+
                 <NavDropdown.Item as={Link} to="/myprofile" className="text-end">
                   <FontAwesomeIcon icon={faCog} className="ms-2" />
                   الاعدادات
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/myproperties" className="text-end">
-                  <FontAwesomeIcon icon={faHome} className="ms-2" />
-                  تصفح عقاراتك
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/articles" className="text-end">
-                  <FontAwesomeIcon icon={faFileAlt} className="ms-2" />
-                  المقالات
-                </NavDropdown.Item>
+
                 {role === "admin" && <NavDropdown.Item as={Link} to="/dashboard" className="text-end">
                   <FontAwesomeIcon icon={faTachometerAlt} className="ms-2" />
                   لوحه التحكم
@@ -104,6 +149,10 @@ export default function Header() {
               <Nav.Link as={Link} to="/submit-property" >
                 <FontAwesomeIcon icon={faPlus} className="ms-2" />
                 اضف عقار
+              </Nav.Link>
+              <Nav.Link as={Link} to="/articles">
+                <FontAwesomeIcon icon={faFileAlt} className="ms-2" />
+                المدونة
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>

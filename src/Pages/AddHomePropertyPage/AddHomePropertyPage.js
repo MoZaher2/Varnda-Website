@@ -81,6 +81,7 @@ const AddApartmentsAndDuplexesPage = () => {
   const [validated, setValidated] = useState(false);
   const [validated2, setValidated2] = useState(false);
 
+  const [priceText,setPriceText]=useState("")
   const categories = {
     مرافق: ["عداد كهرباء", "عداد مياه", "غاز طبيعي", "تليفون أرضي"],
     ملحقات: ["مزرعة مواشي خدم", "حوش", , "حديقة أو جنينه", "مساحة اضافيه خارجية"]
@@ -407,6 +408,20 @@ useEffect(() => {
   };
 
 
+// لتنسيق شكل الرقم
+const handlePriceChange = (e) => {
+  const { value } = e.target;
+  console.log(value);
+  const price = value.replace(/,/g, '')
+  if (!isNaN(price)) {
+    setPriceText(Number(price).toLocaleString('en-US'))//For view
+    setFormData({
+      ...formData,
+      "price": price,
+    });
+  }
+}
+ 
   return (
     <>
       <Header />
@@ -486,7 +501,7 @@ useEffect(() => {
                   {currentPage === 2 && (
                     <>
                     <Row>
-                        <Col xs={12} md={6}>
+                    <Col xs={12} md={6}>
                           <Form.Group controlId="price" className="mb-3">
                             <Form.Label className='required'>
                               <FontAwesomeIcon
@@ -496,10 +511,10 @@ useEffect(() => {
                               سعر العقار
                             </Form.Label>
                             <Form.Control
-                              type="number"
-                              name="price"
-                              value={formData.price}
-                              onChange={handleChange}
+                              type="text"
+                              name="priceText"
+                              value={priceText}
+                              onChange={handlePriceChange}
                               required
                             />
                           </Form.Group>

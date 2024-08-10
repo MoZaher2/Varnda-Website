@@ -11,7 +11,10 @@ import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
 import OverPage from "../../Components/OverPage/OverPage.js";
 
+
+
 export default function LoginPage() {
+
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [load, setLoad] = useState(false);
@@ -44,6 +47,7 @@ export default function LoginPage() {
         localStorage.setItem('role', response.data.data.user.role);
 
         Cookies.set('email', response.data.data.user.email);
+        Cookies.set('first_name', response.data.data.user.first_name);
         Cookies.set('phone', response.data.data.user.phone);
         Cookies.set("user_id", response.data.data.user.id);
         Cookies.set('whats_phone', response.data.data.user.whats_phone);
@@ -79,41 +83,19 @@ export default function LoginPage() {
   };
 
 //Google
-
-const [userData, setUserData] = useState(null);
-
-const logWithGoogle = async () => {
-  try {
-    const response = await api.get("/auth/google");
-    console.log(response.data);
-    // const googleAuthUrl = response.data.authUrl;
-    // window.location.href = googleAuthUrl;
-  } catch (err) {
-    console.log(err);
-  }
+const logWithGoogle = () => {
+  const clientId = '525682631663-v636i48t9vd183dbh7a8hvdp1lfov8co.apps.googleusercontent.com';
+  const redirectUri = 'https://back.varnda.com/api/auth/google/callback';
+  const scope = 'openid profile email';
+  const responseType = 'code';
+  const googleAuthUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=${responseType}`;
+  window.location.href = googleAuthUrl;
 };
-
-const handleGoogleCallback = async () => {
-  try {
-    const response = await api.get("/auth/google/callback"); // endpoint which handles Google OAuth callback
-    const data = response.data;
-    console.log(data);
-
-    // Store the user data and token in state
-    setUserData(data.data);
-
-    // Optionally, store the token in localStorage or cookies for future use
-    localStorage.setItem('token', data.data.token);
-    localStorage.setItem('user', JSON.stringify(data.data.user));
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 
 //
   return (
     <Container className="login-container mt-5" dir="rtl">
+      
       <Row className="justify-content-center">
         <Col xs={12} md={6} lg={4}>
           <h2 className="text-center mb-4" style={{ color: "#007bff" }}>
@@ -181,6 +163,7 @@ const handleGoogleCallback = async () => {
       </>}
       {overlay && <><OverPage /></>}
       {/*  */}
+
     </Container>
   );
 }

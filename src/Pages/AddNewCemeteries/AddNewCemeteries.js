@@ -81,6 +81,7 @@ const AddApartmentsAndDuplexesPage = () => {
   const [validated2, setValidated2] = useState(false);
 
 
+  const [priceText,setPriceText]=useState("")
   const categories = {
     ميزات: ["استلام فوري", "أمن وحراسة", "تجهيز كامل"],
   };
@@ -387,6 +388,20 @@ const AddApartmentsAndDuplexesPage = () => {
     return !!urlPattern.test(url);
   };
 
+// لتنسيق شكل الرقم
+const handlePriceChange = (e) => {
+  const { value } = e.target;
+  console.log(value);
+  const price = value.replace(/,/g, '')
+  if (!isNaN(price)) {
+    setPriceText(Number(price).toLocaleString('en-US'))//For view
+    setFormData({
+      ...formData,
+      "price": price,
+    });
+  }
+}
+ 
 
   return (
     <>
@@ -440,7 +455,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         />
                       </Form.Group>
                       <Row>
-                        <Col xs={12} md={6}>
+                      <Col xs={12} md={6}>
                           <Form.Group controlId="price" className="mb-3">
                             <Form.Label className='required'>
                               <FontAwesomeIcon
@@ -450,10 +465,10 @@ const AddApartmentsAndDuplexesPage = () => {
                               سعر المقبره
                             </Form.Label>
                             <Form.Control
-                              type="number"
-                              name="price"
-                              value={formData.price}
-                              onChange={handleChange}
+                              type="text"
+                              name="priceText"
+                              value={priceText}
+                              onChange={handlePriceChange}
                               required
                             />
                           </Form.Group>

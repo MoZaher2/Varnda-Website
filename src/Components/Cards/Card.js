@@ -31,12 +31,15 @@ import card12 from "../../images/card_12.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Phone from "./Phone";
+// import Phone from "./Phone";
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
+
+
 export default function PropertyCard({ properties }) {
-const token=Cookies.get("token")
+    const token = Cookies.get("token")
     const settings = {
         dots: false,
         infinite: true,
@@ -50,9 +53,9 @@ const token=Cookies.get("token")
     const [favorites, setFavorites] = useState([]);
     const [load, setLoad] = useState(false)
 
-    useEffect(()=>{
+    useEffect(() => {
         setFavorites(properties.map(p => p.is_favorite))
-    },[properties])
+    }, [properties])
 
     const handleLove = async (ad_id, index) => {
         setLoad(true)
@@ -81,18 +84,19 @@ const token=Cookies.get("token")
     return (
         <>
             {/* ال Card */}
+            
             {properties.map((property, index) => (
-
+                
                 <Card className="d-flex flex-row mb-3 small position-relative" key={index}>
                     <div className="imgCont" style={{ width: "50%", height: "auto" }}>
                         <Link to={`/moreDeteliesPage/${property.property_id}`} className="link" key={index}>
-                           {property.property.images.length>0?<Slider {...settings}>
+                            {property.property.images.length > 0 ? <Slider {...settings}>
                                 <div>
                                     <img
                                         src={property.property.primary_picture}
                                         alt={`صوره الاعلان الرئيسيه`}
                                         key={index}
-                                        style={{ width: "100%", height: "100%" }}
+                                        style={{ width: "100%", height: "300px" }}
                                     />
                                 </div>
                                 {property.property.images.map((image, idx) => (
@@ -101,27 +105,31 @@ const token=Cookies.get("token")
                                             src={image.image}
                                             alt={`imgCard-${idx}`}
                                             key={idx}
-                                            style={{ width: "100%", height: "100%" }}
+                                            style={{ width: "100%", height: "300px" }}
                                         />
                                     </div>
                                 ))}
-                            </Slider>:<div>
-                                    <img
-                                        src={property.property.primary_picture}
-                                        alt={`صوره الاعلان الرئيسيه`}
-                                        key={index}
-                                        style={{ width: "100%", height: "100%" }}
-                                    />
-                                </div>}
+                            </Slider> : <div>
+                                <img
+                                    src={property.property.primary_picture}
+                                    alt={`صوره الاعلان الرئيسيه`}
+                                    key={index}
+                                    style={{ width: "100%", height: "300px" }}
+                                />
+                            </div>}
                         </Link>
                         <h6 style={{ color: "#0d6efd" }} className="my-3">
                             الصور المتاحة لهذا العقار
                         </h6>
                         <div>
-                            <Phone phone={property.phone} />
+                            <a href={`tel:+2${property.phone}`} >
+                                <Button variant="primary" className="m-2 btn-md">
+                                    <FontAwesomeIcon icon={faPhone} /> اتصل
+                                </Button>
+                            </a>
                             <Button
                                 variant="secondary"
-                                className="m-2 btn-sm"
+                                className="m-2 btn-md"
                                 onClick={() => {
                                     const mailtoLink = `mailto:${property.email}?subject=${encodeURIComponent('عقار على فارندا')}&body=${encodeURIComponent(`الرقم التعريفى للاعلان: ${property.id}`)}`;
                                     window.location.href = mailtoLink;
@@ -130,10 +138,11 @@ const token=Cookies.get("token")
                                 <FontAwesomeIcon icon={faEnvelope} /> الإيميل
                             </Button>
                             <a href={`https://api.whatsapp.com/send?phone=2${property.whats_phone}&text=${encodeURIComponent("مرحباً، أنا مهتم بعقارك الموجود على فارندا")}`} target="_blank" rel="noopener noreferrer">
-                                <Button variant="success" className="m-2 btn-sm">
+                                <Button variant="success" className="m-2 btn-md">
                                     <FontAwesomeIcon icon={faWhatsapp} /> واتساب
                                 </Button>
                             </a>
+
                         </div>
                     </div>
                     <div className="imgCont" style={{ width: "50%", height: "auto" }}>
@@ -149,7 +158,7 @@ const token=Cookies.get("token")
                                         fontSize: "28px",
                                     }}
                                 >
-                                    {property.property.price} ج.م
+                                    {Number(property.property.price).toLocaleString('ar-EG')} ج.م
                                 </Card.Title>
                                 <Card.Text style={{ padding: "0px" }}>
                                     <Row className="mb-2">
@@ -205,7 +214,7 @@ const token=Cookies.get("token")
                         bottom: '10px',
                         left: '10px'
                     }}>
-                         {favorites[index] ?  <Favorite /> :<FavoriteBorder />}
+                        {favorites[index] ? <Favorite /> : <FavoriteBorder />}
                     </IconButton>
                 </Card>
             ))}

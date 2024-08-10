@@ -73,7 +73,7 @@ export default function Company() {
       </Row>
       <Row className="my-3">
         <Col xs={12} md={6} lg={3} className="mb-4" >
-          <Link to={`/SearchPage?city="6 اكتوبر"`} className="card">
+          <Link to={`/SearchPage?city=6 اكتوبر`} className="card">
             <Card>
               <Card.Img variant="top" src={imgcompany5} />
               <Card.Body>
@@ -83,7 +83,7 @@ export default function Company() {
           </Link>
         </Col>
         <Col xs={12} md={6} lg={3} className="mb-4" >
-          <Link to={`/SearchPage?city="المعادي"`} className="card">
+          <Link to={`/SearchPage?city=المعادي`} className="card">
             <Card>
               <Card.Img variant="top" src={imgcompany6} />
               <Card.Body>
@@ -102,12 +102,13 @@ export default function Company() {
             </Card>
           </Link>
         </Col>
+
         <Col xs={12} md={6} lg={3} className="mb-4" >
-          <Link to={`/SearchPage?region="سموحة"`} className="card">
+          <Link to={`/SearchPage?city= الساحل الشمالي`} className="card">
             <Card>
               <Card.Img variant="top" src={imgcompany8} />
               <Card.Body>
-                <Card.Title> سموحة </Card.Title>
+                <Card.Title> الساحل الشمالي </Card.Title>
               </Card.Body>
             </Card>
           </Link>

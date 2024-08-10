@@ -16,12 +16,11 @@ import queryString from "query-string";
 import { useParams } from "react-router-dom";
 
 export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
-
   let { gov } = useParams();
   const token = Cookies.get("token");
   // const [searchText, setSearchText] = useState(query.get("searchText") ? query.get("searchText").split(',') : []);
   // const [searchText, setSearchText] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(query.get("selectedOption") || "");
+  const [selectedOption, setSelectedOption] = useState(query.get("selectedOption") || "sale");
   const [subCategory, setSubCategory] = useState(query.get("subCategory") || "");
   const [propertyType, setPropertyType] = useState(query.get("propertyType") || "سكنى");
   const [rooms, setRooms] = useState(query.get("rooms") ? query.get("rooms").split(',') : []);
@@ -234,7 +233,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
           min_area: area.min,
           status: radioValue,
         };
-
         // Filter out parameters with null, undefined, empty string, or empty arrays
         const filteredParams = Object.fromEntries(
           Object.entries(params).filter(
@@ -242,9 +240,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
               value != null && value !== "" && !(Array.isArray(value) && value.length === 0)
           )
         );
-
         console.log(filteredParams);
-
         const response = await api.get("/searchAds", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -257,7 +253,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
         console.log(err);
       }
     };
-
     handelSearch();
   }, [doSearch]);
 

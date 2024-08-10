@@ -20,6 +20,9 @@ import img20 from '../../images/20.jpeg';
 import Company from "../../Components/Company/Company";
 
 import api from "../../API/ApiLink.js";
+import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard.js";
+import VideoEmbed from "../../utility/VideoEmbed/VideoEmbed.js";
+
 
 
 export default function HomePage() {
@@ -64,8 +67,11 @@ export default function HomePage() {
         propertiesForRent={propertiesForRent} 
         heading="مصر"
       /> */}
+      <AddPropertyCard/>
       <Company />
       <Footer />
+      {/* <VideoEmbed videoUrl="https://www.youtube.com/watch?v=Q5EOt_-jDgM"/> */}
+      {/* <VideoEmbed videoUrl="https://www.facebook.com/watch/?v=10153231379946729" /> */}
     </>
   );
 }

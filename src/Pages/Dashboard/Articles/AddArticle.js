@@ -12,11 +12,11 @@ export default function AddArticle() {
 
     const token = Cookies.get("token");
 
-usePageSEO({
-    title:"المقالات",
-    description:"اهلا بك فى المقالات",
-    keywords:["key1","key2","key3"]
-})
+// usePageSEO({
+//     title:"المدونات",
+//     description:"اهلا بك فى المدونات",
+//     keywords:["key1","key2","key3"]
+// })
 
     const [article_body, setArticle_body] = useState('<h1>اكتب مقالتك هنا!</h1>');
     const [categories,setCategories]=useState([])
@@ -121,13 +121,13 @@ usePageSEO({
                         }
                     });
                     console.log(response.data);
-                    setAlert({ msg: "تم نشر المقال", variant: 1 });
+                    setAlert({ msg: "تم نشر المدونة", variant: 1 });
                     setShow(true);
                     setTimeout(() => {
                         navigate("/dashboard/articles");
                     }, 2000)
                 }catch(err){
-                    setAlert({ msg: "حدث خطا اثناء نشر المقال", variant: 2 });
+                    setAlert({ msg: "حدث خطا اثناء نشر المدونة", variant: 2 });
                 }
             } catch (error) {
                 if(error.response.status===422){
@@ -165,12 +165,12 @@ usePageSEO({
                     <Col xs={8}>
                         <Row>
                             <Form.Group as={Col} controlId="formGridTitle">
-                                <Form.Label>عنوان المقال:</Form.Label>
+                                <Form.Label>عنوان المدونة:</Form.Label>
                                 <Form.Control type="text" name="title" onChange={handleChange} required />
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="formGridLink">
-                                <Form.Label>رابط المقال:</Form.Label>
+                                <Form.Label>رابط المدونة:</Form.Label>
                                 <Form.Control type="text" name="article_url" placeholder="عباره عن كلمه تكون فريده من نوعها" onChange={handleChange} required />
                                 {/* <Form.Control.Feedback type="invalid">
                                     يجب كتابة اسم فريد
@@ -202,14 +202,14 @@ usePageSEO({
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="category">
-                        <Form.Label className='required'>نوع المقال: </Form.Label>
+                        <Form.Label className='required'>نوع المدونة: </Form.Label>
                         <Form.Select
                           name="category_id"
                           value={formData.category_id}
                           onChange={handleChange}
                           required
                         >
-                          <option value="">اختر نوع المقال</option>
+                          <option value="">اختر نوع المدونة</option>
                           {categories.map((category) => (
                             <option key={category.id} value={category.id}>{category.category_name}</option>
                           ))}
@@ -231,7 +231,7 @@ usePageSEO({
                                     <h5>الصورة الأساسية</h5>
                                     <img
                                         src={URL.createObjectURL(article_image)}
-                                        alt="article-image"
+                                        alt="articleimage"
                                         style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
                                     />
                                 </div>
@@ -244,12 +244,12 @@ usePageSEO({
                 </Row>
                 <Row>
                     <Form.Group>
-                        <Form.Label>المقال:</Form.Label>
+                        <Form.Label>المدونة:</Form.Label>
                         <ArticleEditor setArticle_body={setArticle_body} />
                     </Form.Group>
                 </Row>
                 <Button variant="primary" type="submit" disabled={load} className="w-100 mt-2">
-                    {load ? <LoadingBtn /> : "نشر المقال"}
+                    {load ? <LoadingBtn /> : "نشر المدونة"}
                 </Button>
                 
             </Form>

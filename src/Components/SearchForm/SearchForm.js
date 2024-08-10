@@ -38,7 +38,7 @@ const SearchForm = ({ backgroundImage }) => {
 
   const roomValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8"];
   const bathroomValues = ["1", "2", "3", "4", "5", "6"];
-  const [selectedOption, setSelectedOption] = useState("للبيع");
+  const [selectedOption, setSelectedOption] = useState("sale");
   const [rooms, setRooms] = useState([]);
   const [bathrooms, setBathrooms] = useState([]);
   const handleOptionChange = (option) => {

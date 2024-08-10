@@ -29,7 +29,7 @@ export default function Articles() {
 
   return (
     <>
-      <h2 className="text-center title-page py-1 pb-2 container my-3">جميع المقالات</h2>
+      <h2 className="text-center title-page py-1 pb-2 container my-3">جميع المدونات</h2>
       <ArticleCards articles={articles} />
       {/* Pagination */}
       <div className="d-flex justify-content-center mt-3">

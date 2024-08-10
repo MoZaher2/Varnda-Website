@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";//
-// import { faGoogle } from "@fortawesome/free-brands-svg-icons";//
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import "./SignupPage.css";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
@@ -85,6 +85,16 @@ export default function SignupPage() {
 
     setValidated(true);
   };
+
+//Google
+const logWithGoogle = () => {
+  const clientId = '525682631663-v636i48t9vd183dbh7a8hvdp1lfov8co.apps.googleusercontent.com';
+  const redirectUri = 'https://back.varnda.com/api/auth/google/callback';
+  const scope = 'openid profile email';
+  const responseType = 'code';
+  const googleAuthUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=${responseType}`;
+  window.location.href = googleAuthUrl;
+};
 
   return (
     <Container className="signup-container mt-3" dir="rtl">
@@ -183,15 +193,13 @@ export default function SignupPage() {
             </Button>
 
           </Form>
-
           {/* Google */}
-          {/* <div className="text-center mt-2">
-            <Button variant="light" className="google-button w-100">
-              إنشاء حساب باستخدام جوجل
+          <div className="text-center mt-3">
+            <Button variant="light" className="google-button w-100" onClick={logWithGoogle}>
+              تسجيل الدخول باستخدام جوجل
               <FontAwesomeIcon icon={faGoogle} className="google-icon" />
             </Button>
-          </div> */}
-
+          </div>
           <div className="text-center mt-2">
             <Link to="/login">لديك حساب بالفعل؟ تسجيل الدخول هنا</Link>
           </div>

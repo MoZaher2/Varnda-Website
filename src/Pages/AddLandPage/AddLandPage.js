@@ -83,6 +83,7 @@ const AddApartmentsAndDuplexesPage = () => {
   const [validated, setValidated] = useState(false);
   const [validated2, setValidated2] = useState(false);
 
+  const [priceText,setPriceText]=useState("")
   const categories = {
     مرافق: ["عداد كهرباء", "عداد مياه", "غاز طبيعي", "تليفون أرضي"],
     ميزات: ["شرفة", "غرف خدم", "غرفة غسيل", "غرفة ملابس", "حديقة خاصة", "موقف سيارات مغطي"],
@@ -394,6 +395,20 @@ const AddApartmentsAndDuplexesPage = () => {
   };
 
 
+// لتنسيق شكل الرقم
+const handlePriceChange = (e) => {
+  const { value } = e.target;
+  console.log(value);
+  const price = value.replace(/,/g, '')
+  if (!isNaN(price)) {
+    setPriceText(Number(price).toLocaleString('en-US'))//For view
+    setFormData({
+      ...formData,
+      "price": price,
+    });
+  }
+}
+ 
   return (
     <>
       <Header />
@@ -480,20 +495,20 @@ const AddApartmentsAndDuplexesPage = () => {
                           </Form.Group>
 
                       <Row>
-                        <Col xs={12} md={6}>
+                      <Col xs={12} md={6}>
                           <Form.Group controlId="price" className="mb-3">
                             <Form.Label className='required'>
                               <FontAwesomeIcon
                                 icon={faDollarSign}
                                 className="me-2"
                               />
-                              سعر قطعه الأرض
+                              سعر قطعة الارض
                             </Form.Label>
                             <Form.Control
-                              type="number"
-                              name="price"
-                              value={formData.price}
-                              onChange={handleChange}
+                              type="text"
+                              name="priceText"
+                              value={priceText}
+                              onChange={handlePriceChange}
                               required
                             />
                           </Form.Group>
@@ -556,9 +571,9 @@ const AddApartmentsAndDuplexesPage = () => {
                           >
                             <option value="">اختر</option>
                             <option value="1">شهرى</option>
-                            <option value="3">ربع ثانوى</option>
-                            <option value="6">نصف ثانوى</option>
-                            <option value="12">ثانوى</option>
+                            <option value="3">ربع سنوى</option>
+                            <option value="6">نصف سنوى</option>
+                            <option value="12">سنوى</option>
                           </Form.Select>
                         </Form.Group>
                       )}

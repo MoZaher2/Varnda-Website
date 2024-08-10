@@ -31,9 +31,10 @@ import card12 from "../../images/card_12.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Phone from "./Phone";
+// import Phone from "./Phone";
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
 
 export default function CardFav({ properties }) {
     console.log(properties);
@@ -95,25 +96,25 @@ export default function CardFav({ properties }) {
                                         src={item.ad.property.primary_picture}
                                         alt={`صوره الاعلان الرئيسيه`}
                                         key={index}
-                                        style={{ width: "100%", height: "100%" }}
+                                        style={{ width: "100%", height: "300px" }}
                                     />
                                 </div>
-                                {/* {item.ad.property.images.map((image, idx) => (
+                                {item.ad.property.images.map((image, idx) => (
                                     <div>
                                         <img
                                             src={image.image}
                                             alt={`imgCard-${idx}`}
                                             key={idx}
-                                            style={{ width: "100%", height: "100%" }}
+                                            style={{ width: "100%", height: "300px" }}
                                         />
                                     </div>
-                                ))} */}
+                                ))}
                             </Slider> : <div>
                                 <img
                                     src={item.ad.property.primary_picture}
                                     alt={`صوره الاعلان الرئيسيه`}
                                     key={index}
-                                    style={{ width: "100%", height: "100%" }}
+                                    style={{ width: "100%", height: "300px" }}
                                 />
                             </div>}
                         </Link>
@@ -121,7 +122,11 @@ export default function CardFav({ properties }) {
                             الصور المتاحة لهذا العقار
                         </h6>
                         <div>
-                            <Phone phone={item.phone} />
+                            <a href={`tel:+2${item.phone}`} >
+                                <Button variant="primary" className="m-2 btn-md">
+                                    <FontAwesomeIcon icon={faPhone} /> اتصل
+                                </Button>
+                            </a>
                             <Button
                                 variant="secondary"
                                 className="m-2 btn-sm"
@@ -152,7 +157,7 @@ export default function CardFav({ properties }) {
                                         fontSize: "28px",
                                     }}
                                 >
-                                    {item.ad.property.price} ج.م
+                                    {Number(item.ad.property.price).toLocaleString('ar-EG')} ج.م
                                 </Card.Title>
                                 <Card.Text style={{ padding: "0px" }}>
                                     <Row className="mb-2">

@@ -14,7 +14,7 @@ export default function AllArticles() {
     const [articles, setArticles] = useState([])
     
 
-// استرجاع المقالات 
+// استرجاع المدونات 
 useEffect(() => {
     const fetchArticles = async () => {
         try {
@@ -27,7 +27,7 @@ useEffect(() => {
     fetchArticles();
 }, []);
 
-// حذف المقاله
+// حذف المدونة
 const handleDelete = async (id) => {
     try {
         const response = await api.delete(`deletePost/${id}`,{
@@ -47,10 +47,10 @@ return (
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>عنوان المقاله</th>
+                    <th>عنوان المدونة</th>
                     <th>الميتا دسكريبشن</th>
                     <th>الكلمات المفتاحيه</th>
-                    <th>رابط المقاله</th>
+                    <th>رابط المدونة</th>
                     <th>حذف</th>
                 </tr>
             </thead>

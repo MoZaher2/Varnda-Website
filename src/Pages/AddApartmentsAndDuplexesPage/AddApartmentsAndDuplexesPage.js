@@ -39,6 +39,8 @@ const AddApartmentsAndDuplexesPage = () => {
     email: Cookies.get('email'),
     whats_phone: Cookies.get('whats_phone')
   })
+  console.log(Cookies.get("user_id"));
+  console.log("dddddddddddddddddddddddddddd");
   const [formData, setFormData] = useState({
     user_id: Cookies.get("user_id"),//👍
     category: 'شقق',//👍
@@ -82,6 +84,8 @@ const AddApartmentsAndDuplexesPage = () => {
   const [position, setPosition] = useState([30.044376903556085, 31.235749743857397]);//ابعته ف ال API  latitude longitude
   const [validated, setValidated] = useState(false);
   const [validated2, setValidated2] = useState(false);
+
+  const [priceText,setPriceText]=useState("")
 
   const categories = {
     مرافق: ["عداد كهرباء", "عداد مياه", "غاز طبيعي", "تليفون أرضي"],
@@ -196,9 +200,6 @@ const AddApartmentsAndDuplexesPage = () => {
     const egPhone = /^(010|011|012|015)\d{8}$/;
     return egPhone.test(phoneNumber);
   };
-
-
-
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -333,11 +334,8 @@ const AddApartmentsAndDuplexesPage = () => {
             'Content-Type': 'multipart/form-data',
           },
         });
-        console.log(response.data.data.property_id)
-
         const prop_id = response.data.data.property_id
         setFormData2({ ...formData2, "property_id": prop_id })
-        setLoad1(false)
         // للانتقال لاخر صفحه و حفظ الاعلان
         setCurrentPage(currentPage + 1);
       } catch (err) {
@@ -345,6 +343,9 @@ const AddApartmentsAndDuplexesPage = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setShow(true)
         console.log(err)
+        alert("h")
+      }
+      finally{
         setLoad1(false)
       }
     }
@@ -401,7 +402,6 @@ const AddApartmentsAndDuplexesPage = () => {
 
 
 
-
   const validateUrl = (url) => {
     const urlPattern = new RegExp('^(https?:\\/\\/)?' + // Protocol
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // Domain name
@@ -412,6 +412,19 @@ const AddApartmentsAndDuplexesPage = () => {
     return !!urlPattern.test(url);
   };
 
+// لتنسيق شكل الرقم
+const handlePriceChange = (e) => {
+  const { value } = e.target;
+  console.log(value);
+  const price = value.replace(/,/g, '')
+  if (!isNaN(price)) {
+    setPriceText(Number(price).toLocaleString('en-US'))//For view
+    setFormData({
+      ...formData,
+      "price": price,
+    });
+  }
+}
 
   return (
     <>
@@ -481,6 +494,7 @@ const AddApartmentsAndDuplexesPage = () => {
                         />
                       </Form.Group>
                       <Row>
+
                         <Col xs={12} md={6}>
                           <Form.Group controlId="price" className="mb-3">
                             <Form.Label className='required'>
@@ -491,14 +505,15 @@ const AddApartmentsAndDuplexesPage = () => {
                               سعر الوحدة
                             </Form.Label>
                             <Form.Control
-                              type="number"
-                              name="price"
-                              value={formData.price}
-                              onChange={handleChange}
+                              type="text"
+                              name="priceText"
+                              value={priceText}
+                              onChange={handlePriceChange}
                               required
                             />
                           </Form.Group>
                         </Col>
+
                         <Col xs={12} md={6}>
                           <Form.Group controlId="discount" className="mb-3">
                             <Form.Label>خصم حصري (إن وجد)</Form.Label>
@@ -555,9 +570,9 @@ const AddApartmentsAndDuplexesPage = () => {
                           >
                             <option value="">اختر</option>
                             <option value="1">شهرى</option>
-                            <option value="3">ربع ثانوى</option>
-                            <option value="6">نصف ثانوى</option>
-                            <option value="12">ثانوى</option>
+                            <option value="3">ربع سنوى</option>
+                            <option value="6">نصف سنوى</option>
+                            <option value="12">سنوى</option>
                           </Form.Select>
                         </Form.Group>
                       )}
