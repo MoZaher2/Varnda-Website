@@ -22,6 +22,7 @@ const AddQuickPage = () => {
     governorate: '',//👍
     city: '',//👍
     phone: Cookies.get('phone'),
+    email: Cookies.get('email'),
   });
   const [images, setImages] = useState([]);
   const [cities, setCities] = useState([]);
@@ -134,6 +135,7 @@ const AddQuickPage = () => {
             property_id: prop_id,
             phone: formData.phone,
             whats_phone: formData.phone,
+            email:formData.email,
             ad_type:1
           }, {
             headers: {

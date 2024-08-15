@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faPhone ,faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 const QuickCardDetails = ({ propertyDetails }) => {
   const sliderSettings = {
@@ -62,20 +62,38 @@ const QuickCardDetails = ({ propertyDetails }) => {
               <Row>
                 <div>
                   <a href={`tel:+2${propertyDetails.phone}`}>
-                    <Button variant="primary" className="m-2 btn-md">
+                    <Button variant="primary" className="m-2 btn-lg">
                       <FontAwesomeIcon icon={faPhone} /> اتصل
                     </Button>
                   </a>
+                  <Button
+                      variant="secondary"
+                      className="m-2 btn-lg"
+                      onClick={() => {
+                        const mailtoLink = `mailto:${
+                          propertyDetails.email
+                        }?subject=${encodeURIComponent(
+                          "عقار على فارندا"
+                        )}&body=${encodeURIComponent(
+                          `الرقم التعريفى للاعلان: ${propertyDetails.id}`
+                        )}`;
+                        window.location.href = mailtoLink;
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faEnvelope} /> الإيميل
+                    </Button>
                   <a
                     href={`https://api.whatsapp.com/send?phone=2${
                       propertyDetails.whats_phone
                     }&text=${encodeURIComponent(
-                      "مرحباً، أنا مهتم بعقارك الموجود على فارندا"
+                      "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
+                    )}${encodeURIComponent(
+                      `http://varnda.com/moreDeteliesPage/${propertyDetails.id}`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Button variant="success" className="m-2 btn-md">
+                    <Button variant="success" className="m-2 btn-lg">
                       <FontAwesomeIcon icon={faWhatsapp} /> واتساب
                     </Button>
                   </a>

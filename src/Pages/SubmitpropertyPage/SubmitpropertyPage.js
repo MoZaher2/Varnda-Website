@@ -8,6 +8,8 @@ import Header from '../../Components/Header/Header';
 import Footer from '../../Components/Footer/Footer';
 
 
+import QuickAds from '../../images/QuickAds.jpg';
+
 import image1 from '../../images/image1.jpg';
 import image2 from '../../images/image2.jpg';
 import image3 from '../../images/image3.jpg';
@@ -102,10 +104,11 @@ function SubmitpropertyPage() {
                 <Card className="h-100 shadow-sm">
                   <Card.Img
                     variant="top"
-                    src={image1}
+                    src={QuickAds}
                     alt="quick-property"
                     className="img-fluid"
-                    style={{ height: '200px', objectFit: 'cover' }}
+                    style={{ height: '300px' }}
+                    // style={{ height: '300px', objectFit: 'cover' }}
                   />
                   <Card.Body className="d-flex flex-column">
                     <Card.Title className="text-primary">اعلان سريع</Card.Title>

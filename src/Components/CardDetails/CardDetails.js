@@ -554,13 +554,13 @@ const CardDetails = ({ propertyDetails }) => {
                 <Col lg={12}>
                   <div>
                     <a href={`tel:+2${propertyDetails.phone}`}>
-                      <Button variant="primary" className="m-2 btn-md">
+                      <Button variant="primary" className="m-2 btn-lg">
                         <FontAwesomeIcon icon={faPhone} /> اتصل
                       </Button>
                     </a>
                     <Button
                       variant="secondary"
-                      className="m-2 btn-md"
+                      className="m-2 btn-lg"
                       onClick={() => {
                         const mailtoLink = `mailto:${
                           propertyDetails.email
@@ -575,18 +575,20 @@ const CardDetails = ({ propertyDetails }) => {
                       <FontAwesomeIcon icon={faEnvelope} /> الإيميل
                     </Button>
                     <a
-                      href={`https://api.whatsapp.com/send?phone=2${
-                        propertyDetails.whats_phone
-                      }&text=${encodeURIComponent(
-                        "مرحباً، أنا مهتم بعقارك الموجود على فارندا"
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Button variant="success" className="m-2 btn-md">
-                        <FontAwesomeIcon icon={faWhatsapp} /> واتساب
-                      </Button>
-                    </a>
+                    href={`https://api.whatsapp.com/send?phone=2${
+                      propertyDetails.whats_phone
+                    }&text=${encodeURIComponent(
+                      "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
+                    )}${encodeURIComponent(
+                      `http://varnda.com/moreDeteliesPage/${propertyDetails.id}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button variant="success" className="m-2 btn-lg">
+                      <FontAwesomeIcon icon={faWhatsapp} /> واتساب
+                    </Button>
+                  </a>
                   </div>
                 </Col>
               </Row>
