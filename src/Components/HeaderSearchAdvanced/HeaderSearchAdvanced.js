@@ -20,7 +20,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
   const token = Cookies.get("token");
   // const [searchText, setSearchText] = useState(query.get("searchText") ? query.get("searchText").split(',') : []);
   // const [searchText, setSearchText] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(query.get("selectedOption") || "sale");
+  const [selectedOption, setSelectedOption] = useState(query.get("selectedOption") || "");
   const [subCategory, setSubCategory] = useState(query.get("subCategory") || "");
   const [propertyType, setPropertyType] = useState(query.get("propertyType") || "سكنى");
   const [rooms, setRooms] = useState(query.get("rooms") ? query.get("rooms").split(',') : []);
@@ -137,7 +137,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
   };
 
   const handleReset = () => {
-    setSelectedOption("sale");
+    setSelectedOption("");
     setSubCategory("");
     setPropertyType("سكنى");
     setShowDropdown(false);
@@ -272,7 +272,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between show" style={{ paddingRight: "20px" }}>
             <Form dir="rtl" className="w-100">
               <Row className="mb-3 d-flex align-items-center justify-content-start formInfoAdvanced">
-                <Col lg="1" md="2" className="mb-2" >
+                <Col lg="2" md="2" className="mb-2" >
                   <Form.Group className="inputSelectAdvanced">
                     <Dropdown
                       show={showDropdown}
@@ -285,7 +285,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
                         onClick={() => setShowDropdown(!showDropdown)}
                         className="w-100"
                       >
-                        {selectedOption === "rent" ? "للايجار" : "للبيع"}
+                        {selectedOption === "rent" ? "للايجار" :selectedOption === "sale"? "للبيع":"بيع و ايجار"}
                       </Button>
 
                       <Dropdown.Menu
@@ -294,30 +294,32 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
                       >
                         <div className="p-3">
                           <h5 className="mb-3 type-ofer">نوع العرض</h5>
-                          <div className="d-flex justify-content-around">
-                            <Button
-                              className="btn btn-primary select-option"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleOptionChange("sale");
-                              }}
-                              active={selectedOption === "sale"}
-                            >
-                              للبيع
-                            </Button>
-                            <Button
-                              className="btn btn-primary select-option"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleOptionChange("rent");
-                              }}
-                              active={selectedOption === "rent"}
-                            >
-                              للايجار
-                            </Button>
+                          <div className="d-flex justify-content-around text-center">
+
+                          <Dropdown.Item
+                                  key="1"
+                                  className="btn"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleOptionChange("sale");
+                                  }}
+                                  active={selectedOption === "sale"}
+                                >
+                                   للبيع
+                                </Dropdown.Item>
+                          <Dropdown.Item
+                                  key="2"
+                                  className="btn"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleOptionChange("rent");
+                                  }}
+                                  active={selectedOption === "rent"}
+                                >
+                                   للايجار
+                                </Dropdown.Item>
                           </div>
-                          <hr />
-                          <div className="d-flex justify-content-between mt-3">
+                          {/* <div className="d-flex justify-content-between mt-3">
                             <Button variant="secondary" onClick={handleReset}>
                               إعادة ضبط
                             </Button>
@@ -328,7 +330,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
                             >
                               تم
                             </Button>
-                          </div>
+                          </div> */}
                         </div>
                       </Dropdown.Menu>
                     </Dropdown>
@@ -415,7 +417,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
                             </div>
                           )}
 
-                          <div className="d-flex justify-content-between mt-3">
+                          {/* <div className="d-flex justify-content-between mt-3">
                             <Button variant="secondary" onClick={handleReset}>
                               إعادة ضبط
                             </Button>
@@ -426,7 +428,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
                             >
                               تم
                             </Button>
-                          </div>
+                          </div> */}
                         </div>
                       </Dropdown.Menu>
                     </Dropdown>
@@ -473,11 +475,11 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
                               </div>
                             ))}
                           </div>
-                          <div className="d-flex justify-content-end mt-3">
+                          {/* <div className="d-flex justify-content-end mt-3">
                             <Button variant="primary" onClick={resetSelections}>
                               إعادة ضبط
                             </Button>
-                          </div>
+                          </div> */}
                         </div>
                       </DropdownButton>
                     </Dropdown>
@@ -556,11 +558,11 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
                               </Form.Select>
                             </Form.Group>
                           </div>
-                          <div className="d-flex align-items-center justify-content-between">
+                          {/* <div className="d-flex align-items-center justify-content-between">
                             <Button variant="secondary" onClick={handleReset}>
                               إعادة الضبط
                             </Button>
-                          </div>
+                          </div> */}
                         </div>
                       </DropdownButton>
                     </Dropdown>
@@ -589,7 +591,13 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
 
                   </Form.Group>
                 </Col>
-
+                <Col>
+                  <div className="d-flex flex-row-reverse pr-3">
+                    <Button variant="secondary" onClick={handleReset}>
+                      إعادة ضبط
+                    </Button>
+                  </div>
+                </Col>
                 {/* حفظ الاعلان مرحله تانيه */}
                 {/* <Col>
                   <div className="d-flex flex-row-reverse pr-3">

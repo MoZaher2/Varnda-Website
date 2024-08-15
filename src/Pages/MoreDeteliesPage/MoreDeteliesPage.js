@@ -13,9 +13,13 @@ import CommentCardAds from "../../Components/Comments/CommentCardAds.js";
 import AddCommentAds from "../../Components/Comments/AddCommentAds.js";
 
 import Share from "../../Components/Cards/Share.js";
+import OverPage from "../../Components/OverPage/OverPage.js";
+import NotFoundPage from './../NotFoundPage/NotFoundPage';
+import QuickCardDetails from "../../Components/CardDetails/QuickCardDetails.js";
 
 const MoreDeteliesPage = () => {
   const {id}=useParams()
+  const [over,setOver]=useState(true)
 const[data,setData]=useState("")
   useEffect(()=>{
     const getOneAds = async (e) => {
@@ -28,27 +32,50 @@ const[data,setData]=useState("")
           })
           const adsData=response.data.data
           setData(adsData)
-          // console.log(adsData)
         }catch(err){
-          console.log(err)
+          if(err.response.data.status===404){
+            setData("NotFound")
+          }
+          
+        }
+        finally{
+          setOver(false)
         }
       }
       getOneAds()
   },[])
   return (
     <>
-      <Header />
-      <CardDetails propertyDetails={data}/>
-      <hr/>
-        <Container>
-          <CommentCardAds ads_id={id} />
-          <hr/>
-          <AddCommentAds ads_id={id} />
-        </Container>
-      <Footer />
-      {data&&<Share text={data.property["Arabic Name"]} url={`http://varnda.com/moreDeteliesPage/${encodeURIComponent(id)}`} />}
+      {data === "NotFound" ? (
+        <NotFoundPage />
+      ) : data === "" ? (
+        <></>
+      ) : (
+        <>
+          <Header />
+          {data.ad_type?<QuickCardDetails propertyDetails={data} />:<CardDetails propertyDetails={data} />}
+          <hr />
+          <Container>
+            <CommentCardAds ads_id={id} />
+            <hr />
+            <AddCommentAds ads_id={id} />
+          </Container>
+          <Footer />
+          {data && (
+            <Share
+              text={data.property["Arabic Name"]}
+              url={`http://varnda.com/moreDeteliesPage/${encodeURIComponent(
+                id
+              )}`}
+            />
+          )}
+          {over && <OverPage />}
+        </>
+      )}
     </>
   );
 };
 
 export default MoreDeteliesPage;
+
+

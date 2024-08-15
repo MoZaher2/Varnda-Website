@@ -26,7 +26,7 @@ export default function HeaderPageLink() {
           <Nav>
             {categories.map((category) => (
               <div className="page-link" key={category.id}>
-                <Nav.Link href={`/articles/${category.category_name}`} className="link">
+                <Nav.Link href={`/Blogs/${category.category_name}`} className="link">
                   {category.category_name}
                 </Nav.Link>
               </div>

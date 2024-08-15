@@ -49,6 +49,7 @@ import Molls from "./Pages/Dashboard/Places/Molls";
 import AllAds from "./Pages/Dashboard/AllAds";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import AuthGoogle from "./Pages/AuthGoogle/AuthGoogle";
+import AddQuickPage from "./Pages/AddQuickPage/AddQuickPage";
 
 
 function App() {
@@ -57,11 +58,11 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/articles" element={<ArticlesLayout />}>
+        <Route path="/Blogs" element={<ArticlesLayout />}>
           <Route index element={<Articles />} />
           <Route path=":category" element={<ArticlesInCategory />} />
         </Route>
-        <Route path="/article/:id" element={<ArticleDetailes />} />
+        <Route path="/Blog/:id" element={<ArticleDetailes />} />
         <Route path="/searchPage/:gov" element={<SearchPage />} />
         <Route path="/aboutUs" element={<AboutPage />} />
         <Route path="/contactUs" element={<ContactPage />} />
@@ -84,9 +85,9 @@ function App() {
         >
           <Route index element={<h1>Dashboard</h1>} />
           <Route path="all-ads" element={<AllAds />} />
-          <Route path="articles" element={<AllArticles />} />
-          <Route path="articles-category" element={<ArticlesCategory />} />
-          <Route path="add-article" element={<AddArticle />} />
+          <Route path="Blogs" element={<AllArticles />} />
+          <Route path="Blogs-category" element={<ArticlesCategory />} />
+          <Route path="add-Blog" element={<AddArticle />} />
           <Route path="category" element={<CategoryArticle />} />
           <Route path="governments" element={<Governments />} />
           <Route path="cities" element={<Cities />} />
@@ -105,6 +106,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+        {/*  */}
+        <Route
+          path="/add-quick-property"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <AddQuickPage />
+            </ProtectedRoute>
+          }
+        />
+        {/*  */}
         <Route
           path="/add-apartments-duplexes"
           element={

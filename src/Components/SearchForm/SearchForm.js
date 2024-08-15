@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./SearchForm.css";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCar } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useNavigate } from "react-router-dom";
@@ -14,16 +11,14 @@ import queryString from "query-string";
 import Search from "../Search/Search";
 
 const SearchForm = ({ backgroundImage }) => {
+
   const navigate = useNavigate();
-  // const [selectedOption, setSelectedOption] = useState("للبيع");
-  // const [rentalDuration, setRentalDuration] = useState("");
   const [propertyType, setPropertyType] = useState("سكنى");
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDropdownArea, setShowDropdownArea] = useState(false);
   const [showDropdownPrice, setShowDropdownPrice] = useState(false);
   const [showPropertyTypeDropdown, setShowPropertyTypeDropdown] = useState(false);
   const [subCategory, setSubCategory] = useState("");
-  // const [searchText, setSearchText] = useState( []);
   const [address, setAddress] = useState({
     governorate: [],
     city: [],
@@ -38,15 +33,17 @@ const SearchForm = ({ backgroundImage }) => {
 
   const roomValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8"];
   const bathroomValues = ["1", "2", "3", "4", "5", "6"];
-  const [selectedOption, setSelectedOption] = useState("sale");
+  const [selectedOption, setSelectedOption] = useState("");
   const [rooms, setRooms] = useState([]);
   const [bathrooms, setBathrooms] = useState([]);
+
   const handleOptionChange = (option) => {
     setSelectedOption(option);
-    if (option === "للايجار") {
+    if (option === "rent") {
       setShowDropdown(true);
     }
   };
+
   const handleRoomChange = (room) => {
     setRooms((prevRooms) =>
       prevRooms.includes(room)
@@ -70,17 +67,12 @@ const SearchForm = ({ backgroundImage }) => {
   const [price, setPrice] = useState({ min: "", max: "" });
   const [area, setArea] = useState({ min: "", max: "" });
 
-  // const handleDurationChange = (duration) => {
-  //   setRentalDuration(duration);
-  // };
-
   const handlePropertyTypeChange = (type) => {
     setPropertyType(type);
   };
 
   const handleReset = () => {
-    setSelectedOption("للبيع");
-    // setRentalDuration("");
+    setSelectedOption("");
     setPropertyType("سكنى");
     setShowDropdown(false);
     setShowPropertyTypeDropdown(false);
@@ -89,14 +81,9 @@ const SearchForm = ({ backgroundImage }) => {
   const handleDone = () => {
     setShowDropdown(false);
     setShowPropertyTypeDropdown(false);
-
   };
 
-
   const [showRoomsDropdown, setShowRoomsDropdown] = useState(false);
-
-
-
   const residentialOptions = [
     "شقة", "فيلا منفصلة", "دوبلكس", "بنتهاوس", "شاليه", "تاون هاوس", "توين هاوس", "أرض سكنية","ستوديو" ];
 
@@ -153,14 +140,6 @@ let gov
 
   }
 
-  // useEffect(() => {
-  //   const groupedAddress = searchText.reduce((acc, item) => {
-  //     acc[item.type] = acc[item.type] || [];
-  //     acc[item.type].push(item.name);
-  //     return acc;
-  //   }, {});
-  //   setAddress(groupedAddress);
-  // }, [searchText]);
 
 
   return (
@@ -186,7 +165,7 @@ let gov
                     onClick={() => setShowDropdown(!showDropdown)}
                     className="w-75 custToggle"
                   >
-                    {selectedOption === "rent" ? "للايجار" : "للبيع"}
+                    {selectedOption === "rent" ? "للايجار" :selectedOption === "sale"? "للبيع":"بيع و ايجار"}
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu
@@ -195,28 +174,31 @@ let gov
                   >
                     <div className="p-3">
                       <h5 className="mb-3 type-ofer">نوع العرض</h5>
-                      <div className="d-flex justify-content-around">
-                        <Button
-                          className="btn btn-primary select-option"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleOptionChange("sale");
-                          }}
-                          active={selectedOption === "sale"}
-                        >
-                          للبيع
-                        </Button>
-                        <Button
-                          className="btn btn-primary select-option"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleOptionChange("rent");
-                          }}
-                          active={selectedOption === "rent"}
-                        >
-                          للايجار
-                        </Button>
-                      </div>
+                      <div className="d-flex justify-content-around text-center">
+
+<Dropdown.Item
+        key="1"
+        className="btn"
+        onClick={(e) => {
+          e.preventDefault();
+          handleOptionChange("sale");
+        }}
+        active={selectedOption === "sale"}
+      >
+         للبيع
+      </Dropdown.Item>
+<Dropdown.Item
+        key="2"
+        className="btn"
+        onClick={(e) => {
+          e.preventDefault();
+          handleOptionChange("rent");
+        }}
+        active={selectedOption === "rent"}
+      >
+         للايجار
+      </Dropdown.Item>
+</div>
                       <hr />
                       <div className="d-flex justify-content-between mt-3">
                         <Button variant="secondary" onClick={handleReset}>
@@ -442,7 +424,7 @@ let gov
               </Dropdown>
             </Form.Group>
 
-            <Form.Group as={Col}>
+            <Form.Group as={Col}  className="mb-3">
               <Dropdown show={showDropdownPrice} onToggle={(isOpen) => setShowDropdownPrice(isOpen)}>
                 <Dropdown.Toggle variant="light" id="dropdown-custom-components">
                   السعر ( ج . م )

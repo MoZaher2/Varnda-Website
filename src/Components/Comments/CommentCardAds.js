@@ -18,7 +18,6 @@ export default function CommentCardAds({ ads_id }) {
             try {
                 const response = await api.get(`get-ad-comments/${ads_id}`);
                 setComments(response.data.data)
-                console.log(response.data.data[0].user_id);
             } catch (err) {
                 console.log(err);
             }

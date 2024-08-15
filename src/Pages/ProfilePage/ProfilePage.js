@@ -177,7 +177,7 @@ const ProfilePage = () => {
       const userData = response.data.data;
       Cookies.set("image", userData.image);
       setAlert({
-        msg: "تم تحديث الصوره بنجاخ",
+        msg: "تم تحديث الصوره بنجاح",
         variant: 1
       });
       setShow(true);

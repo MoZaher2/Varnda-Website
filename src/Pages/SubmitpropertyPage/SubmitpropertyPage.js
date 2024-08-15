@@ -93,6 +93,34 @@ function SubmitpropertyPage() {
             </Col>
           </Row>
 
+
+
+
+          <Row className='justify-content-center'>
+            <Col key="0" sm={6} md={6} lg={5} className="mb-4">
+              <Link to="/add-quick-property" className="text-decoration-none">
+                <Card className="h-100 shadow-sm">
+                  <Card.Img
+                    variant="top"
+                    src={image1}
+                    alt="quick-property"
+                    className="img-fluid"
+                    style={{ height: '200px', objectFit: 'cover' }}
+                  />
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Title className="text-primary">اعلان سريع</Card.Title>
+                    <Card.Text className="flex-grow-1">اضف اعلانك بسرعه وسهوله </Card.Text>
+                    <div className="text-end mt-auto">
+                      <small className="text-muted">
+                        اضافه اعلانك <FontAwesomeIcon icon={faArrowRight} />
+                      </small>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Link>
+            </Col>
+          </Row>
+          <hr></hr>
           <Row>
             {propertyCards.map((property, index) => (
               <Col key={index} sm={6} md={4} lg={3} className="mb-4">

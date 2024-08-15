@@ -22,6 +22,7 @@ import Company from "../../Components/Company/Company";
 import api from "../../API/ApiLink.js";
 import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard.js";
 import VideoEmbed from "../../utility/VideoEmbed/VideoEmbed.js";
+import AddQuickCard from "../../Components/Cards/AddProperty/AddQuickCard.js";
 
 
 
@@ -72,6 +73,7 @@ export default function HomePage() {
       <Footer />
       {/* <VideoEmbed videoUrl="https://www.youtube.com/watch?v=Q5EOt_-jDgM"/> */}
       {/* <VideoEmbed videoUrl="https://www.facebook.com/watch/?v=10153231379946729" /> */}
+      <AddQuickCard/>
     </>
   );
 }

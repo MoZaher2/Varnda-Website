@@ -51,7 +51,7 @@ const token=Cookies.get("token")
       </h2>
       <Container>
         <Row className="d-flex justify-content-between">
-          <Col dir="rtl" md={8} lg={6}>
+          <Col dir="rtl" sm={12} md={10} lg={8}>
           <CardFav properties={properties}/> 
           </Col>
         </Row>

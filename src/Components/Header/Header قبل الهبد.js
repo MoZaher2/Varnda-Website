@@ -82,7 +82,7 @@ export default function Header() {
                   <FontAwesomeIcon icon={faHome} className="ms-2" />
                   تصفح عقاراتك
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/articles" className="text-end">
+                <NavDropdown.Item as={Link} to="/Blogs" className="text-end">
                   <FontAwesomeIcon icon={faFileAlt} className="ms-2" />
                   المدونة
                 </NavDropdown.Item>

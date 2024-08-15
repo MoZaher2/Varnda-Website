@@ -56,7 +56,7 @@ const router = createBrowserRouter([
       element: <HomePage />,
     },
     {
-      path: "/articles",
+      path: "/Blogs",
       element: <ArticlesLayout />,
       children: [
         {
@@ -70,7 +70,7 @@ const router = createBrowserRouter([
       ]
     },
     {
-      path: "/article/:id",
+      path: "/Blog/:id",
       element: <ArticleDetailes />,
     },
     {
@@ -123,15 +123,15 @@ const router = createBrowserRouter([
         element: <AllAds />
       },
       {
-        path: "articles",
+        path: "Blogs",
         element: <AllArticles />,
       },
       {
-        path: "articles-category",
+        path: "Blogs-category",
         element: <ArticlesCategory />,
       },
       {
-        path: "add-article",
+        path: "add-Blog",
         element: <AddArticle />,
       },
       {

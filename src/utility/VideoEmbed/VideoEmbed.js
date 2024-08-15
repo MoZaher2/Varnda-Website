@@ -9,7 +9,7 @@ export default function VideoEmbed({ videoUrl }) {
           url={videoUrl}
           className={Style.player}
           width='100%'
-          height='100%'
+          height='360px'
           controls
         />
       </div>

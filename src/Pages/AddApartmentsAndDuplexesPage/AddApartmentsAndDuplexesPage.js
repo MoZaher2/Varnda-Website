@@ -343,7 +343,6 @@ const AddApartmentsAndDuplexesPage = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setShow(true)
         console.log(err)
-        alert("h")
       }
       finally{
         setLoad1(false)

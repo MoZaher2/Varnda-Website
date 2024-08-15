@@ -3,264 +3,738 @@ import Slider from "react-slick";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import Phone from "../Cards/Phone";
-import {
-    faEnvelope,
-} from "@fortawesome/free-solid-svg-icons";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhone } from "@fortawesome/free-solid-svg-icons";
-
+import {
+  faPhone,
+  faBed,
+  faBath,
+  faEnvelope,
+  faHome,
+  faRulerCombined,
+  faMapMarkerAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import VideoEmbed from "../../utility/VideoEmbed/VideoEmbed";
 
 const CardDetails = ({ propertyDetails }) => {
-    // التأكد من أن `propertyDetails` تم تعريفه قبل استخدامه
-    if (!propertyDetails) {
-        return null;
-    }
+  console.log(propertyDetails);
+  const position = [
+    propertyDetails.property.latitude,
+    propertyDetails.property.longitude,
+  ];
+  const myIcon = new L.Icon({
+    iconUrl: require("leaflet/dist/images/marker-icon.png"),
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+    shadowSize: [41, 41],
+  });
 
-    const position = [propertyDetails.property.latitude, propertyDetails.property.longitude];
-    const myIcon = new L.Icon({
-        iconUrl: require('leaflet/dist/images/marker-icon.png'),
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-        shadowSize: [41, 41],
-    });
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3500,
+  };
 
-    const sliderSettings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
-
-    const rentName = propertyDetails.property.renting_type === 1 ? "شهرى" : propertyDetails.property.renting_type === 3 ? "ربع سنوى" : propertyDetails.property.renting_type === 6 ? "نصف سنوى" : propertyDetails.property.renting_type === 12 ? "سنوى" : "";
-    const subCategoryName = propertyDetails.property["Sub Category"] === "فيلا منفصلة" || propertyDetails.property["Sub Category"] === "تاون هاوس" || propertyDetails.property["Sub Category"] === "توين هاوس";
-
-    return (
-        <>
-            <div className="details-container mt-5" dir="rtl">
-                <Container>
-                    <Row className="mb-4">
-                        <Col xs={12} lg={6} style={{ position: "relative" }}>
-                            <span className="outline-primary" style={{
-                                top: '-35px',
-                                position: 'absolute',
-                                left: '12px',
-                                padding: '4px 15px',
-                                borderRadius: '5px',
-                                color: '#0d6efd',
-                                border: '1px solid #0d6efd'
-                            }}>{propertyDetails.property.Type === "sale" ? "للبيع" : "للاجار"}</span>
-                            {propertyDetails.property.images.length > 0 ? <Slider {...sliderSettings}>
-                                <div key={100}>
-                                    <img
-                                        src={propertyDetails.property.primary_picture}
-                                        alt={`صوره الاعلان الرئيسيه`}
-                                        className="img-fluid w-100"
-                                    />
-                                </div>
-                                {propertyDetails.property.images.map((image, index) => (
-                                    <div key={index}>
-                                        <img
-                                            src={image.image}
-                                            alt={`Slide ${index}`}
-                                            className="img-fluid w-100"
-                                        />
-                                    </div>
-                                ))}
-
-                            </Slider> : <div key={100}>
-                                <img
-                                    src={propertyDetails.property.primary_picture}
-                                    alt={`صوره الاعلان الرئيسيه`}
-                                    className="img-fluid w-100"
-                                />
-                            </div>}
-
-                            {/* <div style={{ display: propertyDetails.property.facilities.length > 0 ? "block" : "none" }}> */}
-                            {propertyDetails.property.facilities.length > 0 && <>
-                                <h3 className="mb-3" style={{ color: "#0d6efd" }} >المرافق</h3>
-                                <ul className="list-group mb-3">
-                                    {propertyDetails.property.facilities.map((advantage, index) => (
-                                        <li key={index} className="list-group-item">
-                                            {advantage}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
-                            }
-                            {/* </div> */}
-
-                            {/* <div style={{ display: propertyDetails.property.features.length > 0 ? "block" : "none" }}> */}
-                            {propertyDetails.property.facilities.length > 0 && <>
-                                <h3 className="mb-3" style={{ color: "#0d6efd" }} >المميزات</h3>
-                                <ul className="list-group mb-3">
-                                    {propertyDetails.property.features.map((advantage, index) => (
-                                        <li key={index} className="list-group-item">
-                                            {advantage}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>}
-
-                            {/* </div> */}
-
-                            {/* <div style={{ display: propertyDetails.property.services.length > 0 ? "block" : "none" }}> */}
-                            {propertyDetails.property.services.length > 0 && <>
-                                <h3 className="mb-3" style={{ color: "#0d6efd" }} >الخدمات</h3>
-                                <ul className="list-group mb-3">
-                                    {propertyDetails.property.services.map((advantage, index) => (
-                                        <li key={index} className="list-group-item">
-                                            {advantage}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>}
-
-                            {/* </div> */}
-
-                            {/* <div style={{ display: propertyDetails.property.devices.length > 0 ? "block" : "none" }}> */}
-                            {
-                                propertyDetails.property.devices.length > 0 && <>
-                                    <h3 className="mb-3" style={{ color: "#0d6efd" }} >الأجهزه</h3>
-                                    <ul className="list-group mb-3">
-                                        {propertyDetails.property.devices.map((advantage, index) => (
-                                            <li key={index} className="list-group-item">
-                                                {advantage}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </>
-                            }
-
-                            {/* </div> */}
-
-                            {/* <div style={{ display: propertyDetails.property.accessories.length > 0 ? "block" : "none" }}> */}
-                            {propertyDetails.property.accessories.length > 0 && <>
-                                <h3 className="mb-3" style={{ color: "#0d6efd" }} >الملحقات</h3>
-                                <ul className="list-group mb-3">
-                                    {propertyDetails.property.accessories.map((advantage, index) => (
-                                        <li key={index} className="list-group-item">
-                                            {advantage}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>}
-
-                            {/* </div> */}
-                        </Col>
-
-                        <Col xs={12} lg={6} className="details">
-                            <Row className="mb-3">
-                                <div className="d-flex align-items-center">
-                                    <h1 className="mb-3" style={{ color: "#0d6efd", marginLeft: "10px" }}>
-                                        {Number(propertyDetails.property.price).toLocaleString('ar-EG')} ج.م
-                                    </h1>
-                                    {propertyDetails.property.Discount && <p>يوجد خصم {propertyDetails.property.Discount}%</p>}
-                                </div>
-                            </Row>
-                            <p className="mb-4" style={{ color: "#123", fontWeight: "700" }}>{propertyDetails.property["Arabic Name"]}</p>
-                            <Row className="mb-3">
-                                <Col xs={6} className="d-flex justify-content-between">
-                                    <p style={{ color: "#888", fontWeight: "700" }}>المساحة:</p>
-                                    <p style={{ color: "#0d6efd", fontWeight: "700" }}>{propertyDetails.property.area} متر</p>
-                                </Col>
-                            </Row>
-                            <Row className="mb-3">
-                                <Col xs={6} className="d-flex justify-content-between">
-                                    <p style={{ color: "#888", fontWeight: "700" }}>الغرف:</p>
-                                    <p style={{ color: "#0d6efd", fontWeight: "700" }}>{propertyDetails.property.rooms}</p>
-                                </Col>
-                            </Row>
-                            <Row className="mb-3">
-                                <Col xs={6} className="d-flex justify-content-between">
-                                    <p style={{ color: "#888", fontWeight: "700" }}>الحمامات:</p>
-                                    <p style={{ color: "#0d6efd", fontWeight: "700" }}>{propertyDetails.property.bathrooms}</p>
-                                </Col>
-                            </Row>
-
-                            <p className="mb-4" style={{ color: "#123", fontWeight: "700" }}>{propertyDetails.property.details_ar}</p>
-                            {propertyDetails.property.video_link &&
-                                <div style={{ marginBottom: '15px' }}>
-                                    <a href={propertyDetails.property.video_link} rel="noreferrer" target="_blank" style={{ fontSize: 20 }}>
-                                        رابط فيديو لعرض العقار
-                                    </a>
-                                </div>
-                            }
-
-                            <h3 className="mb-3" style={{ color: "#0d6efd" }}>تفاصيل ال{propertyDetails.property["Sub Category"]}:</h3>
-
-                            <div className="d-flex">
-                                {propertyDetails.property.finishing_type && <p style={{ color: "#888", fontWeight: "700", marginLeft: '20px' }}>مرحلة التشطيب: {propertyDetails.property.finishing_type}</p>}
-                                {(propertyDetails.property.finishing_type === "تشطيب بالأجهزة" || propertyDetails.property.finishing_type === "تشطيب كامل") && <p style={{ color: "#888", fontWeight: "700" }}> ({propertyDetails.property.Furnished ? "مفروشه" : "غير مفروشه"}) </p>}
-
-                            </div>
-                            {(propertyDetails.property.floor_number && !subCategoryName) && <p style={{ color: "#888", fontWeight: "700" }}>رقم الدور : {propertyDetails.property.floor_number}</p>}
-
-                            {(propertyDetails.property.floors && (subCategoryName || !propertyDetails.property.floor_number)) && <p style={{ color: "#888", fontWeight: "700" }}>عدد الأدوار: {propertyDetails.property.floors}</p>}
-
-                            {
-                                propertyDetails.property.Type === "sale" ?
-                                    <>
-                                        {propertyDetails.property.payment_method && <p style={{ color: "#888", fontWeight: "700" }}>طريقة الدفع: {propertyDetails.property.payment_method}</p>}
-                                        {propertyDetails.property.deliver_date && <p style={{ color: "#888", fontWeight: "700" }}>تاريخ التسليم: {propertyDetails.property.deliver_date == 0 ? "فورى" : propertyDetails.property.deliver_date}</p>}
-                                        {propertyDetails.property.legal_papers && <p style={{ color: "#888", fontWeight: "700" }}>الأوراق القانونيه: {propertyDetails.property.legal_papers}</p>}
-                                    </>
-                                    :
-                                    <>
-                                        {rentName && <p style={{ color: "#888", fontWeight: "700" }}>نوع الايجار: {rentName}</p>}
-                                    </>
-                            }
-                            <h3 className="mb-2" style={{ color: "#0d6efd" }}>تواصل مع صاحب الاعلان:</h3>
-                            <Row>
-                                <div>
-                                    <a href={`tel:+2${propertyDetails.phone}`} >
-                                        <Button variant="primary" className="m-2 btn-md">
-                                            <FontAwesomeIcon icon={faPhone} /> اتصل
-                                        </Button>
-                                    </a>
-                                    <Button
-                                        variant="secondary"
-                                        className="m-2 btn-md"
-                                        onClick={() => {
-                                            const mailtoLink = `mailto:${propertyDetails.email}?subject=${encodeURIComponent('عقار على فارندا')}&body=${encodeURIComponent(`الرقم التعريفى للاعلان: ${propertyDetails.id}`)}`;
-                                            window.location.href = mailtoLink;
-                                        }}
-                                    >
-                                        <FontAwesomeIcon icon={faEnvelope} /> الإيميل
-                                    </Button>
-                                    <a href={`https://api.whatsapp.com/send?phone=2${propertyDetails.whats_phone}&text=${encodeURIComponent("مرحباً، أنا مهتم بعقارك الموجود على فارندا")}`} target="_blank" rel="noopener noreferrer">
-                                        <Button variant="success" className="m-2 btn-md">
-                                            <FontAwesomeIcon icon={faWhatsapp} /> واتساب
-                                        </Button>
-                                    </a>
-                                </div>
-                            </Row>
-                        </Col>
-                    </Row>
-                    <h3 className="mb-3" style={{ color: "#0d6efd" }}>العنوان بالكامل: {propertyDetails.property.full_address}</h3>
-                    <Row>
-                        <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{ height: '400px', width: '100%' }}>
-                            <TileLayer
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            />
-                            <Marker position={position} icon={myIcon}>
-                                <Popup>
-                                    {propertyDetails.property.full_address}
-                                </Popup>
-                            </Marker>
-                        </MapContainer>
-                    </Row>
-                </Container>
-            </div>
-        </>
+  const [subCategoryName, setSubCategoryName] = useState("");
+  useEffect(() => {
+    setSubCategoryName(
+      propertyDetails.property["Sub Category"] === "فيلا منفصلة" ||
+        propertyDetails.property["Sub Category"] === "تاون هاوس" ||
+        propertyDetails.property["Sub Category"] === "توين هاوس"
     );
+  }, [propertyDetails]);
+
+  return (
+    <>
+      <div
+        className="details-container mt-5"
+        style={{ background: "#f7f7f7" }}
+        dir="rtl"
+      >
+        <Container>
+          <Row className="mb-4">
+            <Col md={12} lg={8} style={{ position: "relative" }}>
+              <Row>
+                <Col className="p-4" style={{ background: "white" }}>
+                  <div>
+                    <p style={{ color: "#1976d2", fontSize: "25px" }}>
+                      {propertyDetails.property["Arabic Name"]}
+                    </p>
+                  </div>
+                  <div style={{ textAlign: "left" }}>
+                    <span
+                      style={{
+                        color: "#1976d2",
+                        fontSize: "28px",
+                        fontWeight: "bold",
+                        marginLeft: "5px",
+                        position: "relative",
+                      }}
+                    >
+                      {Number(propertyDetails.property.price).toLocaleString(
+                        "ar-EG"
+                      )}
+                      {propertyDetails.property.Discount && (
+                        <span
+                          style={{
+                            position: "absolute",
+                            right: "-60px",
+                            top: "-10px",
+                            fontSize: "13px",
+                            color: "white",
+                            background: "#1976d3d9",
+                            borderRadius: "5px",
+                            padding: "2px 3px",
+                          }}
+                        >
+                          {" "}
+                          خصم{propertyDetails.property.Discount}%
+                        </span>
+                      )}
+                    </span>
+                    <span>ج.م</span>
+                  </div>
+                </Col>
+              </Row>
+
+              <Row style={{ background: "white" }}>
+                {propertyDetails.property.images.length > 0 ? (
+                  <Slider {...sliderSettings}>
+                    <div key={100}>
+                      <img
+                        src={propertyDetails.property.primary_picture}
+                        alt={`صوره الاعلان الرئيسيه`}
+                        className="img-fluid w-100"
+                        style={{ width: "100%", height: "400px" }}
+                      />
+                    </div>
+                    {propertyDetails.property.images.map((image, index) => (
+                      <div key={index}>
+                        <img
+                          src={image.image}
+                          alt={`Slide ${index}`}
+                          className="img-fluid w-100"
+                          style={{ width: "100%", height: "400px" }}
+                        />
+                      </div>
+                    ))}
+                  </Slider>
+                ) : (
+                  <div key={100}>
+                    <img
+                      src={propertyDetails.property.primary_picture}
+                      alt={`صوره الاعلان الرئيسيه`}
+                      className="img-fluid w-100"
+                      style={{ width: "100%", height: "400px" }}
+                    />
+                  </div>
+                )}
+              </Row>
+
+              <Row className="p-4" style={{ background: "white" }}>
+                <h4 className="mb-4" style={{ color: "#1976d2" }}>
+                  شرح العقار
+                </h4>
+                <p
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    color: "#484848",
+                  }}
+                >
+                  {propertyDetails.property.details_ar}
+                </p>
+              </Row>
+
+              <Row className="p-4 mt-3" style={{ background: "white" }}>
+                <Col lg={12}>
+                  <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                    تفاصيل العقار
+                  </h4>
+                </Col>
+                <Col lg={12}>
+                  <table className="w-100" style={{ color: "#212529" }}>
+                    <tbody>
+                      <tr>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          العقار
+                        </th>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          {propertyDetails.property.Type === "sale"
+                            ? "للبيع"
+                            : "للاجار"}
+                        </th>
+                      </tr>
+                      <tr>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          نوع العقار
+                        </th>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          {propertyDetails.property["Sub Category"]}
+                        </th>
+                      </tr>
+                      <tr>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          العقار من
+                        </th>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          {propertyDetails.advertiser_type}
+                        </th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </Col>
+              </Row>
+
+              <Row className="p-4 mt-3" style={{ background: "white" }}>
+                <Col lg={12}>
+                  <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                    تفاصيل أساسية
+                  </h4>
+                </Col>
+                <Col lg={12}>
+                  <table className="w-100" style={{ color: "#212529" }}>
+                    <tbody>
+                      <tr>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          المساحة
+                        </th>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          {propertyDetails.property.area} متر مربع
+                        </th>
+                      </tr>
+                      {propertyDetails.property.floors &&
+                        (subCategoryName ||
+                          !propertyDetails.property.floor_number) && (
+                          <tr>
+                            <th
+                              className="w-50 p-3"
+                              style={{ borderTop: "1px solid #dee2e6" }}
+                            >
+                              عدد الأدوار
+                            </th>
+                            <th
+                              className="w-50 p-3"
+                              style={{ borderTop: "1px solid #dee2e6" }}
+                            >
+                              {propertyDetails.property.floors}
+                            </th>
+                          </tr>
+                        )}
+                      {propertyDetails.property.floor_number &&
+                        !subCategoryName && (
+                          <tr>
+                            <th
+                              className="w-50 p-3"
+                              style={{ borderTop: "1px solid #dee2e6" }}
+                            >
+                              رقم الدور
+                            </th>
+                            <th
+                              className="w-50 p-3"
+                              style={{ borderTop: "1px solid #dee2e6" }}
+                            >
+                              {propertyDetails.property.floor_number}
+                            </th>
+                          </tr>
+                        )}
+                      <tr>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          عدد الغرف
+                        </th>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          {propertyDetails.property.rooms}
+                        </th>
+                      </tr>
+                      <tr>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          عدد الحمامات
+                        </th>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          {propertyDetails.property.bathrooms}
+                        </th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </Col>
+              </Row>
+
+              <Row className="p-4 mt-3" style={{ background: "white" }}>
+                <Col lg={12}>
+                  <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                    السعر
+                  </h4>
+                </Col>
+                <Col lg={12}>
+                  <table className="w-100" style={{ color: "#212529" }}>
+                    <tbody>
+                      <tr>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          السعر و الاستلام
+                        </th>
+                        <th
+                          className="w-50 p-3"
+                          style={{ borderTop: "1px solid #dee2e6" }}
+                        >
+                          {Number(
+                            propertyDetails.property.price
+                          ).toLocaleString("ar-EG")}{" "}
+                          ج.م
+                        </th>
+                      </tr>
+                      {propertyDetails.property.Type === "sale" && (
+                        <>
+                          {propertyDetails.property.payment_method && (
+                            <tr>
+                              <th
+                                className="w-50 p-3"
+                                style={{ borderTop: "1px solid #dee2e6" }}
+                              >
+                                طريقة الدفع
+                              </th>
+                              <th
+                                className="w-50 p-3"
+                                style={{ borderTop: "1px solid #dee2e6" }}
+                              >
+                                {propertyDetails.property.payment_method}
+                              </th>
+                            </tr>
+                          )}
+                          {propertyDetails.property.deliver_date && (
+                            <tr>
+                              <th
+                                className="w-50 p-3"
+                                style={{ borderTop: "1px solid #dee2e6" }}
+                              >
+                                تاريخ التسليم
+                              </th>
+                              <th
+                                className="w-50 p-3"
+                                style={{ borderTop: "1px solid #dee2e6" }}
+                              >
+                                {propertyDetails.property.deliver_date == 0
+                                  ? "فورى"
+                                  : propertyDetails.property.deliver_date}
+                              </th>
+                            </tr>
+                          )}
+                          {propertyDetails.property.legal_papers && (
+                            <tr>
+                              <th
+                                className="w-50 p-3"
+                                style={{ borderTop: "1px solid #dee2e6" }}
+                              >
+                                الأوراق القانونيه
+                              </th>
+                              <th
+                                className="w-50 p-3"
+                                style={{ borderTop: "1px solid #dee2e6" }}
+                              >
+                                {propertyDetails.property.legal_papers}
+                              </th>
+                            </tr>
+                          )}
+                          {propertyDetails.property.finishing_type && (
+                            <tr>
+                              <th
+                                className="w-50 p-3"
+                                style={{ borderTop: "1px solid #dee2e6" }}
+                              >
+                                مرحلة التشطيب
+                              </th>
+                              <th
+                                className="w-50 p-3"
+                                style={{ borderTop: "1px solid #dee2e6" }}
+                              >
+                                {propertyDetails.property.finishing_type}
+
+                                {(propertyDetails.property.finishing_type ===
+                                  "تشطيب بالأجهزة" ||
+                                  propertyDetails.property.finishing_type ===
+                                    "تشطيب كامل") && (
+                                  <p
+                                    style={{
+                                      color: "#888",
+                                      fontWeight: "700",
+                                      margin: "0px",
+                                    }}
+                                  >
+                                    {" "}
+                                    (
+                                    {propertyDetails.property.Furnished
+                                      ? "مفروشه"
+                                      : "غير مفروشه"}
+                                    ){" "}
+                                  </p>
+                                )}
+                              </th>
+                            </tr>
+                          )}
+                        </>
+                      )}
+
+                      {propertyDetails.property.Type === "rent" && (
+                        <>
+                          {propertyDetails.property.renting_type && (
+                            <tr>
+                              <th
+                                className="w-50 p-3"
+                                style={{ borderTop: "1px solid #dee2e6" }}
+                              >
+                                نوع الايجار
+                              </th>
+                              <th
+                                className="w-50 p-3"
+                                style={{ borderTop: "1px solid #dee2e6" }}
+                              >
+                                {propertyDetails.property.renting_type == 1
+                                  ? "شهرى"
+                                  : propertyDetails.property.renting_type == 3
+                                  ? "ربع سنوى"
+                                  : propertyDetails.property.renting_type == 6
+                                  ? "نصف سنوى"
+                                  : propertyDetails.property.renting_type == 12
+                                  ? "سنوى"
+                                  : ""}
+                              </th>
+                            </tr>
+                          )}
+                        </>
+                      )}
+                    </tbody>
+                  </table>
+                </Col>
+              </Row>
+
+              <Row className="p-4 mt-3" style={{ background: "white" }}>
+                <Col lg={12}>
+                  <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                    الموقع
+                  </h4>
+                </Col>
+                <Col lg={12}>
+                  <table className="w-100" style={{ color: "#212529" }}>
+                    <tbody>
+                      {propertyDetails.property.governorate && (
+                        <tr>
+                          <th
+                            className="w-50 p-3"
+                            style={{ borderTop: "1px solid #dee2e6" }}
+                          >
+                            المحافظة
+                          </th>
+                          <th
+                            className="w-50 p-3"
+                            style={{ borderTop: "1px solid #dee2e6" }}
+                          >
+                            {propertyDetails.property.governorate}
+                          </th>
+                        </tr>
+                      )}
+                      {propertyDetails.property.city && (
+                        <tr>
+                          <th
+                            className="w-50 p-3"
+                            style={{ borderTop: "1px solid #dee2e6" }}
+                          >
+                            المدينة
+                          </th>
+                          <th
+                            className="w-50 p-3"
+                            style={{ borderTop: "1px solid #dee2e6" }}
+                          >
+                            {propertyDetails.property.city}
+                          </th>
+                        </tr>
+                      )}
+                      {propertyDetails.property.region && (
+                        <tr>
+                          <th
+                            className="w-50 p-3"
+                            style={{ borderTop: "1px solid #dee2e6" }}
+                          >
+                            المنطقة
+                          </th>
+                          <th
+                            className="w-50 p-3"
+                            style={{ borderTop: "1px solid #dee2e6" }}
+                          >
+                            {propertyDetails.property.region}
+                          </th>
+                        </tr>
+                      )}
+                      {propertyDetails.property.street && (
+                        <tr>
+                          <th
+                            className="w-50 p-3"
+                            style={{ borderTop: "1px solid #dee2e6" }}
+                          >
+                            الشارع
+                          </th>
+                          <th
+                            className="w-50 p-3"
+                            style={{ borderTop: "1px solid #dee2e6" }}
+                          >
+                            {propertyDetails.property.street}
+                          </th>
+                        </tr>
+                      )}
+                      {propertyDetails.property.compound_name && (
+                        <tr>
+                          <th
+                            className="w-50 p-3"
+                            style={{ borderTop: "1px solid #dee2e6" }}
+                          >
+                            الكومباوند
+                          </th>
+                          <th
+                            className="w-50 p-3"
+                            style={{ borderTop: "1px solid #dee2e6" }}
+                          >
+                            {propertyDetails.property.compound_name}
+                          </th>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </Col>
+              </Row>
+
+              <Row className="p-2 mt-3" style={{ background: "white" }}>
+                <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                  تواصل مع صاحب الاعلان
+                </h4>
+                <Col lg={12}>
+                  <div>
+                    <a href={`tel:+2${propertyDetails.phone}`}>
+                      <Button variant="primary" className="m-2 btn-md">
+                        <FontAwesomeIcon icon={faPhone} /> اتصل
+                      </Button>
+                    </a>
+                    <Button
+                      variant="secondary"
+                      className="m-2 btn-md"
+                      onClick={() => {
+                        const mailtoLink = `mailto:${
+                          propertyDetails.email
+                        }?subject=${encodeURIComponent(
+                          "عقار على فارندا"
+                        )}&body=${encodeURIComponent(
+                          `الرقم التعريفى للاعلان: ${propertyDetails.id}`
+                        )}`;
+                        window.location.href = mailtoLink;
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faEnvelope} /> الإيميل
+                    </Button>
+                    <a
+                      href={`https://api.whatsapp.com/send?phone=2${
+                        propertyDetails.whats_phone
+                      }&text=${encodeURIComponent(
+                        "مرحباً، أنا مهتم بعقارك الموجود على فارندا"
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button variant="success" className="m-2 btn-md">
+                        <FontAwesomeIcon icon={faWhatsapp} /> واتساب
+                      </Button>
+                    </a>
+                  </div>
+                </Col>
+              </Row>
+
+              {propertyDetails.property.video_link && (
+                <Row className="p-3 mt-3" style={{ background: "white" }}>
+                  <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                    <a
+                      href={propertyDetails.property.video_link}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      فيديو للعقار
+                    </a>
+                  </h4>
+                  <VideoEmbed videoUrl={propertyDetails.property.video_link} />
+                </Row>
+              )}
+
+              {propertyDetails.property.facilities.length > 0 && (
+                <Row className="p-3 mt-3" style={{ background: "white" }}>
+                  <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                    المرافق
+                  </h4>
+                  <ul className="list-group mb-3">
+                    {propertyDetails.property.facilities.map(
+                      (advantage, index) => (
+                        <li key={index} className="list-group-item">
+                          {advantage}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </Row>
+              )}
+
+              {propertyDetails.property.facilities.length > 0 && (
+                <Row className="p-3 mt-3" style={{ background: "white" }}>
+                  <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                    المميزات
+                  </h4>
+                  <ul className="list-group mb-3">
+                    {propertyDetails.property.features.map(
+                      (advantage, index) => (
+                        <li key={index} className="list-group-item">
+                          {advantage}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </Row>
+              )}
+
+              {propertyDetails.property.services.length > 0 && (
+                <Row className="p-3 mt-3" style={{ background: "white" }}>
+                  <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                    الخدمات
+                  </h4>
+                  <ul className="list-group mb-3">
+                    {propertyDetails.property.services.map(
+                      (advantage, index) => (
+                        <li key={index} className="list-group-item">
+                          {advantage}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </Row>
+              )}
+
+              {propertyDetails.property.devices.length > 0 && (
+                <Row className="p-3 mt-3" style={{ background: "white" }}>
+                  <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                    الأجهزه
+                  </h4>
+                  <ul className="list-group mb-3">
+                    {propertyDetails.property.devices.map(
+                      (advantage, index) => (
+                        <li key={index} className="list-group-item">
+                          {advantage}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </Row>
+              )}
+
+              {propertyDetails.property.accessories.length > 0 && (
+                <Row className="p-3 mt-3" style={{ background: "white" }}>
+                  <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                    الملحقات
+                  </h4>
+                  <ul className="list-group mb-3">
+                    {propertyDetails.property.accessories.map(
+                      (advantage, index) => (
+                        <li key={index} className="list-group-item">
+                          {advantage}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </Row>
+              )}
+            </Col>
+
+            <Row className="p-3 mt-3" style={{ background: "white" }}>
+              <h4 className="mb-3" style={{ color: "#1976d2" }}>
+                العنوان بالكامل
+                <span
+                  style={{
+                    marginRight: "10px",
+                    fontSize: "20px",
+                    fontWeight: "400",
+                    color: "#484848",
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faMapMarkerAlt}
+                    style={{ marginLeft: "5px", color: "#1976d2" }}
+                  />
+                  {propertyDetails.property.full_address}
+                </span>
+              </h4>
+              <Row>
+                <MapContainer
+                  center={position}
+                  zoom={13}
+                  scrollWheelZoom={true}
+                  style={{ height: "400px", width: "100%" }}
+                >
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  />
+                  <Marker position={position} icon={myIcon}>
+                    <Popup>{propertyDetails.property.full_address}</Popup>
+                  </Marker>
+                </MapContainer>
+              </Row>
+            </Row>
+            {/* <Col xl={4} lg={4} className="details">
+                الجزء اللى على الشمال
+              </Col> */}
+          </Row>
+        </Container>
+      </div>
+    </>
+  );
 };
 
 export default CardDetails;

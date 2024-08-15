@@ -62,7 +62,7 @@ return (
                         <td>{item.meta_description}</td>
                         <td>{item.key_words}</td>
                         <td>
-                        <Link to={`/article/${item.Article_url}`}>
+                        <Link to={`/Blog/${item.Article_url}`}>
                             {item.Article_url}
                         </Link>
                         </td>

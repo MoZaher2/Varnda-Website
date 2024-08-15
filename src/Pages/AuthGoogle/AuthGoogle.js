@@ -16,23 +16,25 @@ const AuthGoogle = () => {
     const role = query.get('role');
     const email = query.get('email');
     const user_id = query.get('user_id');
-
-
-useEffect(()=>{
-    if (errorMessage) {
-        console.log(errorMessage);
-        setError(errorMessage);
-    } else {
-        if (token && role) {
-            localStorage.setItem('role', role);
-            Cookies.set('token', token);
-            Cookies.set("image", image);
-            Cookies.set('role', role);
-            Cookies.set('email', email);
-            Cookies.set("user_id", user_id);
-            Cookies.set("verify", 'true')
-            navigate(location.pathname, { replace: true });
-            navigate('/');
+    const first_name = query.get('first_name');
+    
+    
+    useEffect(()=>{
+        if (errorMessage) {
+            console.log(errorMessage);
+            setError(errorMessage);
+        } else {
+            if (token && role) {
+                localStorage.setItem('role', role);
+                Cookies.set('token', token);
+                Cookies.set("image", image);
+                Cookies.set('role', role);
+                Cookies.set('email', email);
+                Cookies.set("user_id", user_id);
+                Cookies.set('first_name', first_name);
+                Cookies.set("verify", 'true')
+                navigate(location.pathname, { replace: true });
+                navigate('/');
         }
     }
 },[errorMessage,token])

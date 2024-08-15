@@ -150,7 +150,7 @@ export default function Header() {
                 <FontAwesomeIcon icon={faPlus} className="ms-2" />
                 اضف عقار
               </Nav.Link>
-              <Nav.Link as={Link} to="/articles">
+              <Nav.Link as={Link} to="/Blogs">
                 <FontAwesomeIcon icon={faFileAlt} className="ms-2" />
                 المدونة
               </Nav.Link>

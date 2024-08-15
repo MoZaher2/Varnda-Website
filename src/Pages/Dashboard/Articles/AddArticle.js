@@ -124,7 +124,7 @@ export default function AddArticle() {
                     setAlert({ msg: "تم نشر المدونة", variant: 1 });
                     setShow(true);
                     setTimeout(() => {
-                        navigate("/dashboard/articles");
+                        navigate("/dashboard/Blogs");
                     }, 2000)
                 }catch(err){
                     setAlert({ msg: "حدث خطا اثناء نشر المدونة", variant: 2 });

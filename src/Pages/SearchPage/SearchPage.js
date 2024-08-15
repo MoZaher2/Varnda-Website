@@ -13,6 +13,7 @@ import PropertyCard from "../../Components/Cards/Card";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard";
+import AddQuickCard from "../../Components/Cards/AddProperty/AddQuickCard";
 // import queryString from "query-string";
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -108,6 +109,7 @@ export default function SearchPage() {
       </Container>
       <AddPropertyCard/>
       <Footer />
+      <AddQuickCard/>
     </>
   );
 }
