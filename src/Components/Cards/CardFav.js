@@ -240,7 +240,7 @@ export default function CardFav({ properties }) {
                             color: "black",
                           }}
                         >
-                          {item.ad.property.rooms}
+                          {item.ad.property.rooms==10?"+10":item.ad.property.rooms}
                         </span>
                       </Col>
                       <Col
@@ -261,7 +261,7 @@ export default function CardFav({ properties }) {
                             color: "black",
                           }}
                         >
-                          {item.ad.property.bathrooms}
+                          {item.ad.property.bathrooms==6?"+6":item.ad.property.bathrooms}
                         </span>
                       </Col>
                     </Row>

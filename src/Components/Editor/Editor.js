@@ -47,49 +47,6 @@ export default function ArticleEditor({setArticle_body}) {
         apiKey='48w8wog8uwleo8euhujpdg4xx4cc03mskhs2ssf876m3jl2t'
         value={content}
         onEditorChange={handleEditorChange}
-        // init={{
-        //   directionality: 'rtl', // Set the text direction to RTL
-        //   plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-        //   toolbar: 'undo redo | blocks fontfamily fontsize forecolor backcolor | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-        //   tinycomments_mode: 'embedded',
-        //   tinycomments_author: 'Author name',
-        //   ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-        //   file_picker_callback: function (callback, value, meta) {
-        //     if (meta.filetype === 'image') {
-        //       document.getElementById('uploadImageInput').click();
-        //     }
-        //   },
-        //   setup: (editor) => {
-        //     editor.on('change', () => {
-        //       const content = editor.getContent();
-        //       setContent(content);
-        //     });
-
-        //     editor.on('drop', (e) => {
-        //       e.preventDefault();
-        //       e.stopPropagation();
-        //       const files = e.dataTransfer.files;
-        //       if (files.length > 0) {
-        //         const file = files[0];
-        //         const blobInfo = {
-        //           blob: () => file,
-        //           filename: () => file.name
-        //         };
-        //         handleImageUpload(blobInfo, (url) => {
-        //           editor.insertContent(`<img src="${url}" />`);
-        //         }, (message) => {
-        //           console.error(message);
-        //         });
-        //       }
-        //     });
-
-        //     editor.on('dragover', (e) => {
-        //       e.preventDefault();
-        //       e.stopPropagation();
-        //     });
-        //   },
-        // }}
-
 
         init={{
           directionality: 'rtl', // Set the text direction to RTL

@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhone ,faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 const QuickCardDetails = ({ propertyDetails }) => {
   const sliderSettings = {
@@ -13,8 +13,8 @@ const QuickCardDetails = ({ propertyDetails }) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true, 
-        autoplaySpeed: 3500,
+    autoplay: true,
+    autoplaySpeed: 3500,
   };
 
   return (
@@ -60,28 +60,34 @@ const QuickCardDetails = ({ propertyDetails }) => {
                 تواصل مع صاحب الاعلان:
               </h3>
               <Row>
-                <div>
+                <div
+                 style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                }}
+                >
                   <a href={`tel:+2${propertyDetails.phone}`}>
                     <Button variant="primary" className="m-2 btn-lg">
                       <FontAwesomeIcon icon={faPhone} /> اتصل
                     </Button>
                   </a>
                   <Button
-                      variant="secondary"
-                      className="m-2 btn-lg"
-                      onClick={() => {
-                        const mailtoLink = `mailto:${
-                          propertyDetails.email
-                        }?subject=${encodeURIComponent(
-                          "عقار على فارندا"
-                        )}&body=${encodeURIComponent(
-                          `الرقم التعريفى للاعلان: ${propertyDetails.id}`
-                        )}`;
-                        window.location.href = mailtoLink;
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faEnvelope} /> الإيميل
-                    </Button>
+                    variant="secondary"
+                    className="m-2 btn-lg"
+                    onClick={() => {
+                      const mailtoLink = `mailto:${
+                        propertyDetails.email
+                      }?subject=${encodeURIComponent(
+                        "عقار على فارندا"
+                      )}&body=${encodeURIComponent(
+                        `الرقم التعريفى للاعلان: ${propertyDetails.id}`
+                      )}`;
+                      window.location.href = mailtoLink;
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faEnvelope} /> الإيميل
+                  </Button>
                   <a
                     href={`https://api.whatsapp.com/send?phone=2${
                       propertyDetails.whats_phone

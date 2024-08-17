@@ -50,6 +50,9 @@ import AllAds from "./Pages/Dashboard/AllAds";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import AuthGoogle from "./Pages/AuthGoogle/AuthGoogle";
 import AddQuickPage from "./Pages/AddQuickPage/AddQuickPage";
+import LoginWithRole from './Components/LoginWithRole/LoginWithRole';
+import AddUsers from "./Pages/Dashboard/Users/AddUsers";
+import ShowAllUsers from "./Pages/Dashboard/Users/ShowAllUsers";
 
 
 function App() {
@@ -58,6 +61,11 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
+        {/*  */}
+        <Route path="/admin-login" element={<LoginWithRole role="admin" />} />
+        <Route path="/seo-login" element={<LoginWithRole role="seo" />} />
+        <Route path="/writer-login" element={<LoginWithRole role="writer" />} />
+        {/*  */}
         <Route path="/Blogs" element={<ArticlesLayout />}>
           <Route index element={<Articles />} />
           <Route path=":category" element={<ArticlesInCategory />} />
@@ -78,7 +86,7 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute allowedRoles={["admin"]}>
+            <ProtectedRoute allowedRoles={["admin","writer","seo"]}>
               <AdminLayout />
             </ProtectedRoute>
           }
@@ -95,6 +103,11 @@ function App() {
           <Route path="streets" element={<Streets />} />
           <Route path="compounds" element={<Compounds />} />
           <Route path="molls" element={<Molls />} />
+          <Route path="add-users" element={<AddUsers/>} />
+          <Route path="admin" element={<ShowAllUsers role="admin" />} />
+          <Route path="writer" element={<ShowAllUsers role="writer" />} />
+          <Route path="seo" element={<ShowAllUsers role="seo" />} />
+
         </Route>
 
         {/* User Routes */}
@@ -106,7 +119,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/*  */}
         <Route
           path="/add-quick-property"
           element={
@@ -115,7 +127,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/*  */}
         <Route
           path="/add-apartments-duplexes"
           element={

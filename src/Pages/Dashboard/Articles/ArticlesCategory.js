@@ -66,7 +66,7 @@ const handleChange = (e) => {
 return (
     <>
      <Form.Group controlId="governorate" className="mb-3">
-                <Form.Label className='required'>المحافظة</Form.Label>
+                <Form.Label className='required'>التصنيفات</Form.Label>
                 <Form.Select
                     name="governorate"
                     value={category_id}

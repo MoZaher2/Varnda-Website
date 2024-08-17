@@ -107,8 +107,8 @@ function SubmitpropertyPage() {
                     src={QuickAds}
                     alt="quick-property"
                     className="img-fluid"
-                    style={{ height: '300px' }}
-                    // style={{ height: '300px', objectFit: 'cover' }}
+                    // style={{ height: '300px' }}
+                    style={{ height: '300px', objectFit: 'cover' }}
                   />
                   <Card.Body className="d-flex flex-column">
                     <Card.Title className="text-primary">اعلان سريع</Card.Title>

@@ -50,6 +50,7 @@ const CardDetails = ({ propertyDetails }) => {
         propertyDetails.property["Sub Category"] === "تاون هاوس" ||
         propertyDetails.property["Sub Category"] === "توين هاوس"
     );
+    console.log(subCategoryName)
   }, [propertyDetails]);
 
   return (
@@ -235,9 +236,10 @@ const CardDetails = ({ propertyDetails }) => {
                           {propertyDetails.property.area} متر مربع
                         </th>
                       </tr>
-                      {propertyDetails.property.floors &&
-                        (subCategoryName ||
-                          !propertyDetails.property.floor_number) && (
+                      {(subCategoryName ||
+                        propertyDetails.property.Category == "مبانى" ||
+                        propertyDetails.property.Category == "منازل") &&
+                        propertyDetails.property.floors != null && (
                           <tr>
                             <th
                               className="w-50 p-3"
@@ -253,7 +255,8 @@ const CardDetails = ({ propertyDetails }) => {
                             </th>
                           </tr>
                         )}
-                      {propertyDetails.property.floor_number &&
+
+                      {propertyDetails.property.floor_number != null &&
                         !subCategoryName && (
                           <tr>
                             <th
@@ -266,10 +269,15 @@ const CardDetails = ({ propertyDetails }) => {
                               className="w-50 p-3"
                               style={{ borderTop: "1px solid #dee2e6" }}
                             >
-                              {propertyDetails.property.floor_number}
+                              {propertyDetails.property.floor_number == 0
+                                ? "دور ارضى"
+                                : propertyDetails.property.floor_number == 10
+                                ? "+10"
+                                : propertyDetails.property.floor_number}
                             </th>
                           </tr>
                         )}
+
                       <tr>
                         <th
                           className="w-50 p-3"
@@ -281,7 +289,9 @@ const CardDetails = ({ propertyDetails }) => {
                           className="w-50 p-3"
                           style={{ borderTop: "1px solid #dee2e6" }}
                         >
-                          {propertyDetails.property.rooms}
+                          {propertyDetails.property.rooms == 10
+                            ? "+10"
+                            : propertyDetails.property.rooms}
                         </th>
                       </tr>
                       <tr>
@@ -295,7 +305,9 @@ const CardDetails = ({ propertyDetails }) => {
                           className="w-50 p-3"
                           style={{ borderTop: "1px solid #dee2e6" }}
                         >
-                          {propertyDetails.property.bathrooms}
+                          {propertyDetails.property.bathrooms == 6
+                            ? "+6"
+                            : propertyDetails.property.bathrooms}
                         </th>
                       </tr>
                     </tbody>
@@ -552,7 +564,13 @@ const CardDetails = ({ propertyDetails }) => {
                   تواصل مع صاحب الاعلان
                 </h4>
                 <Col lg={12}>
-                  <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      flexWrap: "wrap",
+                    }}
+                  >
                     <a href={`tel:+2${propertyDetails.phone}`}>
                       <Button variant="primary" className="m-2 btn-lg">
                         <FontAwesomeIcon icon={faPhone} /> اتصل
@@ -575,20 +593,20 @@ const CardDetails = ({ propertyDetails }) => {
                       <FontAwesomeIcon icon={faEnvelope} /> الإيميل
                     </Button>
                     <a
-                    href={`https://api.whatsapp.com/send?phone=2${
-                      propertyDetails.whats_phone
-                    }&text=${encodeURIComponent(
-                      "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
-                    )}${encodeURIComponent(
-                      `http://varnda.com/moreDeteliesPage/${propertyDetails.id}`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button variant="success" className="m-2 btn-lg">
-                      <FontAwesomeIcon icon={faWhatsapp} /> واتساب
-                    </Button>
-                  </a>
+                      href={`https://api.whatsapp.com/send?phone=2${
+                        propertyDetails.whats_phone
+                      }&text=${encodeURIComponent(
+                        "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
+                      )}${encodeURIComponent(
+                        `http://varnda.com/moreDeteliesPage/${propertyDetails.id}`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button variant="success" className="m-2 btn-lg">
+                        <FontAwesomeIcon icon={faWhatsapp} /> واتساب
+                      </Button>
+                    </a>
                   </div>
                 </Col>
               </Row>

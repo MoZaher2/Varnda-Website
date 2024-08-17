@@ -406,14 +406,14 @@ const NewAdd = () => {
                               required
                             >
                               <option value="">اختر</option>
-                              {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                              {Array.from({ length: 5 }, (_, i) => i + 1).map(
                                 (number) => (
                                   <option key={number} value={number}>
                                     {number}
                                   </option>
                                 )
                               )}
-                              <option value="10+">+10</option>
+                              <option value="6">+6</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>
@@ -433,14 +433,14 @@ const NewAdd = () => {
                               required
                             >
                               <option value="">اختر</option>
-                              {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                              {Array.from({ length: 5 }, (_, i) => i + 1).map(
                                 (number) => (
                                   <option key={number} value={number}>
                                     {number}
                                   </option>
                                 )
                               )}
-                              <option value="10+">+10</option>
+                              <option value="6">+6</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>

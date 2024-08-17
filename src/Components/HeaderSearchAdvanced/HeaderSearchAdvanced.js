@@ -156,7 +156,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
   
 
 
-  const roomValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8"];
+  const roomValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8","9","10"];
   const bathroomValues = ["1", "2", "3", "4", "5", "6"];
 
   const handleRoomChange = (room) => {
@@ -455,7 +455,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
                               <div key={idx} className="me-2">
                                 <Form.Check
                                   type="checkbox"
-                                  label={room === "0" ? "استوديو" : room === "8" ? `+${room}` : room}
+                                  label={room === "0" ? "استوديو" : room === "10" ? `+10` : room}
                                   checked={rooms.includes(room)}
                                   onChange={() => handleRoomChange(room)}
                                 />

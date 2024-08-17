@@ -249,7 +249,7 @@ export default function PropertyCard({ properties }) {
                               color: "black",
                             }}
                           >
-                            {property.property.rooms}
+                            {property.property.rooms==10?"+10":property.property.rooms}
                           </span>
                         </Col>
                         <Col
@@ -270,7 +270,7 @@ export default function PropertyCard({ properties }) {
                               color: "black",
                             }}
                           >
-                            {property.property.bathrooms}
+                            {property.property.bathrooms==6?"+6":property.property.bathrooms}
                           </span>
                         </Col>
                       </Row>

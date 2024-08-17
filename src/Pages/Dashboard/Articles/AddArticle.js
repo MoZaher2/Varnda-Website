@@ -7,11 +7,12 @@ import LoadingBtn from "../../../Components/LoadingBtn.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import Cookies from 'js-cookie';
 import usePageSEO from "../../../hooks/usePageSEO.js";
+import AddTag from './../../../Components/Tags/AddTag';
 
 export default function AddArticle() {
 
     const token = Cookies.get("token");
-
+    const adminId=Cookies.get("user_id")
 // usePageSEO({
 //     title:"المدونات",
 //     description:"اهلا بك فى المدونات",
@@ -25,7 +26,7 @@ export default function AddArticle() {
     const [load, setLoad] = useState(false);
     const [show, setShow] = useState(false);
     const [alert, setAlert] = useState({ msg: "", variant: 0 });
-
+    const [TagsInBasket, setTagsInBasket] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
         article_url: '',
@@ -91,15 +92,16 @@ export default function AddArticle() {
             e.stopPropagation();
         } else {
             const imageUrls = extractImageUrls(article_body);
-            // const adminId=Cookies.get("id")
-            const adminId="1"
             const formDataToSend = new FormData();
             formDataToSend.append('article_image', article_image);
             formDataToSend.append('article_body', article_body);
             formDataToSend.append('admin_id', adminId);
+            formDataToSend.append('tags[]',TagsInBasket );
             for (const key in formData) {
                 formDataToSend.append(key, formData[key]);
             }
+            console.log(TagsInBasket)
+            console.log(formDataToSend)
             // Set Post
             try {
                 setLoad(true);
@@ -241,6 +243,9 @@ export default function AddArticle() {
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Col>
+                </Row>
+                <Row>
+                    <AddTag TagsInBasket={TagsInBasket} setTagsInBasket={setTagsInBasket} />
                 </Row>
                 <Row>
                     <Form.Group>
