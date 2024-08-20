@@ -477,7 +477,7 @@ const handlePriceChange = (e) => {
                           name="details_ar"
                           value={formData.details_ar}
                           onChange={handleChange}
-                          maxLength="4000"
+                           
                           required
                         />
                       </Form.Group>

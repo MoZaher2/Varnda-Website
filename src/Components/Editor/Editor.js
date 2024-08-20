@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import './Editor.css'; 
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 
-export default function ArticleEditor({setArticle_body}) {
-
+export default function ArticleEditor({setArticle_body,article_body}) {
+console.log(article_body)
   const token=Cookies.get("token")
-  const [content, setContent] = useState('<h1>اكتب مقالتك هنا!</h1>');
+
+  const [content, setContent] = useState(article_body)
   const [loading, setLoading] = useState(false);
 
   const handleEditorChange = (content) => {
@@ -49,7 +50,7 @@ export default function ArticleEditor({setArticle_body}) {
         onEditorChange={handleEditorChange}
 
         init={{
-          directionality: 'rtl', // Set the text direction to RTL
+          directionality: 'rtl', 
           plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
           toolbar: 'undo redo | blocks fontfamily fontsize forecolor backcolor | bold italic underline strikethrough | link image media table | addcomment showcomments | spellcheckdialog a11ycheck | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
           tinycomments_mode: 'embedded',
@@ -92,7 +93,7 @@ export default function ArticleEditor({setArticle_body}) {
         }}
 
         
-        initialValue="<h1>اكتب مقالتك هنا!</h1>"
+        initialValue={article_body}
       />
 
       <input

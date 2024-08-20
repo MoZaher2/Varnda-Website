@@ -7,6 +7,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./CardDetails.css"
 import {
   faPhone,
   faBed,
@@ -146,9 +147,9 @@ const CardDetails = ({ propertyDetails }) => {
                 </h4>
                 <p
                   style={{
-                    fontSize: "14px",
-                    fontWeight: "400",
-                    color: "#484848",
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    color: 'rgb(72, 72, 72)'
                   }}
                 >
                   {propertyDetails.property.details_ar}
@@ -172,8 +173,7 @@ const CardDetails = ({ propertyDetails }) => {
                           العقار
                         </th>
                         <th
-                          className="w-50 p-3"
-                          style={{ borderTop: "1px solid #dee2e6" }}
+                          className="w-50 p-3 leftTablePart"
                         >
                           {propertyDetails.property.Type === "sale"
                             ? "للبيع"
@@ -188,8 +188,7 @@ const CardDetails = ({ propertyDetails }) => {
                           نوع العقار
                         </th>
                         <th
-                          className="w-50 p-3"
-                          style={{ borderTop: "1px solid #dee2e6" }}
+                          className="w-50 p-3 leftTablePart"
                         >
                           {propertyDetails.property["Sub Category"]}
                         </th>
@@ -202,8 +201,7 @@ const CardDetails = ({ propertyDetails }) => {
                           العقار من
                         </th>
                         <th
-                          className="w-50 p-3"
-                          style={{ borderTop: "1px solid #dee2e6" }}
+                          className="w-50 p-3 leftTablePart"
                         >
                           {propertyDetails.advertiser_type}
                         </th>
@@ -230,8 +228,7 @@ const CardDetails = ({ propertyDetails }) => {
                           المساحة
                         </th>
                         <th
-                          className="w-50 p-3"
-                          style={{ borderTop: "1px solid #dee2e6" }}
+                          className="w-50 p-3 leftTablePart"
                         >
                           {propertyDetails.property.area} متر مربع
                         </th>
@@ -248,8 +245,7 @@ const CardDetails = ({ propertyDetails }) => {
                               عدد الأدوار
                             </th>
                             <th
-                              className="w-50 p-3"
-                              style={{ borderTop: "1px solid #dee2e6" }}
+                              className="w-50 p-3 leftTablePart"
                             >
                               {propertyDetails.property.floors}
                             </th>
@@ -266,8 +262,7 @@ const CardDetails = ({ propertyDetails }) => {
                               رقم الدور
                             </th>
                             <th
-                              className="w-50 p-3"
-                              style={{ borderTop: "1px solid #dee2e6" }}
+                              className="w-50 p-3 leftTablePart"
                             >
                               {propertyDetails.property.floor_number == 0
                                 ? "دور ارضى"
@@ -286,8 +281,7 @@ const CardDetails = ({ propertyDetails }) => {
                           عدد الغرف
                         </th>
                         <th
-                          className="w-50 p-3"
-                          style={{ borderTop: "1px solid #dee2e6" }}
+                          className="w-50 p-3 leftTablePart"
                         >
                           {propertyDetails.property.rooms == 10
                             ? "+10"
@@ -302,8 +296,7 @@ const CardDetails = ({ propertyDetails }) => {
                           عدد الحمامات
                         </th>
                         <th
-                          className="w-50 p-3"
-                          style={{ borderTop: "1px solid #dee2e6" }}
+                          className="w-50 p-3 leftTablePart"
                         >
                           {propertyDetails.property.bathrooms == 6
                             ? "+6"
@@ -332,8 +325,7 @@ const CardDetails = ({ propertyDetails }) => {
                           السعر و الاستلام
                         </th>
                         <th
-                          className="w-50 p-3"
-                          style={{ borderTop: "1px solid #dee2e6" }}
+                          className="w-50 p-3 leftTablePart"
                         >
                           {Number(
                             propertyDetails.property.price
@@ -352,8 +344,7 @@ const CardDetails = ({ propertyDetails }) => {
                                 طريقة الدفع
                               </th>
                               <th
-                                className="w-50 p-3"
-                                style={{ borderTop: "1px solid #dee2e6" }}
+                                className="w-50 p-3 leftTablePart"
                               >
                                 {propertyDetails.property.payment_method}
                               </th>
@@ -368,8 +359,7 @@ const CardDetails = ({ propertyDetails }) => {
                                 تاريخ التسليم
                               </th>
                               <th
-                                className="w-50 p-3"
-                                style={{ borderTop: "1px solid #dee2e6" }}
+                                className="w-50 p-3 leftTablePart"
                               >
                                 {propertyDetails.property.deliver_date == 0
                                   ? "فورى"
@@ -386,8 +376,7 @@ const CardDetails = ({ propertyDetails }) => {
                                 الأوراق القانونيه
                               </th>
                               <th
-                                className="w-50 p-3"
-                                style={{ borderTop: "1px solid #dee2e6" }}
+                                className="w-50 p-3 leftTablePart"
                               >
                                 {propertyDetails.property.legal_papers}
                               </th>
@@ -402,8 +391,7 @@ const CardDetails = ({ propertyDetails }) => {
                                 مرحلة التشطيب
                               </th>
                               <th
-                                className="w-50 p-3"
-                                style={{ borderTop: "1px solid #dee2e6" }}
+                                className="w-50 p-3 leftTablePart"
                               >
                                 {propertyDetails.property.finishing_type}
 
@@ -443,8 +431,7 @@ const CardDetails = ({ propertyDetails }) => {
                                 نوع الايجار
                               </th>
                               <th
-                                className="w-50 p-3"
-                                style={{ borderTop: "1px solid #dee2e6" }}
+                                className="w-50 p-3 leftTablePart"
                               >
                                 {propertyDetails.property.renting_type == 1
                                   ? "شهرى"
@@ -483,8 +470,7 @@ const CardDetails = ({ propertyDetails }) => {
                             المحافظة
                           </th>
                           <th
-                            className="w-50 p-3"
-                            style={{ borderTop: "1px solid #dee2e6" }}
+                            className="w-50 p-3 leftTablePart"
                           >
                             {propertyDetails.property.governorate}
                           </th>
@@ -499,8 +485,7 @@ const CardDetails = ({ propertyDetails }) => {
                             المدينة
                           </th>
                           <th
-                            className="w-50 p-3"
-                            style={{ borderTop: "1px solid #dee2e6" }}
+                            className="w-50 p-3 leftTablePart"
                           >
                             {propertyDetails.property.city}
                           </th>
@@ -515,8 +500,7 @@ const CardDetails = ({ propertyDetails }) => {
                             المنطقة
                           </th>
                           <th
-                            className="w-50 p-3"
-                            style={{ borderTop: "1px solid #dee2e6" }}
+                            className="w-50 p-3 leftTablePart"
                           >
                             {propertyDetails.property.region}
                           </th>
@@ -531,8 +515,7 @@ const CardDetails = ({ propertyDetails }) => {
                             الشارع
                           </th>
                           <th
-                            className="w-50 p-3"
-                            style={{ borderTop: "1px solid #dee2e6" }}
+                            className="w-50 p-3 leftTablePart"
                           >
                             {propertyDetails.property.street}
                           </th>
@@ -547,8 +530,7 @@ const CardDetails = ({ propertyDetails }) => {
                             الكومباوند
                           </th>
                           <th
-                            className="w-50 p-3"
-                            style={{ borderTop: "1px solid #dee2e6" }}
+                            className="w-50 p-3 leftTablePart"
                           >
                             {propertyDetails.property.compound_name}
                           </th>
@@ -634,7 +616,7 @@ const CardDetails = ({ propertyDetails }) => {
                   <ul className="list-group mb-3">
                     {propertyDetails.property.facilities.map(
                       (advantage, index) => (
-                        <li key={index} className="list-group-item">
+                        <li key={index} className="list-group-item extraTable">
                           {advantage}
                         </li>
                       )
@@ -651,7 +633,7 @@ const CardDetails = ({ propertyDetails }) => {
                   <ul className="list-group mb-3">
                     {propertyDetails.property.features.map(
                       (advantage, index) => (
-                        <li key={index} className="list-group-item">
+                        <li key={index} className="list-group-item extraTable">
                           {advantage}
                         </li>
                       )
@@ -668,7 +650,7 @@ const CardDetails = ({ propertyDetails }) => {
                   <ul className="list-group mb-3">
                     {propertyDetails.property.services.map(
                       (advantage, index) => (
-                        <li key={index} className="list-group-item">
+                        <li key={index} className="list-group-item extraTable">
                           {advantage}
                         </li>
                       )
@@ -685,7 +667,7 @@ const CardDetails = ({ propertyDetails }) => {
                   <ul className="list-group mb-3">
                     {propertyDetails.property.devices.map(
                       (advantage, index) => (
-                        <li key={index} className="list-group-item">
+                        <li key={index} className="list-group-item extraTable">
                           {advantage}
                         </li>
                       )
@@ -702,7 +684,7 @@ const CardDetails = ({ propertyDetails }) => {
                   <ul className="list-group mb-3">
                     {propertyDetails.property.accessories.map(
                       (advantage, index) => (
-                        <li key={index} className="list-group-item">
+                        <li key={index} className="list-group-item extraTable">
                           {advantage}
                         </li>
                       )

@@ -308,7 +308,7 @@ export default function PropertyCard({ properties }) {
                       </Row>
                       <Row>
                         <p style={{ color: "#898989" }}>
-                          {renderLimitedText(property.property.details_ar, 150)}
+                          {property.property.details_ar&&renderLimitedText(property.property.details_ar, 150)}
                         </p>
                       </Row>
                       <Row>
@@ -439,7 +439,7 @@ export default function PropertyCard({ properties }) {
                     <Card.Text style={{ padding: "0px" }}>
                       <Row>
                         <p style={{ color: "#898989" }}>
-                          {renderLimitedText(property.property.details_ar, 500)}
+                          {property.property.details_ar&&renderLimitedText(property.property.details_ar, 500)}
                         </p>
                       </Row>
                     </Card.Text>

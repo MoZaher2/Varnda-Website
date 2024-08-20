@@ -65,12 +65,14 @@ export default function SideBar() {
             className="w-100 sideDropdown"
           >
             <Dropdown.Item href="/dashboard/Blogs">عرض المدونات</Dropdown.Item>
+            <Dropdown.Item href="/dashboard/Drafts">عرض المسودات</Dropdown.Item>
             <Dropdown.Item href="/dashboard/Blogs-category">
               المدونات حسب التصنيف
             </Dropdown.Item>
             <Dropdown.Item href="/dashboard/add-Blog">
               اضافه مدونة
             </Dropdown.Item>
+
           </DropdownButton>
 
           <Link to="/dashboard/category" className="w-100 button-link">

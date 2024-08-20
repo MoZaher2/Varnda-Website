@@ -299,7 +299,7 @@ export default function CardFav({ properties }) {
                     </Row>
                     <Row>
                       <p style={{ color: "#898989" }}>
-                        {renderLimitedText(item.ad.property.details_ar, 150)}
+                        {item.ad.property.details_ar&&renderLimitedText(item.ad.property.details_ar, 150)}
                       </p>
                     </Row>
                     <Row>
@@ -428,7 +428,7 @@ export default function CardFav({ properties }) {
                   <Card.Text style={{ padding: "0px" }}>
                     <Row>
                       <p style={{ color: "#898989" }}>
-                        {renderLimitedText(item.ad.property.details_ar, 450)}
+                        {item.ad.property.details_ar&&renderLimitedText(item.ad.property.details_ar, 450)}
                       </p>
                     </Row>
                   </Card.Text>

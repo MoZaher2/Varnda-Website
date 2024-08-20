@@ -224,7 +224,7 @@ const NewAdd = () => {
                           name="adDescription"
                           value={formData.adDescription}
                           onChange={handleChange}
-                          maxLength="4000"
+                           
                           required
                         />
                       </Form.Group>

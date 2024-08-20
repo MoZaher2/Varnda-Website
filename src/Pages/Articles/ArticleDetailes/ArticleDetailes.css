@@ -31,3 +31,28 @@ font-size: 14px ;
 font-size: 18px;
   }
 }
+
+/*  */
+.categoryLink{
+  font-size: 20px;
+  font-weight: bold;
+  background: #0d6efd;
+  display: inline-block;
+  color: white;
+  padding: 5px 5px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.tag-cont{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #f8f9fa;
+  padding: 20px;
+}
+.tagBtn {
+  font-size: 18px;
+  font-weight: bold;
+}

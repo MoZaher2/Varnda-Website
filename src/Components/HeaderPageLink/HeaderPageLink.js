@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import api from "../../API/ApiLink.js";
-export default function HeaderPageLink() {
+export default function HeaderPageLink({activeCategory}) {
   const [categories, setCategories] = useState([])
   useEffect(() => {
     const fetchData = async () => {
@@ -23,20 +23,15 @@ export default function HeaderPageLink() {
     <>
     <Navbar bg="light" data-bs-theme="light" dir="rtl">
         <Container>
-          <Nav>
+          <Nav className="linkCont">
             {categories.map((category) => (
               <div className="page-link" key={category.id}>
-                <Nav.Link href={`/Blogs/${category.category_name}`} className="link">
+                <Nav.Link href={`/Blogs/${category.category_name}`} className={`link ${category.category_name === activeCategory ? "activelink" : ""}`}>
                   {category.category_name}
                 </Nav.Link>
               </div>
             ))}
-            {/* <Link to="/advicePage" className="page-link"><Nav.Link href="/advicePage" className="link">نصائح</Nav.Link></Link>
-            <Link to="/mixPage" className="page-link"><Nav.Link href="/mixPage" className="link">منوعات</Nav.Link></Link>
-            <Link to="/marketPage" className="page-link"><Nav.Link href="/marketPage" className="link">اتجاهات السوق</Nav.Link></Link>
-            <Link to="/regionsOfEgyptPage" className="page-link"><Nav.Link href="/regionsOfEgyptPage" className="link">مناطق مصر</Nav.Link></Link>
-            <Link to="/eventsPage" className="page-link"><Nav.Link href="/eventsPage" className="link">فعليات واخبار بيوت مصر</Nav.Link></Link> */}
-          </Nav>
+            </Nav>
         </Container>
       </Navbar>
     </>

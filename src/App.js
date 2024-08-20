@@ -35,7 +35,7 @@ import ArticleDetailes from "./Pages/Articles/ArticleDetailes/ArticleDetailes";
 import Articles from "./Pages/Articles/Articles";
 import ArticlesLayout from "./Components/Articles/ArticlesLayout";
 import ArticlesInCategory from "./Pages/Articles/ArticlesInCategory";
-import AdminLayout from './Pages/AdminLayout';
+import AdminLayout from "./Pages/AdminLayout";
 import AddArticle from "./Pages/Dashboard/Articles/AddArticle";
 import CategoryArticle from "./Pages/Dashboard/CategoryArticle";
 import Governments from "./Pages/Dashboard/Places/Governments";
@@ -50,10 +50,12 @@ import AllAds from "./Pages/Dashboard/AllAds";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import AuthGoogle from "./Pages/AuthGoogle/AuthGoogle";
 import AddQuickPage from "./Pages/AddQuickPage/AddQuickPage";
-import LoginWithRole from './Components/LoginWithRole/LoginWithRole';
+import LoginWithRole from "./Components/LoginWithRole/LoginWithRole";
 import AddUsers from "./Pages/Dashboard/Users/AddUsers";
 import ShowAllUsers from "./Pages/Dashboard/Users/ShowAllUsers";
-
+import EditArticle from "./Pages/Dashboard/Articles/EditArticle";
+import AllDrafts from "./Pages/Dashboard/Articles/AllDrafts";
+import ArticlesWithTag from "./Pages/Articles/ArticlesWithTag";
 
 function App() {
   return (
@@ -66,10 +68,12 @@ function App() {
         <Route path="/seo-login" element={<LoginWithRole role="seo" />} />
         <Route path="/writer-login" element={<LoginWithRole role="writer" />} />
         {/*  */}
-        <Route path="/Blogs" element={<ArticlesLayout />}>
-          <Route index element={<Articles />} />
-          <Route path=":category" element={<ArticlesInCategory />} />
-        </Route>
+
+        <Route path="/Blogs" element={<Articles />} />
+        <Route path="/Blogs/:category" element={<ArticlesInCategory />} />
+        <Route path="/Blogs/tags/:tag" element={<ArticlesWithTag />} />
+
+
         <Route path="/Blog/:id" element={<ArticleDetailes />} />
         <Route path="/searchPage/:gov" element={<SearchPage />} />
         <Route path="/aboutUs" element={<AboutPage />} />
@@ -86,16 +90,30 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute allowedRoles={["admin","writer","seo"]}>
+            <ProtectedRoute allowedRoles={["admin", "writer", "seo"]}>
               <AdminLayout />
             </ProtectedRoute>
           }
         >
           <Route index element={<h1>Dashboard</h1>} />
           <Route path="all-ads" element={<AllAds />} />
+          
+          
           <Route path="Blogs" element={<AllArticles />} />
+          <Route path="Drafts" element={<AllDrafts />} />
+          
+
+
+          
           <Route path="Blogs-category" element={<ArticlesCategory />} />
+          
+          
           <Route path="add-Blog" element={<AddArticle />} />
+          
+          
+          <Route path="edit-Blog" element={<EditArticle />} />
+
+
           <Route path="category" element={<CategoryArticle />} />
           <Route path="governments" element={<Governments />} />
           <Route path="cities" element={<Cities />} />
@@ -103,11 +121,10 @@ function App() {
           <Route path="streets" element={<Streets />} />
           <Route path="compounds" element={<Compounds />} />
           <Route path="molls" element={<Molls />} />
-          <Route path="add-users" element={<AddUsers/>} />
+          <Route path="add-users" element={<AddUsers />} />
           <Route path="admin" element={<ShowAllUsers role="admin" />} />
           <Route path="writer" element={<ShowAllUsers role="writer" />} />
           <Route path="seo" element={<ShowAllUsers role="seo" />} />
-
         </Route>
 
         {/* User Routes */}
