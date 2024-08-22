@@ -50,7 +50,7 @@ export default function CommentCard({ post_id }) {
                 {comments.length > 0 ? <>
                     <h3>التعليقات:</h3>
                     {comments.map((comment) => (
-                        <Col className='mb-4' lg={4} md={6} sm={6} key={comment.id}>
+                        <Col className='mb-4' lg={3} md={6} sm={6} key={comment.id}>
                             <Card
                                 sx={{
                                     width: 370,

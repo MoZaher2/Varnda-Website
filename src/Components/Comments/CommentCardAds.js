@@ -51,11 +51,14 @@ export default function CommentCardAds({ ads_id }) {
                 {comments.length > 0 ? <>
                     <h3>التعليقات:</h3>
                     {comments.map((comment) => (
-                        <Col className='mb-4' lg={4} md={6} sm={6} key={comment.id}>
+                        <Row>
+                        <Col className='mb-2' xs={12} md={3} lg={3} key={comment.id}>
                             <Card
+                            
                                 sx={{
-                                    width: 370,
-                                    maxWidth: '100%',
+                                    width: '100%',
+                                    // width: 370,
+                                    // maxWidth: '100%',
                                     boxShadow: 'lg',
                                     position: 'relative'
                                 }}
@@ -132,6 +135,7 @@ export default function CommentCardAds({ ads_id }) {
                                     </>}
                             </Card>
                         </Col>
+                        </Row>
                     ))}
 
                 </> : <Alert key="warning" className="text-center" variant="warning">

@@ -289,7 +289,7 @@ export default function AddArticle() {
                     src={URL.createObjectURL(article_image)}
                     alt="articleimage"
                     style={{
-                      maxWidth: "300px",
+                      maxWidth: "100%",
                       height: "auto",
                       margin: "0 10px 10px 0",
                       borderRadius: "5px",

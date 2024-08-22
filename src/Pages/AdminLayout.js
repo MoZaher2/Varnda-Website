@@ -14,7 +14,7 @@ export default function AdminLayout() {
                 </Navbar.Collapse>
             </Navbar>
             </Col>
-            <Col > 
+            <Col lg={9} md={8} > 
                     <Outlet /> {/* This is where child routes will be rendered */}
                 </Col>
             </Row>

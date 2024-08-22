@@ -1,232 +1,665 @@
 import { useEffect, useState } from "react";
-import { Form, Button, Table ,Modal ,Row,Col,InputGroup,Alert} from 'react-bootstrap';
+import { Form, Button, Table, Modal, Row, Col, Alert } from "react-bootstrap";
 import api from "../../../API/ApiLink.js";
 import LoadingBtn from "../../../Components/LoadingBtn.js";
-import Cookies from 'js-cookie';
-
+import Cookies from "js-cookie";
+import OverPage from "../../../Components/OverPage/OverPage.js";
+import AlertMessage from "../../../Components/Alert/Alert.js";
+import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 export default function Compounds() {
-    const token = Cookies.get("token")
-    const [formData, setFormData] = useState({
-        governorate: 1,
-        city:150,
+  const token = Cookies.get("token");
+  const [image, setImage] = useState(null);
+  const [formData, setFormData] = useState({
+    governorate: "",
+    name: "",
+    english_name: "",
+    meta_title: "",
+    h1_title: "",
+    meta_description: "",
+    image: "",
+    url: "",
+  });
+
+  const [load, setLoad] = useState(false);
+  const [loadId, setLoadId] = useState(false);
+  const [overlay, setOverlay] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alert, setAlert] = useState({ msg: "", variant: 0 });
+  const [show, setShow] = useState(false);
+  const [governorates, setGovernorates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [compounds, setCompounds] = useState([]);
+  const handleClose = () => setShow(false);
+  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [loadEdit, setLoadEdit] = useState(false);
+  const [newImage, setNewImage] = useState(null);
+  //
+  const [editData, setEditData] = useState({
+    name: "",
+    english_name: "",
+    meta_title: "",
+    h1_title: "",
+    meta_description: "",
+    image: "",
+    url: "",
+  });
+  const resetData = () => {
+    setFormData({
+      ...formData,
+      name: "",
+      english_name: "",
+      meta_title: "",
+      h1_title: "",
+      meta_description: "",
+      image: "",
+      url: "",
     });
-    const [load, setLoad] = useState(false)
-    const [show, setShow] = useState(false);
-    const [compoundName, setCompoundName] = useState("")//اسم الحاجه اللى هضيفها
-    const [governorates, setGovernorates] = useState([])
-    const [cities, setCities] = useState([]);
-    const [newCompoundName, setNewCompoundName] = useState("");
-    const [compounds, setCompound] = useState([]);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  };
+  const handleShow = (id, compound) => {
+    console.log(compound);
+    setSelectedItemId(id);
+    setEditData({
+      name: compound.name,
+      english_name: compound.english_name,
+      meta_title: compound.meta_title,
+      h1_title: compound.h1_title,
+      meta_description: compound.meta_description,
+      image: compound.image,
+      url: compound.url,
+    });
+    setShow(true);
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
+  const handleGetChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "governorate") {
+      setFormData({ ...formData, governorate: value, city: "" });
+      setCities([]);
+      setCompounds([]);
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
+  // استرجاع المحافظات
+  useEffect(() => {
+    const fetchGov = async () => {
+      try {
+        setOverlay(true);
+        const response = await api.get("/governorates", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
+        setGovernorates(response.data.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setOverlay(false);
+      }
+    };
+    fetchGov();
+  }, []);
+
+  //استرجاع المدن
+  useEffect(() => {
+    const fetchCity = async () => {
+      try {
+        setOverlay(true);
+        const response = await api.get(
+          `/governorates/${formData.governorate}/cities`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCities(response.data.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setOverlay(false);
+      }
+    };
+    if (formData.governorate) {
+      fetchCity();
     }
-    
-    // استرجاع المحافظات 
-    useEffect(() => {
-        const fetchGov = async () => {
-            try {
-                const response = await api.get("/governorates", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                });
-                setGovernorates(response.data.data)
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchGov();
-    }, []);
+  }, [formData.governorate]);
 
-    //استرجاع المدن
-    useEffect(() => {
-        const fetchCity = async () => {
-            try {
-                const response = await api.get(`/governorates/${formData.governorate}/cities`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setCities(response.data.data)
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchCity();
-    }, [formData.governorate]);
-
-    // استرجاع الكومباوند
-    useEffect(() => {
-        const fetchCompound = async () => {
-            try {
-                const response = await api.get(`/get_compounds_by_city/${formData.city}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setCompound(response.data.data)
-            } catch (error) {
-                console.log(error);
-            }
-        };
+  // استرجاع الكومباوند
+  const fetchCompound = async () => {
+    try {
+      setOverlay(true);
+      const response = await api.get(
+        `/get_compounds_by_city/${formData.city}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setCompounds(response.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setOverlay(false);
+    }
+  };
+  useEffect(() => {
+    if (formData.city) {
+      fetchCompound();
+    }
+  }, [formData.governorate, formData.city]);
+  //  تعديل الكومباوند
+  const handleEdite = async () => {
+    if (editData.name) {
+      setLoadEdit(true);
+      const allFormData = new FormData();
+      // Append form fields
+      for (const [key, value] of Object.entries(editData)) {
+        if (key !== "image" && value) {
+          allFormData.append(key, value);
+        }
+      }
+      if (newImage) {
+        allFormData.append("image", editData.image[0]);
+      }
+      try {
+        const response = await api.post(
+          `/update-compound/${selectedItemId}`,
+          allFormData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
         fetchCompound();
-    }, [formData.governorate,formData.city]);
-    // تعديل الكومباوند
-    const handleEdite = async (id) => {
+        setNewImage(null);
+        setShow(false);
+      } catch (err) {
+        if (err.response.data.status == 422) {
+          console.log("first");
+          setAlert({ msg: "هناك رابط اخر مشابهه لهذا", variant: 3 });
+          setShowAlert(true);
+        }
+      } finally {
+        setLoadEdit(false);
+      }
+    }
+  };
+  // حذف كومباوند
+  const handleDelete = async (id) => {
+    try {
+      setLoadId(true);
+      const response = await api.post(`/delete-compound/${id}`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchCompound();
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadId(false);
+    }
+  };
+  // اضافه كومباوند
+  const handleAddCompounds = async (e) => {
+    e.preventDefault();
+    if (formData.city) {
+      if (formData.name) {
+        setLoad(true);
+        const allFormData = new FormData();
+        // Append other form fields
+        for (const [key, value] of Object.entries(formData)) {
+          if (key !== "image") {
+            allFormData.append(key, value);
+          }
+        }
+        allFormData.append("city_id", formData.city);
+        if (image) {
+          allFormData.append("image", formData.image[0]);
+        }
         try {
-            const response = await api.post(`/update-compound/${id}`, {name:newCompoundName,city_id:formData.city}, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            })
-            window.location.reload();
-            console.log(response.data);
+          const response = await api.post("/add-compound", allFormData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          console.log(response.data);
+          fetchCompound();
+          resetData();
+          setImage(null);
         } catch (err) {
-            console.log(err);
+          if (err.response.data.status == 422) {
+            console.log("first");
+            setAlert({ msg: "هناك رابط اخر مشابهه لهذا", variant: 3 });
+            setShowAlert(true);
+          }
         } finally {
-            setShow(false)
+          setLoad(false);
         }
-    };
-    // حذف كومباوند
-    const handleDelete = async (id, name) => {
-        try {
-            const response = await api.post(`/delete-compound/${id}`, null, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            })
-            window.location.reload();
-            console.log(response.data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    // اضافه كومباوند
-    const handleAddCities = async (e) => {
-        e.preventDefault()
-        setLoad(true)
-        try {
-            const response = await api.post("/add-compound", { name:compoundName ,city_id:formData.city}, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            })
-            console.log(response.data);
-            window.location.reload();
-        } catch (err) {
-            console.log(err);
-        } finally {
-            setLoad(false)
-        }
+      }
+    } else {
+      setAlert({ msg: "يجب تحديد مدينه لاضافه الكومباوند داخلها", variant: 3 });
+      setShowAlert(true);
+      setLoad(false);
     }
-    function handleChangeCompoundName(e) {
-        setCompoundName(e.target.value)
+  };
+
+  function handelChange(e) {
+    const { name, value, type, files } = e.target;
+    if (type === "file" && name === "image") {
+      setImage(files[0]);
+      setFormData({
+        ...formData,
+        [name]: files,
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
     }
-    function handleNewCompoundName(e) {
-        setNewCompoundName(e.target.value)
+  }
+
+  function handelEditeChange(e) {
+    const { name, value, type, files } = e.target;
+    if (type === "file" && name === "image") {
+      setNewImage(files[0]);
+      setEditData({
+        ...editData,
+        [name]: files,
+      });
+    } else {
+      setEditData({ ...editData, [name]: value });
     }
-    return (
+  }
+
+  return (
+    <>
+      <Form onSubmit={handleAddCompounds} className="mt-3">
+        <Row className="mb-2">
+          <Form.Group as={Col} xs="6" controlId="formArName">
+            <Form.Label className="required">اسم الكومباوند</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={formData.name}
+              placeholder="اسم الكومباوند بالعربى"
+              onChange={handelChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group as={Col} xs="6" controlId="formAEnName">
+            <Form.Label>اسم الكومباوند انجليزى</Form.Label>
+            <Form.Control
+              type="text"
+              name="english_name"
+              value={formData.english_name}
+              placeholder="اسم الكومباوند بالانجليزى"
+              onChange={handelChange}
+            />
+          </Form.Group>
+        </Row>
+
+        <Row className="mb-2">
+          <Form.Group as={Col} xs="6" controlId="formTitle">
+            <Form.Label>العنوان الرئيسي</Form.Label>
+            <Form.Control
+              type="text"
+              name="h1_title"
+              value={formData.h1_title}
+              onChange={handelChange}
+            />
+          </Form.Group>
+          <Form.Group as={Col} xs="6" controlId="formMetaTitle">
+            <Form.Label>عنوان الصفحه فى الميتا</Form.Label>
+            <Form.Control
+              type="text"
+              name="meta_title"
+              value={formData.meta_title}
+              onChange={handelChange}
+            />
+          </Form.Group>
+        </Row>
+
+        <Row className="mb-2">
+          <Form.Group as={Col} xs="6" controlId="formTitle">
+            <Form.Label>رابط الكومباوند</Form.Label>
+            <Form.Control
+              type="text"
+              name="url"
+              value={formData.url}
+              placeholder="يجب ان يكون فريد من نوعه"
+              onChange={handelChange}
+            />
+          </Form.Group>
+
+          <Form.Group as={Col} xs="6" controlId="formMetaTitle">
+            <Form.Label>ميتا دسكريبشن</Form.Label>
+            <Form.Control
+              as="textarea"
+              name="meta_description"
+              value={formData.meta_description}
+              onChange={handelChange}
+            />
+          </Form.Group>
+        </Row>
+
+        <Row>
+          <Form.Group controlId="image" className="mb-3">
+            <Form.Label>الصورة الأساسية للصفحة</Form.Label>
+            <Form.Control type="file" name="image" onChange={handelChange} />
+            {image && (
+              <div className="mt-2">
+                <h5>الصورة الأساسية</h5>
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="MainImage"
+                  style={{
+                    maxWidth: "300px",
+                    height: "auto",
+                    margin: "0 10px 10px 0",
+                    borderRadius: "5px",
+                  }}
+                />
+              </div>
+            )}
+          </Form.Group>
+        </Row>
+
+        <Col className="my-2">
+          <Button type="submit" disabled={load}>
+            {load ? <LoadingBtn /> : "اضف الكومباوند"}
+          </Button>
+        </Col>
+      </Form>
+
+      <hr />
+      <hr />
+
+      <Form.Group controlId="governorate" className="mb-3">
+        <Form.Label className="required">المحافظة</Form.Label>
+        <Form.Select
+          name="governorate"
+          value={formData.governorate}
+          onChange={handleGetChange}
+          required
+        >
+          <option key={0} value="">
+            اختر المحافظة
+          </option>
+          {governorates.map((gov, index) => (
+            <option key={gov.id} value={gov.id}>
+              {gov.name}
+            </option>
+          ))}
+        </Form.Select>
+      </Form.Group>
+      <Form.Group controlId="city" className="mb-3">
+        <Form.Label className="required">المدينة</Form.Label>
+        <Form.Select
+          name="city"
+          value={formData.city}
+          onChange={handleGetChange}
+          required
+        >
+          <option key={0} value="">
+            اختر المدينة
+          </option>
+          {cities.map((city) => (
+            <option key={city.name} value={city.id}>
+              {city.name}
+            </option>
+          ))}
+        </Form.Select>
+      </Form.Group>
+
+      {showAlert && (
         <>
-            <Form.Group controlId="governorate" className="mb-3">
-                <Form.Label className='required'>المحافظة</Form.Label>
-                <Form.Select
-                    name="governorate"
-                    value={formData.governorate}
-                    onChange={handleChange}
-                    required
-                >
-                    {governorates.map((gov, index) => (
-                        <option key={gov.id} value={gov.id}>{gov.name}</option>
-                    ))}
-                </Form.Select>
-            </Form.Group>
-            <Form.Group controlId="city" className="mb-3">
-                <Form.Label className='required'>المدينة</Form.Label>
-                <Form.Select
-                    name="city"
-                    value={formData.city}
-                    onChange={handleChange}
-                    required
-                >
-                    {cities.map((city) => (
-                        <option key={city.name} value={city.id}>{city.name}</option>
-                    ))}
-                </Form.Select>
-            </Form.Group>
-{compounds.length>0?<Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>اسم الكومباوند</th>
-                        <th>تعديل</th>
-                        <th>حذف</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {compounds.map((item) => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{item.name}</td>
-                            <td>
-                                <Button variant="warning" onClick={handleShow}>
-                                    تعديل
-                                </Button>
-
-                                <Modal show={show} onHide={handleClose}>
-                                    <Modal.Header>
-                                        <Modal.Title>تعديل اسم الكومباوند</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <Form.Control
-                                            type="text"
-                                            name="newCompoundName"
-                                            onChange={handleNewCompoundName}
-                                        />
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="secondary" onClick={handleClose}>
-                                            الغاء
-                                        </Button>
-                                        <Button variant="primary" onClick={() => handleEdite(item.id)}>
-                                            حفظ
-                                        </Button>
-                                    </Modal.Footer>
-                                </Modal>
-                            </td>
-                            <td>
-                                <Button variant="danger" onClick={() => handleDelete(item.id)}>
-                                    حذف
-                                </Button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>:<Alert key="warning" variant="warning">
-                لا يوجد كومباوندات
-            </Alert>}
-            
-
-            <Form onSubmit={handleAddCities}>
-                <Row className="align-items-center">
-                    <Col xs="8">
-                        <InputGroup className="mb-2" dir="ltr" >
-                            <Form.Control id="inlineFormInputGroup" className='text-end' name="compoundName" onChange={handleChangeCompoundName} required placeholder="اكتب اسم الكومباوند" />
-                        </InputGroup>
-                    </Col>
-                    <Col xs="4">
-                        <Button type="submit" className="mb-2">
-                            {load ? <LoadingBtn /> : "اضف كومباوند"}
-                        </Button>
-                    </Col>
-                </Row>
-            </Form>
+          <AlertMessage
+            msg={alert.msg}
+            setShow={setShowAlert}
+            variant={alert.variant}
+          />
         </>
-    );
+      )}
+      {overlay ? (
+        <OverPage />
+      ) : (
+        <>
+          {compounds.length > 0 ? (
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>اسم الكومباوند</th>
+                  <th>الاسم بالانجليزى</th>
+                  <th>عنوان الصفحه</th>
+                  <th>الصوره</th>
+                  <th>عنوان الميتا</th>
+                  <th>الرابط</th>
+                  <th colSpan={2} className="text-center">
+                    أجراءات
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {compounds.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.name}</td>
+                    <td>{item.english_name}</td>
+                    <td>{item.h1_title}</td>
+                    <td>
+                      {item.image ? (
+                        <img
+                          src={item.image}
+                          alt={`صوره الصفحه`}
+                          className="img-fluid w-100"
+                          style={{ width: "100px", height: "70px" }}
+                        />
+                      ) : (
+                        "لايوجد صوره"
+                      )}
+                    </td>
+                    <td>{item.meta_title}</td>
+                    <td>{item.url}</td>
+                    <td>
+                      <Button
+                        variant="warning"
+                        onClick={() => {
+                          handleShow(item.id, compounds[index]);
+                        }}
+                      >
+                        تعديل
+                      </Button>
+                      <Modal
+                        size="lg"
+                        show={show}
+                        onHide={handleClose}
+                        backdrop="static"
+                        keyboard={false}
+                        style={{ background: "rgba(0, 0, 0, 0.125)" }}
+                      >
+                        <Modal.Header>
+                          <Modal.Title>تعديل المدينة</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                          <Form className="mt-3">
+                            <Row className="mb-2">
+                              <Form.Group
+                                as={Col}
+                                xs="6"
+                                controlId="formArName"
+                              >
+                                <Form.Label>اسم الكومباوند</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="name"
+                                  value={editData.name}
+                                  placeholder="اسم الكومباوند بالعربى"
+                                  onChange={handelEditeChange}
+                                  required
+                                />
+                              </Form.Group>
+                              <Form.Group
+                                as={Col}
+                                xs="6"
+                                controlId="formAEnName"
+                              >
+                                <Form.Label>اسم الكومباوند انجليزى</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="english_name"
+                                  value={editData.english_name}
+                                  placeholder="اسم الكومباوند بالانجليزى"
+                                  onChange={handelEditeChange}
+                                />
+                              </Form.Group>
+                            </Row>
+
+                            <Row className="mb-2">
+                              <Form.Group as={Col} xs="6" controlId="formTitle">
+                                <Form.Label>العنوان الرئيسي</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="h1_title"
+                                  value={editData.h1_title}
+                                  onChange={handelEditeChange}
+                                />
+                              </Form.Group>
+                              <Form.Group
+                                as={Col}
+                                xs="6"
+                                controlId="formMetaTitle"
+                              >
+                                <Form.Label>عنوان الصفحه فى الميتا</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="meta_title"
+                                  value={editData.meta_title}
+                                  onChange={handelEditeChange}
+                                />
+                              </Form.Group>
+                            </Row>
+
+                            <Row className="mb-2">
+                              <Form.Group as={Col} xs="6" controlId="formTitle">
+                                <Form.Label>رابط المدينة</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="url"
+                                  value={editData.url}
+                                  placeholder="يجب ان يكون فريد من نوعه"
+                                  onChange={handelEditeChange}
+                                />
+                              </Form.Group>
+
+                              <Form.Group
+                                as={Col}
+                                xs="6"
+                                controlId="formMetaTitle"
+                              >
+                                <Form.Label>ميتا دسكريبشن</Form.Label>
+                                <Form.Control
+                                  as="textarea"
+                                  name="meta_description"
+                                  value={editData.meta_description}
+                                  onChange={handelEditeChange}
+                                />
+                              </Form.Group>
+                            </Row>
+
+                            <Row>
+                              <Form.Group controlId="image" className="mb-3">
+                                <Form.Label>الصورة الأساسية للصفحة</Form.Label>
+                                <Form.Control
+                                  type="file"
+                                  name="image"
+                                  onChange={handelEditeChange}
+                                />
+
+                                <div className="mt-2">
+                                  <h5>الصورة الأساسية</h5>
+                                  {newImage ? (
+                                    <img
+                                      src={URL.createObjectURL(newImage)}
+                                      alt="MainImage"
+                                      style={{
+                                        maxWidth: "300px",
+                                        height: "auto",
+                                        margin: "0 10px 10px 0",
+                                        borderRadius: "5px",
+                                      }}
+                                    />
+                                  ) : editData.image ? (
+                                    <img
+                                      src={editData.image}
+                                      alt="MainImage"
+                                      style={{
+                                        maxWidth: "300px",
+                                        height: "auto",
+                                        margin: "0 10px 10px 0",
+                                        borderRadius: "5px",
+                                      }}
+                                    />
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              </Form.Group>
+                            </Row>
+                          </Form>
+                        </Modal.Body>
+
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={handleClose}>
+                            الغاء
+                          </Button>
+                          <Button
+                            variant="success"
+                            onClick={handleEdite}
+                            disabled={loadEdit}
+                          >
+                            {loadEdit ? <LoadingBtn /> : " حفظ التعديل"}
+                          </Button>
+                        </Modal.Footer>
+                        {showAlert && (
+                          <>
+                            <AlertMessage
+                              msg={alert.msg}
+                              setShow={setShowAlert}
+                              variant={alert.variant}
+                            />
+                          </>
+                        )}
+                      </Modal>
+                    </td>
+                    <DeleteItem
+                      id={selectedItemId}
+                      setId={setSelectedItemId}
+                      itemId={item.id}
+                      DeleteFun={handleDelete}
+                      load={loadId}
+                    />
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <Alert key="warning" variant="warning">
+              لا يوجد كومباوندات
+            </Alert>
+          )}
+        </>
+      )}
+    </>
+  );
 }

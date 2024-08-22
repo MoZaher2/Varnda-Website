@@ -51,7 +51,11 @@ const QuickCardDetails = ({ propertyDetails }) => {
               <Row className="mb-3">
                 <p
                   className="mb-4"
-                  style={{ color: "#123", fontWeight: "700" }}
+                  style={{
+                    color: "rgb(17, 34, 51)",
+                    fontWeight: "700",
+                    fontSize: "18px",
+                  }}
                 >
                   {propertyDetails.property.details_ar}
                 </p>
@@ -61,11 +65,11 @@ const QuickCardDetails = ({ propertyDetails }) => {
               </h3>
               <Row>
                 <div
-                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  flexWrap: "wrap",
-                }}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                  }}
                 >
                   <a href={`tel:+2${propertyDetails.phone}`}>
                     <Button variant="primary" className="m-2 btn-lg">
