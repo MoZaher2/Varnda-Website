@@ -46,7 +46,7 @@ const PropertiesTable = ({ data }) => {
       });
     }
     else{
-      if(category==='شقة'){
+      if(category==='شقق'){
         navigate("/edit-apartments-duplexes", {
           state: { data: property },
         });

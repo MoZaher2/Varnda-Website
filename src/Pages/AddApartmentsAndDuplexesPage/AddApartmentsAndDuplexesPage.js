@@ -34,7 +34,7 @@ const AddApartmentsAndDuplexesPage = () => {
 
   const [formData2, setFormData2] = useState({
     property_id: "",
-    advertiser_type: "",
+    advertiser_type: Cookies.get('user_type'),
     phone: Cookies.get('phone'),
     email: Cookies.get('email'),
     whats_phone: Cookies.get('whats_phone')

@@ -145,7 +145,7 @@ function App() {
           path="/add-apartments-duplexes"
           element={
             <ProtectedRoute allowedRoles={["user", "admin"]}>
-              <EditApartmentsAndDuplexesPage />
+              <AddApartmentsAndDuplexesPage />
             </ProtectedRoute>
           }
         />
@@ -219,7 +219,8 @@ function App() {
           path="/edit-apartments-duplexes"
           element={
             <ProtectedRoute allowedRoles={["user", "admin"]}>
-              <AddApartmentsAndDuplexesPage />
+              
+              <EditApartmentsAndDuplexesPage />
             </ProtectedRoute>
           }
         />

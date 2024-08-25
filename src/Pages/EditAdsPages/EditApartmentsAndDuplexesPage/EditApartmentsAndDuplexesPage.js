@@ -14,11 +14,106 @@ import "./EditApartmentsAndDuplexesPage.css"
 import LoadingBtn from "../../../Components/LoadingBtn.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
-const EditApartmentsAndDuplexesPage = () => {
+import { useLocation } from "react-router-dom"; //
+import DeleteImage from "../../../Components/DeleteImage/DeleteImage.js";//
 
-  const token = Cookies.get('token');
-  const [load1, setLoad1] = useState(false);
-  const [load2, setLoad2] = useState(false);
+const EditApartmentsAndDuplexesPage = () => {
+  
+    const location = useLocation(); //
+    const Ad = location.state?.data; //
+    const token = Cookies.get("token")
+ // خاصين بتعديل الصور
+ const [oldImages, setOldImages] = useState([]);
+ const [deleteImages, setDeleteImages] = useState([]);
+ const [old_primary_picture, setOld_primary_picture] = useState([]);
+ /////////
+ const [formData, setFormData] = useState({
+  name_ad_ar: '',//👍
+  details_ar: '',//👍
+  type: '',//👍
+  price: '',//👍
+  discount: '',//👍
+  payment_method: '',//👍
+  rent_type: '',//👍
+  legal_papers: '',//👍
+  area: '',//👍
+  rooms: '',//👍
+  bathrooms: '',//👍
+  floor_number: '',//👍
+  compound_name: '',//👍
+  primary_picture: '',//👍  
+  'images[]': '',//👍
+  video_link: '',//👍
+  full_address: '',//👍
+  governorate: '',//👍
+  city: '',//👍
+  region: '',//👍
+  street: '',//👍
+  deliver_date: '',//👍
+  finishing_type: '',//👍
+  furnished: '',//👍
+  'facilities[]': [],//👍
+  'features[]': [],//👍
+  'services[]': [],//👍
+  'devices[]': [],//👍
+  sub_category:'',
+  //ADS
+  advertiser_type: "",
+  phone: '',
+  email: '',
+  whats_phone: '',
+});
+ // وضع القيم فى الخانات
+ useEffect(() => {
+  const fetchAd = async () => {
+    setFormData({
+      id: Ad.id,
+      // user_id: Ad.property.User_id,
+      // category: Ad.property.Category,
+      name_ad_ar: Ad.property["Arabic Name"],
+      details_ar: Ad.property.details_ar,
+      type: Ad.property.Type,
+      price: Ad.property.price,
+      discount: Ad.property.Discount,
+      payment_method: Ad.property.payment_method,
+      rent_type: Ad.property.renting_type,
+      legal_papers: Ad.property.legal_papers,
+      area: Ad.property.area,
+      rooms: Ad.property.rooms,
+      bathrooms: Ad.property.bathrooms,
+      floor_number: Ad.property.floor_number,
+      "images[]": Ad.property.images?.map((img) => img.image),
+      video_link: Ad.property.video_link,
+      full_address: Ad.property.full_address,
+      governorate: Ad.property.governorate || "",
+      city: Ad.property.city || "",
+      region: Ad.property.region || "",
+      street: Ad.property.street || "",
+      compound_name: Ad.property.compound_name || "",
+      deliver_date: Ad.property.deliver_date,
+      finishing_type: Ad.property.finishing_type,
+      furnished: Ad.property.Furnished,
+      "facilities[]": Ad.property.facilities,
+      "features[]": Ad.property.features,
+      "services[]": Ad.property.services,
+      "devices[]": Ad.property.devices,
+      sub_category: Ad.property["Sub Category"],
+      advertiser_type: Ad.advertiser_type,
+      phone: Ad.phone,
+      email: Ad.email,
+      whats_phone: Ad.whats_phone,
+    });
+    setOldImages(Ad.property.images);
+    setPriceText(Number(Ad.property.price).toLocaleString('en-US'))
+    setPosition([Ad.property.latitude,Ad.property.longitude])
+    setOld_primary_picture(Ad.property.primary_picture)
+  };
+  console.log("بيانات الاعلان قب التعديل",Ad)
+  if (Ad) fetchAd();
+}, [Ad]);
+const [position, setPosition] = useState([30.044376903556085, 31.235749743857397]);
+
+  const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 })
   const navigate = useNavigate();
@@ -32,47 +127,7 @@ const EditApartmentsAndDuplexesPage = () => {
     shadowSize: [41, 41],
   });
 
-  const [formData2, setFormData2] = useState({
-    property_id: "",
-    advertiser_type: "",
-    phone: Cookies.get('phone'),
-    email: Cookies.get('email'),
-    whats_phone: Cookies.get('whats_phone')
-  })
-  console.log(Cookies.get("user_id"));
-  const [formData, setFormData] = useState({
-    user_id: Cookies.get("user_id"),//👍
-    category: 'شقق',//👍
-    name_ad_ar: '',//👍
-    details_ar: '',//👍
-    type: '',//👍
-    price: '',//👍
-    discount: '',//👍
-    payment_method: '',//👍
-    rent_type: '',//👍
-    legal_papers: '',//👍
-    area: '',//👍
-    rooms: '',//👍
-    bathrooms: '',//👍
-    floor_number: '',//👍
-    compound_name: '',//👍
-    primary_picture: '',//👍  
-    'images[]': '',//👍
-    video_link: '',//👍
-    full_address: '',//👍
-    governorate: '',//👍
-    city: '',//👍
-    region: '',//👍
-    street: '',//👍
-    deliver_date: '',//👍
-    finishing_type: '',//👍
-    furnished: '',//👍
-    'facilities[]': [],//👍
-    'features[]': [],//👍
-    'services[]': [],//👍
-    'devices[]': [],//👍
-    sub_category:''
-  });
+ 
   const [primary_picture, setPrimary_picture] = useState(null);
   const [images, setImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,7 +135,6 @@ const EditApartmentsAndDuplexesPage = () => {
   const [regions, setRegions] = useState([]);
   const [streets, setStreets] = useState([]);
   const [compounds, setCompounds] = useState([]);
-  const [position, setPosition] = useState([30.044376903556085, 31.235749743857397]);//ابعته ف ال API  latitude longitude
   const [validated, setValidated] = useState(false);
   const [validated2, setValidated2] = useState(false);
 
@@ -94,11 +148,12 @@ const EditApartmentsAndDuplexesPage = () => {
   };
 
   const [governorates, setGovernorates] = useState([])
+
   // API for get data to choose from it
+  //Governments
   useEffect(() => {
     const fetchGov = async () => {
       try {
-        
         const response = await api.get("/governorates", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -111,32 +166,30 @@ const EditApartmentsAndDuplexesPage = () => {
     };
     fetchGov();
   }, []);
-  //City
-  useEffect(() => {
-    const fetchCity = async () => {
-      const govId = governorates.find((e) => {
-        return e.name === formData.governorate
-      })["id"]
-
-      try {
-        
-        const response = await api.get(`/governorates/${govId}/cities`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCities(response.data.data)
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchCity();
-  }, [formData.governorate]);
-
+    //City
+    useEffect(() => {
+      const fetchCity = async () => {
+        const govId = governorates.find((e) => {
+          return e.name === formData.governorate;
+        })["id"];
+        try {
+          const response = await api.get(`/governorates/${govId}/cities`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setCities(response.data.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchCity();
+    }, [formData.governorate, token, governorates]);
+  
   // Region
   useEffect(() => {
-    const fetchCity = async () => {
-      const cityId = cities.find((e) => {
+    const fetchRegion = async () => {
+      let cityId = cities.find((e) => {
         return e.name === formData.city
       })["id"]
       try {
@@ -151,13 +204,15 @@ const EditApartmentsAndDuplexesPage = () => {
         console.log(error);
       }
     };
-    fetchCity();
-  }, [formData.city]);
+    if(formData.city){
+      fetchRegion();
+    }
+  }, [formData.city,token,cities]);
+
   // Street
   useEffect(() => {
-
     const fetchStreet = async () => {
-      const streetId = regions.find((e) => {
+      let streetId = regions.find((e) => {
         return e.name === formData.region
       })["id"]
       try {
@@ -166,19 +221,20 @@ const EditApartmentsAndDuplexesPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data.data)
         setStreets(response.data.data)
       } catch (error) {
         console.log(error);
       }
     };
-    fetchStreet();
-  }, [formData.region]);
+    if(formData.region){
+      fetchStreet();
+    }
+  }, [formData.region,token,regions]);
 
    // Compound
    useEffect(() => {
     const fetchCompound = async () => {
-      const cityId = cities.find((e) => {
+      let cityId = cities.find((e) => {
         return e.name === formData.city
       })["id"]
         try {
@@ -192,8 +248,10 @@ const EditApartmentsAndDuplexesPage = () => {
             console.log(error);
         }
     };
-    fetchCompound();
-}, [formData.governorate,formData.city]);
+    if(formData.city){
+      fetchCompound();
+    }
+}, [formData.city,token,cities]);
 
   const isValidPhone = (phoneNumber) => {
     const egPhone = /^(010|011|012|015)\d{8}$/;
@@ -216,7 +274,6 @@ const EditApartmentsAndDuplexesPage = () => {
         setPrimary_picture(files[0]);
       } else if (name === 'images[]') {
         setImages(Array.from(files));
-        console.log(images)
       }
       setFormData({
         ...formData,
@@ -247,27 +304,12 @@ const EditApartmentsAndDuplexesPage = () => {
         ? prevState[fieldName].filter(item => item !== amenity)
         : [...prevState[fieldName], amenity]
     }));
-    console.log(formData['facilities[]'])
   };
-
-  const handleChange2 = (e) => {
-    const { name, value } = e.target;
-    if (name === "phone"||name === "whats_phone") {
-      if (!isValidPhone(value)) {
-        e.target.setCustomValidity("يرجى إدخال رقم هاتف صحيح");
-      } else {
-        e.target.setCustomValidity("");
-      }
-    }
-    setFormData2({ ...formData2, [name]: value })
-  }
-
 
   const fetchAddress = async (lat, lng) => {
     const apiKey = 'ede130c0ba4f4355b0e56461701f0455';
     try {
       const response = await axios.get(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`);
-      console.log(response);
       const address = response.data.features[0].properties.formatted;
       setFormData({
         ...formData,
@@ -288,69 +330,7 @@ const EditApartmentsAndDuplexesPage = () => {
     return null;
   }
 
-  const handleSubmit1 = async (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    if (form.checkValidity() === false || !formData.primary_picture) {
-      e.stopPropagation();
-      setAlert({ msg: "يرجى التأكد من ملئ الحقول المطلوبه *", variant: 3 })
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setShow(true)
-    }
-    else {
-      const token = Cookies.get("token")
-      try {
-        setLoad1(true)
-        const allFormData = new FormData();
-
-        // Append other form fields
-        for (const [key, value] of Object.entries(formData)) {
-          if(key!=="images[]"&&key!=="primary_picture"){
-            allFormData.append(key, value);
-             
-          }
-        }
-
-        // Append images
-        if (images) {
-          for (let i = 0; i < images.length; i++) {
-            allFormData.append('images[]', formData['images[]'][i]);
-          }
-        }
-
-        if (primary_picture) {
-          allFormData.append('primary_picture', formData.primary_picture[0]);
-        }
-
-        // Append position
-        allFormData.append('latitude', position[0]);
-        allFormData.append('longitude', position[1]);
-
-        // Post the data
-        const response = await api.post("/AddProperties", allFormData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        const prop_id = response.data.data.property_id
-        setFormData2({ ...formData2, "property_id": prop_id })
-        // للانتقال لاخر صفحه و حفظ الاعلان
-        setCurrentPage(currentPage + 1);
-      } catch (err) {
-        setAlert({ msg: "حدث خطا اثناء حفظ الاعلان يرجى المحاوله مره ثانيه", variant: 2 })
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setShow(true)
-        console.log(err)
-      }
-      finally{
-        setLoad1(false)
-      }
-    }
-    setValidated(true);
-  };
-
-  const handleSubmit2 = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
@@ -360,30 +340,71 @@ const EditApartmentsAndDuplexesPage = () => {
       setShow(true)
     }
     else {
-      setLoad2(true)
-      const token = Cookies.get("token")
+      // console.log(formData.id)
       try {
-        const response = await api.post("/makeAd", {
-          ...formData2
-        }, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setAlert({ msg: "تم حفظ الإعلان بنجاح", variant: 1 })
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setShow(true)
+        setLoad(true)
+        const allFormData = new FormData();
+
+        // Append other form fields
+        for (const [key, value] of Object.entries(formData)) {
+          if(key!=="images[]"&&key!=="primary_picture"&&value){
+            // console.log("key",key)
+            // console.log("value",value)
+            allFormData.append(key, value);
+          }
+        }
+        // Append images
+        if (images) {
+          // console.log("images",images)
+          for (let i = 0; i < images.length; i++) {
+            allFormData.append('images[]', formData['images[]'][i]);
+          }
+        }
+        if (primary_picture) {
+          // console.log("primary_picture",primary_picture)
+          allFormData.append('primary_picture', formData.primary_picture[0]);
+        }
+        // Append position
+        allFormData.append('latitude', position[0]);
+        allFormData.append('longitude', position[1]);
+        // console.log(position[0], position[1]);
+
+        // ارسال الصور المحذوفه
+        let deleted_images = deleteImages.join(",");
+        if(deleted_images){
+          allFormData.append("deleted_images", deleted_images);
+        }
+
+
+        // Post the data
+        const response = await api.post(
+          `/updateAd/${formData.id}`,
+          allFormData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        console.log("الاعلانات بعد التعديل",response.data);
+        setAlert({ msg: "تم تعديل الإعلان بنجاح", variant: 1 });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setShow(true);
         setTimeout(() => {
-          navigate('/submit-property');
-        }, 2000)
-        console.log(response.data)
+          // navigate("/myproperties");
+        }, 2000);
       } catch (err) {
         console.log(err)
+        setAlert({ msg: "حدث خطا اثناء تعديل الاعلان يرجى المحاوله مره ثانيه", variant: 2 })
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setShow(true)
       }
-      setLoad2(false)
+      finally{
+        setLoad(false)
+      }
     }
-    setValidated2(true);
+    setValidated(true);
   };
 
   const handleNextPage = () => {
@@ -413,7 +434,6 @@ const EditApartmentsAndDuplexesPage = () => {
 // لتنسيق شكل الرقم
 const handlePriceChange = (e) => {
   const { value } = e.target;
-  console.log(value);
   const price = value.replace(/,/g, '')
   if (!isNaN(price)) {
     setPriceText(Number(price).toLocaleString('en-US'))//For view
@@ -442,7 +462,7 @@ const handlePriceChange = (e) => {
 
                 <Form noValidate
                   validated={validated}
-                  onSubmit={handleSubmit1}>
+                  onSubmit={handleSubmit}>
                   {currentPage === 1 && (
                     <>
                       <Row>
@@ -458,7 +478,6 @@ const handlePriceChange = (e) => {
                               value={formData.name_ad_ar}
                               onChange={handleChange}
                               maxLength="70"
-                              required
                             />
 
                           </Form.Group>
@@ -470,7 +489,6 @@ const handlePriceChange = (e) => {
                               name="type"
                               value={formData.type}
                               onChange={handleChange}
-                              required
                             >
                               <option value="">اختر الهدف</option>
                               <option value="rent">إيجار</option>
@@ -487,7 +505,6 @@ const handlePriceChange = (e) => {
                           name="details_ar"
                           value={formData.details_ar}
                           onChange={handleChange}
-                          required
                         />
                       </Form.Group>
                       <Row>
@@ -506,7 +523,7 @@ const handlePriceChange = (e) => {
                               name="priceText"
                               value={priceText}
                               onChange={handlePriceChange}
-                              required
+                             
                             />
                           </Form.Group>
                         </Col>
@@ -545,7 +562,7 @@ const handlePriceChange = (e) => {
                           name="sub_category"
                           value={formData.sub_category}
                           onChange={handleChange}
-                          required
+             
                         >
                           <option value="">اختر</option>
                           <option value="شقة">شقة</option>
@@ -563,7 +580,7 @@ const handlePriceChange = (e) => {
                             name="rent_type"
                             value={formData.rent_type}
                             onChange={handleChange}
-                            required
+                            
                           >
                             <option value="">اختر</option>
                             <option value="1">شهرى</option>
@@ -581,7 +598,7 @@ const handlePriceChange = (e) => {
                               name="payment_method"
                               value={formData.payment_method}
                               onChange={handleChange}
-                              required
+                              
                             >
                               <option value="">اختر</option>
                               <option value="كاش">كاش</option>
@@ -595,7 +612,7 @@ const handlePriceChange = (e) => {
                               name="deliver_date"
                               value={formData.deliver_date}
                               onChange={handleChange}
-                              required
+                              
                             >
                               <option value="">اختر</option>
                               <option value="0">استلام فوري</option>
@@ -615,7 +632,7 @@ const handlePriceChange = (e) => {
                               name="legal_papers"
                               value={formData.legal_papers}
                               onChange={handleChange}
-                              required
+                              
                             >
                               <option value="">اختر</option>
                               <option value="مرخص">مرخص</option>
@@ -653,7 +670,7 @@ const handlePriceChange = (e) => {
                               value={formData.area}
                               onChange={handleChange}
                               min={2}
-                              required
+                              
                             />
                           </Form.Group>
                         </Col>
@@ -667,7 +684,7 @@ const handlePriceChange = (e) => {
                               name="rooms"
                               value={formData.rooms}
                               onChange={handleChange}
-                              required
+                              
                             >
                               <option value="">اختر</option>
                               {Array.from({ length: 9 }, (_, i) => i + 1).map(
@@ -736,7 +753,7 @@ const handlePriceChange = (e) => {
                           name="finishing_type"
                           value={formData.finishing_type}
                           onChange={handleChange}
-                          required
+                          
                         >
                           <option value="">اختر</option>
                           <option value="علي الطوب">علي الطوب</option>
@@ -753,7 +770,7 @@ const handlePriceChange = (e) => {
                             name="furnished"
                             value={formData.furnished}
                             onChange={handleChange}
-                            required
+                            
                           >
                             <option value="">اختر</option>
                             <option value="1">نعم</option>
@@ -814,12 +831,24 @@ const handlePriceChange = (e) => {
                             type="file"
                             name="primary_picture"
                             onChange={handleChange}
-                            required
+                            
                           />
+                          {old_primary_picture && (
+                            <div className="mt-2">
+                              <h5>الصورة القديمة</h5>
+                              <img
+                               key={old_primary_picture}
+                                src={old_primary_picture}
+                                alt="MainImage"
+                                style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
+                              />
+                            </div>
+                          )}
                           {primary_picture && (
                             <div className="mt-2">
-                              <h5>الصورة الأساسية</h5>
+                              <h5>الصورة المراد اضافتها</h5>
                               <img
+                               key={primary_picture}
                                 src={URL.createObjectURL(primary_picture)}
                                 alt="MainImage"
                                 style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
@@ -832,30 +861,72 @@ const handlePriceChange = (e) => {
                         </Form.Group>
 
                         <Form.Group controlId="images[]" className="mb-3">
-                          <Form.Label>قم بتحميل باقي الصور</Form.Label>
-                          <Form.Control
-                            type="file"
-                            name="images[]"
-                            onChange={handleChange}
-                            multiple
-                          />
-                          {images.length > 0 && (
-                            <div className="mt-2">
-                              <h5>الصور الإضافية</h5>
-                              <div className="d-flex flex-wrap">
-                                {images.map((image, index) => (
-                                  <img
-                                    key={index}
-                                    src={URL.createObjectURL(image)}
-                                    alt={`AdditionalImage ${index}`}
-                                    style={{ maxWidth: '150px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </Form.Group>
+                    <Form.Label className="required">
+                      قم بتحميل صور الاعلان
+                    </Form.Label>
+                    <Form.Control
+                      type="file"
+                      name="images[]"
+                      onChange={handleChange}
+                      multiple
+                    />
+                    {images.length > 0 && (
+                      <div className="mt-2">
+                        <h5>الصور الجديدة:</h5>
+                        <div className="d-flex flex-wrap">
+                          {images.map((image, index) => (
+                            <img
+                              key={index}
+                              src={URL.createObjectURL(image)}
+                              alt={`AdditionalImage ${index}`}
+                              style={{
+                                maxWidth: "150px",
+                                height: "auto",
+                                margin: "0 10px 10px 0",
+                                borderRadius: "5px",
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
+                    {oldImages.length > 0 && (
+                      <div className="mt-2">
+                        <h5>الصور القديمة:</h5>
+                        <div className="d-flex flex-wrap">
+                          {oldImages.map((image, index) => (
+                            <div
+                            key={index}
+                              style={{
+                                position: "relative",
+                              }}
+                            >
+                              <img
+                                key={index}
+                                src={image.image}
+                                alt={`AdditionalImage ${index}`}
+                                style={{
+                                  maxWidth: "150px",
+                                  height: "auto",
+                                  margin: "0 10px 10px 0",
+                                  borderRadius: "5px",
+                                  position: "relative",
+                                }}
+                              />
+                              <DeleteImage
+                                setOld={setOldImages}
+                                setDel={setDeleteImages}
+                                OldImages={oldImages}
+                                DeleteImages={deleteImages}
+                                img={image.image}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </Form.Group>
                         <div className="text-center d-flex justify-content-between">
                           <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
                             الصفحة السابقة
@@ -888,7 +959,7 @@ const handlePriceChange = (e) => {
                           name="full_address"
                           value={formData.full_address}
                           onChange={handleChange}
-                          required
+                          
                         />
                       </Form.Group>
                       <span>اضغط على العلامة الزرقاء فى مكان موقع العقار.</span>
@@ -924,21 +995,22 @@ const handlePriceChange = (e) => {
                           name="governorate"
                           value={formData.governorate}
                           onChange={handleChange}
-                          required
+                          
                         >
                           <option value="">اختر المحافظة</option>
                           {governorates.map((gov, index) => (
-                            <option key={gov.id} value={gov.name}>{gov.name}</option>
+                            <option key={gov.name} value={gov.name}>{gov.name}</option>
                           ))}
                         </Form.Select>
                       </Form.Group>
+
                       <Form.Group controlId="city" className="mb-3">
                         <Form.Label className='required'>المدينة</Form.Label>
                         <Form.Select
                           name="city"
                           value={formData.city}
                           onChange={handleChange}
-                          required
+                          
                         >
                           <option value="">اختر المدينة</option>
                           {cities.map((city) => (
@@ -955,7 +1027,7 @@ const handlePriceChange = (e) => {
                         >
                           <option value="">اختر المنطقة</option>
                           {regions.map((region) => (
-                            <option key={region.id} value={region.name}>{region.name}</option>
+                            <option key={region.name} value={region.name}>{region.name}</option>
                           ))}
                         </Form.Select>
                       </Form.Group>
@@ -1002,25 +1074,22 @@ const handlePriceChange = (e) => {
                         <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
                           الصفحة السابقة
                         </Button>
-                        <Button variant="primary" type="submit" disabled={load1}>
-                          {load1 ? <LoadingBtn /> : "تجهيز الاعلان "}
+                        <Button variant="secondary" onClick={handleNextPage}>
+                          الصفحة التالية
                         </Button>
                       </div>
                     </>
                   )}
-                </Form>
-                {currentPage === 8 && (
+                   {currentPage === 8 && (
                   <>
-                    <Form noValidate
-                      validated={validated2} onSubmit={handleSubmit2}>
                       <Form.Group controlId="phone" className="mb-3">
                         <Form.Label>رقم الهاتف للتواصل</Form.Label>
                         <Form.Control
                           type="number"
                           name="phone"
-                          value={formData2.phone}
-                          onChange={handleChange2}
-                          required
+                          value={formData.phone}
+                          onChange={handleChange}
+                          
                         />
                         <Form.Control.Feedback type="invalid">
                           ادخل رقم الهاتف بشكل صحيح "01xxxxxxxxx"
@@ -1031,9 +1100,9 @@ const handlePriceChange = (e) => {
                         <Form.Control
                           type="number"
                           name="whats_phone"
-                          value={formData2.whats_phone}
-                          onChange={handleChange2}
-                          required
+                          value={formData.whats_phone}
+                          onChange={handleChange}
+                          
                         />
                         <Form.Control.Feedback type="invalid">
                           ادخل رقم الهاتف بشكل صحيح "01xxxxxxxxx"
@@ -1044,10 +1113,10 @@ const handlePriceChange = (e) => {
                         <Form.Control
                           type="email"
                           name="email"
-                          value={formData2.email}
+                          value={formData.email}
                           placeholder="ادخل البريد الإلكتروني"
-                          onChange={handleChange2}
-                          required
+                          onChange={handleChange}
+                          
                         />
                         <Form.Control.Feedback type="invalid">
                           ادخل الايميل بشكل صحيح
@@ -1058,9 +1127,9 @@ const handlePriceChange = (e) => {
                         <Form.Label className='mt-2'>نوع المستخدم</Form.Label>
                         <Form.Select
                           name="advertiser_type"
-                          value={formData2.advertiser_type}
-                          onChange={handleChange2}
-                          required
+                          value={formData.advertiser_type}
+                          onChange={handleChange}
+                          
                         >
                           <option value="">اختر</option>
                           <option key="1" value="مالك">مالك</option>
@@ -1073,14 +1142,17 @@ const handlePriceChange = (e) => {
                         </Form.Control.Feedback>
                       </Form.Group>
 
-                      <div className="text-center d-flex justify-content-center mt-4">
-                        <Button variant="primary" type="submit" disabled={load2}>
-                          {load2 ? <LoadingBtn /> : "حفظ الإعلان"}
+                      <div className="text-center d-flex justify-content-between mt-4">
+                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
+                          الصفحة السابقة
+                        </Button>
+                        <Button variant="primary" type="submit" disabled={load}>
+                          {load ? <LoadingBtn /> : "تعديل الإعلان"}
                         </Button>
                       </div>
-                    </Form>
                   </>
                 )}
+                </Form>
               </div>
             </Col>
           </Row>

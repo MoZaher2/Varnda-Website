@@ -60,6 +60,7 @@ export default function SignupPage() {
           Cookies.set('email', response.data.data.email);
           Cookies.set('phone', response.data.data.phone);
           Cookies.set('role', response.data.data.role);
+          localStorage.setItem('role', response.data.data.role);
           Cookies.set('verify',null)
           window.scrollTo({ top: 0, behavior: 'smooth' });
           setOverlay(true);
