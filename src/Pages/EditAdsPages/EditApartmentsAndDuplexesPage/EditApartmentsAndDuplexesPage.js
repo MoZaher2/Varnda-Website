@@ -40,7 +40,6 @@ const EditApartmentsAndDuplexesPage = () => {
   rooms: '',//👍
   bathrooms: '',//👍
   floor_number: '',//👍
-  compound_name: '',//👍
   primary_picture: '',//👍  
   'images[]': '',//👍
   video_link: '',//👍
@@ -49,6 +48,8 @@ const EditApartmentsAndDuplexesPage = () => {
   city: '',//👍
   region: '',//👍
   street: '',//👍
+  compound_name: '',//👍
+  mall_name:'',//👍
   deliver_date: '',//👍
   finishing_type: '',//👍
   furnished: '',//👍
@@ -68,8 +69,6 @@ const EditApartmentsAndDuplexesPage = () => {
   const fetchAd = async () => {
     setFormData({
       id: Ad.id,
-      // user_id: Ad.property.User_id,
-      // category: Ad.property.Category,
       name_ad_ar: Ad.property["Arabic Name"],
       details_ar: Ad.property.details_ar,
       type: Ad.property.Type,
@@ -80,8 +79,10 @@ const EditApartmentsAndDuplexesPage = () => {
       legal_papers: Ad.property.legal_papers,
       area: Ad.property.area,
       rooms: Ad.property.rooms,
-      bathrooms: Ad.property.bathrooms,
+      bathrooms: Ad.property.bathrooms, 
       floor_number: Ad.property.floor_number,
+      floors:Ad.property.floors,
+      price_per:Ad.property.price_per,
       "images[]": Ad.property.images?.map((img) => img.image),
       video_link: Ad.property.video_link,
       full_address: Ad.property.full_address,
@@ -90,6 +91,7 @@ const EditApartmentsAndDuplexesPage = () => {
       region: Ad.property.region || "",
       street: Ad.property.street || "",
       compound_name: Ad.property.compound_name || "",
+      mall_name: Ad.property.mall_name || "",
       deliver_date: Ad.property.deliver_date,
       finishing_type: Ad.property.finishing_type,
       furnished: Ad.property.Furnished,
@@ -136,7 +138,6 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
   const [streets, setStreets] = useState([]);
   const [compounds, setCompounds] = useState([]);
   const [validated, setValidated] = useState(false);
-  const [validated2, setValidated2] = useState(false);
 
   const [priceText,setPriceText]=useState("")
 
@@ -150,10 +151,16 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
   const [governorates, setGovernorates] = useState([])
 
   // API for get data to choose from it
+  const[govLoad,setGovLoad]=useState(false);
+  const[cityLoad,setCityLoad]=useState(false);
+  const[regionLoad,setRegionLoad]=useState(false);
+  const[streetLoad,setStreetLoad]=useState(false);
+  const[compoundLoad,setCompoundLoad]=useState(false);
   //Governments
   useEffect(() => {
     const fetchGov = async () => {
       try {
+        setGovLoad(true)
         const response = await api.get("/governorates", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -161,7 +168,10 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
         });
         setGovernorates(response.data.data)
       } catch (error) {
+        setGovernorates([])
         console.log(error);
+      }finally{
+        setGovLoad(false)
       }
     };
     fetchGov();
@@ -173,6 +183,7 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
           return e.name === formData.governorate;
         })["id"];
         try {
+          setCityLoad(true)
           const response = await api.get(`/governorates/${govId}/cities`, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -180,7 +191,10 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
           });
           setCities(response.data.data);
         } catch (error) {
+          setCities([])
           console.log(error);
+        }finally{
+          setCityLoad(false)
         }
       };
       fetchCity();
@@ -193,7 +207,7 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
         return e.name === formData.city
       })["id"]
       try {
-        
+        setRegionLoad(true)
         const response = await api.get(`/governorates/city/${cityId}/regions`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -201,7 +215,10 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
         });
         setRegions(response.data.data)
       } catch (error) {
+        setRegions([])
         console.log(error);
+      }finally{
+        setRegionLoad(false)
       }
     };
     if(formData.city){
@@ -216,6 +233,7 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
         return e.name === formData.region
       })["id"]
       try {
+        setStreetLoad(true)
         const response = await api.get(`/streetsByRegion/${streetId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -223,7 +241,10 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
         });
         setStreets(response.data.data)
       } catch (error) {
+        setStreets([])
         console.log(error);
+      }finally{
+        setStreetLoad(false)
       }
     };
     if(formData.region){
@@ -238,6 +259,7 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
         return e.name === formData.city
       })["id"]
         try {
+          setCompoundLoad(true)
             const response = await api.get(`/get_compounds_by_city/${cityId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -245,14 +267,16 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
             });
             setCompounds(response.data.data)
         } catch (error) {
+            setCompounds([])
             console.log(error);
+        }finally{
+          setCompoundLoad(false)
         }
     };
     if(formData.city){
       fetchCompound();
     }
 }, [formData.city,token,cities]);
-
   const isValidPhone = (phoneNumber) => {
     const egPhone = /^(010|011|012|015)\d{8}$/;
     return egPhone.test(phoneNumber);
@@ -268,7 +292,13 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
         e.target.setCustomValidity("");
       }
     }
-
+    if (name === "phone"||name === "whats_phone") {
+      if (!isValidPhone(value)) {
+        e.target.setCustomValidity("يرجى إدخال رقم هاتف صحيح");
+      } else {
+        e.target.setCustomValidity("");
+      }
+    }
     if (type === 'file') {
       if (name === 'primary_picture') {
         setPrimary_picture(files[0]);
@@ -280,14 +310,49 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
         [name]: files,
       });
     } else {
-      setFormData({
+      if (name === "governorate") {
+        setFormData({
+          ...formData,
+          [name]: value,
+          city: "",
+          region: "",
+          street: "",
+          compound_name: "",
+          mall_name: "",
+        });
+        setCities([])
+        setRegions([])
+        setStreets([])
+        setCompounds([])
+      } else if (name === "city") {
+        setFormData({
+          ...formData,
+          [name]: value,
+          region: "",
+          street: "",
+          compound_name: "",
+          mall_name: "",
+        });
+        setRegions([])
+        setStreets([])
+        setCompounds([])
+      } else if (name === "region") {
+        setFormData({
+          ...formData,
+          [name]: value,
+          street: "",
+        });
+        setStreets([])
+      }
+      else{
+        setFormData({
         ...formData,
         [name]: value,
-      });
+        });
+      }
     }
-
-
   };
+
   const fieldMapping = {
     "مرافق": "facilities[]",
     "ميزات": "features[]",
@@ -330,6 +395,7 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
     return null;
   }
 
+  // تعديل الاعلان
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -392,7 +458,7 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
         window.scrollTo({ top: 0, behavior: "smooth" });
         setShow(true);
         setTimeout(() => {
-          // navigate("/myproperties");
+          navigate("/myproperties");
         }, 2000);
       } catch (err) {
         console.log(err)
@@ -449,26 +515,26 @@ const handlePriceChange = (e) => {
       <Header />
       <Container fluid className="px-0">
         <div className="bg-primary text-white py-3 mb-4">
-          <h1 className="text-center mb-0">
-            {currentPage === 8 ? "إضافة معلومات التواصل" : "إضافة إعلان جديد"}
-          </h1>
+          <h1 className="text-center mb-0">تعديل الاعلان</h1>
         </div>
         <Container>
           <Row className="justify-content-center">
             <Col xs={12} md={10} lg={8}>
               <div className="shadow-sm p-4 mb-5 bg-white rounded">
                 <h2 className="text-center mb-4">شقق و دوبلكس</h2>
-                <ProgressBar now={progress} label={`${progress}%`} className="my-4" />
+                <ProgressBar
+                  now={progress}
+                  label={`${progress}%`}
+                  className="my-4"
+                />
 
-                <Form noValidate
-                  validated={validated}
-                  onSubmit={handleSubmit}>
+                <Form noValidate validated={validated} onSubmit={handleSubmit}>
                   {currentPage === 1 && (
                     <>
                       <Row>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="name_ad_ar" className="mb-3">
-                            <Form.Label className='required'>
+                            <Form.Label className="required">
                               <FontAwesomeIcon icon={faHome} className="me-2" />
                               اسم الإعلان
                             </Form.Label>
@@ -479,12 +545,13 @@ const handlePriceChange = (e) => {
                               onChange={handleChange}
                               maxLength="70"
                             />
-
                           </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="type" className="mb-3">
-                            <Form.Label className='required'>هدف الإعلان</Form.Label>
+                            <Form.Label className="required">
+                              هدف الإعلان
+                            </Form.Label>
                             <Form.Select
                               name="type"
                               value={formData.type}
@@ -498,7 +565,9 @@ const handlePriceChange = (e) => {
                         </Col>
                       </Row>
                       <Form.Group controlId="details_ar" className="mb-3">
-                        <Form.Label className='required'>أضف تفاصيل العقار</Form.Label>
+                        <Form.Label className="required">
+                          أضف تفاصيل العقار
+                        </Form.Label>
                         <Form.Control
                           as="textarea"
                           rows={4}
@@ -508,10 +577,9 @@ const handlePriceChange = (e) => {
                         />
                       </Form.Group>
                       <Row>
-
                         <Col xs={12} md={6}>
                           <Form.Group controlId="price" className="mb-3">
-                            <Form.Label className='required'>
+                            <Form.Label className="required">
                               <FontAwesomeIcon
                                 icon={faDollarSign}
                                 className="me-2"
@@ -523,7 +591,6 @@ const handlePriceChange = (e) => {
                               name="priceText"
                               value={priceText}
                               onChange={handlePriceChange}
-                             
                             />
                           </Form.Group>
                         </Col>
@@ -536,7 +603,7 @@ const handlePriceChange = (e) => {
                               name="discount"
                               value={formData.discount}
                               onChange={handleChange}
-                              placeholder='ادخل نسبه الخصم'
+                              placeholder="ادخل نسبه الخصم"
                               min={0}
                               max={99.9}
                               step={0.1}
@@ -557,30 +624,27 @@ const handlePriceChange = (e) => {
                   {currentPage === 2 && (
                     <>
                       <Form.Group controlId="sub_category" className="mb-3">
-                        <Form.Label className='required'>نوع الوحدة</Form.Label>
+                        <Form.Label className="required">نوع الوحدة</Form.Label>
                         <Form.Select
                           name="sub_category"
                           value={formData.sub_category}
                           onChange={handleChange}
-             
                         >
                           <option value="">اختر</option>
                           <option value="شقة">شقة</option>
                           <option value="دوبلكس">دوبلكس</option>
                           <option value="بنتهاوس">بنتهاوس</option>
                           <option value="ستوديو">ستوديو</option>
-
                         </Form.Select>
                       </Form.Group>
 
-                      {formData.type === 'rent' && (
+                      {formData.type === "rent" && (
                         <Form.Group controlId="rent_type" className="mb-3">
                           <Form.Label>نوع الايجار</Form.Label>
                           <Form.Select
                             name="rent_type"
                             value={formData.rent_type}
                             onChange={handleChange}
-                            
                           >
                             <option value="">اختر</option>
                             <option value="1">شهرى</option>
@@ -590,15 +654,17 @@ const handlePriceChange = (e) => {
                           </Form.Select>
                         </Form.Group>
                       )}
-                      {formData.type === 'sale' && (
+                      {formData.type === "sale" && (
                         <>
-                          <Form.Group controlId="payment_method" className="mb-3">
+                          <Form.Group
+                            controlId="payment_method"
+                            className="mb-3"
+                          >
                             <Form.Label>طريقة الدفع</Form.Label>
                             <Form.Select
                               name="payment_method"
                               value={formData.payment_method}
                               onChange={handleChange}
-                              
                             >
                               <option value="">اختر</option>
                               <option value="كاش">كاش</option>
@@ -612,17 +678,17 @@ const handlePriceChange = (e) => {
                               name="deliver_date"
                               value={formData.deliver_date}
                               onChange={handleChange}
-                              
                             >
                               <option value="">اختر</option>
                               <option value="0">استلام فوري</option>
-                              {Array.from({ length: 9 }, (_, i) => new Date().getFullYear() + i).map(
-                                (year) => (
-                                  <option key={year} value={year}>
-                                    {year}
-                                  </option>
-                                )
-                              )}
+                              {Array.from(
+                                { length: 9 },
+                                (_, i) => new Date().getFullYear() + i
+                              ).map((year) => (
+                                <option key={year} value={year}>
+                                  {year}
+                                </option>
+                              ))}
                             </Form.Select>
                           </Form.Group>
 
@@ -632,7 +698,6 @@ const handlePriceChange = (e) => {
                               name="legal_papers"
                               value={formData.legal_papers}
                               onChange={handleChange}
-                              
                             >
                               <option value="">اختر</option>
                               <option value="مرخص">مرخص</option>
@@ -643,7 +708,11 @@ const handlePriceChange = (e) => {
                         </>
                       )}
                       <div className="text-center d-flex justify-content-between">
-                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
+                        <Button
+                          variant="secondary"
+                          onClick={handlePreviousPage}
+                          className="me-2"
+                        >
                           الصفحة السابقة
                         </Button>
                         <Button variant="secondary" onClick={handleNextPage}>
@@ -657,7 +726,7 @@ const handlePriceChange = (e) => {
                       <Row>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="area" className="mb-3">
-                            <Form.Label className='required'>
+                            <Form.Label className="required">
                               <FontAwesomeIcon
                                 icon={faRulerCombined}
                                 className="me-2"
@@ -670,13 +739,12 @@ const handlePriceChange = (e) => {
                               value={formData.area}
                               onChange={handleChange}
                               min={2}
-                              
                             />
                           </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="rooms" className="mb-3">
-                            <Form.Label className='required'>
+                            <Form.Label className="required">
                               <FontAwesomeIcon icon={faBed} className="me-2" />
                               عدد غرف النوم
                             </Form.Label>
@@ -684,7 +752,6 @@ const handlePriceChange = (e) => {
                               name="rooms"
                               value={formData.rooms}
                               onChange={handleChange}
-                              
                             >
                               <option value="">اختر</option>
                               {Array.from({ length: 9 }, (_, i) => i + 1).map(
@@ -736,7 +803,10 @@ const handlePriceChange = (e) => {
                               <option value="0">أرضي</option>
                               {Array.from({ length: 9 }, (_, i) => i + 1).map(
                                 (floor_number) => (
-                                  <option key={floor_number} value={floor_number}>
+                                  <option
+                                    key={floor_number}
+                                    value={floor_number}
+                                  >
                                     {floor_number}
                                   </option>
                                 )
@@ -748,12 +818,13 @@ const handlePriceChange = (e) => {
                       </Row>
 
                       <Form.Group controlId="finishing_type" className="mb-3">
-                        <Form.Label className='required'>مرحلة التشطيب</Form.Label>
+                        <Form.Label className="required">
+                          مرحلة التشطيب
+                        </Form.Label>
                         <Form.Select
                           name="finishing_type"
                           value={formData.finishing_type}
                           onChange={handleChange}
-                          
                         >
                           <option value="">اختر</option>
                           <option value="علي الطوب">علي الطوب</option>
@@ -763,23 +834,27 @@ const handlePriceChange = (e) => {
                           <option value="تشطيب بالأجهزة">تشطيب بالأجهزة</option>
                         </Form.Select>
                       </Form.Group>
-                      {(formData.finishing_type === "تشطيب بالأجهزة" || formData.finishing_type === "تشطيب كامل") &&
+                      {(formData.finishing_type === "تشطيب بالأجهزة" ||
+                        formData.finishing_type === "تشطيب كامل") && (
                         <Form.Group controlId="furnished" className="mb-3">
                           <Form.Label>مفروش</Form.Label>
                           <Form.Select
                             name="furnished"
                             value={formData.furnished}
                             onChange={handleChange}
-                            
                           >
                             <option value="">اختر</option>
                             <option value="1">نعم</option>
                             <option value="0">لا</option>
                           </Form.Select>
                         </Form.Group>
-                      }
+                      )}
                       <div className="text-center d-flex justify-content-between">
-                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
+                        <Button
+                          variant="secondary"
+                          onClick={handlePreviousPage}
+                          className="me-2"
+                        >
                           الصفحة السابقة
                         </Button>
                         <Button variant="secondary" onClick={handleNextPage}>
@@ -790,17 +865,24 @@ const handlePriceChange = (e) => {
                   )}
                   {currentPage === 4 && (
                     <>
-
                       <Container className="amenities-container">
                         {Object.entries(categories).map(([category, items]) => (
                           <div key={category} className="category-section">
                             <h5>{category}</h5>
                             <Row>
-                              {items.map(item => (
+                              {items.map((item) => (
                                 <Col key={item} xs="auto" className="mb-2">
                                   <Button
-                                    variant={formData[fieldMapping[category]].includes(item) ? "primary" : "outline-secondary"}
-                                    onClick={() => toggleAmenity(category, item)}
+                                    variant={
+                                      formData[fieldMapping[category]].includes(
+                                        item
+                                      )
+                                        ? "primary"
+                                        : "outline-secondary"
+                                    }
+                                    onClick={() =>
+                                      toggleAmenity(category, item)
+                                    }
                                     className="amenity-button"
                                   >
                                     {item}
@@ -813,7 +895,11 @@ const handlePriceChange = (e) => {
                       </Container>
 
                       <div className="text-center d-flex justify-content-between mt-4">
-                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
+                        <Button
+                          variant="secondary"
+                          onClick={handlePreviousPage}
+                          className="me-2"
+                        >
                           الصفحة السابقة
                         </Button>
                         <Button variant="secondary" onClick={handleNextPage}>
@@ -823,120 +909,135 @@ const handlePriceChange = (e) => {
                     </>
                   )}
                   {currentPage === 5 && (
-                    <>
-                      <>
-                        <Form.Group controlId="primary_picture" className="mb-3">
-                          <Form.Label className='required'>الصورة الأساسية للإعلان</Form.Label>
-                          <Form.Control
-                            type="file"
-                            name="primary_picture"
-                            onChange={handleChange}
-                            
+                  <>
+                    <Form.Group
+                      controlId="primary_picture"
+                      className="mb-3"
+                    >
+                      <Form.Label className="required">
+                        الصورة الأساسية للإعلان
+                      </Form.Label>
+                      <Form.Control
+                        type="file"
+                        name="primary_picture"
+                        onChange={handleChange}
+                      />
+                      {old_primary_picture && (
+                        <div className="mt-2">
+                          <h5>الصورة القديمة</h5>
+                          <img
+                            key={old_primary_picture}
+                            src={old_primary_picture}
+                            alt="MainImage"
+                            style={{
+                              maxWidth: "300px",
+                              height: "auto",
+                              margin: "0 10px 10px 0",
+                              borderRadius: "5px",
+                            }}
                           />
-                          {old_primary_picture && (
-                            <div className="mt-2">
-                              <h5>الصورة القديمة</h5>
-                              <img
-                               key={old_primary_picture}
-                                src={old_primary_picture}
-                                alt="MainImage"
-                                style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
-                              />
-                            </div>
-                          )}
-                          {primary_picture && (
-                            <div className="mt-2">
-                              <h5>الصورة المراد اضافتها</h5>
-                              <img
-                               key={primary_picture}
-                                src={URL.createObjectURL(primary_picture)}
-                                alt="MainImage"
-                                style={{ maxWidth: '300px', height: 'auto', margin: '0 10px 10px 0', borderRadius: '5px' }}
-                              />
-                            </div>
-                          )}
-                          <Form.Control.Feedback type="invalid">
-                            يجب اختيار صوره للاعلان
-                          </Form.Control.Feedback>
-                        </Form.Group>
-
-                        <Form.Group controlId="images[]" className="mb-3">
-                    <Form.Label className="required">
-                      قم بتحميل صور الاعلان
-                    </Form.Label>
-                    <Form.Control
-                      type="file"
-                      name="images[]"
-                      onChange={handleChange}
-                      multiple
-                    />
-                    {images.length > 0 && (
-                      <div className="mt-2">
-                        <h5>الصور الجديدة:</h5>
-                        <div className="d-flex flex-wrap">
-                          {images.map((image, index) => (
-                            <img
-                              key={index}
-                              src={URL.createObjectURL(image)}
-                              alt={`AdditionalImage ${index}`}
-                              style={{
-                                maxWidth: "150px",
-                                height: "auto",
-                                margin: "0 10px 10px 0",
-                                borderRadius: "5px",
-                              }}
-                            />
-                          ))}
                         </div>
-                      </div>
-                    )}
-
-                    {oldImages.length > 0 && (
-                      <div className="mt-2">
-                        <h5>الصور القديمة:</h5>
-                        <div className="d-flex flex-wrap">
-                          {oldImages.map((image, index) => (
-                            <div
-                            key={index}
-                              style={{
-                                position: "relative",
-                              }}
-                            >
+                      )}
+                      {primary_picture && (
+                        <div className="mt-2">
+                          <h5>الصورة المراد اضافتها</h5>
+                          <img
+                            key={primary_picture}
+                            src={URL.createObjectURL(primary_picture)}
+                            alt="MainImage"
+                            style={{
+                              maxWidth: "300px",
+                              height: "auto",
+                              margin: "0 10px 10px 0",
+                              borderRadius: "5px",
+                            }}
+                          />
+                        </div>
+                      )}
+                      <Form.Control.Feedback type="invalid">
+                        يجب اختيار صوره للاعلان
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group controlId="images[]" className="mb-3">
+                      <Form.Label className="required">
+                        قم بتحميل صور الاعلان
+                      </Form.Label>
+                      <Form.Control
+                        type="file"
+                        name="images[]"
+                        onChange={handleChange}
+                        multiple
+                      />
+                      {images.length > 0 && (
+                        <div className="mt-2">
+                          <h5>الصور الجديدة:</h5>
+                          <div className="d-flex flex-wrap">
+                            {images.map((image, index) => (
                               <img
                                 key={index}
-                                src={image.image}
+                                src={URL.createObjectURL(image)}
                                 alt={`AdditionalImage ${index}`}
                                 style={{
                                   maxWidth: "150px",
                                   height: "auto",
                                   margin: "0 10px 10px 0",
                                   borderRadius: "5px",
-                                  position: "relative",
                                 }}
                               />
-                              <DeleteImage
-                                setOld={setOldImages}
-                                setDel={setDeleteImages}
-                                OldImages={oldImages}
-                                DeleteImages={deleteImages}
-                                img={image.image}
-                              />
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Form.Group>
-                        <div className="text-center d-flex justify-content-between">
-                          <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
-                            الصفحة السابقة
-                          </Button>
-                          <Button variant="secondary" onClick={handleNextPage}>
-                            الصفحة التالية
-                          </Button>
+                      )}
+
+                      {oldImages.length > 0 && (
+                        <div className="mt-2">
+                          <h5>الصور القديمة:</h5>
+                          <div className="d-flex flex-wrap">
+                            {oldImages.map((image, index) => (
+                              <div
+                                key={index}
+                                style={{
+                                  position: "relative",
+                                }}
+                              >
+                                <img
+                                  key={index}
+                                  src={image.image}
+                                  alt={`AdditionalImage ${index}`}
+                                  style={{
+                                    maxWidth: "150px",
+                                    height: "auto",
+                                    margin: "0 10px 10px 0",
+                                    borderRadius: "5px",
+                                    position: "relative",
+                                  }}
+                                />
+                                <DeleteImage
+                                  setOld={setOldImages}
+                                  setDel={setDeleteImages}
+                                  OldImages={oldImages}
+                                  DeleteImages={deleteImages}
+                                  img={image.image}
+                                />
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </>
-                    </>
+                      )}
+                    </Form.Group>
+                    <div className="text-center d-flex justify-content-between">
+                      <Button
+                        variant="secondary"
+                        onClick={handlePreviousPage}
+                        className="me-2"
+                      >
+                        الصفحة السابقة
+                      </Button>
+                      <Button variant="secondary" onClick={handleNextPage}>
+                        الصفحة التالية
+                      </Button>
+                    </div>
+                  </>
                   )}
                   {currentPage === 6 && (
                     <>
@@ -953,32 +1054,39 @@ const handlePriceChange = (e) => {
                         </Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group controlId="full_address" className="mb-3">
-                        <Form.Label className='required'>العنوان بالكامل</Form.Label>
+                        <Form.Label className="required">
+                          العنوان بالكامل
+                        </Form.Label>
                         <Form.Control
                           type="text"
                           name="full_address"
                           value={formData.full_address}
                           onChange={handleChange}
-                          
                         />
                       </Form.Group>
                       <span>اضغط على العلامة الزرقاء فى مكان موقع العقار.</span>
 
-
-                      <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{ height: '400px', width: '100%' }}>
+                      <MapContainer
+                        center={position}
+                        zoom={13}
+                        scrollWheelZoom={true}
+                        style={{ height: "400px", width: "100%" }}
+                      >
                         <TileLayer
                           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         />
                         <Marker position={position} icon={myIcon}>
-                          <Popup>
-                            {formData.full_address}
-                          </Popup>
+                          <Popup>{formData.full_address}</Popup>
                         </Marker>
                         <MyComponent />
                       </MapContainer>
                       <div className="text-center  d-flex justify-content-between mt-5 ">
-                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
+                        <Button
+                          variant="secondary"
+                          onClick={handlePreviousPage}
+                          className="me-2"
+                        >
                           الصفحة السابقة
                         </Button>
                         <Button variant="secondary" onClick={handleNextPage}>
@@ -989,59 +1097,81 @@ const handlePriceChange = (e) => {
                   )}
                   {currentPage === 7 && (
                     <>
-                      <Form.Group controlId="governorate" className="mb-3">
-                        <Form.Label className='required'>المحافظة</Form.Label>
+                       <Form.Group controlId="governorate" className="mb-3">
+                        <Form.Label className='required'>
+                        {govLoad && <span className="loader"></span>}
+                         المحافظة
+                          </Form.Label>
                         <Form.Select
                           name="governorate"
                           value={formData.governorate}
                           onChange={handleChange}
-                          
+                          required
                         >
-                          <option value="">اختر المحافظة</option>
-                          {governorates.map((gov, index) => (
-                            <option key={gov.name} value={gov.name}>{gov.name}</option>
-                          ))}
+                          {!govLoad && <>
+                            <option value="">اختر المحافظة</option>
+                            {governorates.map((gov, index) => (
+                              <option key={gov.id} value={gov.name}>{gov.name}</option>
+                            ))}
+                          </>}
                         </Form.Select>
                       </Form.Group>
 
                       <Form.Group controlId="city" className="mb-3">
-                        <Form.Label className='required'>المدينة</Form.Label>
+                        <Form.Label className='required'>
+                        {cityLoad && <span className="loader"></span>}
+                          المدينة
+                          </Form.Label>
                         <Form.Select
                           name="city"
                           value={formData.city}
                           onChange={handleChange}
-                          
+                          required
                         >
-                          <option value="">اختر المدينة</option>
-                          {cities.map((city) => (
-                            <option key={city.name} value={city.name}>{city.name}</option>
-                          ))}
+                         {!cityLoad&& <>
+                            <option value="">اختر المدينة</option>
+                            {cities.map((city) => (
+                              <option key={city.name} value={city.name}>{city.name}</option>
+                            ))}
+                          </>}
                         </Form.Select>
                       </Form.Group>
+
                       <Form.Group controlId="region" className="mb-3">
-                        <Form.Label>المنطقة</Form.Label>
+                        <Form.Label>
+                        {regionLoad && <span className="loader"></span>}
+                          المنطقة
+                          </Form.Label>
                         <Form.Select
                           name="region"
                           value={formData.region}
                           onChange={handleChange}
                         >
-                          <option value="">اختر المنطقة</option>
-                          {regions.map((region) => (
-                            <option key={region.name} value={region.name}>{region.name}</option>
-                          ))}
+                         {!regionLoad && <>
+                            <option value="">اختر المنطقة</option>
+                            {regions.map((region) => (
+                              <option key={region.id} value={region.name}>{region.name}</option>
+                            ))}
+                          </>}
                         </Form.Select>
                       </Form.Group>
+
                       <Form.Group controlId="street" className="mb-3">
-                        <Form.Label>الشارع</Form.Label>
+                        <Form.Label>
+                        {streetLoad && <span className="loader"></span>}
+                          الشارع
+                        </Form.Label>
                         <Form.Select
                           name="street"
                           value={formData.street}
                           onChange={handleChange}
                         >
-                          <option value="">اختر الشارع</option>
-                          {streets.map((street) => (
-                            <option key={street.id} value={street.name}>{street.name}</option>
-                          ))}
+                         {!streetLoad&& <>
+                            <option value="">اختر الشارع</option>
+                            {streets.map((street) => (
+                              <option key={street.id} value={street.name}>{street.name}</option>
+                            ))}
+                          </>}
                         </Form.Select>
                         {/* فى حاله عدم وجود شارع */}
                         <Form.Control
@@ -1055,23 +1185,31 @@ const handlePriceChange = (e) => {
                         />
                       </Form.Group>
 
-
                       <Form.Group controlId="compound" className="mb-3">
-                        <Form.Label>الكومباوند (إن وجد)</Form.Label>
+                        <Form.Label>
+                        {compoundLoad && <span className="loader"></span>}
+                          الكومباوند (إن وجد)
+                          </Form.Label>
                         <Form.Select
                           name="compound_name"
                           value={formData.compound_name}
                           onChange={handleChange}
                         >
-                          <option value="">اختر الكومباوند</option>
-                          {compounds.map((compound) => (
-                            <option key={compound.id} value={compound.name}>{compound.name}</option>
-                          ))}
+                          {!compoundLoad&&<>
+                            <option value="">اختر الكومباوند</option>
+                            {compounds.map((compound) => (
+                              <option key={compound.id} value={compound.name}>{compound.name}</option>
+                            ))}
+                          </>}
                         </Form.Select>
                       </Form.Group>
 
                       <div className="text-center d-flex justify-content-between">
-                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
+                        <Button
+                          variant="secondary"
+                          onClick={handlePreviousPage}
+                          className="me-2"
+                        >
                           الصفحة السابقة
                         </Button>
                         <Button variant="secondary" onClick={handleNextPage}>
@@ -1080,8 +1218,8 @@ const handlePriceChange = (e) => {
                       </div>
                     </>
                   )}
-                   {currentPage === 8 && (
-                  <>
+                  {currentPage === 8 && (
+                    <>
                       <Form.Group controlId="phone" className="mb-3">
                         <Form.Label>رقم الهاتف للتواصل</Form.Label>
                         <Form.Control
@@ -1089,7 +1227,6 @@ const handlePriceChange = (e) => {
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          
                         />
                         <Form.Control.Feedback type="invalid">
                           ادخل رقم الهاتف بشكل صحيح "01xxxxxxxxx"
@@ -1102,21 +1239,21 @@ const handlePriceChange = (e) => {
                           name="whats_phone"
                           value={formData.whats_phone}
                           onChange={handleChange}
-                          
                         />
                         <Form.Control.Feedback type="invalid">
                           ادخل رقم الهاتف بشكل صحيح "01xxxxxxxxx"
                         </Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group controlId="formBasicEmail" className="mt-3">
-                        <Form.Label className="fs-5 mb-3">البريد الإلكتروني</Form.Label>
+                        <Form.Label className="fs-5 mb-3">
+                          البريد الإلكتروني
+                        </Form.Label>
                         <Form.Control
                           type="email"
                           name="email"
                           value={formData.email}
                           placeholder="ادخل البريد الإلكتروني"
                           onChange={handleChange}
-                          
                         />
                         <Form.Control.Feedback type="invalid">
                           ادخل الايميل بشكل صحيح
@@ -1124,18 +1261,25 @@ const handlePriceChange = (e) => {
                       </Form.Group>
 
                       <Form.Group controlId="formUserType">
-                        <Form.Label className='mt-2'>نوع المستخدم</Form.Label>
+                        <Form.Label className="mt-2">نوع المستخدم</Form.Label>
                         <Form.Select
                           name="advertiser_type"
                           value={formData.advertiser_type}
                           onChange={handleChange}
-                          
                         >
                           <option value="">اختر</option>
-                          <option key="1" value="مالك">مالك</option>
-                          <option key="2" value="سماسر ">سمسار</option>
-                          <option key="3" value="شركة تسويق">شركة تسويق</option>
-                          <option key="4" value="شركة عقارية">شركة عقارية</option>
+                          <option key="1" value="مالك">
+                            مالك
+                          </option>
+                          <option key="2" value="سماسر">
+                            سمسار
+                          </option>
+                          <option key="3" value="شركة تسويق">
+                            شركة تسويق
+                          </option>
+                          <option key="4" value="شركة عقارية">
+                            شركة عقارية
+                          </option>
                         </Form.Select>
                         <Form.Control.Feedback type="invalid">
                           الرجاء اختيار نوع المستخدم.
@@ -1143,24 +1287,34 @@ const handlePriceChange = (e) => {
                       </Form.Group>
 
                       <div className="text-center d-flex justify-content-between mt-4">
-                        <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
+                        <Button
+                          variant="secondary"
+                          onClick={handlePreviousPage}
+                          className="me-2"
+                        >
                           الصفحة السابقة
                         </Button>
                         <Button variant="primary" type="submit" disabled={load}>
                           {load ? <LoadingBtn /> : "تعديل الإعلان"}
                         </Button>
                       </div>
-                  </>
-                )}
+                    </>
+                  )}
                 </Form>
               </div>
             </Col>
           </Row>
         </Container>
-        {show && <>
-          <AlertMessage msg={alert.msg} setShow={setShow} variant={alert.variant} />
-        </>}
-      </Container >
+        {show && (
+          <>
+            <AlertMessage
+              msg={alert.msg}
+              setShow={setShow}
+              variant={alert.variant}
+            />
+          </>
+        )}
+      </Container>
       <Footer />
     </>
   );

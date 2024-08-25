@@ -454,15 +454,15 @@ const NewAdd = () => {
                               required
                             >
                               <option value="">اختر</option>
-                              {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                              {Array.from({ length: 9 }, (_, i) => i + 1).map(
                                 (floor) => (
                                   <option key={floor} value={floor}>
                                     {floor}
                                   </option>
                                 )
                               )}
-                              <option value="ground">+10</option>
-                              <option value="ground">أرضي</option>
+                              <option value="10">+10</option>
+                              <option value="">أرضي</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>

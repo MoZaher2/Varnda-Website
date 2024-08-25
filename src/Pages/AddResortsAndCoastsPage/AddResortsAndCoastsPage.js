@@ -14,7 +14,7 @@ import "../AddApartmentsAndDuplexesPage/AddApartmentsAndDuplexesPage.css"
 import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
-const AddApartmentsAndDuplexesPage = () => {
+const AddResortsAndCoastsPage = () => {
 
   const token = Cookies.get('token');
   const [load1, setLoad1] = useState(false);
@@ -744,14 +744,14 @@ const handlePriceChange = (e) => {
                                   onChange={handleChange}
                                 >
                                   <option value="">اختر</option>
-                                  {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                                  {Array.from({ length: 9 }, (_, i) => i + 1).map(
                                     (floors) => (
                                       <option key={floors} value={floors}>
                                         {floors}
                                       </option>
                                     )
                                   )}
-                                  <option value="ground">+10</option>
+                                  <option value="10">+10</option>
                                 </Form.Select>
                               </Form.Group>
                             </Col>
@@ -1091,7 +1091,7 @@ const handlePriceChange = (e) => {
                         >
                           <option value="">اختر</option>
                           <option key="1" value="مالك">مالك</option>
-                          <option key="2" value="سماسر ">سمسار</option>
+                          <option key="2" value="سماسر">سمسار</option>
                           <option key="3" value="شركة تسويق">شركة تسويق</option>
                           <option key="4" value="شركة عقارية">شركة عقارية</option>
                         </Form.Select>
@@ -1121,4 +1121,4 @@ const handlePriceChange = (e) => {
   );
 };
 
-export default AddApartmentsAndDuplexesPage;
+export default AddResortsAndCoastsPage;

@@ -6,15 +6,14 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaf
 import L from 'leaflet';
 import { Form, Button, Container, Row, Col, ProgressBar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faDollarSign, faBed, faBath, faRulerCombined } from '@fortawesome/free-solid-svg-icons';
-import { AllGovernments } from '../../utility/AllGovernments';
+import { faHome, faDollarSign,faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 import "../AddApartmentsAndDuplexesPage/AddApartmentsAndDuplexesPage.css"
 import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
-const AddApartmentsAndDuplexesPage = () => {
+const AddBuildingsPage = () => {
 
   const token = Cookies.get('token');
   const [load1, setLoad1] = useState(false);
@@ -873,7 +872,7 @@ const handlePriceChange = (e) => {
                         >
                           <option value="">اختر</option>
                           <option key="1" value="مالك">مالك</option>
-                          <option key="2" value="سماسر ">سمسار</option>
+                          <option key="2" value="سماسر">سمسار</option>
                           <option key="3" value="شركة تسويق">شركة تسويق</option>
                           <option key="4" value="شركة عقارية">شركة عقارية</option>
                         </Form.Select>
@@ -903,4 +902,4 @@ const handlePriceChange = (e) => {
   );
 };
 
-export default AddApartmentsAndDuplexesPage;
+export default AddBuildingsPage;

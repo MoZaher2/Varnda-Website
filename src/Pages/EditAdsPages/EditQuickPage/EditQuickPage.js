@@ -59,40 +59,52 @@ const EditQuickPage = () => {
   const [governorates, setGovernorates] = useState([]);
 
   // API for get data to choose from it
+  const[govLoad,setGovLoad]=useState(false);
+  const[cityLoad,setCityLoad]=useState(false);
+  //Governments
   useEffect(() => {
     const fetchGov = async () => {
       try {
+        setGovLoad(true)
         const response = await api.get("/governorates", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setGovernorates(response.data.data);
+        setGovernorates(response.data.data)
       } catch (error) {
+        setGovernorates([])
         console.log(error);
+      }finally{
+        setGovLoad(false)
       }
     };
     fetchGov();
-  }, [token]);
-  //City
-  useEffect(() => {
-    const fetchCity = async () => {
-      const govId = governorates.find((e) => {
-        return e.name === formData.governorate;
-      })["id"];
-      try {
-        const response = await api.get(`/governorates/${govId}/cities`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCities(response.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchCity();
-  }, [formData.governorate, token, governorates]);
+  }, []);
+    //City
+    useEffect(() => {
+      const fetchCity = async () => {
+        const govId = governorates.find((e) => {
+          return e.name === formData.governorate;
+        })["id"];
+        try {
+          setCityLoad(true)
+          const response = await api.get(`/governorates/${govId}/cities`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setCities(response.data.data);
+        } catch (error) {
+          setCities([])
+          console.log(error);
+        }finally{
+          setCityLoad(false)
+        }
+      };
+      fetchCity();
+    }, [formData.governorate, token, governorates]);
+  
 
   const isValidPhone = (phoneNumber) => {
     const egPhone = /^(010|011|012|015)\d{8}$/;
@@ -221,38 +233,44 @@ const EditQuickPage = () => {
                   </Form.Group>
 
                   <Form.Group controlId="governorate" className="mb-3">
-                    <Form.Label className="required">المحافظة</Form.Label>
-                    <Form.Select
-                      name="governorate"
-                      value={formData.governorate}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="">اختر المحافظة</option>
-                      {governorates.map((gov, index) => (
-                        <option key={gov.id} value={gov.name}>
-                          {gov.name}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
+                        <Form.Label className='required'>
+                        {govLoad && <span className="loader"></span>}
+                         المحافظة
+                          </Form.Label>
+                        <Form.Select
+                          name="governorate"
+                          value={formData.governorate}
+                          onChange={handleChange}
+                          required
+                        >
+                          {!govLoad && <>
+                            <option value="">اختر المحافظة</option>
+                            {governorates.map((gov, index) => (
+                              <option key={gov.id} value={gov.name}>{gov.name}</option>
+                            ))}
+                          </>}
+                        </Form.Select>
+                      </Form.Group>
 
-                  <Form.Group controlId="city" className="mb-3">
-                    <Form.Label className="required">المدينة</Form.Label>
-                    <Form.Select
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="">اختر المدينة</option>
-                      {cities.map((city) => (
-                        <option key={city.name} value={city.name}>
-                          {city.name}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
+                      <Form.Group controlId="city" className="mb-3">
+                        <Form.Label className='required'>
+                        {cityLoad && <span className="loader"></span>}
+                          المدينة
+                          </Form.Label>
+                        <Form.Select
+                          name="city"
+                          value={formData.city}
+                          onChange={handleChange}
+                          required
+                        >
+                         {!cityLoad&& <>
+                            <option value="">اختر المدينة</option>
+                            {cities.map((city) => (
+                              <option key={city.name} value={city.name}>{city.name}</option>
+                            ))}
+                          </>}
+                        </Form.Select>
+                      </Form.Group>
                   <Row>
                     <Col xs={12} md={6}>
                       <Form.Group controlId="phone" className="mb-3">

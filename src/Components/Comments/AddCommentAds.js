@@ -11,7 +11,7 @@ export default function AddCommentAds({ads_id}) {
     const addComment = async () => {
         setLoad(true)
         try {
-            const response = await api.post(`add-ad-comment`, { ad_id: ads_id, comment }, {
+            const response = await api.post(`add-ad-comment`, { ad_slug: ads_id, comment }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

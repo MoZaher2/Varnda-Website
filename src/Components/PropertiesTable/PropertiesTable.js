@@ -51,6 +51,41 @@ const PropertiesTable = ({ data }) => {
           state: { data: property },
         });
       }
+      else if(category==='قصور'){
+        navigate("/edit-villas-palaces", {
+          state: { data: property },
+        });
+      }
+      else if(category==='منازل'){
+        navigate("/edit-home-property", {
+          state: { data: property },
+        });
+      }
+      else if(category==='مصايف'){
+        navigate("/edit-resorts-coasts", {
+          state: { data: property },
+        });
+      }
+      else if(category==='تجارية'){
+        navigate("/edit-commercial-units", {
+          state: { data: property },
+        });
+      }
+      else if(category==='أراضي'){
+        navigate("/edit-lands", {
+          state: { data: property },
+        });
+      }
+      else if(category==='مبانى'){
+        navigate("/edit-buildings", {
+          state: { data: property },
+        });
+      }
+      else if(category==='مقابر'){
+        navigate("/edit-cemeteries", {
+          state: { data: property },
+        });
+      }
     }
   };
 
