@@ -29,8 +29,10 @@ const ProfilePage = () => {
   const [userForm, setUserForm] = useState({
     first_name: Cookies.get("first_name"),
     last_name: Cookies.get("last_name"),
+    phone: Cookies.get("phone"),
     whats_phone: Cookies.get("whats_phone"),
     bio: Cookies.get("bio"),
+    user_type: Cookies.get("user_type"),
   });
 
   // State for profile image
@@ -54,6 +56,7 @@ const ProfilePage = () => {
       ...prevState,
       [name]: value
     }));
+    console.log(userForm)
   };
 
   const handlePasswordSubmit = async (e) => {
@@ -127,6 +130,10 @@ const ProfilePage = () => {
       Cookies.set("last_name", userData.last_name)
       Cookies.set("whats_phone", userData.whats_phone)
       Cookies.set("bio", userData.bio)
+      Cookies.set("phone", userData.phone)
+      Cookies.set("user_type", userData.user_type)
+
+
       setAlert({
         msg: "تم تحديث بياناتك بنجاح",
         variant: 1
@@ -305,15 +312,46 @@ const ProfilePage = () => {
                   />
                 </Form.Group>
               </Row>
-              <Form.Group controlId="formWhatsApp">
-                <Form.Label className='mt-2'>رقم الواتس اب</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="whats_phone"
-                  value={userForm.whats_phone}
-                  onChange={handleUserFormChange}
-                />
-              </Form.Group>
+              <Row className="mb-2">
+                <Form.Group as={Col} controlId="formPhone">
+                  <Form.Label className='mt-2'>رقم الهاتف</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="phone"
+                    value={userForm.phone}
+                    onChange={handleUserFormChange}
+                  />
+                </Form.Group>
+                <Form.Group  as={Col} controlId="formWhatsApp">
+                  <Form.Label className='mt-2'>رقم الواتس اب</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="whats_phone"
+                    value={userForm.whats_phone}
+                    onChange={handleUserFormChange}
+                  />
+                </Form.Group>
+              </Row>
+
+              <Form.Group controlId="formUserType">
+                        <Form.Label className='mt-2'>نوع المستخدم</Form.Label>
+                        <Form.Select
+                          name="user_type"
+                          value={userForm.user_type}
+                          onChange={handleUserFormChange}
+                          required
+                        >
+                          <option value="">اختر</option>
+                          <option key="1" value="مالك">مالك</option>
+                          <option key="2" value="سماسر ">سمسار</option>
+                          <option key="3" value="شركة تسويق">شركة تسويق</option>
+                          <option key="4" value="شركة عقارية">شركة عقارية</option>
+                        </Form.Select>
+                        <Form.Control.Feedback type="invalid">
+                          الرجاء اختيار نوع المستخدم.
+                        </Form.Control.Feedback>
+                      </Form.Group>
+
               <Form.Group controlId="formAbout">
                 <Form.Label className='mt-4'>تكلم عن نفسك</Form.Label>
                 <Form.Control

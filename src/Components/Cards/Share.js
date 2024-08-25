@@ -8,7 +8,8 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 
-export default function Share({url,text}) {
+export default function Share({url,text=""}) {
+
   const [open, setOpen] = React.useState(false);
 
   const actions = [

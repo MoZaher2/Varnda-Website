@@ -5,6 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconButton } from '@mui/joy';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
+
+
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 import {
     faBed,
     faBath,
@@ -26,7 +31,7 @@ import Cookies from 'js-cookie';
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 
 
-export default function PropertyCard({ properties }) {
+export default function PropertyCard({ properties ,loading}) {
     const token = Cookies.get("token")
     const settings = {
         dots: false,
@@ -39,14 +44,14 @@ export default function PropertyCard({ properties }) {
         // arrows: true, // تفعيل الأسهم الجانبية
     };
     const [favorites, setFavorites] = useState([]);
-    const [load, setLoad] = useState(false)
+    const [loadId, setLoadId] = useState(null)
 
     useEffect(() => {
         setFavorites(properties.map(p => p.is_favorite))
     }, [properties])
 
     const handleLove = async (ad_id, index) => {
-        setLoad(true)
+        setLoadId(ad_id)
         try {
             const response = await api.post("/flip-favorite", { ad_id }, {
                 headers: {
@@ -61,13 +66,35 @@ export default function PropertyCard({ properties }) {
             console.log(err);
         }
         finally {
-            setLoad(false)
+            setLoadId(null)
         }
     }
     if (properties.length === 0) {
-        return (<Alert key="warning" className="text-center" variant="warning">
-            لا يوجد اعلانات
-        </Alert>)
+      return (
+        <>
+          {loading ? (
+            // Skeleton عند تحميل البيانات
+            Array(3)
+              .fill(0)
+              .map((_, index) => (
+                <Card className="d-flex flex-row mb-3 small" key={index}>
+                  <div style={{ width: "50%", height: "auto" }}>
+                    <Skeleton height={300} />
+                  </div>
+                  <div
+                    style={{ width: "50%", height: "auto", padding: "15px" }}
+                  >
+                    <Skeleton count={5} />
+                  </div>
+                </Card>
+              ))
+          ) : (
+            <Alert key="warning" className="text-center" variant="warning">
+              لا يوجد اعلانات
+            </Alert>
+          )}
+        </>
+      );
     }
 
     //اعرض جزء من الوصف 
@@ -80,390 +107,396 @@ export default function PropertyCard({ properties }) {
 
     return (
       <>
-        {/* ال Card */}
-        {properties.map((property, index) =>
-          // Normal Ads
-          property.ad_type === 0 ? (
-            <Card
-              className="d-flex flex-row mb-3 small position-relative"
-              key={index}
-            >
-              <div className="imgCont" style={{ width: "50%", height: "auto" }}>
-                <Link
-                  to={`/moreDeteliesPage/${property.id}`}
-                  className="link"
-                  key={index}
-                >
-                  {property.property.images.length > 0 ? (
-                    <Slider {...settings}>
-                      <div>
-                        <img
-                          src={property.property.primary_picture}
-                          alt={`صوره الاعلان الرئيسيه`}
-                          key={index}
-                          style={{ width: "100%", height: "300px" }}
-                        />
-                      </div>
-                      {property.property.images.map((image, idx) => (
-                        <div>
+        {loading ? (
+                // Skeleton عند تحميل البيانات
+                Array(3).fill(0).map((_, index) => (
+                    <Card className="d-flex flex-row mb-3 small" key={index}>
+                        <div style={{ width: "50%", height: "auto" }}>
+                            <Skeleton height={300} />
+                        </div>
+                        <div style={{ width: "50%", height: "auto", padding: "15px" }}>
+                            <Skeleton count={5} />
+                        </div>
+                    </Card>
+                ))
+            ) : (
+         <>
+           {properties.map((property, index) =>
+             // Normal Ads
+             property.ad_type === 0 ? (
+              <Card className="d-flex flex-row mb-3 small position-relative" key={index}>
+                <div className="imgCont" style={{ width: "50%", height: "auto" }}>
+                  <Link to={`/property/${property.slug}`} className="link">
+                    {property.property.images.length > 0 ? (
+                      <Slider {...settings}>
+                        <div key="primary-image">
                           <img
-                            src={image.image}
-                            alt={`imgCard-${idx}`}
-                            key={idx}
+                            src={property.property.primary_picture}
+                            alt="صوره الاعلان الرئيسيه"
                             style={{ width: "100%", height: "300px" }}
                           />
                         </div>
-                      ))}
-                    </Slider>
-                  ) : (
-                    <div>
-                      <img
-                        src={property.property.primary_picture}
-                        alt={`صوره الاعلان الرئيسيه`}
-                        key={index}
-                        style={{ width: "100%", height: "300px" }}
-                      />
-                    </div>
-                  )}
-                </Link>
-                <h6 style={{ color: "#0d6efd" }} className="my-1">
-                  الصور المتاحة لهذا العقار
-                </h6>
-                <div>
-                  <a href={`tel:+2${property.phone}`}>
-                    <Button variant="primary" className="m-2 btn-lg">
-                      <FontAwesomeIcon icon={faPhone} /> اتصل
-                    </Button>
-                  </a>
-                  <Button
-                    variant="secondary"
-                    className="m-2 btn-lg"
-                    onClick={() => {
-                      const mailtoLink = `mailto:${
-                        property.email
-                      }?subject=${encodeURIComponent(
-                        "عقار على فارندا"
-                      )}&body=${encodeURIComponent(
-                        `الرقم التعريفى للاعلان: ${property.id}`
-                      )}`;
-                      window.location.href = mailtoLink;
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faEnvelope} /> الإيميل
-                  </Button>
-                  <a
-                    href={`https://api.whatsapp.com/send?phone=2${
-                      property.whats_phone
-                    }&text=${encodeURIComponent(
-                      "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
-                    )}${encodeURIComponent(
-                      `http://varnda.com/moreDeteliesPage/${property.id}`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button variant="success" className="m-2 btn-lg">
-                      <FontAwesomeIcon icon={faWhatsapp} /> واتساب
-                    </Button>
-                  </a>
-                </div>
-              </div>
-              <div className="imgCont" style={{ width: "50%", height: "auto" }}>
-                <Link
-                  to={`/moreDeteliesPage/${property.id}`}
-                  className="link"
-                  key={index}
-                >
-                  <Card.Body
-                    style={{
-                      textAlign: "right",
-                      height: "100%",
-                    }}
-                  >
-                    <Card.Title
-                      style={{
-                        color: "#123",
-                        fontWeight: "700",
-                        fontSize: "28px",
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: "black",
-                          fontWeight: "bold",
-                          fontSize: "28px",
-                          marginLeft: "5px",
-                        }}
-                      >
-                        {Number(property.property.price).toLocaleString(
-                          "ar-EG"
-                        )}
-                      </span>
-                      <span
-                        style={{
-                          color: "#123",
-                          fontSize: "18px",
-                        }}
-                      >
-                        ج.م
-                      </span>
-                    </Card.Title>
-                    <Card.Text style={{ padding: "0px" }}>
-                      <Row className="mb-2">
-                        <Col
-                          xs={4}
-                          style={{
-                            color: "rgb(13, 110, 253)",
-                            display: "flex",
-                            gap: "5px",
-                            alignItems: "center",
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faHome}
-                            style={{ marginLeft: "5px" }}
-                          />
-                          <span
-                            style={{
-                              color: "black",
-                            }}
-                          >
-                            {property.property["Sub Category"]}
-                          </span>
-                        </Col>
-                        <Col
-                          xs={4}
-                          style={{
-                            color: "rgb(13, 110, 253)",
-                            display: "flex",
-                            gap: "5px",
-                            alignItems: "center",
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faBed}
-                            style={{ marginLeft: "5px" }}
-                          />
-                          <span
-                            style={{
-                              color: "black",
-                            }}
-                          >
-                            {property.property.rooms==10?"+10":property.property.rooms}
-                          </span>
-                        </Col>
-                        <Col
-                          xs={4}
-                          style={{
-                            color: "rgb(13, 110, 253)",
-                            display: "flex",
-                            gap: "5px",
-                            alignItems: "center",
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faBath}
-                            style={{ marginLeft: "5px" }}
-                          />
-                          <span
-                            style={{
-                              color: "black",
-                            }}
-                          >
-                            {property.property.bathrooms==6?"+6":property.property.bathrooms}
-                          </span>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col style={{ color: "#868686" }}>
-                          <span
-                            style={{
-                              color: "rgb(13, 110, 253)",
-                              fontSize: "18px",
-                              marginLeft: "7px",
-                            }}
-                          >
-                            <FontAwesomeIcon
-                              icon={faRulerCombined}
-                              style={{ marginLeft: "5px" }}
+                        {property.property.images.map((image, idx) => (
+                          <div key={`image-${idx}`}>
+                            <img
+                              src={image.image}
+                              alt={`imgCard-${idx}`}
+                              style={{ width: "100%", height: "300px" }}
                             />
-                            المساحة:
-                          </span>
-                          <span
-                            style={{
-                              color: "black",
-                              fontSize: "24px",
-                              fontWeight: "bold",
-                            }}
-                          >
-                            {property.property.area}
-                          </span>
-                          متر مربع
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col style={{ color: "black" }} className="my-1">
-                          <h2>{property.property["Arabic Name"]}</h2>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <p style={{ color: "#898989" }}>
-                          {property.property.details_ar&&renderLimitedText(property.property.details_ar, 150)}
-                        </p>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <FontAwesomeIcon
-                            icon={faMapMarkerAlt}
-                            style={{ marginLeft: "5px" }}
-                          />
-                          <span
-                            style={{
-                              color: "black",
-                            }}
-                          >
-                            {property.property.full_address}
-                          </span>
-                        </Col>
-                      </Row>
-                    </Card.Text>
-                  </Card.Body>
-                </Link>
-              </div>
-              {/* Love button */}
-              <IconButton
-                loading={load}
-                onClick={() => handleLove(property.id, index)}
-                color="danger"
-                size="lg"
-                sx={{
-                  mr: "auto",
-                  position: "absolute",
-                  bottom: "10px",
-                  left: "10px",
-                }}
-              >
-                {favorites[index] ? <Favorite /> : <FavoriteBorder />}
-              </IconButton>
-            </Card>
-          ) : (
-            // Quick Ads
-            <Card
-              className="d-flex flex-row mb-3 small position-relative"
-              key={index}
-            >
-              <div className="imgCont" style={{ width: "50%", height: "auto" }}>
-                <Link
-                  to={`/moreDeteliesPage/${property.id}`}
-                  className="link"
-                  key={index}
-                >
-                  {property.property.images.length > 1 ? (
-                    <Slider {...settings}>
-                      {property.property.images.map((image, idx) => (
-                        <div>
-                          <img
-                            src={image.image}
-                            alt={`imgCard-${idx}`}
-                            key={idx}
-                            style={{ width: "100%", height: "300px" }}
-                          />
-                        </div>
-                      ))}
-                    </Slider>
-                  ) : (
-                    <div>
-                      <img
-                        src={property.property.images[0].image}
-                        alt={`صوره الاعلان`}
-                        key={index}
-                        style={{ width: "100%", height: "300px" }}
-                      />
-                    </div>
-                  )}
-                </Link>
-                <h6 style={{ color: "#0d6efd" }} className="my-1">
-                  الصور المتاحة لهذا العقار
-                </h6>
-                <div>
-                  <a href={`tel:+2${property.phone}`}>
-                    <Button variant="primary" className="m-2 btn-lg">
-                      <FontAwesomeIcon icon={faPhone} /> اتصل
-                    </Button>
-                  </a>
-                  <Button
-                      variant="secondary"
-                      className="m-2 btn-lg"
-                      onClick={() => {
-                        const mailtoLink = `mailto:${
-                          property.email
-                        }?subject=${encodeURIComponent(
-                          "عقار على فارندا"
-                        )}&body=${encodeURIComponent(
-                          `الرقم التعريفى للاعلان: ${property.id}`
-                        )}`;
-                        window.location.href = mailtoLink;
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faEnvelope} /> الإيميل
-                    </Button>
-                  <a
-                    href={`https://api.whatsapp.com/send?phone=2${
-                      property.whats_phone
-                    }&text=${encodeURIComponent(
-                      "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
-                    )}${encodeURIComponent(
-                      `http://varnda.com/moreDeteliesPage/${property.id}`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button variant="success" className="m-2 btn-lg">
-                      <FontAwesomeIcon icon={faWhatsapp} /> واتساب
-                    </Button>
-                  </a>
-                </div>
-              </div>
-              <div className="imgCont" style={{ width: "50%", height: "auto" }}>
-                <Link
-                  to={`/moreDeteliesPage/${property.id}`}
-                  className="link"
-                  key={index}
-                >
-                  <Card.Body
-                    style={{
-                      textAlign: "right",
-                      height: "100%",
-                    }}
-                  >
-                    <Card.Text style={{ padding: "0px" }}>
-                      <Row>
-                        <p style={{ color: "#898989" }}>
-                          {property.property.details_ar&&renderLimitedText(property.property.details_ar, 500)}
-                        </p>
-                      </Row>
-                    </Card.Text>
-                  </Card.Body>
-                </Link>
-              </div>
-              {/* Love button */}
-              <IconButton
-                loading={load}
-                onClick={() => handleLove(property.id, index)}
-                color="danger"
-                size="lg"
-                sx={{
-                  mr: "auto",
-                  position: "absolute",
-                  bottom: "10px",
-                  left: "10px",
-                }}
-              >
-                {favorites[index] ? <Favorite /> : <FavoriteBorder />}
-              </IconButton>
-            </Card>
-          )
-        )}
+                          </div>
+                        ))}
+                      </Slider>
+                    ) : (
+                       <div>
+                         <img
+                           src={property.property.primary_picture}
+                           alt={`صوره الاعلان الرئيسيه`}
+                           key={index}
+                           style={{ width: "100%", height: "300px" }}
+                         />
+                       </div>
+                     )}
+                   </Link>
+                   <h6 style={{ color: "#0d6efd" }} className="my-1">
+                     الصور المتاحة لهذا العقار
+                   </h6>
+                   <div>
+                     <a href={`tel:+2${property.phone}`}>
+                       <Button variant="primary" className="m-2 btn-lg">
+                         <FontAwesomeIcon icon={faPhone} /> اتصل
+                       </Button>
+                     </a>
+                     <Button
+                       variant="secondary"
+                       className="m-2 btn-lg"
+                       onClick={() => {
+                         const mailtoLink = `mailto:${
+                           property.email
+                         }?subject=${encodeURIComponent(
+                           "عقار على فارندا"
+                         )}&body=${encodeURIComponent(
+                           `الرقم التعريفى للاعلان: ${property.id}`
+                         )}`;
+                         window.location.href = mailtoLink;
+                       }}
+                     >
+                       <FontAwesomeIcon icon={faEnvelope} /> الإيميل
+                     </Button>
+                     <a
+                       href={`https://api.whatsapp.com/send?phone=2${
+                         property.whats_phone
+                       }&text=${encodeURIComponent(
+                         "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
+                       )}${encodeURIComponent(
+                         `http://varnda.com/property/${property.slug}`
+                       )}`}
+                       target="_blank"
+                       rel="noopener noreferrer"
+                     >
+                       <Button variant="success" className="m-2 btn-lg">
+                         <FontAwesomeIcon icon={faWhatsapp} /> واتساب
+                       </Button>
+                     </a>
+                   </div>
+                 </div>
+                 <div className="imgCont" style={{ width: "50%", height: "auto" }}>
+                   <Link
+                     to={`/property/${property.slug}`}
+                     className="link"
+                     key={index}
+                   >
+                     <Card.Body
+                       style={{
+                         textAlign: "right",
+                         height: "100%",
+                       }}
+                     >
+                       <Card.Title
+                         style={{
+                           color: "#123",
+                           fontWeight: "700",
+                           fontSize: "28px",
+                         }}
+                       >
+                         <span
+                           style={{
+                             color: "black",
+                             fontWeight: "bold",
+                             fontSize: "28px",
+                             marginLeft: "5px",
+                           }}
+                         >
+                           {Number(property.property.price).toLocaleString(
+                             "ar-EG"
+                           )}
+                         </span>
+                         <span
+                           style={{
+                             color: "#123",
+                             fontSize: "18px",
+                           }}
+                         >
+                           ج.م
+                         </span>
+                       </Card.Title>
+                       <Card.Text style={{ padding: "0px" }}>
+                         <Row className="mb-2">
+                           <Col
+                             xs={4}
+                             style={{
+                               color: "rgb(13, 110, 253)",
+                               display: "flex",
+                               gap: "5px",
+                               alignItems: "center",
+                             }}
+                           >
+                             <FontAwesomeIcon
+                               icon={faHome}
+                               style={{ marginLeft: "5px" }}
+                             />
+                             <span
+                               style={{
+                                 color: "black",
+                               }}
+                             >
+                               {property.property["Sub Category"]}
+                             </span>
+                           </Col>
+                           <Col
+                             xs={4}
+                             style={{
+                               color: "rgb(13, 110, 253)",
+                               display: "flex",
+                               gap: "5px",
+                               alignItems: "center",
+                             }}
+                           >
+                             <FontAwesomeIcon
+                               icon={faBed}
+                               style={{ marginLeft: "5px" }}
+                             />
+                             <span
+                               style={{
+                                 color: "black",
+                               }}
+                             >
+                               {property.property.rooms==10?"+10":property.property.rooms}
+                             </span>
+                           </Col>
+                           <Col
+                             xs={4}
+                             style={{
+                               color: "rgb(13, 110, 253)",
+                               display: "flex",
+                               gap: "5px",
+                               alignItems: "center",
+                             }}
+                           >
+                             <FontAwesomeIcon
+                               icon={faBath}
+                               style={{ marginLeft: "5px" }}
+                             />
+                             <span
+                               style={{
+                                 color: "black",
+                               }}
+                             >
+                               {property.property.bathrooms==6?"+6":property.property.bathrooms}
+                             </span>
+                           </Col>
+                         </Row>
+                         <Row>
+                           <Col style={{ color: "#868686" }}>
+                             <span
+                               style={{
+                                 color: "rgb(13, 110, 253)",
+                                 fontSize: "18px",
+                                 marginLeft: "7px",
+                               }}
+                             >
+                               <FontAwesomeIcon
+                                 icon={faRulerCombined}
+                                 style={{ marginLeft: "5px" }}
+                               />
+                               المساحة:
+                             </span>
+                             <span
+                               style={{
+                                 color: "black",
+                                 fontSize: "24px",
+                                 fontWeight: "bold",
+                               }}
+                             >
+                               {property.property.area}
+                             </span>
+                             متر مربع
+                           </Col>
+                         </Row>
+                         <Row>
+                           <Col style={{ color: "black" }} className="my-1">
+                             <h2>{property.property["Arabic Name"]}</h2>
+                           </Col>
+                         </Row>
+                         <Row>
+                           <p style={{ color: "#898989" }}>
+                             {property.property.details_ar&&renderLimitedText(property.property.details_ar, 150)}
+                           </p>
+                         </Row>
+                         <Row>
+                           <Col>
+                             <FontAwesomeIcon
+                               icon={faMapMarkerAlt}
+                               style={{ marginLeft: "5px" }}
+                             />
+                             <span
+                               style={{
+                                 color: "black",
+                               }}
+                             >
+                               {property.property.full_address}
+                             </span>
+                           </Col>
+                         </Row>
+                       </Card.Text>
+                     </Card.Body>
+                   </Link>
+                 </div>
+                 {/* Love button */}
+                 <IconButton
+                   loading={loadId===property.id}
+                   onClick={() => handleLove(property.id, index)}
+                   color="danger"
+                   size="lg"
+                   sx={{
+                     mr: "auto",
+                     position: "absolute",
+                     bottom: "10px",
+                     left: "10px",
+                   }}
+                 >
+                   {favorites[index] ? <Favorite /> : <FavoriteBorder />}
+                 </IconButton>
+               </Card>
+             ) : (
+               // Quick Ads
+               <Card
+                 className="d-flex flex-row mb-3 small position-relative"
+                 key={index}
+               >
+                 <div className="imgCont" style={{ width: "50%", height: "auto" }}>
+                   <Link
+                     to={`/property/${property.slug}`}
+                     className="link"
+                     key={index}
+                   >
+                     {property.property.images.length > 1 ? (
+                       <Slider {...settings}>
+                         {property.property.images.map((image, idx) => (
+                           <div>
+                             <img
+                               src={image.image}
+                               alt={`imgCard-${idx}`}
+                               key={idx}
+                               style={{ width: "100%", height: "300px" }}
+                             />
+                           </div>
+                         ))}
+                       </Slider>
+                     ) : (
+                       <div>
+                         <img
+                           src={property.property.images[0].image}
+                           alt={`صوره الاعلان`}
+                           key={index}
+                           style={{ width: "100%", height: "300px" }}
+                         />
+                       </div>
+                     )}
+                   </Link>
+                   <h6 style={{ color: "#0d6efd" }} className="my-1">
+                     الصور المتاحة لهذا العقار
+                   </h6>
+                   <div>
+                     <a href={`tel:+2${property.phone}`}>
+                       <Button variant="primary" className="m-2 btn-lg">
+                         <FontAwesomeIcon icon={faPhone} /> اتصل
+                       </Button>
+                     </a>
+                     <Button
+                         variant="secondary"
+                         className="m-2 btn-lg"
+                         onClick={() => {
+                           const mailtoLink = `mailto:${
+                             property.email
+                           }?subject=${encodeURIComponent(
+                             "عقار على فارندا"
+                           )}&body=${encodeURIComponent(
+                             `الرقم التعريفى للاعلان: ${property.id}`
+                           )}`;
+                           window.location.href = mailtoLink;
+                         }}
+                       >
+                         <FontAwesomeIcon icon={faEnvelope} /> الإيميل
+                       </Button>
+                     <a
+                       href={`https://api.whatsapp.com/send?phone=2${
+                         property.whats_phone
+                       }&text=${encodeURIComponent(
+                         "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
+                       )}${encodeURIComponent(
+                         `http://varnda.com/moreDeteliesPage/${property.slug}`
+                       )}`}
+                       target="_blank"
+                       rel="noopener noreferrer"
+                     >
+                       <Button variant="success" className="m-2 btn-lg">
+                         <FontAwesomeIcon icon={faWhatsapp} /> واتساب
+                       </Button>
+                     </a>
+                   </div>
+                 </div>
+                 <div className="imgCont" style={{ width: "50%", height: "auto" }}>
+                   <Link
+                     to={`/moreDeteliesPage/${property.slug}`}
+                     className="link"
+                     key={index}
+                   >
+                     <Card.Body
+                       style={{
+                         textAlign: "right",
+                         height: "100%",
+                       }}
+                     >
+                       <Card.Text style={{ padding: "0px" }}>
+                         <Row>
+                           <p style={{ color: "#898989" }}>
+                             {property.property.details_ar&&renderLimitedText(property.property.details_ar, 500)}
+                           </p>
+                         </Row>
+                       </Card.Text>
+                     </Card.Body>
+                   </Link>
+                 </div>
+                 {/* Love button */}
+                 <IconButton
+                   loading={loadId===property.id}
+                   onClick={() => handleLove(property.id, index)}
+                   color="danger"
+                   size="lg"
+                   sx={{
+                     mr: "auto",
+                     position: "absolute",
+                     bottom: "10px",
+                     left: "10px",
+                   }}
+                 >
+                   {favorites[index] ? <Favorite /> : <FavoriteBorder />}
+                 </IconButton>
+               </Card>
+             )
+           )}
+         </>
+      )}
       </>
     );
 }

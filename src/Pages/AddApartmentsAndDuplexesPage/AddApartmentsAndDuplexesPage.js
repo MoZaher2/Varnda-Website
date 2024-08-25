@@ -40,7 +40,6 @@ const AddApartmentsAndDuplexesPage = () => {
     whats_phone: Cookies.get('whats_phone')
   })
   console.log(Cookies.get("user_id"));
-  console.log("dddddddddddddddddddddddddddd");
   const [formData, setFormData] = useState({
     user_id: Cookies.get("user_id"),//👍
     category: 'شقق',//👍
@@ -94,7 +93,7 @@ const AddApartmentsAndDuplexesPage = () => {
     أجهزة: ["تدفئة", "تكييف", "اجهزة المطبخ", "أجهزة كشف الحريق"]
   };
 
-  const [governorates, setGovernorates] = useState(AllGovernments)
+  const [governorates, setGovernorates] = useState([])
   // API for get data to choose from it
   useEffect(() => {
     const fetchGov = async () => {

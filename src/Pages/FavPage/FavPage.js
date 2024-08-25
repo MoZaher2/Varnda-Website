@@ -26,20 +26,23 @@ import CardFav from '../../Components/Cards/CardFav.js';
 export default function FavPage() {
 const token=Cookies.get("token")
   const[properties,setProperties]=useState([])
+  const[overlay,setOverlay]=useState(false)
   useEffect(() => {
     const fetchFavAds=async()=>{
       try {
-        const response=await api.get("/get-favorites",{
+        setOverlay(true);
+        const response = await api.get("/get-favorites", {
           headers: {
-              'Authorization': `Bearer ${token}`,
-          }
-      })
-        setProperties(response.data.data)
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setProperties(response.data.data);
         console.log(response.data.data);
-            }
-            catch (err) {
-              console.log(err);
-            }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setOverlay(false);
+      }
     }
     fetchFavAds()
   }, [])
@@ -52,7 +55,7 @@ const token=Cookies.get("token")
       <Container>
         <Row className="d-flex justify-content-between">
           <Col dir="rtl" sm={12} md={10} lg={8}>
-          <CardFav properties={properties}/> 
+          <CardFav properties={properties} overlay={overlay}/> 
           </Col>
         </Row>
       </Container>

@@ -31,6 +31,7 @@ const[data,setData]=useState("")
             }
           })
           const adsData=response.data.data
+          console.log(response.data.data)
           setData(adsData)
         }catch(err){
           if(err.response.data.status===404){
@@ -64,7 +65,7 @@ const[data,setData]=useState("")
           {data && (
             <Share
               text={data.property["Arabic Name"]}
-              url={`http://varnda.com/moreDeteliesPage/${encodeURIComponent(
+              url={`http://varnda.com/property/${encodeURIComponent(
                 id
               )}`}
             />

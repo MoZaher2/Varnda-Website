@@ -87,7 +87,7 @@ const AddApartmentsAndDuplexesPage = () => {
     ملحقات: ["مزرعة مواشي خدم", "حوش", , "حديقة أو جنينه", "مساحة اضافيه خارجية"]
   };
 
-  const [governorates, setGovernorates] = useState(AllGovernments)
+  const [governorates, setGovernorates] = useState([])
   // API for get data to choose from it
   useEffect(() => {
     const fetchGov = async () => {

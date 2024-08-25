@@ -86,7 +86,7 @@ const AddApartmentsAndDuplexesPage = () => {
     ميزات: ["استلام فوري", "أمن وحراسة", "تجهيز كامل"],
   };
 
-  const [governorates, setGovernorates] = useState(AllGovernments)
+  const [governorates, setGovernorates] = useState([])
   // API for get data to choose from it
   useEffect(() => {
     const fetchGov = async () => {

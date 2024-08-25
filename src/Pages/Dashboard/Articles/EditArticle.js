@@ -12,8 +12,8 @@ import { useLocation } from "react-router-dom";
 export default function EditArticle() {
   const navigate = useNavigate();
   const location = useLocation();
-  const token = Cookies.get("token");
   const Article = location.state?.data;
+  const token = Cookies.get("token");
 
   console.log(Article);
 

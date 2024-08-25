@@ -15,7 +15,7 @@ import SaveSearch from "../SaveSearch/SaveSearch.js";
 import queryString from "query-string";
 import { useParams } from "react-router-dom";
 
-export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
+export default function HeaderSearchAdvanced({query,navigate,setProperties,setLoading}) {
   let { gov } = useParams();
   const token = Cookies.get("token");
   // const [searchText, setSearchText] = useState(query.get("searchText") ? query.get("searchText").split(',') : []);
@@ -29,7 +29,12 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
   const [area, setArea] = useState({ min: query.get("minArea") || "", max: query.get("maxArea") || "" });
   const [radioValue, setRadioValue] = useState(query.get("status") || '');
   const [address, setAddress] = useState({
-    governorate: query.get("governorate") ? query.get("governorate").split(',') : [],
+    governorate: query.get("governorate") 
+    ? [...new Set([...query.get("governorate").split(','), gov])] 
+    : gov 
+      ? [gov] 
+      : [],
+    // governorate: query.get("governorate") ? query.get("governorate").split(',') : [],
     city: query.get("city") ? query.get("city").split(',') : [],
     street: query.get("street") ? query.get("street").split(',') : [],
     region: query.get("region") ? query.get("region").split(',') : []
@@ -97,7 +102,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
       gov = address.governorate[0];
     }
     navigate({
-      pathname: `/SearchPage/${gov?gov:""}`,
+      pathname: `/search/${gov?gov:""}`,
       search: queryString.stringify(filterCurrentParams),
     });
   };
@@ -218,6 +223,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
   useEffect(() => {
     const handelSearch = async () => {
       try {
+        setLoading(true)
         const params = {
           governorate: address.governorate,
           city: address.city,
@@ -240,7 +246,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
               value != null && value !== "" && !(Array.isArray(value) && value.length === 0)
           )
         );
-        console.log(filteredParams);
         const response = await api.get("/searchAds", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -248,9 +253,12 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties}) {
           params: filteredParams,
         });
         setProperties(response.data.data)
-        console.log(response.data.data);
+        console.log("Sending: ",filteredParams);
+        console.log("Response: ",response.data.data);
       } catch (err) {
         console.log(err);
+      }finally{
+        setLoading(false)
       }
     };
     handelSearch();

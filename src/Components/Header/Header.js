@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./Header.css"
-import { ReactComponent as Logo } from '../../images/logo.svg';
+// import { ReactComponent as Logo } from '../../images/logo.png';
+import Logo from '../../images/logo.png';
 import {
   faSignInAlt,
   faUserPlus,
@@ -52,7 +53,8 @@ export default function Header() {
   }
   return (
     <>
-      <Navbar bg="light" expand="lg">
+      {/* <Navbar bg="light" expand="lg"> */}
+      <Navbar style={{background:'#0d6efd'}} expand="lg">
         <Container>
 
           <div style={{
@@ -60,7 +62,8 @@ export default function Header() {
             alignItems: 'center'
           }}>
             <Link to="/" className="logo-cont">
-              <Logo className="logo" />
+              {/* <Logo className="logo" /> */}
+              <img src={Logo} alt='logo' className="logo"/>
             </Link>
             <Link to="/myprofile" style={{ textDecoration: 'none' }}>
               <div style={{
@@ -86,7 +89,7 @@ export default function Header() {
             </Link>
 
           </div>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle aria-controls="basic-navbar-nav" style={{background:'white'}}/>
           <Navbar.Collapse id="basic-navbar-nav" style={{
             width: 'fit-content',
             alignItems: 'end',
@@ -113,7 +116,7 @@ export default function Header() {
                     تسجيل الحساب
                   </NavDropdown.Item>
                 </>}
-                <NavDropdown.Item as={Link} to="/fav" className="text-end">
+                <NavDropdown.Item as={Link} to="/favorite-properties" className="text-end">
                   <FontAwesomeIcon icon={faHeart} className="ms-2" />
                   المفضلة
                 </NavDropdown.Item>
@@ -126,7 +129,7 @@ export default function Header() {
 
 
 
-                <NavDropdown.Item as={Link} to="/myprofile" className="text-end">
+                <NavDropdown.Item as={Link} to="/myprofile" className="text-end" >
                   <FontAwesomeIcon icon={faCog} className="ms-2" />
                   الاعدادات
                 </NavDropdown.Item>
@@ -146,11 +149,11 @@ export default function Header() {
                   </>
                 }
               </NavDropdown>
-              <Nav.Link as={Link} to="/submit-property" >
+              <Nav.Link as={Link} to="/submit-property"  style={{color: 'white'}} >
                 <FontAwesomeIcon icon={faPlus} className="ms-2" />
                 اضف عقار
               </Nav.Link>
-              <Nav.Link as={Link} to="/Blogs">
+              <Nav.Link as={Link} to="/Blogs"  style={{color: 'white'}}>
                 <FontAwesomeIcon icon={faFileAlt} className="ms-2" />
                 المدونة
               </Nav.Link>

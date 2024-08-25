@@ -26,7 +26,7 @@ export default function FindHomePage() {
           ></iframe>
         </Col>
         <Col>
-          <Link to="/SearchPage" className="link-back">الرجوع إلى البحث العادى </Link>
+          <Link to="/search" className="link-back">الرجوع إلى البحث العادى </Link>
           <div className="text-center mt-5 parent-data-search" dir="rtl"> 
             <h2>الإقامة بالقرب من الأماكن المهمة بالنسبة لك</h2>
             <h6>كل ما عليك فعله هو إخبارنا:</h6>

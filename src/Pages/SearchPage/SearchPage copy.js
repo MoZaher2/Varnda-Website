@@ -131,7 +131,7 @@ export default function SearchPage() {
                   <Slider {...settings}>
                     {property.images.map((image, idx) => (
                       <div>
-                        <Link to={`/moreDeteliesPage/${idx}`} className="link" key={index}>
+                        <Link to={`/property/${idx}`} className="link" key={index}>
                           <img
                             src={image}
                             alt={`imgCard-${idx}`}
@@ -207,44 +207,44 @@ export default function SearchPage() {
 
             <h4 className="my-3 h4">نتائج مقترحة</h4>
             <ListGroup variant="flush">
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/search" className="link-item">
                 <ListGroup.Item className="item">
                   عقارات 1 غرفة للبيع فى مصر
                 </ListGroup.Item>
               </Link>
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/search" className="link-item">
                 <ListGroup.Item className="item">
                   عقارات 2 غرفة للبيع فى مصر
                 </ListGroup.Item>
               </Link>
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/search" className="link-item">
                 <ListGroup.Item className="item">
                   عقارات استوديو للبيع
                 </ListGroup.Item>
               </Link>
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/search" className="link-item">
                 <ListGroup.Item className="item">عقارات للايجار</ListGroup.Item>
               </Link>
             </ListGroup>
 
             <h4 className="my-3 h4">روابط مفيدة</h4>
             <ListGroup variant="flush">
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/search" className="link-item">
                 <ListGroup.Item className="item">
                   عقارات 1 غرفة للبيع فى مصر
                 </ListGroup.Item>
               </Link>
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/search" className="link-item">
                 <ListGroup.Item className="item">
                   عقارات 2 غرفة للبيع فى مصر
                 </ListGroup.Item>
               </Link>
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/search" className="link-item">
                 <ListGroup.Item className="item">
                   عقارات استوديو للبيع
                 </ListGroup.Item>
               </Link>
-              <Link to="/SearchPage" className="link-item">
+              <Link to="/search" className="link-item">
                 <ListGroup.Item className="item">عقارات للايجار</ListGroup.Item>
               </Link>
             </ListGroup>

@@ -61,7 +61,7 @@ export default function AllAds() {
                             <td>{item.property.Category}</td>
                             <td>{item.property["Sub Category"]}</td>
                             <td>
-                                <Link to={`/moreDeteliesPage/${item.id}`}>
+                                <Link to={`/property/${item.slug}`}>
                                     الذهاب للاعلان
                                 </Link>
                             </td>

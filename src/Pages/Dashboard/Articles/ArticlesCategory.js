@@ -74,25 +74,10 @@ const handleDelete = async (id) => {
       setLoadId(null);
     }
 };
-
-// const handleDelete = async (id) => {
-//     try {
-//         const response = await api.delete(`deletePost/${id}`,{
-//             headers: {
-//                 Authorization: `Bearer ${token}`,
-//             }
-//         })
-//         window.location.reload();
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-
 const handleChange = (e) => {
     const { value } = e.target;
     setCategoryName(value);
 }
-
 
 return (
   <>

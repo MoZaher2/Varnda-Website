@@ -29,7 +29,7 @@ const PropertySection = ({ propertiesForSale, propertiesForRent, heading }) => {
             <ul>
               {items.slice(0, expansionState[category] ? items.length : 3).map((item, idx) => (
                 <li key={idx}>
-                  <Link to={`/SearchPage/${item}`}>{item}</Link>
+                  <Link to={`/search/${item}`}>{item}</Link>
                 </li>
               ))}
             </ul>

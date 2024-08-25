@@ -31,7 +31,7 @@ export default function Company() {
 
       <Row className="my-3">
         <Col xs={12} md={6} lg={3} className="mb-4">
-          <Link to={`/SearchPage?city=القاهرة الجديدة`} className="card">
+          <Link to={`/search?city=القاهرة الجديدة`} className="card">
             <Card>
               <Card.Img variant="top" src={imgcompany1} />
               <Card.Body>
@@ -41,7 +41,7 @@ export default function Company() {
           </Link>
         </Col>
         <Col xs={12} md={6} lg={3} className="mb-4" >
-          <Link to={`/SearchPage?city="الشيخ زايد"`} className="card">
+          <Link to={`/search?city="الشيخ زايد"`} className="card">
             <Card>
               <Card.Img variant="top" src={imgcompany2} />
               <Card.Body>
@@ -51,7 +51,7 @@ export default function Company() {
           </Link>
         </Col>
         <Col xs={12} md={6} lg={3} className="mb-4" >
-          <Link to={`/SearchPage?city="مصر الجديدة"`} className="card">
+          <Link to={`/search?city="مصر الجديدة"`} className="card">
           <Card>
             <Card.Img variant="top" src={imgcompany3} />
             <Card.Body>
@@ -61,7 +61,7 @@ export default function Company() {
           </Link>
         </Col>
         <Col xs={12} md={6} lg={3} className="mb-4" >
-          <Link to={`/SearchPage?city="مدينة نصر"`} className="card">
+          <Link to={`/search?city="مدينة نصر"`} className="card">
             <Card>
               <Card.Img variant="top" src={imgcompany4} />
               <Card.Body>
@@ -73,7 +73,7 @@ export default function Company() {
       </Row>
       <Row className="my-3">
         <Col xs={12} md={6} lg={3} className="mb-4" >
-          <Link to={`/SearchPage?city=6 اكتوبر`} className="card">
+          <Link to={`/search?city=6 اكتوبر`} className="card">
             <Card>
               <Card.Img variant="top" src={imgcompany5} />
               <Card.Body>
@@ -83,7 +83,7 @@ export default function Company() {
           </Link>
         </Col>
         <Col xs={12} md={6} lg={3} className="mb-4" >
-          <Link to={`/SearchPage?city=المعادي`} className="card">
+          <Link to={`/search?city=المعادي`} className="card">
             <Card>
               <Card.Img variant="top" src={imgcompany6} />
               <Card.Body>
@@ -93,7 +93,7 @@ export default function Company() {
           </Link>
         </Col>
         <Col xs={12} md={6} lg={3} className="mb-4" >
-          <Link to={`/SearchPage?city="مدينتي"`} className="card">
+          <Link to={`/search?city="مدينتي"`} className="card">
             <Card>
               <Card.Img variant="top" src={imgcompany7} />
               <Card.Body>
@@ -104,7 +104,7 @@ export default function Company() {
         </Col>
 
         <Col xs={12} md={6} lg={3} className="mb-4" >
-          <Link to={`/SearchPage?city= الساحل الشمالي`} className="card">
+          <Link to={`/search?city= الساحل الشمالي`} className="card">
             <Card>
               <Card.Img variant="top" src={imgcompany8} />
               <Card.Body>

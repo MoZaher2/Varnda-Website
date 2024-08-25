@@ -56,6 +56,8 @@ import ShowAllUsers from "./Pages/Dashboard/Users/ShowAllUsers";
 import EditArticle from "./Pages/Dashboard/Articles/EditArticle";
 import AllDrafts from "./Pages/Dashboard/Articles/AllDrafts";
 import ArticlesWithTag from "./Pages/Articles/ArticlesWithTag";
+import EditQuickPage from "./Pages/EditAdsPages/EditQuickPage/EditQuickPage";
+import EditApartmentsAndDuplexesPage from "./Pages/EditAdsPages/EditApartmentsAndDuplexesPage/EditApartmentsAndDuplexesPage";
 
 function App() {
   return (
@@ -70,17 +72,17 @@ function App() {
         {/*  */}
 
         <Route path="/Blogs" element={<Articles />} />
-        <Route path="/Blogs/:category" element={<ArticlesInCategory />} />
+        <Route path="/Blogs/:category/ne" element={<ArticlesInCategory />} />
         <Route path="/Blogs/tags/:tag" element={<ArticlesWithTag />} />
 
 
         <Route path="/Blog/:id" element={<ArticleDetailes />} />
-        <Route path="/searchPage/:gov" element={<SearchPage />} />
+        <Route path="/search/:gov" element={<SearchPage />} />
         <Route path="/aboutUs" element={<AboutPage />} />
         <Route path="/contactUs" element={<ContactPage />} />
         <Route path="/terms" element={<TermsPage />} />
-        <Route path="/searchPage" element={<SearchPage />} />
-        <Route path="/moreDeteliesPage/:id" element={<MoreDeteliesPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/property/:id" element={<MoreDeteliesPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/google-auth" element={<AuthGoogle />} />
@@ -103,14 +105,8 @@ function App() {
           <Route path="Drafts" element={<AllDrafts />} />
           
 
-
-          
           <Route path="Blogs-category" element={<ArticlesCategory />} />
-          
-          
           <Route path="add-Blog" element={<AddArticle />} />
-          
-          
           <Route path="edit-Blog" element={<EditArticle />} />
 
 
@@ -129,13 +125,14 @@ function App() {
 
         {/* User Routes */}
         <Route
-          path="/fav"
+          path="/favorite-properties"
           element={
             <ProtectedRoute allowedRoles={["user", "admin"]}>
               <FavPage />
             </ProtectedRoute>
           }
         />
+         {/* Add ads route */}
         <Route
           path="/add-quick-property"
           element={
@@ -148,7 +145,7 @@ function App() {
           path="/add-apartments-duplexes"
           element={
             <ProtectedRoute allowedRoles={["user", "admin"]}>
-              <AddApartmentsAndDuplexesPage />
+              <EditApartmentsAndDuplexesPage />
             </ProtectedRoute>
           }
         />
@@ -208,6 +205,84 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Edite ads route */}
+        <Route
+          path="/edit-quick-property"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <EditQuickPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-apartments-duplexes"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <AddApartmentsAndDuplexesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-villas-palaces"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <AddVillasAndPalacesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-home-property"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <AddHomePropertyPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-resorts-coasts"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <AddResortsAndCoastsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-commercial-units"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <AddCommercialUnitsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-lands"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <AddLandPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-buildings"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <AddBuildingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-cemeteries"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <AddNewCemeteries />
+            </ProtectedRoute>
+          }
+        />
+
+
+
+
         <Route
           path="/myprofile"
           element={

@@ -580,7 +580,7 @@ const CardDetails = ({ propertyDetails }) => {
                       }&text=${encodeURIComponent(
                         "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
                       )}${encodeURIComponent(
-                        `http://varnda.com/moreDeteliesPage/${propertyDetails.id}`
+                        `http://varnda.com/property/${propertyDetails.slug}`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

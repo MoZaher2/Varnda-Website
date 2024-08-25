@@ -11,27 +11,26 @@ import queryString from "query-string";
 import Search from "../Search/Search";
 
 const SearchForm = ({ backgroundImage }) => {
-
   const navigate = useNavigate();
   const [propertyType, setPropertyType] = useState("سكنى");
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDropdownArea, setShowDropdownArea] = useState(false);
   const [showDropdownPrice, setShowDropdownPrice] = useState(false);
-  const [showPropertyTypeDropdown, setShowPropertyTypeDropdown] = useState(false);
+  const [showPropertyTypeDropdown, setShowPropertyTypeDropdown] =
+    useState(false);
   const [subCategory, setSubCategory] = useState("");
   const [address, setAddress] = useState({
     governorate: [],
     city: [],
-    street:  [],
-    region:[]
+    street: [],
+    region: [],
   });
-
 
   const handleSubCategoryChange = (duration) => {
     setSubCategory(duration);
   };
 
-  const roomValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8","9","10"];
+  const roomValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
   const bathroomValues = ["1", "2", "3", "4", "5", "6"];
   const [selectedOption, setSelectedOption] = useState("");
   const [rooms, setRooms] = useState([]);
@@ -85,12 +84,32 @@ const SearchForm = ({ backgroundImage }) => {
 
   const [showRoomsDropdown, setShowRoomsDropdown] = useState(false);
   const residentialOptions = [
-    "شقة", "فيلا منفصلة", "دوبلكس", "بنتهاوس", "شاليه", "تاون هاوس", "توين هاوس", "أرض سكنية","ستوديو" ];
+    "شقة",
+    "فيلا منفصلة",
+    "دوبلكس",
+    "بنتهاوس",
+    "شاليه",
+    "تاون هاوس",
+    "توين هاوس",
+    "أرض سكنية",
+    "ستوديو",
+  ];
 
   const commercialOptions = [
-    "زراعية","تجارية","صناعية","محل تجارى","مكتب ادارى","عيادة طبية","معمل تحاليل","صيدلية","مطعم","مخزن","كافيه","جراج",
+    "زراعية",
+    "تجارية",
+    "صناعية",
+    "محل تجارى",
+    "مكتب ادارى",
+    "عيادة طبية",
+    "معمل تحاليل",
+    "صيدلية",
+    "مطعم",
+    "مخزن",
+    "كافيه",
+    "جراج",
   ];
-let gov
+  let gov;
   const handleSearch = () => {
     console.log(subCategory);
     console.log(selectedOption);
@@ -101,63 +120,59 @@ let gov
     const currentParams = {
       selectedOption,
       subCategory,
-      rooms: rooms.join(','),
-      bathrooms: bathrooms.join(','),
+      rooms: rooms.join(","),
+      bathrooms: bathrooms.join(","),
       minPrice: price.min,
       maxPrice: price.max,
       minArea: area.min,
       maxArea: area.max,
     };
-    console.log(currentParams)
+    console.log(currentParams);
     let filterCurrentParams = Object.fromEntries(
       Object.entries(currentParams).filter(
         ([key, value]) =>
-          value != null && value !== "" && !(Array.isArray(value) && value.length === 0)
+          value != null &&
+          value !== "" &&
+          !(Array.isArray(value) && value.length === 0)
       )
     );
-     if (Array.isArray(address.governorate) && address.governorate.length > 0) {
-      filterCurrentParams.governorate = address.governorate.join(',');
+    if (Array.isArray(address.governorate) && address.governorate.length > 0) {
+      filterCurrentParams.governorate = address.governorate.join(",");
     }
 
     if (Array.isArray(address.city) && address.city.length > 0) {
-      filterCurrentParams.city = address.city.join(',');
+      filterCurrentParams.city = address.city.join(",");
     }
     if (Array.isArray(address.street) && address.street.length > 0) {
-      filterCurrentParams.street = address.street.join(',');
+      filterCurrentParams.street = address.street.join(",");
     }
     if (Array.isArray(address.region) && address.region.length > 0) {
-      filterCurrentParams.region = address.region.join(',');
+      filterCurrentParams.region = address.region.join(",");
     }
-
 
     if (Array.isArray(address.governorate) && address.governorate.length > 0) {
       gov = address.governorate[0];
     }
     navigate({
-      pathname: `/SearchPage/${gov?gov:""}`,
+      pathname: `/search/${gov ? gov : ""}`,
       search: queryString.stringify(filterCurrentParams),
     });
-
-  }
-
-
+  };
 
   return (
     <div
       className="search-form-container"
-      style={{ backgroundImage: `url(${backgroundImage})`}}
+      style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <h1 className="mb-4">اكتشف بيتك الجديد للبيع او الايجار</h1>
       <div className="search-form">
         <Form dir="rtl" className="w-100 homepageForm">
           <Row className="mb-3">
             <div className="d-flex justify-content-around align-items-center mb-3">
-
               <Form.Group className="w-100">
                 <Dropdown
                   show={showDropdown}
                   onToggle={(isOpen) => setShowDropdown(isOpen)}
-
                 >
                   <Dropdown.Toggle
                     variant="light"
@@ -165,7 +180,11 @@ let gov
                     onClick={() => setShowDropdown(!showDropdown)}
                     className="w-75 custToggle"
                   >
-                    {selectedOption === "rent" ? "للايجار" :selectedOption === "sale"? "للبيع":"بيع و ايجار"}
+                    {selectedOption === "rent"
+                      ? "للايجار"
+                      : selectedOption === "sale"
+                      ? "للبيع"
+                      : "بيع و ايجار"}
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu
@@ -175,30 +194,29 @@ let gov
                     <div className="p-3">
                       <h5 className="mb-3 type-ofer">نوع العرض</h5>
                       <div className="d-flex justify-content-around text-center">
-
-<Dropdown.Item
-        key="1"
-        className="btn"
-        onClick={(e) => {
-          e.preventDefault();
-          handleOptionChange("sale");
-        }}
-        active={selectedOption === "sale"}
-      >
-         للبيع
-      </Dropdown.Item>
-<Dropdown.Item
-        key="2"
-        className="btn"
-        onClick={(e) => {
-          e.preventDefault();
-          handleOptionChange("rent");
-        }}
-        active={selectedOption === "rent"}
-      >
-         للايجار
-      </Dropdown.Item>
-</div>
+                        <Dropdown.Item
+                          key="1"
+                          className="btn"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleOptionChange("sale");
+                          }}
+                          active={selectedOption === "sale"}
+                        >
+                          للبيع
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          key="2"
+                          className="btn"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleOptionChange("rent");
+                          }}
+                          active={selectedOption === "rent"}
+                        >
+                          للايجار
+                        </Dropdown.Item>
+                      </div>
                       <hr />
                       <div className="d-flex justify-content-between mt-3">
                         <Button variant="secondary" onClick={handleReset}>
@@ -221,7 +239,7 @@ let gov
                 <Dropdown
                   show={showPropertyTypeDropdown}
                   onToggle={(isOpen) => setShowPropertyTypeDropdown(isOpen)}
-                // align="end"
+                  // align="end"
                 >
                   <Dropdown.Toggle
                     variant="light"
@@ -310,17 +328,15 @@ let gov
                   </Dropdown.Menu>
                 </Dropdown>
               </Form.Group>
-
             </div>
-
-            <Form.Group as={Col} xs={12}>
+          </Row>
+          <Row className="mb-3">
+          <Form.Group as={Col} xs={12}>
               {/* <Form.Control type="text" placeholder="أدخل الموقع " /> */}
-              <Search setAddress={setAddress}/>
+              <Search setAddress={setAddress} />
               {/* <Search className="search" setSearchText={setSearchText} /> */}
             </Form.Group>
-
           </Row>
-
           <Row className="mb-3">
             {propertyType === "سكنى" && (
               <Form.Group as={Col} className="mb-3">
@@ -342,7 +358,13 @@ let gov
                           <div key={idx} className="me-2">
                             <Form.Check
                               type="checkbox"
-                              label={room === "0" ? "استوديو" : room === "10" ? `+${room}` : room}
+                              label={
+                                room === "0"
+                                  ? "استوديو"
+                                  : room === "10"
+                                  ? `+${room}`
+                                  : room
+                              }
                               checked={rooms.includes(room)}
                               onChange={() => handleRoomChange(room)}
                             />
@@ -355,7 +377,9 @@ let gov
                           <div key={idx} className="me-2 roomAndBath">
                             <Form.Check
                               type="checkbox"
-                              label={bathroom === "6" ? `+${bathroom}` : bathroom}
+                              label={
+                                bathroom === "6" ? `+${bathroom}` : bathroom
+                              }
                               checked={bathrooms.includes(bathroom)}
                               onChange={() => handleBathRoomChange(bathroom)}
                             />
@@ -374,8 +398,14 @@ let gov
             )}
 
             <Form.Group as={Col} className="mb-3">
-              <Dropdown show={showDropdownArea} onToggle={(isOpen) => setShowDropdownArea(isOpen)}>
-                <Dropdown.Toggle variant="light" id="dropdown-custom-components">
+              <Dropdown
+                show={showDropdownArea}
+                onToggle={(isOpen) => setShowDropdownArea(isOpen)}
+              >
+                <Dropdown.Toggle
+                  variant="light"
+                  id="dropdown-custom-components"
+                >
                   المساحة ( متر مربع)
                 </Dropdown.Toggle>
 
@@ -383,10 +413,14 @@ let gov
                   <div className="p-3">
                     <div className="d-flex align-items-center justify-content-between">
                       <Form.Group className="minAndMaxValue ms-3">
-                        <Form.Label className="heading-value">الحد الأدنى متر مربع</Form.Label>
+                        <Form.Label className="heading-value">
+                          الحد الأدنى متر مربع
+                        </Form.Label>
                         <Form.Select
                           value={area.min}
-                          onChange={(e) => setArea({ ...area, min: e.target.value })}
+                          onChange={(e) =>
+                            setArea({ ...area, min: e.target.value })
+                          }
                         >
                           <option>100</option>
                           <option>200</option>
@@ -397,10 +431,15 @@ let gov
                       </Form.Group>
 
                       <Form.Group className="minAndMaxValue me-3">
-                        <Form.Label className="heading-value"> الحد الأعلى متر مربع</Form.Label>
+                        <Form.Label className="heading-value">
+                          {" "}
+                          الحد الأعلى متر مربع
+                        </Form.Label>
                         <Form.Select
                           value={area.max}
-                          onChange={(e) => setArea({ ...area, max: e.target.value })}
+                          onChange={(e) =>
+                            setArea({ ...area, max: e.target.value })
+                          }
                         >
                           <option>1000</option>
                           <option>2000</option>
@@ -412,10 +451,13 @@ let gov
                     </div>
 
                     <div className="d-flex align-items-center justify-content-between">
-                      <Button variant="secondary" onClick={() => { }}>
+                      <Button variant="secondary" onClick={() => {}}>
                         إعادة الضبط
                       </Button>
-                      <Button variant="primary" onClick={() => setShowDropdownArea(false)}>
+                      <Button
+                        variant="primary"
+                        onClick={() => setShowDropdownArea(false)}
+                      >
                         تم
                       </Button>
                     </div>
@@ -424,19 +466,29 @@ let gov
               </Dropdown>
             </Form.Group>
 
-            <Form.Group as={Col}  className="mb-3">
-              <Dropdown show={showDropdownPrice} onToggle={(isOpen) => setShowDropdownPrice(isOpen)}>
-                <Dropdown.Toggle variant="light" id="dropdown-custom-components">
+            <Form.Group as={Col} className="mb-3">
+              <Dropdown
+                show={showDropdownPrice}
+                onToggle={(isOpen) => setShowDropdownPrice(isOpen)}
+              >
+                <Dropdown.Toggle
+                  variant="light"
+                  id="dropdown-custom-components"
+                >
                   السعر ( ج . م )
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="menuValue">
                   <div className="p-3">
                     <div className="d-flex align-items-center justify-content-between">
                       <Form.Group className="minAndMaxValue ms-3">
-                        <Form.Label className="heading-value">الحد الأدنى </Form.Label>
+                        <Form.Label className="heading-value">
+                          الحد الأدنى{" "}
+                        </Form.Label>
                         <Form.Select
                           value={price.min}
-                          onChange={(e) => setPrice({ ...price, min: e.target.value })}
+                          onChange={(e) =>
+                            setPrice({ ...price, min: e.target.value })
+                          }
                         >
                           <option>100</option>
                           <option>200</option>
@@ -447,10 +499,15 @@ let gov
                       </Form.Group>
 
                       <Form.Group className="minAndMaxValue me-3">
-                        <Form.Label className="heading-value"> الحد الأعلى  </Form.Label>
+                        <Form.Label className="heading-value">
+                          {" "}
+                          الحد الأعلى{" "}
+                        </Form.Label>
                         <Form.Select
                           value={price.max}
-                          onChange={(e) => setPrice({ ...price, max: e.target.value })}
+                          onChange={(e) =>
+                            setPrice({ ...price, max: e.target.value })
+                          }
                         >
                           <option>1000</option>
                           <option>2000</option>
@@ -462,10 +519,13 @@ let gov
                     </div>
 
                     <div className="d-flex align-items-center justify-content-between">
-                      <Button variant="secondary" onClick={() => { }}>
+                      <Button variant="secondary" onClick={() => {}}>
                         إعادة الضبط
                       </Button>
-                      <Button variant="primary" onClick={() => setShowDropdownPrice(false)}>
+                      <Button
+                        variant="primary"
+                        onClick={() => setShowDropdownPrice(false)}
+                      >
                         تم
                       </Button>
                     </div>
@@ -475,7 +535,11 @@ let gov
             </Form.Group>
 
             <Form.Group as={Col}>
-              <Button variant="primary" className="w-100 searchBtn" onClick={handleSearch}>
+              <Button
+                variant="primary"
+                className="w-100 searchBtn"
+                onClick={handleSearch}
+              >
                 ابحث
               </Button>
             </Form.Group>

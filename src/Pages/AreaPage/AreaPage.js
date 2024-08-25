@@ -97,7 +97,7 @@ export default function AreaPage() {
   </Col>
   <Col xs={12} lg={5} style={{ height: "450px", overflowY: "scroll" }}>
     <Row>
-    <Link to="/SearchPage" dir="rtl">الرجوع إلى البحث العادى </Link>
+    <Link to="/search" dir="rtl">الرجوع إلى البحث العادى </Link>
     <h5 dir="rtl" style={{ color: "#0d6efd" }} className="mb-4 mt-3">عقارات سكنية للبيع في مَصر</h5>
       {properties.map((property, index) => (
         <Col xs={12} lg={6} key={index} className="mb-3">
