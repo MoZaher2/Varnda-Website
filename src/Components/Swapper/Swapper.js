@@ -49,7 +49,7 @@ const [articles,setArticles]=useState([])
           <SwiperSlide key={card.id}> 
             <Link to={`/Blog/${card.article_url}`} className="card">
               <img src={card.article_image} alt={card.title} />
-              <p>{card.title}</p>
+              <p className="cardP">{card.title}</p>
             </Link>
           </SwiperSlide>
         ))}

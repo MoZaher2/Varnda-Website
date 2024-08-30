@@ -985,7 +985,7 @@ const handlePriceChange = (e) => {
                         />
                       </Form.Group>
                       <Form.Group controlId="mall" className="mb-3">
-                        <Form.Label>المول التجاري او الإداري (إن وجد)</Form.Label>
+                        <Form.Label>اسم المبني( تجاري - اداري - طبي - فندقي) (إن وجد)</Form.Label>
                         <Form.Select
                           name="mall_name"
                           value={formData.mall_name}
@@ -1064,7 +1064,7 @@ const handlePriceChange = (e) => {
                         >
                           <option value="">اختر</option>
                           <option key="1" value="مالك">مالك</option>
-                          <option key="2" value="سماسر">سمسار</option>
+                          <option key="2" value="سمسار">سمسار</option>
                           <option key="3" value="شركة تسويق">شركة تسويق</option>
                           <option key="4" value="شركة عقارية">شركة عقارية</option>
                         </Form.Select>

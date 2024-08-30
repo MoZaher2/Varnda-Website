@@ -35,23 +35,21 @@ export default function SideBar() {
               الصفحة الرئيسية
             </Button>
           </Link>
-{/*  */}
+          {/*  */}
           <DropdownButton
             id="dropdown-basic-button"
             align="end"
             title="المستخدمين"
             className="w-100 sideDropdown"
           >
-            <Dropdown.Item href="/dashboard/add-users">اضافه مستخدمين</Dropdown.Item>
+            <Dropdown.Item href="/dashboard/add-users">
+              اضافه مستخدمين
+            </Dropdown.Item>
             <Dropdown.Item href="/dashboard/admin">المديرين</Dropdown.Item>
-            <Dropdown.Item href="/dashboard/writer">
-              كاتب المقال
-            </Dropdown.Item>
-            <Dropdown.Item href="/dashboard/seo">
-              فريق ال SEO
-            </Dropdown.Item>
+            <Dropdown.Item href="/dashboard/writer">كاتب المقال</Dropdown.Item>
+            <Dropdown.Item href="/dashboard/seo">فريق ال SEO</Dropdown.Item>
           </DropdownButton>
-{/*  */}
+          {/*  */}
           <Link to="/dashboard/all-ads" className="w-100 button-link">
             <Button variant="primary" className="w-100">
               جميع الاعلانات
@@ -72,7 +70,6 @@ export default function SideBar() {
             <Dropdown.Item href="/dashboard/add-Blog">
               اضافه مدونة
             </Dropdown.Item>
-
           </DropdownButton>
 
           <Link to="/dashboard/category" className="w-100 button-link">
@@ -97,6 +94,30 @@ export default function SideBar() {
               الكومباوندات
             </Dropdown.Item>
             <Dropdown.Item href="/dashboard/molls">المولات</Dropdown.Item>
+          </DropdownButton>
+
+          {/* الفلاتر */}
+          <DropdownButton
+            id="dropdown-basic-button"
+            align="end"
+            title="الفلاتر"
+            className="w-100 sideDropdown"
+          >
+            <Dropdown.Item href="/dashboard/filters">
+            جميع الفلاتر
+            </Dropdown.Item>
+            <Dropdown.Item href="/dashboard/filters/governorates">
+              فلاتر المحافظات
+            </Dropdown.Item>
+            <Dropdown.Item href="/dashboard/filters/add-gov-filter">
+              اضافه فلتر محافظة
+            </Dropdown.Item>
+            <Dropdown.Item href="/dashboard/filters/projects">
+              فلاتر مشروعات
+            </Dropdown.Item>
+            <Dropdown.Item href="/dashboard/filters/add-project-filter">
+              اضافه فلتر مشروع
+            </Dropdown.Item>
           </DropdownButton>
 
           <Button variant="danger" className="w-100" onClick={Logout}>

@@ -48,7 +48,8 @@ export default function ArticlesInCategory() {
         <h2 className="text-center title-page py-1 pb-2 container my-3">
           {category}
         </h2>
-        {overlay ? <OverPage />:articles.length>0?<>
+        {overlay ? <OverPage />:articles.length>0?
+        <>
           <ArticleCards articles={articles} />
           {/* Pagination */}
           <div className="d-flex justify-content-center mt-3">

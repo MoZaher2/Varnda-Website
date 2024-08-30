@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Articles.css";
 import ArticleCards from "../../Components/Articles/ArticleCards";
 import api from "../../API/ApiLink.js";
-import { Pagination } from "react-bootstrap";
+import { Pagination ,Alert } from "react-bootstrap";
 import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard.js";
 import Footer from "../../Components/Footer/Footer.js";
 import HeaderPageLink from "../../Components/HeaderPageLink/HeaderPageLink.js";
@@ -44,7 +44,8 @@ export default function Articles() {
         <h2 className="text-center title-page py-1 pb-2 container my-3">
           جميع المدونات
         </h2>
-        {overlay ? <OverPage />:<>
+        {overlay ? <OverPage />:articles.length>0?
+        <>
          <ArticleCards articles={articles} />
          {/* Pagination */}
          <div className="d-flex justify-content-center mt-3">
@@ -74,7 +75,9 @@ export default function Articles() {
              />
            </Pagination>
          </div>
-       </>}
+       </>:<Alert key="warning" className="text-center" variant="warning">
+        لا يوجد مقالات فى هذا التصنيف
+      </Alert>}
        
       </>
       <AddPropertyCard />

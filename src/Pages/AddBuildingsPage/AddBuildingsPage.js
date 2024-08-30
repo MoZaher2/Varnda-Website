@@ -872,7 +872,7 @@ const handlePriceChange = (e) => {
                         >
                           <option value="">اختر</option>
                           <option key="1" value="مالك">مالك</option>
-                          <option key="2" value="سماسر">سمسار</option>
+                          <option key="2" value="سمسار">سمسار</option>
                           <option key="3" value="شركة تسويق">شركة تسويق</option>
                           <option key="4" value="شركة عقارية">شركة عقارية</option>
                         </Form.Select>

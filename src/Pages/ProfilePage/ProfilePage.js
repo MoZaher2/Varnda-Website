@@ -9,6 +9,9 @@ import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 const ProfilePage = () => {
+  
+  const token = Cookies.get('token');
+  console.log(token)
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
@@ -75,7 +78,6 @@ const ProfilePage = () => {
       } else {
         setLoad(true);
         try {
-          const token = Cookies.get('token');
           const response = await api.post("/change_password", {
             ...passwordForm
           }, {
@@ -117,7 +119,7 @@ const ProfilePage = () => {
     e.preventDefault();
     setLoad2(true);
     try {
-      const token = Cookies.get('token');
+      
       const response = await api.post("/updateUser", {
         ...userForm
       }, {
@@ -169,7 +171,6 @@ const ProfilePage = () => {
   const handleSaveImage = async () => {
     setLoad3(true);
     try {
-      const token = Cookies.get('token');
       // Create FormData and append image file
       const formData = new FormData();
       if (profileImageFile) {
@@ -343,7 +344,7 @@ const ProfilePage = () => {
                         >
                           <option value="">اختر</option>
                           <option key="1" value="مالك">مالك</option>
-                          <option key="2" value="سماسر">سمسار</option>
+                          <option key="2" value="سمسار">سمسار</option>
                           <option key="3" value="شركة تسويق">شركة تسويق</option>
                           <option key="4" value="شركة عقارية">شركة عقارية</option>
                         </Form.Select>

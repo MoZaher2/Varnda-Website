@@ -40,6 +40,7 @@ export default function LoginPage() {
           email: formData.email,
           password: formData.password,
         });
+        console.log(response.data)
         Cookies.set('token', response.data.data.token);
         Cookies.set("image", response.data.data.user.image);
 
@@ -55,7 +56,6 @@ export default function LoginPage() {
         Cookies.set("user_id", response.data.data.user.id);
         Cookies.set('whats_phone', response.data.data.user.whats_phone);
         Cookies.set("verify",response.data.data.user.email_verified_at)
-        console.log(response.data)
         setLoad(false)
         setOverlay(true)
         setShow(true)

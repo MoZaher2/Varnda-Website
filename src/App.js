@@ -65,6 +65,16 @@ import EditCommercialUnitsPage from "./Pages/EditAdsPages/EditCommercialUnitsPag
 import EditLandPage from "./Pages/EditAdsPages/EditLandPage/EditLandPage";
 import EditBuildingsPage from "./Pages/EditAdsPages/EditBuildingsPage/EditBuildingsPage";
 import EditNewCemeteries from "./Pages/EditAdsPages/EditNewCemeteries/EditNewCemeteries";
+import GovPage from "./Pages/LocationsPage/GovPage/GovPage";
+import AddGovFilter from "./Pages/Dashboard/Filters/Government/AddGovFilter";
+import AddProjectFilter from "./Pages/Dashboard/Filters/Project/AddProjectFilter";
+import AllFilters from "./Pages/Dashboard/Filters/AllFilters";
+import AllGovFilters from "./Pages/Dashboard/Filters/Government/AllGovFilters";
+import AllProjectFilters from "./Pages/Dashboard/Filters/Project/AllProjectFilters";
+import EditFilter from "./Components/Filters/EiteFilter";
+import CityPage from "./Pages/LocationsPage/CityPage/CityPage";
+import CompoundPage from "./Pages/LocationsPage/CompoundPage/CompoundPage";
+import FilterPage from "./Pages/FilterPage/FilterPage";
 
 function App() {
   return (
@@ -79,16 +89,17 @@ function App() {
         {/*  */}
 
         <Route path="/Blogs" element={<Articles />} />
-        <Route path="/Blogs/:category/ne" element={<ArticlesInCategory />} />
+        <Route path="/Blogs/:category" element={<ArticlesInCategory />} />
         <Route path="/Blogs/tags/:tag" element={<ArticlesWithTag />} />
 
 
         <Route path="/Blog/:id" element={<ArticleDetailes />} />
-        <Route path="/search/:gov" element={<SearchPage />} />
         <Route path="/aboutUs" element={<AboutPage />} />
         <Route path="/contactUs" element={<ContactPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/search/:gov" element={<SearchPage />} />
+        <Route path="/search/filter/:filter" element={<FilterPage />} />
         <Route path="/property/:id" element={<MoreDeteliesPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
@@ -110,12 +121,9 @@ function App() {
           
           <Route path="Blogs" element={<AllArticles />} />
           <Route path="Drafts" element={<AllDrafts />} />
-          
-
           <Route path="Blogs-category" element={<ArticlesCategory />} />
           <Route path="add-Blog" element={<AddArticle />} />
           <Route path="edit-Blog" element={<EditArticle />} />
-
 
           <Route path="category" element={<CategoryArticle />} />
           <Route path="governments" element={<Governments />} />
@@ -124,10 +132,21 @@ function App() {
           <Route path="streets" element={<Streets />} />
           <Route path="compounds" element={<Compounds />} />
           <Route path="molls" element={<Molls />} />
+
           <Route path="add-users" element={<AddUsers />} />
           <Route path="admin" element={<ShowAllUsers role="admin" />} />
           <Route path="writer" element={<ShowAllUsers role="writer" />} />
           <Route path="seo" element={<ShowAllUsers role="seo" />} />
+        
+          <Route path="filters" element={<AllFilters/>} />
+
+          <Route path="filters/governorates" element={<AllGovFilters/>} />
+          <Route path="filters/add-gov-filter" element={<AddGovFilter/>} />
+
+          <Route path="filters/projects" element={<AllProjectFilters/>} />
+          <Route path="filters/add-project-filter" element={<AddProjectFilter/>} />
+
+          <Route path="filters/edit-filter" element={<EditFilter/>} />
         </Route>
 
         {/* User Routes */}
@@ -286,10 +305,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-
-
-
         <Route
           path="/myprofile"
           element={
@@ -306,6 +321,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+{/*  */}
+<Route path="/:gov" element={<GovPage/>} />
+
+<Route path="/:gov/:city" element={<CityPage/>} />
+
+<Route path="/:gov/:city/:compound" element={<CompoundPage/>} />
+{/*  */}
 
         {/* 404 Page */}
         <Route path="*" element={<NotFoundPage />} />

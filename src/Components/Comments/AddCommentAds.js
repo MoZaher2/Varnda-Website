@@ -25,6 +25,7 @@ export default function AddCommentAds({ads_id}) {
             setLoad(false)
         }
     }
+    
     return (
         <FormControl>
             <h3>كتابه تعليق:</h3>

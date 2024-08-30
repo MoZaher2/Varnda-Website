@@ -31,7 +31,7 @@ import Cookies from 'js-cookie';
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 
 
-export default function PropertyCard({ properties ,loading}) {
+export default function PropertyCard({ properties=[] ,loading}) {
     const token = Cookies.get("token")
     const settings = {
         dots: false,
@@ -45,9 +45,11 @@ export default function PropertyCard({ properties ,loading}) {
     };
     const [favorites, setFavorites] = useState([]);
     const [loadId, setLoadId] = useState(null)
-
+    
     useEffect(() => {
+      if(properties.length){
         setFavorites(properties.map(p => p.is_favorite))
+      }
     }, [properties])
 
     const handleLove = async (ad_id, index) => {

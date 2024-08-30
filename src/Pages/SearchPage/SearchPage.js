@@ -9,8 +9,6 @@ import HeaderSearchAdvanced from "../../Components/HeaderSearchAdvanced/HeaderSe
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PropertyCard from "../../Components/Cards/Card";
-
-
 import { useLocation, useNavigate } from "react-router-dom";
 import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard";
 import AddQuickCard from "../../Components/Cards/AddProperty/AddQuickCard";
@@ -24,7 +22,7 @@ export default function SearchPage() {
   const query = useQuery();//
   const navigate = useNavigate();//
   const [properties,setProperties]=useState([])
-const [loading,setLoading]=useState(false)
+  const [loading,setLoading]=useState(false)
   return (
     <>
       <Header />

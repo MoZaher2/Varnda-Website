@@ -42,18 +42,18 @@ export default function AddArticle() {
   });
   const [article_image, setArticle_image] = useState(null);
 
-  const validateUrl = (url) => {
-    const urlPattern = new RegExp(
-      "^(https?:\\/\\/)?" + // Protocol
-        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // Domain name
-        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR IP (v4) address
-        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // Port and path
-        "(\\?[;&a-z\\d%_.~+=-]*)?" + // Query string
-        "(\\#[-a-z\\d_]*)?$",
-      "i"
-    ); // Fragment locator
-    return !!urlPattern.test(url);
-  };
+  // const validateUrl = (url) => {
+  //   const urlPattern = new RegExp(
+  //     "^(https?:\\/\\/)?" + // Protocol
+  //       "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // Domain name
+  //       "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR IP (v4) address
+  //       "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // Port and path
+  //       "(\\?[;&a-z\\d%_.~+=-]*)?" + // Query string
+  //       "(\\#[-a-z\\d_]*)?$",
+  //     "i"
+  //   ); // Fragment locator
+  //   return !!urlPattern.test(url);
+  // };
 
   function extractImageUrls(htmlString) {
     const urls = [];
@@ -227,10 +227,11 @@ export default function AddArticle() {
                   placeholder="عباره عن كلمه تكون فريده من نوعها"
                   onChange={handleChange}
                   required
+                  isInvalid
                 />
-                {/* <Form.Control.Feedback type="invalid">
-                                    يجب كتابة اسم فريد
-                                </Form.Control.Feedback> */}
+                <Form.Control.Feedback type="invalid">
+                  يمنع استخدام علامه '/' فى الكلمه
+                </Form.Control.Feedback>
               </Form.Group>
             </Row>
             <Form.Group as={Col} controlId="formGridMeta">
