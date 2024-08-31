@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import ShowFilterToUser from "../Filters/ShowFilterToUser";
 
 const QuickCardDetails = ({ propertyDetails }) => {
   const sliderSettings = {
@@ -111,6 +112,13 @@ const QuickCardDetails = ({ propertyDetails }) => {
               </Row>
             </Col>
           </Row>
+          <Row dir="rtl">
+              <ShowFilterToUser
+                type={propertyDetails.property.Type}
+                gov={propertyDetails.property.governorate}
+                compound={propertyDetails.property.compound}
+              />
+            </Row>
         </Container>
       </div>
     </>

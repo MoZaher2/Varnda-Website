@@ -45,7 +45,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
     };
     const [favorites, setFavorites] = useState([]);
     const [loadId, setLoadId] = useState(null)
-    
+
     useEffect(() => {
       if(properties.length){
         setFavorites(properties.map(p => p.is_favorite))

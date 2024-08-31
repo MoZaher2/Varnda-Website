@@ -15,7 +15,7 @@ import SaveSearch from "../SaveSearch/SaveSearch.js";
 import queryString from "query-string";
 import { useParams } from "react-router-dom";
 
-export default function HeaderSearchAdvanced({query,navigate,setProperties,setLoading}) {
+export default function HeaderSearchAdvanced({query,navigate,setProperties,setLoading,setSendfilter}) {
   let { gov } = useParams();
   const token = Cookies.get("token");
   // const [searchText, setSearchText] = useState(query.get("searchText") ? query.get("searchText").split(',') : []);
@@ -239,6 +239,11 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
           min_area: area.min,
           status: radioValue,
         };
+        setSendfilter({
+          type: selectedOption,
+          gov: address.governorate.length>0?address.governorate[0]:"",
+          compound: "",
+        })
         // Filter out parameters with null, undefined, empty string, or empty arrays
         const filteredParams = Object.fromEntries(
           Object.entries(params).filter(

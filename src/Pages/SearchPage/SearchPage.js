@@ -12,6 +12,7 @@ import PropertyCard from "../../Components/Cards/Card";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard";
 import AddQuickCard from "../../Components/Cards/AddProperty/AddQuickCard";
+import ShowFilterToUser from "../../Components/Filters/ShowFilterToUser";
 // import queryString from "query-string";
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -23,6 +24,11 @@ export default function SearchPage() {
   const navigate = useNavigate();//
   const [properties,setProperties]=useState([])
   const [loading,setLoading]=useState(false)
+  const [sendfilter, setSendfilter] = useState({
+    type: "",
+    gov: "",
+    compound: "",
+  });
   return (
     <>
       <Header />
@@ -31,6 +37,7 @@ export default function SearchPage() {
         navigate={navigate}
         setProperties={setProperties}
         setLoading={setLoading}
+        setSendfilter={setSendfilter}
       />
 
       <Container>
@@ -39,37 +46,13 @@ export default function SearchPage() {
           <Col md={8} dir="rtl">
             <PropertyCard properties={properties} loading={loading} />
           </Col>
+
           <Col md={4} dir="rtl">
-            <h4 className="my-3 h4">نتائج مقترحة</h4>
-            <ListGroup variant="flush">
-              <Link
-                to="/search/القاهرة?filter=الأحدث&rooms=1&selectedOption=sale"
-                className="link-item"
-              >
-                <ListGroup.Item className="item">
-                  عقارات 1 غرفة للبيع فى القاهرة
-                </ListGroup.Item>
-              </Link>
-              <Link
-                to="/search/القاهرة?filter=الأحدث&rooms=2&selectedOption=sale"
-                className="link-item"
-              >
-                <ListGroup.Item className="item">
-                  عقارات 2 غرفة للبيع فى القاهرة
-                </ListGroup.Item>
-              </Link>
-              <Link
-                to="/search/القاهرة?filter=الأحدث&rooms=0&selectedOption=sale"
-                className="link-item"
-              >
-                <ListGroup.Item className="item">
-                  عقارات استوديو للبيع فى القاهرة
-                </ListGroup.Item>
-              </Link>
-              <Link to="/search?selectedOption=rent" className="link-item">
-                <ListGroup.Item className="item">عقارات للايجار</ListGroup.Item>
-              </Link>
-            </ListGroup>
+            <ShowFilterToUser
+              type={sendfilter.type}
+              gov={sendfilter.gov}
+              compound={sendfilter.compound}
+            />
           </Col>
         </Row>
       </Container>
