@@ -60,12 +60,13 @@ export default function LoginPage() {
         setOverlay(true)
         setShow(true)
         setAlert({ msg: "تم تسجيل الدخول بنجاح", variant: 1 })
-        if(response.data.data.user.role==="admin"){
-          navigate('/dashboard')
-        }
-        else{
-          navigate('/')
-        }
+        navigate('/')
+        // if(response.data.data.user.role==="admin"){
+        //   navigate('/dashboard')
+        // }
+        // else{
+        //   navigate('/')
+        // }
         
       } catch (error) {
         setLoad(false)
@@ -138,6 +139,10 @@ const logWithGoogle = () => {
                 من فضلك ادخل كلمه المرور بشكل صحيح
               </Form.Control.Feedback>
             </Form.Group>
+
+            <div className="mt-1">
+            <Link to="/send-email">نسيت كلمه السر؟</Link>
+          </div>
 
             <Button
               variant="primary"

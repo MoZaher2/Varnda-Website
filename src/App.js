@@ -75,6 +75,12 @@ import EditFilter from "./Components/Filters/EiteFilter";
 import CityPage from "./Pages/LocationsPage/CityPage/CityPage";
 import CompoundPage from "./Pages/LocationsPage/CompoundPage/CompoundPage";
 import FilterPage from "./Pages/FilterPage/FilterPage";
+import AllCityFilters from "./Pages/Dashboard/Filters/City/AllCityFilters";
+import AddCityFilter from "./Pages/Dashboard/Filters/City/AddCityFilter";
+import AllRegionFilters from "./Pages/Dashboard/Filters/Region/AllRegionFilters";
+import AddRegionFilter from "./Pages/Dashboard/Filters/Region/AddRegionFilter";
+import SendEmail from "./Pages/ForgetPasswordPage/SendEmail";
+import ResetPassword from "./Pages/ForgetPasswordPage/ResetPassword";
 
 function App() {
   return (
@@ -99,10 +105,14 @@ function App() {
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/search/:gov" element={<SearchPage />} />
-        <Route path="/search/filter/:filter" element={<FilterPage />} />
+        <Route path="/filter/:filter" element={<FilterPage />} />
         <Route path="/property/:id" element={<MoreDeteliesPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+
+        <Route path="/send-email" element={<SendEmail />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        
         <Route path="/google-auth" element={<AuthGoogle />} />
         <Route path="/submit-property" element={<SubmitpropertyPage />} />
 
@@ -139,10 +149,16 @@ function App() {
           <Route path="seo" element={<ShowAllUsers role="seo" />} />
         
           <Route path="filters" element={<AllFilters/>} />
-
+          {/* محافظه */}
           <Route path="filters/governorates" element={<AllGovFilters/>} />
           <Route path="filters/add-gov-filter" element={<AddGovFilter/>} />
-
+          {/* مدينة */}
+          <Route path="filters/cities" element={<AllCityFilters/>} />
+          <Route path="filters/add-city-filter" element={<AddCityFilter/>} />
+          {/* منطقة */}
+          <Route path="filters/regions" element={<AllRegionFilters/>} />
+          <Route path="filters/add-region-filter" element={<AddRegionFilter/>} />
+          {/* مشروع */}
           <Route path="filters/projects" element={<AllProjectFilters/>} />
           <Route path="filters/add-project-filter" element={<AddProjectFilter/>} />
 

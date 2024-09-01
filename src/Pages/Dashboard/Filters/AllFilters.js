@@ -69,7 +69,6 @@ export default function AllFilters() {
                   <th>هدف الإعلان</th>
                   <th>الفئة</th>
                   <th>نوع الفلتر</th>
-                  <th>المكان</th>
                   <th colSpan={2} className="text-center">
                     أجراءات
                   </th>
@@ -87,10 +86,13 @@ export default function AllFilters() {
                       <td>{item.type}</td>
                       <td>{item.sub_category}</td>
                       <td>
-                        {item.department === "gov" ? "محافظات" : "مشروعات"}
-                      </td>
-                      <td>
-                        {item.department === "gov" ? item.gov : item.compound}
+                        {item.department === "gov"
+                          ? "محافظات"
+                          : item.department === "city"
+                          ? "مدن"
+                          : item.department === "region"
+                          ? "مناطق"
+                          : "مشروعات"}
                       </td>
                       <td>
                         <Button

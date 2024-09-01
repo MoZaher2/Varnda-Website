@@ -12,28 +12,38 @@
 
 }
 .sidebar{
-    /* height: 99vh; */
-    width: 230px;
-    background-color: var(--main-color);
+    width: 245px;
+    background-color: #f2f2f2;
     padding: 10px 14px;
-    /* margin-top: -8px; */
 }
 
 .nav-li{
-    /* background: rgb(0, 0, 0); */
     display: flex;
     flex-direction: column;
     align-items: center;
     list-style: none;
-
     flex-direction: column;
     gap: 10px;
+
+
+    height: 80vh;
+    justify-content: space-evenly;
 }
 
 .sideDropdown button{
     font-size: 20px;
     width: 100%;
 }
+
+/*  */
+.dropdown-menu{
+    width: 100%;
+    text-align: center;
+}
+.dropdown-item{
+    border-bottom: 1px solid #808080ad;
+}
+/*  */
 
 .button-link {
     color: white; /* اللون الأساسي للرابط */
@@ -44,3 +54,8 @@
     color: #ccc; /* اللون عند المرور على الرابط */
   }
   
+  @media (max-width: 767px) {
+    .nav-li{
+        height: 100%;
+    }
+  }

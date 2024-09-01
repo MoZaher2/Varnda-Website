@@ -116,6 +116,8 @@ const QuickCardDetails = ({ propertyDetails }) => {
               <ShowFilterToUser
                 type={propertyDetails.property.Type}
                 gov={propertyDetails.property.governorate}
+                city={propertyDetails.property.city}
+                region={propertyDetails.property.region}
                 compound={propertyDetails.property.compound}
               />
             </Row>

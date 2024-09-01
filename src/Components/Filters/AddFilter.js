@@ -17,9 +17,13 @@ export default function AddFilter({ department }) {
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [govLoad, setGovLoad] = useState(false);
+  const[cityLoad,setCityLoad]=useState(false);
+  const[regionLoad,setRegionLoad]=useState(false);
   const [compoundLoad, setCompoundLoad] = useState(false);
   const [compounds, setCompounds] = useState([]);
   const [governorates, setGovernorates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [regions, setRegions] = useState([]);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
   const [formData, setFormData] = useState({
     filter_name: "",
@@ -31,6 +35,8 @@ export default function AddFilter({ department }) {
     gov: "",
     compound: "",
     department: "", //gov:mall
+    city:"",
+    region:""
   });
 
   //Governments
@@ -52,10 +58,62 @@ export default function AddFilter({ department }) {
         setGovLoad(false);
       }
     };
-    if(department==='gov'){
+    if(department!=='mall'){
       fetchGov();
     }
   }, [token,department]);
+
+
+    //City
+    useEffect(() => {
+      const fetchCity = async () => {
+        const govId = governorates.find((e) => {
+          return e.name === formData.gov;
+        })["id"];
+        try {
+          setCityLoad(true)
+          const response = await api.get(`/governorates/${govId}/cities`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setCities(response.data.data);
+        } catch (error) {
+          setCities([])
+          console.log(error);
+        }finally{
+          setCityLoad(false)
+        }
+      };
+      fetchCity();
+    }, [formData.gov, token, governorates]);
+  
+  // Region
+  useEffect(() => {
+    const fetchRegion = async () => {
+      let cityId = cities.find((e) => {
+        return e.name === formData.city
+      })["id"]
+      try {
+        setRegionLoad(true)
+        const response = await api.get(`/governorates/city/${cityId}/regions`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setRegions(response.data.data)
+      } catch (error) {
+        setRegions([])
+        console.log(error);
+      }finally{
+        setRegionLoad(false)
+      }
+    };
+    if(formData.city){
+      fetchRegion();
+    }
+  }, [formData.city,token,cities]);
+
 
   //All Compounds
   useEffect(() => {
@@ -107,7 +165,10 @@ export default function AddFilter({ department }) {
         formData.type &&
         formData.meta_description &&
         formData.key_words &&
-        (formData.gov || formData.compound)
+        (formData.gov ||
+          formData.compound ||
+          (formData.gov && formData.city) ||
+          (formData.gov && formData.city && formData.regions))
       ) {
         // Set Post
         try {
@@ -125,7 +186,14 @@ export default function AddFilter({ department }) {
           setTimeout(() => {
             if (department === "gov") {
               navigate("/dashboard/filters/governorates");
-            } else {
+            } 
+            else if(department === "city"){
+              navigate("/dashboard/filters/cities");
+            }
+            else if(department === "region"){
+              navigate("/dashboard/filters/regions");
+            }
+            else {
               navigate("/dashboard/filters/projects");
             }
           }, 2000);
@@ -276,61 +344,134 @@ export default function AddFilter({ department }) {
           </Form.Group>
         </Row>
         <Row className="mb-3">
-          {department === "gov" ? (
-            <Form.Group
-              as={Col}
-              xs={12}
-              md={6}
-              controlId="governorate"
-              className="mb-3"
-            >
-              <Form.Label className="required">
-                {govLoad && <span className="loader"></span>}
-                المحافظة
-              </Form.Label>
-              <Form.Select
-                name="gov"
-                value={formData.gov}
-                onChange={handleChange}
-                required
+          <>
+            {department !== "mall" ? (
+              <Form.Group
+                as={Col}
+                xs={12}
+                md={6}
+                controlId="governorate"
+                className="mb-3"
               >
-                {!govLoad && (
-                  <>
-                    <option value="">اختر المحافظة</option>
-                    {governorates.map((gov, index) => (
-                      <option key={gov.id} value={gov.name}>
-                        {gov.name}
-                      </option>
-                    ))}
-                  </>
-                )}
-              </Form.Select>
-            </Form.Group>
-          ) : (
-            <Form.Group
-              as={Col}
-              xs={12}
-              md={6}
-              controlId="compound"
-              className="mb-3"
-            >
-              <Form.Label className="required">
-                {compoundLoad && <span className="loader"></span>}
-                المشروع العقارى
-              </Form.Label>
-              <Autocomplete
-                disablePortal
-                onChange={(event, newValue) => {
-                  handleOptionSelect(newValue ? newValue.name : "");
-                }}
-                options={compounds}
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => (
-                  <TextField {...params} label="اختر المشروع العقارى" />
-                )}
-              />
-            </Form.Group>
-          )}
+                <Form.Label className="required">
+                  {govLoad && <span className="loader"></span>}
+                  المحافظة
+                </Form.Label>
+                <Form.Select
+                  name="gov"
+                  value={formData.gov}
+                  onChange={handleChange}
+                  required
+                >
+                  {!govLoad && (
+                    <>
+                      <option value="">اختر المحافظة</option>
+                      {governorates.map((gov, index) => (
+                        <option key={gov.id} value={gov.name}>
+                          {gov.name}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </Form.Select>
+              </Form.Group>
+            ) : (
+              <Form.Group
+                as={Col}
+                xs={12}
+                md={6}
+                controlId="compound"
+                className="mb-3"
+              >
+                <Form.Label className="required">
+                  {compoundLoad && <span className="loader"></span>}
+                  المشروع العقارى
+                </Form.Label>
+                <Autocomplete
+                  disablePortal
+                  onChange={(event, newValue) => {
+                    handleOptionSelect(newValue ? newValue.name : "");
+                  }}
+                  options={compounds}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
+                    <TextField {...params} label="اختر المشروع العقارى" />
+                  )}
+                />
+              </Form.Group>
+            )}
+          </>
+
+          <>
+            {department !== "mall" &&
+              (department === "city" || department === "region") && (
+                <Form.Group
+                  as={Col}
+                  xs={12}
+                  md={6}
+                  controlId="city"
+                  className="mb-3"
+                >
+                  <Form.Label className="required">
+                    {cityLoad && <span className="loader"></span>}
+                    المدينة
+                  </Form.Label>
+                  <Form.Select
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                  >
+                    {!cityLoad && (
+                      <>
+                        <option value="">اختر المدينة</option>
+                        {cities.map((city, index) => (
+                          <option key={city.id} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </>
+                    )}
+                  </Form.Select>
+                </Form.Group>
+              )}
+          </>
+
+          <>
+            {department !== "mall" &&
+              department === "region" && (
+                <Form.Group
+                  as={Col}
+                  xs={12}
+                  md={6}
+                  controlId="region"
+                  className="mb-3"
+                >
+                  <Form.Label className="required">
+                    {regionLoad && <span className="loader"></span>}
+                    المنطقة
+                  </Form.Label>
+                  <Form.Select
+                    name="region"
+                    value={formData.region}
+                    onChange={handleChange}
+                    required
+                  >
+                    {!regionLoad && (
+                      <>
+                        <option value="">اختر المنطقة</option>
+                        {regions.map((region, index) => (
+                          <option key={region.id} value={region.name}>
+                            {region.name}
+                          </option>
+                        ))}
+                      </>
+                    )}
+                  </Form.Select>
+                </Form.Group>
+              )}
+          </>
+
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} xs={12} md={6} controlId="formMeta_description">

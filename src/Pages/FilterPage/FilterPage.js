@@ -72,6 +72,8 @@ if(filter){
             <ShowFilterToUser
               type={data.filter.type}
               gov={data.filter.gov}
+              city={data.filter.city}
+              region={data.filter.region}
               compound={data.filter.compound}
             />
           </Col>

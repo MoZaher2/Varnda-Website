@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { Col, ListGroup, Button, Fade } from "react-bootstrap";
+import { ListGroup} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import api from "../../API/ApiLink";
 
-export default function ShowFilterToUser({type="",gov="",compound=""}) {
+export default function ShowFilterToUser({type="",gov="",city="",region="",compound=""}) {
 
   const [numOfGov, setNumOfGov] = useState(5);
+  const [numOfCity, setNumOfCity] = useState(5);
+  const [numOfRegion, setNumOfRegion] = useState(5);
   const [numOfMall, setNumOfMall] = useState(5);
   const [numOfRandom, setNumOfRandom] = useState(5);
   const [filters, setFilters] = useState(null);
@@ -15,10 +17,12 @@ export default function ShowFilterToUser({type="",gov="",compound=""}) {
   // Fetch filters
   const fetchFilters = async () => {
     try {
-      console.log("Data send in filter: ",type,gov,compound)
+      console.log("Data send in filter: ",type,gov,city,region,compound)
       const formDataToSend = new FormData();
       formDataToSend.append("type", type);
       formDataToSend.append("gov", gov);
+      formDataToSend.append("city", city);
+      formDataToSend.append("region", region);
       formDataToSend.append("compound", compound);
       const response = await api.post(`/getFilters`, formDataToSend, {
         headers: {
@@ -34,7 +38,7 @@ export default function ShowFilterToUser({type="",gov="",compound=""}) {
 
   useEffect(() => {
     fetchFilters();
-  }, [type,gov,compound]);
+  }, [type,gov,city,region,compound]);
 
   return (
     <>
@@ -48,7 +52,7 @@ export default function ShowFilterToUser({type="",gov="",compound=""}) {
                   <ListGroup variant="flush">
                     {filters.gov.slice(0, numOfGov).map((filter, index) => (
                       <Link
-                        to={`/search/filter/${filter.url}`}
+                        to={`/filter/${filter.url}`}
                         className="link-item"
                         key={index}
                       >
@@ -90,6 +94,106 @@ export default function ShowFilterToUser({type="",gov="",compound=""}) {
                 </>
               )}
           </>
+          {/* فلاتر مدن */}
+          <>
+              {filters.city.length > 0 && (
+                <>
+                <h4 className="my-3 h4">نتائج مقترحة (مدن)</h4>
+                  <ListGroup variant="flush">
+                    {filters.city.slice(0, numOfCity).map((filter, index) => (
+                      <Link
+                        to={`/filter/${filter.url}`}
+                        className="link-item"
+                        key={index}
+                      >
+                        <ListGroup.Item className="item">
+                          {filter.filter_name}
+                        </ListGroup.Item>
+                      </Link>
+                    ))}
+                  </ListGroup>
+                  {numOfCity === 5 ? (
+                    <p
+                      onClick={() => {
+                        setNumOfCity(filters.city.length);
+                      }}
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                        color: "#0d6efc",
+                        cursor: "pointer",
+                      }}
+                    >
+                      عرض المزيد
+                    </p>
+                  ) : (
+                    <p
+                      onClick={() => {
+                        setNumOfCity(5);
+                      }}
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                        color: "#0d6efc",
+                        cursor: "pointer",
+                      }}
+                    >
+                      عرض اقل
+                    </p>
+                  )}
+                </>
+              )}
+          </>
+          {/* فلاتر مناطق */}
+          <>
+              {filters.region.length > 0 && (
+                <>
+                <h4 className="my-3 h4">نتائج مقترحة (مدن)</h4>
+                  <ListGroup variant="flush">
+                    {filters.region.slice(0, numOfRegion).map((filter, index) => (
+                      <Link
+                        to={`/filter/${filter.url}`}
+                        className="link-item"
+                        key={index}
+                      >
+                        <ListGroup.Item className="item">
+                          {filter.filter_name}
+                        </ListGroup.Item>
+                      </Link>
+                    ))}
+                  </ListGroup>
+                  {numOfRegion === 5 ? (
+                    <p
+                      onClick={() => {
+                        setNumOfRegion(filters.region.length);
+                      }}
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                        color: "#0d6efc",
+                        cursor: "pointer",
+                      }}
+                    >
+                      عرض المزيد
+                    </p>
+                  ) : (
+                    <p
+                      onClick={() => {
+                        setNumOfRegion(5);
+                      }}
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                        color: "#0d6efc",
+                        cursor: "pointer",
+                      }}
+                    >
+                      عرض اقل
+                    </p>
+                  )}
+                </>
+              )}
+          </>
 
           {/* فلاتر مشروعات */}
           <>
@@ -99,7 +203,7 @@ export default function ShowFilterToUser({type="",gov="",compound=""}) {
                   <ListGroup variant="flush">
                     {filters.mall.slice(0, numOfMall).map((filter, index) => (
                       <Link
-                        to={`/search/filter/${filter.url}`}
+                        to={`/filter/${filter.url}`}
                         className="link-item"
                         key={index}
                       >
@@ -150,7 +254,7 @@ export default function ShowFilterToUser({type="",gov="",compound=""}) {
                   <ListGroup variant="flush">
                     {filters.random.slice(0, numOfRandom).map((filter, index) => (
                       <Link
-                        to={`/search/filter/${filter.url}`}
+                        to={`/filter/${filter.url}`}
                         className="link-item"
                         key={index}
                       >

@@ -27,6 +27,8 @@ export default function SearchPage() {
   const [sendfilter, setSendfilter] = useState({
     type: "",
     gov: "",
+    city: "",
+    region: "",
     compound: "",
   });
   return (
@@ -51,6 +53,8 @@ export default function SearchPage() {
             <ShowFilterToUser
               type={sendfilter.type}
               gov={sendfilter.gov}
+              city={sendfilter.city}
+              region={sendfilter.region}
               compound={sendfilter.compound}
             />
           </Col>
