@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import api from "../../API/ApiLink";
 export default function SideBar() {
   const token = Cookies.get("token")
+  const role = localStorage.getItem("role")
   const navigate = useNavigate()
   const Logout = async () => {
     try {
@@ -29,15 +30,15 @@ export default function SideBar() {
     <>
       <nav className="sidebar">
         <div>
-          {/* <div className="nav-ul"> */}
           <div className="nav-li w-100 d-flex ">
             <Link to="/" className="w-100 button-link">
               <Button variant="primary" className="w-100">
                 الصفحة الرئيسية
               </Button>
             </Link>
-            {/*  */}
-            <DropdownButton
+
+            {role==='admin'&&
+              <DropdownButton
               id="dropdown-basic-button"
               align="end"
               title="المستخدمين"
@@ -49,14 +50,20 @@ export default function SideBar() {
               <Dropdown.Item href="/dashboard/admin">المديرين</Dropdown.Item>
               <Dropdown.Item href="/dashboard/writer">كاتب المقال</Dropdown.Item>
               <Dropdown.Item href="/dashboard/seo">فريق ال SEO</Dropdown.Item>
-            </DropdownButton>
-            {/*  */}
-            <Link to="/dashboard/all-ads" className="w-100 button-link">
+            </DropdownButton>}
+            
+            {role==='admin'&&<Link to="/dashboard/all-ads" className="w-100 button-link">
               <Button variant="primary" className="w-100">
                 جميع الاعلانات
               </Button>
-            </Link>
+            </Link>}
       
+            <Link to="/dashboard/category" className="w-100 button-link">
+              <Button variant="primary" className="w-100">
+                تصنيف المدونات
+              </Button>
+            </Link>
+
             <DropdownButton
               id="dropdown-basic-button"
               align="end"
@@ -71,15 +78,13 @@ export default function SideBar() {
               <Dropdown.Item href="/dashboard/add-Blog">
                 اضافه مدونة
               </Dropdown.Item>
+
+              {role==='admin'&&<Dropdown.Item href="/dashboard/delete-unused-images">حذف الصور الغير مستخدمه</Dropdown.Item>
+              }
             </DropdownButton>
-      
-            <Link to="/dashboard/category" className="w-100 button-link">
-              <Button variant="primary" className="w-100">
-                تصنيف المدونات
-              </Button>
-            </Link>
-      
-            <DropdownButton
+
+            {(role==='admin'||role==='seo')&&
+              <DropdownButton
               id="dropdown-basic-button"
               align="end"
               title="المناطق"
@@ -95,10 +100,12 @@ export default function SideBar() {
                 الكومباوندات
               </Dropdown.Item>
               <Dropdown.Item href="/dashboard/molls">المولات</Dropdown.Item>
-            </DropdownButton>
+              </DropdownButton>
+            }
       
             {/* الفلاتر */}
-            <DropdownButton
+            {(role==='admin'||role==='seo')&&
+              <DropdownButton
               id="dropdown-basic-button"
               align="end"
               title="الفلاتر"
@@ -137,21 +144,13 @@ export default function SideBar() {
               <Dropdown.Item href="/dashboard/filters/add-project-filter">
                 اضافه فلتر مشروع
               </Dropdown.Item>
-            </DropdownButton>
+            </DropdownButton>}
       
             <Button variant="danger" className="w-100" onClick={Logout}>
               تسجيل الخروج
             </Button>
           </div>
         </div>
-        {/* </div> */}
-        {/* <div className="bottom-content">
-            <li className="redhover">
-              <a href="/Login" >
-                <span className="text nav-text">Logout</span>
-              </a>
-            </li>
-          </div> */}
       </nav>
     </>
   );

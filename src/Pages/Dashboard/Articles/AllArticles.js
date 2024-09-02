@@ -5,64 +5,52 @@ import Cookies from 'js-cookie';
 import api from "../../../API/ApiLink";
 import OverPage from "../../../Components/OverPage/OverPage";
 import LoadingBtn from "../../../Components/LoadingBtn";
+import DeleteItem from "../../../Components/DeleteItem/DeleteItem";
 export default function AllArticles() {
     const token = Cookies.get("token");
-  
-
+    const role = localStorage.getItem("role")
+    
+    const [selectedItemId, setSelectedItemId] = useState(null);
     const [overlay, setOverlay] = useState(false)
     const [loadId, setLoadId] = useState(false)
-    // const [load, setLoad] = useState(false)
-    // const [show, setShow] = useState(false);
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
     const [articles, setArticles] = useState([])
     
 
 // استرجاع المدونات 
+const fetchArticles = async () => {
+    try {
+        setOverlay(true)
+        const response = await api.get("/getAllPosts");
+        setArticles(response.data.data.posts)
+    } catch (error) {
+        console.log(error);
+    }finally{
+        setOverlay(false)
+    }
+};
 useEffect(() => {
-    const fetchArticles = async () => {
-        try {
-            setOverlay(true)
-            const response = await api.get("/getAllPosts");
-            setArticles(response.data.data.posts)
-        } catch (error) {
-            console.log(error);
-        }finally{
-            setOverlay(false)
-        }
-    };
     fetchArticles();
 }, []);
 
 // حذف المدونة
 const handleDelete = async (id) => {
   try {
+      setSelectedItemId(id);
       setLoadId(id);
       await api.delete(`deletePost/${id}`, {
           headers: {
               Authorization: `Bearer ${token}`,
           }
       });
-      window.location.reload();
+      fetchArticles()
   } catch (err) {
       console.log(err);
   } finally {
+    setSelectedItemId(null);
     setLoadId(null);
   }
 };
 
-// const handleDelete = async (id) => {
-//     try {
-//         const response = await api.delete(`deletePost/${id}`,{
-//             headers: {
-//                 Authorization: `Bearer ${token}`,
-//             }
-//         })
-//         window.location.reload();
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
 
 return (
   <>
@@ -102,7 +90,7 @@ return (
                   تعديل
                 </Button>
               </td>
-              <td>
+              {/* <td>
               <Button
                   variant="danger"
                   disabled={loadId === item.id}
@@ -110,7 +98,14 @@ return (
                 >
                   {loadId === item.id ? <LoadingBtn /> : "حذف"}
                 </Button>
-              </td>
+              </td> */}
+             {role==='admin'&& <DeleteItem
+                id={selectedItemId}
+                setId={setSelectedItemId}
+                itemId={item.id}
+                DeleteFun={handleDelete}
+                load={loadId}
+              />}
             </tr>
           ))}
         </tbody>

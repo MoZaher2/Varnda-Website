@@ -7,6 +7,7 @@ import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 import { useNavigate } from "react-router-dom";
 
 export default function AllFilters() {
+  const role = localStorage.getItem("role")
   const navigate = useNavigate();
   const [loadId, setLoadId] = useState(false);
 
@@ -106,13 +107,13 @@ export default function AllFilters() {
                           تعديل
                         </Button>
                       </td>
-                      <DeleteItem
+                      {role==='admin'&&<DeleteItem
                         id={selectedItemId}
                         setId={setSelectedItemId}
                         itemId={item.id}
                         DeleteFun={handleDelete}
                         load={loadId}
-                      />
+                      />}
                     </tr>
                   ))}
                 </tbody>

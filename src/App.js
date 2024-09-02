@@ -81,6 +81,7 @@ import AllRegionFilters from "./Pages/Dashboard/Filters/Region/AllRegionFilters"
 import AddRegionFilter from "./Pages/Dashboard/Filters/Region/AddRegionFilter";
 import SendEmail from "./Pages/ForgetPasswordPage/SendEmail";
 import ResetPassword from "./Pages/ForgetPasswordPage/ResetPassword";
+import DeleteImages from "./Components/DeleteItem/DeleteImages";
 
 function App() {
   return (
@@ -88,33 +89,42 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
-        {/*  */}
+
         <Route path="/admin-login" element={<LoginWithRole role="admin" />} />
         <Route path="/seo-login" element={<LoginWithRole role="seo" />} />
         <Route path="/writer-login" element={<LoginWithRole role="writer" />} />
-        {/*  */}
+
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/google-auth" element={<AuthGoogle />} />
+
+        <Route path="/send-email" element={<SendEmail />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         <Route path="/Blogs" element={<Articles />} />
         <Route path="/Blogs/:category" element={<ArticlesInCategory />} />
         <Route path="/Blogs/tags/:tag" element={<ArticlesWithTag />} />
-
-
         <Route path="/Blog/:id" element={<ArticleDetailes />} />
+
         <Route path="/aboutUs" element={<AboutPage />} />
         <Route path="/contactUs" element={<ContactPage />} />
         <Route path="/terms" element={<TermsPage />} />
+
         <Route path="/search" element={<SearchPage />} />
         <Route path="/search/:gov" element={<SearchPage />} />
         <Route path="/filter/:filter" element={<FilterPage />} />
         <Route path="/property/:id" element={<MoreDeteliesPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
 
-        <Route path="/send-email" element={<SendEmail />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        
-        <Route path="/google-auth" element={<AuthGoogle />} />
         <Route path="/submit-property" element={<SubmitpropertyPage />} />
+
+        <Route
+          path="/myprofile"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin","writer",'seo']}>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Admin Routes */}
         <Route
@@ -126,43 +136,200 @@ function App() {
           }
         >
           <Route index element={<h1>Dashboard</h1>} />
-          <Route path="all-ads" element={<AllAds />} />
-          
-          
+
+          <Route
+            path="all-ads"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AllAds />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="category" element={<CategoryArticle />} />
+
           <Route path="Blogs" element={<AllArticles />} />
           <Route path="Drafts" element={<AllDrafts />} />
           <Route path="Blogs-category" element={<ArticlesCategory />} />
           <Route path="add-Blog" element={<AddArticle />} />
           <Route path="edit-Blog" element={<EditArticle />} />
 
-          <Route path="category" element={<CategoryArticle />} />
-          <Route path="governments" element={<Governments />} />
-          <Route path="cities" element={<Cities />} />
-          <Route path="regions" element={<Regions />} />
-          <Route path="streets" element={<Streets />} />
-          <Route path="compounds" element={<Compounds />} />
-          <Route path="molls" element={<Molls />} />
+          <Route
+            path="delete-unused-images"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <DeleteImages />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="add-users" element={<AddUsers />} />
-          <Route path="admin" element={<ShowAllUsers role="admin" />} />
-          <Route path="writer" element={<ShowAllUsers role="writer" />} />
-          <Route path="seo" element={<ShowAllUsers role="seo" />} />
-        
-          <Route path="filters" element={<AllFilters/>} />
-          {/* محافظه */}
-          <Route path="filters/governorates" element={<AllGovFilters/>} />
-          <Route path="filters/add-gov-filter" element={<AddGovFilter/>} />
-          {/* مدينة */}
-          <Route path="filters/cities" element={<AllCityFilters/>} />
-          <Route path="filters/add-city-filter" element={<AddCityFilter/>} />
-          {/* منطقة */}
-          <Route path="filters/regions" element={<AllRegionFilters/>} />
-          <Route path="filters/add-region-filter" element={<AddRegionFilter/>} />
-          {/* مشروع */}
-          <Route path="filters/projects" element={<AllProjectFilters/>} />
-          <Route path="filters/add-project-filter" element={<AddProjectFilter/>} />
+          <Route
+            path="governments"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <Governments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="cities"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <Cities />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="regions"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <Regions />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="streets"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <Streets />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="compounds"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <Compounds />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="molls"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <Molls />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="filters/edit-filter" element={<EditFilter/>} />
+          <Route
+            path="add-users"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AddUsers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="admin"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <ShowAllUsers role="admin" />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="writer"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <ShowAllUsers role="writer" />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="seo"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <ShowAllUsers role="seo" />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="filters"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <AllFilters />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="filters/governorates"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <AllGovFilters />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="filters/add-gov-filter"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <AddGovFilter />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="filters/cities"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <AllCityFilters />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="filters/add-city-filter"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <AddCityFilter />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="filters/regions"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <AllRegionFilters />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="filters/add-region-filter"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <AddRegionFilter />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="filters/projects"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <AllProjectFilters />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="filters/add-project-filter"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <AddProjectFilter />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="filters/edit-filter"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <EditFilter />
+              </ProtectedRoute>
+            }
+          />
         </Route>
 
         {/* User Routes */}
@@ -174,7 +341,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-         {/* Add ads route */}
+        {/* Add ads route */}
         <Route
           path="/add-quick-property"
           element={
@@ -321,14 +488,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/myprofile"
-          element={
-            <ProtectedRoute allowedRoles={["user", "admin"]}>
-              <ProfilePage />
-            </ProtectedRoute>
-          }
-        />
+
         <Route
           path="/myproperties"
           element={
@@ -338,14 +498,11 @@ function App() {
           }
         />
 
-
-{/*  */}
-<Route path="/:gov" element={<GovPage/>} />
-
-<Route path="/:gov/:city" element={<CityPage/>} />
-
-<Route path="/:gov/:city/:compound" element={<CompoundPage/>} />
-{/*  */}
+        {/* Locations Pages */}
+        <Route path="/:gov" element={<GovPage />} />
+        <Route path="/:gov/:city" element={<CityPage />} />
+        <Route path="/:gov/:city/:compound" element={<CompoundPage />} />
+        {/*  */}
 
         {/* 404 Page */}
         <Route path="*" element={<NotFoundPage />} />

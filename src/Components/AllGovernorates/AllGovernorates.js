@@ -8,7 +8,7 @@ const [allGov,setAllGov]=useState([])
     useEffect(() => {
         const fetchAllGov = async () => {
             try {
-                const response = await api.get('/getAllGovernoratesForHomepage');
+                const response = await ('/getAllGovernoratesForHomepage');
                 setAllGov(response.data.data)
             } catch (err) {
                 console.log(err);

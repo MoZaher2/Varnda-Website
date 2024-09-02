@@ -17,6 +17,8 @@ import AlertMessage from "../../../Components/Alert/Alert.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 
 export default function Regions() {
+
+  const role = localStorage.getItem("role")
   const token = Cookies.get("token");
   const [getForm, setGetForm] = useState({
     governorate: "",
@@ -324,13 +326,13 @@ export default function Regions() {
                         </Modal.Footer>
                       </Modal>
                     </td>
-                    <DeleteItem
+                   {role==='admin'&& <DeleteItem
                       id={selectedItemId}
                       setId={setSelectedItemId}
                       itemId={item.id}
                       DeleteFun={handleDelete}
                       load={loadId}
-                    />
+                    />}
                   </tr>
                 ))}
               </tbody>

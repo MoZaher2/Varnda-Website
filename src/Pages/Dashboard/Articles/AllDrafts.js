@@ -5,12 +5,14 @@ import Cookies from 'js-cookie';
 import api from "../../../API/ApiLink";
 import OverPage from "../../../Components/OverPage/OverPage";
 import LoadingBtn from "../../../Components/LoadingBtn";
+import DeleteItem from "../../../Components/DeleteItem/DeleteItem";
 export default function AllDrafts() {
     const token = Cookies.get("token");
   
-
+    const role = localStorage.getItem("role")
     const [overlay, setOverlay] = useState(false)
     const [loadId, setLoadId] = useState(false)
+    const [selectedItemId, setSelectedItemId] = useState(null);
     // const [show, setShow] = useState(false);
     // const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
@@ -18,27 +20,29 @@ export default function AllDrafts() {
     
 
 // استرجاع المسودات 
+const fetchArticles = async () => {
+    try {
+        setOverlay(true)
+        const response = await api.get("/getDraftPosts",{
+          headers: {
+              Authorization: `Bearer ${token}`,
+          }
+      });
+        setArticles(response.data.data.posts)
+    } catch (error) {
+        
+        console.log(error);
+    }finally{
+        setOverlay(false)
+    }
+};
 useEffect(() => {
-    const fetchArticles = async () => {
-        try {
-            setOverlay(true)
-            const response = await api.get("/getDraftPosts",{
-              headers: {
-                  Authorization: `Bearer ${token}`,
-              }
-          });
-            setArticles(response.data.data.posts)
-        } catch (error) {
-            console.log(error);
-        }finally{
-            setOverlay(false)
-        }
-    };
     fetchArticles();
 }, []);
 
    // حذف المسودة
    const handleDelete = async (id) => {
+    setSelectedItemId(id);
     try {
         setLoadId(id);
         await api.delete(`deletePost/${id}`, {
@@ -46,11 +50,12 @@ useEffect(() => {
                 Authorization: `Bearer ${token}`,
             }
         });
-        window.location.reload();
+        fetchArticles()
     } catch (err) {
         console.log(err);
-    } finally {
-      setLoadId(null);
+    }finally {
+      setSelectedItemId(null);
+      setLoadId(false);
     }
 };
 
@@ -89,7 +94,7 @@ return (
                   تعديل
                 </Button>
               </td>
-              <td>
+              {/* <td>
                 <Button
                   variant="danger"
                   disabled={loadId === item.id}
@@ -97,7 +102,15 @@ return (
                 >
                   {loadId === item.id ? <LoadingBtn /> : "حذف"}
                 </Button>
-              </td>
+              </td> */}
+
+              {role==='admin'&&<DeleteItem
+                id={selectedItemId}
+                setId={setSelectedItemId}
+                itemId={item.id}
+                DeleteFun={handleDelete}
+                load={loadId}
+              />}
             </tr>
           ))}
         </tbody>

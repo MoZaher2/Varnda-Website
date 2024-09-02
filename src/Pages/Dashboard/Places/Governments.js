@@ -14,7 +14,10 @@ import Cookies from "js-cookie";
 import OverPage from "./../../../Components/OverPage/OverPage";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
+
 export default function Governments() {
+
+  const role = localStorage.getItem("role")
   const [load, setLoad] = useState(false);
   const [loadEdit, setLoadEdit] = useState(false);
   const [loadId, setLoadId] = useState(false);
@@ -510,7 +513,13 @@ export default function Governments() {
                     )}
                   </Modal>
                 </td>
-                <DeleteItem id={selectedItemId} setId={setSelectedItemId} itemId={item.id} DeleteFun={handleDelete} load={loadId} />
+                {role==='admin'&&<DeleteItem
+                  id={selectedItemId}
+                  setId={setSelectedItemId}
+                  itemId={item.id}
+                  DeleteFun={handleDelete}
+                  load={loadId}
+                />}
               </tr>
             ))}
           </tbody>

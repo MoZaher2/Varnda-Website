@@ -8,6 +8,8 @@ import AlertMessage from "../../../Components/Alert/Alert.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 
 export default function Cities() {
+
+  const role = localStorage.getItem("role")
   const token = Cookies.get("token");
   const [formData, setFormData] = useState({
     governorate: 1,
@@ -572,13 +574,13 @@ export default function Cities() {
                         )}
                       </Modal>
                     </td>
-                    <DeleteItem
+                    {role==='admin'&&<DeleteItem
                       id={selectedItemId}
                       setId={setSelectedItemId}
                       itemId={item.id}
                       DeleteFun={handleDelete}
                       load={loadId}
-                    />
+                    />}
                   </tr>
                 ))}
               </tbody>

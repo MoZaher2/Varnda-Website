@@ -8,7 +8,7 @@ import DeleteItem from './../../Components/DeleteItem/DeleteItem';
 
 function CategoryArticle() {
     const token=Cookies.get("token")
-    console.log(token)
+    const role = localStorage.getItem("role")
     const [category_name, setCategory_name] = useState("")
     const [load, setLoad] = useState(false)
     const [loadId, setLoadId] = useState(false)
@@ -57,7 +57,6 @@ function CategoryArticle() {
                 },
               }
             );
-            // window.location.reload();
             fetchData();
             console.log(response.data);
           } catch (err) {
@@ -77,7 +76,6 @@ function CategoryArticle() {
                     Authorization: `Bearer ${token}`,
                 }
             })
-            // window.location.reload();
             fetchData()
             console.log(response.data);
         } catch (err) {
@@ -107,7 +105,6 @@ function handleNewCategory(e) {
                 }
             })
             console.log(response.data);
-            // window.location.reload();
             fetchData()
         } catch (err) {
             console.log(err);
@@ -190,13 +187,13 @@ function handleNewCategory(e) {
                        </Modal.Footer>
                      </Modal>
                    </td>
-                   <DeleteItem
+                   {role==='admin'&&<DeleteItem
                       id={selectedItemId}
                       setId={setSelectedItemId}
                       itemId={item.id}
                       DeleteFun={handleDelete}
                       load={loadId}
-                    />
+                    />}
                    {/* <td>
                      <Button
                        variant="danger"

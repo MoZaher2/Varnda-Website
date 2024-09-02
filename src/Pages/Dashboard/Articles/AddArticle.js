@@ -42,19 +42,6 @@ export default function AddArticle() {
   });
   const [article_image, setArticle_image] = useState(null);
 
-  // const validateUrl = (url) => {
-  //   const urlPattern = new RegExp(
-  //     "^(https?:\\/\\/)?" + // Protocol
-  //       "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // Domain name
-  //       "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR IP (v4) address
-  //       "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // Port and path
-  //       "(\\?[;&a-z\\d%_.~+=-]*)?" + // Query string
-  //       "(\\#[-a-z\\d_]*)?$",
-  //     "i"
-  //   ); // Fragment locator
-  //   return !!urlPattern.test(url);
-  // };
-
   function extractImageUrls(htmlString) {
     const urls = [];
     const regex = /<img[^>]+src="([^">]+)"/g;
@@ -106,7 +93,7 @@ export default function AddArticle() {
         formData.category_id &&
         article_image
       ) {
-        console.log("first");
+        console.log(adminId)
         const imageUrls = extractImageUrls(article_body);
         const formDataToSend = new FormData();
         formDataToSend.append("article_image", article_image);
@@ -127,8 +114,6 @@ export default function AddArticle() {
             },
           });
           const postId = response.data.data.post_id;
-          console.log("imageUrls:");
-          console.log(imageUrls);
           //Confirm images url
           try {
             const response = await api.post(
@@ -158,6 +143,7 @@ export default function AddArticle() {
             setAlert({ msg: "حدث خطا اثناء نشر المدونة", variant: 2 });
           }
         } catch (error) {
+          console.log(error)
           if (error.response.status === 422) {
             setAlert({ msg: "هناك مقال اخر بهذا الرابط", variant: 2 });
           } else if (error.response.status === 401) {

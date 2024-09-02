@@ -7,6 +7,7 @@ import OverPage from "../../../Components/OverPage/OverPage.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 export default function Compounds() {
+  const role = localStorage.getItem("role")
   const token = Cookies.get("token");
   const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({
@@ -642,13 +643,13 @@ export default function Compounds() {
                         )}
                       </Modal>
                     </td>
-                    <DeleteItem
+                    {role==='admin'&&<DeleteItem
                       id={selectedItemId}
                       setId={setSelectedItemId}
                       itemId={item.id}
                       DeleteFun={handleDelete}
                       load={loadId}
-                    />
+                    />}
                   </tr>
                 ))}
               </tbody>

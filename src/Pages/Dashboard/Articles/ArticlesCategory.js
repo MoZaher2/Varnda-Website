@@ -7,10 +7,12 @@ import LoadingBtn from "../../../Components/LoadingBtn.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import Cookies from 'js-cookie';
 import OverPage from "../../../Components/OverPage/OverPage.js";
+import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 
 export default function ArticlesCategory() {
     const token = Cookies.get("token");
-
+    const role = localStorage.getItem("role")
+    const [selectedItemId, setSelectedItemId] = useState(null);
     const [loadId, setLoadId] = useState(false)
     const [articles, setArticles] = useState([])
     const [categories, setCategories] = useState([])
@@ -32,23 +34,23 @@ export default function ArticlesCategory() {
     }, []);
 
 // استرجاع المدونات 
-useEffect(() => {
-    const fetchArticles = async () => {
-        try {
-            setOverlay(true)
-            const response = await api.get(`getPostsByCategory/${categoryName}`);
-            if(response.data.data){
-                setArticles(response.data.data.posts)
-            }
-            else{
-                setArticles([])
-            }
-        } catch (error) {
-            console.log(error);
-        }finally{
-            setOverlay(false)
+const fetchArticles = async () => {
+    try {
+        setOverlay(true)
+        const response = await api.get(`getPostsByCategory/${categoryName}`);
+        if(response.data.data){
+            setArticles(response.data.data.posts)
         }
-    };
+        else{
+            setArticles([])
+        }
+    } catch (error) {
+        console.log(error);
+    }finally{
+        setOverlay(false)
+    }
+};
+useEffect(() => {
     if(categoryName){
         fetchArticles();
     }
@@ -61,16 +63,18 @@ useEffect(() => {
 // حذف المدونة
 const handleDelete = async (id) => {
     try {
+      setSelectedItemId(id);
         setLoadId(id);
         await api.delete(`deletePost/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
         });
-        window.location.reload();
+        fetchArticles()
     } catch (err) {
         console.log(err);
     } finally {
+      setSelectedItemId(null);
       setLoadId(null);
     }
 };
@@ -99,7 +103,10 @@ return (
         ))}
       </Form.Select>
     </Form.Group>
-{overlay?<OverPage/>: <>
+    {overlay ? (
+      <OverPage />
+    ) : (
+      <>
         {articles.length > 0 ? (
           <Table striped bordered hover>
             <thead>
@@ -110,34 +117,33 @@ return (
                 <th>الكلمات المفتاحيه</th>
                 <th>رابط المدونة</th>
                 <th colSpan={2} className="text-center">
-            أجراءات
-          </th>
+                  أجراءات
+                </th>
               </tr>
             </thead>
             <tbody>
-              {articles.map((item,index) => (
+              {articles.map((item, index) => (
                 <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.Title}</td>
                   <td>{item.meta_description}</td>
                   <td>{item.key_words}</td>
                   <td>
-                  
                     <Link to={`/Blog/${item.Article_url}`}>
                       {item.Article_url}
                     </Link>
                   </td>
                   <td>
-                <Button
-                  variant="warning"
-                  as={Link}
-                  to="/dashboard/edit-Blog"
-                  state={{ data: articles[index] }}
-                >
-                  تعديل
-                </Button>
-              </td>
-              <td>
+                    <Button
+                      variant="warning"
+                      as={Link}
+                      to="/dashboard/edit-Blog"
+                      state={{ data: articles[index] }}
+                    >
+                      تعديل
+                    </Button>
+                  </td>
+                  {/* <td>
                  <Button
                   variant="danger"
                   disabled={loadId === item.id}
@@ -145,7 +151,15 @@ return (
                 >
                   {loadId === item.id ? <LoadingBtn /> : "حذف"}
                 </Button>
-              </td>
+              </td> */}
+
+                {role==='admin'&&<DeleteItem
+                  id={selectedItemId}
+                  setId={setSelectedItemId}
+                  itemId={item.id}
+                  DeleteFun={handleDelete}
+                  load={loadId}
+                />}
                 </tr>
               ))}
             </tbody>
@@ -155,9 +169,8 @@ return (
             لا يوجد مقالات فى هذا التصنيف
           </Alert>
         )}
-    </>}
-
-   
+      </>
+    )}
   </>
 );
 }

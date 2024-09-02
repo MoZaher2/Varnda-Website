@@ -5,7 +5,7 @@ import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 
 export default function ArticleEditor({setArticle_body,article_body}) {
-console.log(article_body)
+
   const token=Cookies.get("token")
 
   const [content, setContent] = useState(article_body)

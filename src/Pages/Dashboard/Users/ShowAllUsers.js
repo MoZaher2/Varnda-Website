@@ -7,68 +7,29 @@ import LoadingBtn from "../../../Components/LoadingBtn.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import OverPage from "../../../Components/OverPage/OverPage.js";
 import { Avatar } from "@mui/joy";
+import DeleteUser from "../../../Components/DeleteItem/DeleteUser.js";
 
 export default function ShowAllUsers({ role }) {
   const [overlay, setOverlay] = useState(false);
-  const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
   const token = Cookies.get("token");
   const [data, setData] = useState([]);
-  // استرجاع كل المستخدمين
-  useEffect(() => {
-    const handelAllAds = async () => {
-      try {
-        setOverlay(true);
-        const response = await api.get(`/admin/getAllUsers?role=${role}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(response.data);
-        setData(response.data.data);
-      } catch (err) {
-        try {
-          const errdata = err.response.data;
-          if (err.response.status == 401) {
-            setAlert({
-              msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
-              variant: 3,
-            });
-            setShow(true);
-            setTimeout(() => {
-              localStorage.removeItem("role");
-              Object.keys(Cookies.get()).forEach(function (cookieName) {
-                Cookies.remove(cookieName);
-              });
-            }, 2000);
-            navigator("/admin-login");
-          }
-          console.log(errdata);
-        } catch (err) {
-          setAlert({ msg: "حدث خطأ. تاكد من الاتصال بالانترنت", variant: 2 });
-          setShow(true);
-        }
-      } finally {
-        setOverlay(false);
-      }
-    };
-    handelAllAds();
-  }, []);
+  
+  const [loadId, setLoadId] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState(null);
 
-  // حذف مستخدم
-  const handleDelete = async (role, email) => {
+  // استرجاع كل المستخدمين
+  const handelGetAllUser = async () => {
     try {
-      setLoad(true);
-      const dataToSend = new FormData();
-      dataToSend.append("role", role);
-      dataToSend.append("email", email);
-      const response = await api.post(`admin/deleteUser`, dataToSend, {
+      setOverlay(true);
+      const response = await api.get(`/admin/getAllUsers?role=${role}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      window.location.reload();
+      console.log(response.data);
+      setData(response.data.data);
     } catch (err) {
       try {
         const errdata = err.response.data;
@@ -92,7 +53,50 @@ export default function ShowAllUsers({ role }) {
         setShow(true);
       }
     } finally {
-      setLoad(false);
+      setOverlay(false);
+    }
+  };
+  useEffect(() => {
+    handelGetAllUser();
+  }, [role,token]);
+
+  // حذف مستخدم
+  const handleDelete = async (role, email) => {
+    setLoadId(true);
+    try {
+      const dataToSend = new FormData();
+      dataToSend.append("role", role);
+      dataToSend.append("email", email);
+      const response = await api.post(`admin/deleteUser`, dataToSend, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      handelGetAllUser()
+    } catch (err) {
+      try {
+        const errdata = err.response.data;
+        if (err.response.status == 401) {
+          setAlert({
+            msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+            variant: 3,
+          });
+          setShow(true);
+          setTimeout(() => {
+            localStorage.removeItem("role");
+            Object.keys(Cookies.get()).forEach(function (cookieName) {
+              Cookies.remove(cookieName);
+            });
+          }, 2000);
+          navigator("/admin-login");
+        }
+        console.log(errdata);
+      } catch (err) {
+        setAlert({ msg: "حدث خطأ. تاكد من الاتصال بالانترنت", variant: 2 });
+        setShow(true);
+      }
+    } finally {
+      setLoadId(false);
     }
   };
   return (
@@ -134,15 +138,12 @@ export default function ShowAllUsers({ role }) {
                       />
                     </td>
                     <td>{item.role}</td>
-                    <td>
-                      <Button
-                        variant="danger"
-                        disabled={load}
-                        onClick={() => handleDelete(item.role, item.email)}
-                      >
-                        {load ? <LoadingBtn /> : "حذف"}
-                      </Button>
-                    </td>
+                    <DeleteUser
+              DeleteFun={handleDelete}
+              load={loadId}
+              role={item.role}
+              email={item.email}
+            />
                   </tr>
                 ))}
               </tbody>
