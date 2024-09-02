@@ -561,9 +561,8 @@ const handlePriceChange = (e) => {
                               onChange={handleChange}
                               required
                             >
-                              <option value="">اختر الهدف</option>
-                              <option value="rent">إيجار</option>
                               <option value="sale">بيع</option>
+                              <option value="rent">إيجار</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>

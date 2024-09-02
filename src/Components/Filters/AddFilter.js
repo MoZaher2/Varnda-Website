@@ -6,8 +6,7 @@ import api from "../../API/ApiLink.js";
 import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 import Cookies from "js-cookie";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import { Autocomplete, TextField } from "@mui/material";
 
 export default function AddFilter({ department }) {
   

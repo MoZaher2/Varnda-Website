@@ -47,13 +47,13 @@ export default function LoginPage() {
         Cookies.set('role', response.data.data.user.role);
         localStorage.setItem('role', response.data.data.user.role);
 
-        Cookies.set('email', response.data.data.user.email);
         Cookies.set('first_name', response.data.data.user.first_name);
+        Cookies.set('email', response.data.data.user.email);
         Cookies.set('last_name', response.data.data.user.last_name);
         Cookies.set('bio', response.data.data.user.bio);
+        Cookies.set("user_id", response.data.data.user.id);
         Cookies.set('user_type', response.data.data.user.user_type);
         Cookies.set('phone', response.data.data.user.phone);
-        Cookies.set("user_id", response.data.data.user.id);
         Cookies.set('whats_phone', response.data.data.user.whats_phone);
         Cookies.set("verify",response.data.data.user.email_verified_at)
         setLoad(false)

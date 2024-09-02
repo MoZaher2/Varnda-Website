@@ -4,7 +4,7 @@ import api from "../../../API/ApiLink.js";
 import Cookies from "js-cookie";
 import OverPage from "./../../../Components/OverPage/OverPage";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AllFilters() {
   const role = localStorage.getItem("role")
@@ -83,7 +83,9 @@ export default function AllFilters() {
                     <tr key={item.id}>
                       <td>{item.id}</td>
                       <td>{item.filter_name}</td>
-                      <td>{item.url}</td>
+                      <td>
+                        <Link to={`/filter/${item.url}`}>{item.url}</Link>
+                      </td>
                       <td>{item.type}</td>
                       <td>{item.sub_category}</td>
                       <td>
@@ -107,13 +109,15 @@ export default function AllFilters() {
                           تعديل
                         </Button>
                       </td>
-                      {role==='admin'&&<DeleteItem
-                        id={selectedItemId}
-                        setId={setSelectedItemId}
-                        itemId={item.id}
-                        DeleteFun={handleDelete}
-                        load={loadId}
-                      />}
+                      {role === "admin" && (
+                        <DeleteItem
+                          id={selectedItemId}
+                          setId={setSelectedItemId}
+                          itemId={item.id}
+                          DeleteFun={handleDelete}
+                          load={loadId}
+                        />
+                      )}
                     </tr>
                   ))}
                 </tbody>

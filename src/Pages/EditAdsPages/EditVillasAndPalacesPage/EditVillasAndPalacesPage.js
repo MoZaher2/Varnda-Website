@@ -15,6 +15,7 @@ import AlertMessage from "../../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
 import DeleteImage from '../../../Components/DeleteImage/DeleteImage.js';
 import { useLocation } from "react-router-dom"; //
+import {Autocomplete,TextField} from "@mui/material";
 
 const EditVillasAndPalacesPage = () => {
 
@@ -517,6 +518,13 @@ const handlePriceChange = (e) => {
   }
 }
  
+const handleOptionSelect = (value) => {
+  setFormData({
+    ...formData,
+    compound_name: value,
+  });
+};
+
   return (
     <>
       <Header />
@@ -566,9 +574,8 @@ const handlePriceChange = (e) => {
                               onChange={handleChange}
                               required
                             >
-                              <option value="">اختر الهدف</option>
-                              <option value="rent">إيجار</option>
                               <option value="sale">بيع</option>
+                              <option value="rent">إيجار</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>
@@ -1147,7 +1154,7 @@ const handlePriceChange = (e) => {
                         />
                       </Form.Group>
 
-                      <Form.Group controlId="compound" className="mb-3">
+                      {/* <Form.Group controlId="compound" className="mb-3">
                         <Form.Label>
                         {compoundLoad && <span className="loader"></span>}
                         اختار اسم الكمبوند السكني (إن وجد)
@@ -1164,8 +1171,35 @@ const handlePriceChange = (e) => {
                             ))}
                           </>}
                         </Form.Select>
-                      </Form.Group>
+                      </Form.Group> */}
 
+<Form.Group
+                        as={Col}
+                        controlId="compound"
+                        className="mb-3"
+                      >
+                        <Form.Label className="required">
+                          {compoundLoad && <span className="loader"></span>}
+                          اختار اسم الكمبوند السكني (إن وجد)
+                        </Form.Label>
+                        {Ad.property.compound_name && (
+                          <p>اختيارك القديم:({Ad.property.compound_name})</p>
+                        )}
+                        <Autocomplete
+                          disablePortal
+                          onChange={(event, newValue) => {
+                            handleOptionSelect(newValue ? newValue.name : "");
+                          }}
+                          options={compounds}
+                          getOptionLabel={(option) => option.name}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="اختر الكمبوند السكني"
+                            />
+                          )}
+                        />
+                      </Form.Group>
                       <div className="text-center d-flex justify-content-between">
                         <Button variant="secondary" onClick={handlePreviousPage} className="me-2">
                           الصفحة السابقة

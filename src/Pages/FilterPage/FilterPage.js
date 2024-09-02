@@ -34,7 +34,7 @@ export default function FilterPage() {
             "Content-Type": "multipart/form-data",
           }
         });
-        console.log(response.data.data)
+        console.log(response.data.data.ads)
         setData(response.data.data)
     } catch (err) {
       if(err.response.status===404){

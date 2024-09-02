@@ -93,7 +93,7 @@ const QuickCardDetails = ({ propertyDetails }) => {
                   >
                     <FontAwesomeIcon icon={faEnvelope} /> الإيميل
                   </Button>
-                  <a
+                  {/* <a
                     href={`https://api.whatsapp.com/send?phone=2${
                       propertyDetails.whats_phone
                     }&text=${encodeURIComponent(
@@ -107,20 +107,35 @@ const QuickCardDetails = ({ propertyDetails }) => {
                     <Button variant="success" className="m-2 btn-lg">
                       <FontAwesomeIcon icon={faWhatsapp} /> واتساب
                     </Button>
+                  </a> */}
+                  <a
+                    href={`https://api.whatsapp.com/send?phone=2${
+                      propertyDetails.whats_phone
+                    }&text=${encodeURIComponent(
+                      "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
+                    )}${encodeURIComponent(
+                      ` http://varnda.com/property/${encodeURIComponent(propertyDetails.slug)}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button variant="success" className="m-2 btn-lg">
+                      <FontAwesomeIcon icon={faWhatsapp} /> واتساب
+                    </Button>
                   </a>
                 </div>
               </Row>
             </Col>
           </Row>
           <Row dir="rtl">
-              <ShowFilterToUser
-                type={propertyDetails.property.Type}
-                gov={propertyDetails.property.governorate}
-                city={propertyDetails.property.city}
-                region={propertyDetails.property.region}
-                compound={propertyDetails.property.compound}
-              />
-            </Row>
+            <ShowFilterToUser
+              type={propertyDetails.property.Type}
+              gov={propertyDetails.property.governorate}
+              city={propertyDetails.property.city}
+              region={propertyDetails.property.region}
+              compound={propertyDetails.property.compound}
+            />
+          </Row>
         </Container>
       </div>
     </>

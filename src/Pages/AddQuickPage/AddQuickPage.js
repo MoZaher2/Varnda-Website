@@ -20,7 +20,7 @@ const AddQuickPage = () => {
     "images[]": "", //👍
     governorate: "", //👍
     city: "", //👍
-    type: '',//👍
+    type: "sale", //👍
     phone: Cookies.get("phone"),
     email: Cookies.get("email"),
   });
@@ -147,6 +147,15 @@ const AddQuickPage = () => {
               },
             }
           );
+          // ملئ بيانات التواصل مباشرة
+          const phone = Cookies.get("phone") || null;
+          const whats_phone = Cookies.get("whats_phone") || null;
+          if (phone === "null") {
+            Cookies.set("phone", formData.phone);
+          }
+          if (whats_phone === "null") {
+            Cookies.set("whats_phone", formData.whats_phone);
+          }
           setAlert({ msg: "تم حفظ الإعلان بنجاح", variant: 1 });
           window.scrollTo({ top: 0, behavior: "smooth" });
           setShow(true);
@@ -259,9 +268,8 @@ const AddQuickPage = () => {
                           onChange={handleChange}
                           required
                         >
-                          <option value="">اختر الهدف</option>
-                          <option value="rent">إيجار</option>
                           <option value="sale">بيع</option>
+                          <option value="rent">إيجار</option>
                         </Form.Select>
                       </Form.Group>
                     </Col>

@@ -28,6 +28,7 @@ import OverPage from './../OverPage/OverPage';
 export default function CardFav({ properties ,overlay }) {
   console.log(properties);
   const token = Cookies.get("token");
+  const role = localStorage.getItem("role")
   const settings = {
     dots: false,
     infinite: true,
@@ -144,7 +145,7 @@ export default function CardFav({ properties ,overlay }) {
                    className="m-2 btn-lg"
                    onClick={() => {
                      const mailtoLink = `mailto:${
-                       item.email
+                       item.ad.email
                      }?subject=${encodeURIComponent(
                        "عقار على فارندا"
                      )}&body=${encodeURIComponent(
@@ -161,7 +162,7 @@ export default function CardFav({ properties ,overlay }) {
                    }&text=${encodeURIComponent(
                      "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
                    )}${encodeURIComponent(
-                     `http://varnda.com/property/${item.slug}`
+                     `http://varnda.com/property/${encodeURIComponent(item.ad.slug)}`
                    )}`}
                    target="_blank"
                    rel="noopener noreferrer"
@@ -328,7 +329,7 @@ export default function CardFav({ properties ,overlay }) {
              </div>
       
              {/* Love button */}
-             <IconButton
+             {role==='user'&&<IconButton
                loading={loadId===item.ad.id}
                onClick={() => handleLove(item.ad.id, index)}
                color="danger"
@@ -341,7 +342,7 @@ export default function CardFav({ properties ,overlay }) {
                }}
              >
                {favorites[index] ? <Favorite /> : <FavoriteBorder />}
-             </IconButton>
+             </IconButton>}
            </Card>
          ) : (
            // Quick Ads
@@ -407,7 +408,7 @@ export default function CardFav({ properties ,overlay }) {
                    }&text=${encodeURIComponent(
                      "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
                    )}${encodeURIComponent(
-                     `http://varnda.com/property/${item.slug}`
+                     `http://varnda.com/property/${encodeURIComponent(item.ad.slug)}`
                    )}`}
                    target="_blank"
                    rel="noopener noreferrer"
@@ -441,7 +442,7 @@ export default function CardFav({ properties ,overlay }) {
                </Link>
              </div>
              {/* Love button */}
-             <IconButton
+             {role==='user'&&<IconButton
                loading={loadId===item.ad.id}
                onClick={() => handleLove(item.ad.id, index)}
                color="danger"
@@ -454,7 +455,7 @@ export default function CardFav({ properties ,overlay }) {
                }}
              >
                {favorites[index] ? <Favorite /> : <FavoriteBorder />}
-             </IconButton>
+             </IconButton>}
            </Card>
          )
        )}

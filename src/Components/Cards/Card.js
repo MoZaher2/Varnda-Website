@@ -33,6 +33,8 @@ import { faPhone } from "@fortawesome/free-solid-svg-icons";
 
 export default function PropertyCard({ properties=[] ,loading}) {
     const token = Cookies.get("token")
+    const role = localStorage.getItem("role")
+
     const settings = {
         dots: false,
         infinite: true,
@@ -190,7 +192,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
                        }&text=${encodeURIComponent(
                          "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
                        )}${encodeURIComponent(
-                         `http://varnda.com/property/${property.slug}`
+                         `http://varnda.com/property/${encodeURIComponent(property.slug)}`
                        )}`}
                        target="_blank"
                        rel="noopener noreferrer"
@@ -364,7 +366,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
                    </Link>
                  </div>
                  {/* Love button */}
-                 <IconButton
+                 {role==='user'&&<IconButton
                    loading={loadId===property.id}
                    onClick={() => handleLove(property.id, index)}
                    color="danger"
@@ -377,7 +379,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
                    }}
                  >
                    {favorites[index] ? <Favorite /> : <FavoriteBorder />}
-                 </IconButton>
+                 </IconButton>}
                </Card>
              ) : (
                // Quick Ads
@@ -446,7 +448,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
                        }&text=${encodeURIComponent(
                          "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
                        )}${encodeURIComponent(
-                         `http://varnda.com/moreDeteliesPage/${property.slug}`
+                         `http://varnda.com/property/${encodeURIComponent(property.slug)}`
                        )}`}
                        target="_blank"
                        rel="noopener noreferrer"
@@ -459,7 +461,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
                  </div>
                  <div className="imgCont" style={{ width: "50%", height: "auto" }}>
                    <Link
-                     to={`/moreDeteliesPage/${property.slug}`}
+                     to={`/property/${property.slug}`}
                      className="link"
                      key={index}
                    >
@@ -480,7 +482,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
                    </Link>
                  </div>
                  {/* Love button */}
-                 <IconButton
+                 {role==='user'&&<IconButton
                    loading={loadId===property.id}
                    onClick={() => handleLove(property.id, index)}
                    color="danger"
@@ -493,7 +495,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
                    }}
                  >
                    {favorites[index] ? <Favorite /> : <FavoriteBorder />}
-                 </IconButton>
+                 </IconButton>}
                </Card>
              )
            )}

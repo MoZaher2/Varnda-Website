@@ -15,6 +15,7 @@ import AlertMessage from "../../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom"; //
 import DeleteImage from "../../../Components/DeleteImage/DeleteImage.js";//
+import {Autocomplete,TextField} from "@mui/material";
 
 const EditApartmentsAndDuplexesPage = () => {
   
@@ -509,6 +510,13 @@ const handlePriceChange = (e) => {
   }
 }
 
+const handleOptionSelect = (value) => {
+  setFormData({
+    ...formData,
+    compound_name: value,
+  });
+};
+
   return (
     <>
       <Header />
@@ -556,9 +564,8 @@ const handlePriceChange = (e) => {
                               value={formData.type}
                               onChange={handleChange}
                             >
-                              <option value="">اختر الهدف</option>
-                              <option value="rent">إيجار</option>
                               <option value="sale">بيع</option>
+                              <option value="rent">إيجار</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>
@@ -908,135 +915,132 @@ const handlePriceChange = (e) => {
                     </>
                   )}
                   {currentPage === 5 && (
-                  <>
-                    <Form.Group
-                      controlId="primary_picture"
-                      className="mb-3"
-                    >
-                      <Form.Label className="required">
-                        الصورة الأساسية للإعلان
-                      </Form.Label>
-                      <Form.Control
-                        type="file"
-                        name="primary_picture"
-                        onChange={handleChange}
-                      />
-                      {old_primary_picture && (
-                        <div className="mt-2">
-                          <h5>الصورة القديمة</h5>
-                          <img
-                            key={old_primary_picture}
-                            src={old_primary_picture}
-                            alt="MainImage"
-                            style={{
-                              maxWidth: "300px",
-                              height: "auto",
-                              margin: "0 10px 10px 0",
-                              borderRadius: "5px",
-                            }}
-                          />
-                        </div>
-                      )}
-                      {primary_picture && (
-                        <div className="mt-2">
-                          <h5>الصورة المراد اضافتها</h5>
-                          <img
-                            key={primary_picture}
-                            src={URL.createObjectURL(primary_picture)}
-                            alt="MainImage"
-                            style={{
-                              maxWidth: "300px",
-                              height: "auto",
-                              margin: "0 10px 10px 0",
-                              borderRadius: "5px",
-                            }}
-                          />
-                        </div>
-                      )}
-                      <Form.Control.Feedback type="invalid">
-                        يجب اختيار صوره للاعلان
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="images[]" className="mb-3">
-                      <Form.Label className="required">
-                        قم بتحميل صور الاعلان
-                      </Form.Label>
-                      <Form.Control
-                        type="file"
-                        name="images[]"
-                        onChange={handleChange}
-                        multiple
-                      />
-                      {images.length > 0 && (
-                        <div className="mt-2">
-                          <h5>الصور الجديدة:</h5>
-                          <div className="d-flex flex-wrap">
-                            {images.map((image, index) => (
-                              <img
-                                key={index}
-                                src={URL.createObjectURL(image)}
-                                alt={`AdditionalImage ${index}`}
-                                style={{
-                                  maxWidth: "150px",
-                                  height: "auto",
-                                  margin: "0 10px 10px 0",
-                                  borderRadius: "5px",
-                                }}
-                              />
-                            ))}
+                    <>
+                      <Form.Group controlId="primary_picture" className="mb-3">
+                        <Form.Label className="required">
+                          الصورة الأساسية للإعلان
+                        </Form.Label>
+                        <Form.Control
+                          type="file"
+                          name="primary_picture"
+                          onChange={handleChange}
+                        />
+                        {old_primary_picture && (
+                          <div className="mt-2">
+                            <h5>الصورة القديمة</h5>
+                            <img
+                              key={old_primary_picture}
+                              src={old_primary_picture}
+                              alt="MainImage"
+                              style={{
+                                maxWidth: "300px",
+                                height: "auto",
+                                margin: "0 10px 10px 0",
+                                borderRadius: "5px",
+                              }}
+                            />
                           </div>
-                        </div>
-                      )}
-
-                      {oldImages.length > 0 && (
-                        <div className="mt-2">
-                          <h5>الصور القديمة:</h5>
-                          <div className="d-flex flex-wrap">
-                            {oldImages.map((image, index) => (
-                              <div
-                                key={index}
-                                style={{
-                                  position: "relative",
-                                }}
-                              >
+                        )}
+                        {primary_picture && (
+                          <div className="mt-2">
+                            <h5>الصورة المراد اضافتها</h5>
+                            <img
+                              key={primary_picture}
+                              src={URL.createObjectURL(primary_picture)}
+                              alt="MainImage"
+                              style={{
+                                maxWidth: "300px",
+                                height: "auto",
+                                margin: "0 10px 10px 0",
+                                borderRadius: "5px",
+                              }}
+                            />
+                          </div>
+                        )}
+                        <Form.Control.Feedback type="invalid">
+                          يجب اختيار صوره للاعلان
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Form.Group controlId="images[]" className="mb-3">
+                        <Form.Label className="required">
+                          قم بتحميل صور الاعلان
+                        </Form.Label>
+                        <Form.Control
+                          type="file"
+                          name="images[]"
+                          onChange={handleChange}
+                          multiple
+                        />
+                        {images.length > 0 && (
+                          <div className="mt-2">
+                            <h5>الصور الجديدة:</h5>
+                            <div className="d-flex flex-wrap">
+                              {images.map((image, index) => (
                                 <img
                                   key={index}
-                                  src={image.image}
+                                  src={URL.createObjectURL(image)}
                                   alt={`AdditionalImage ${index}`}
                                   style={{
                                     maxWidth: "150px",
                                     height: "auto",
                                     margin: "0 10px 10px 0",
                                     borderRadius: "5px",
-                                    position: "relative",
                                   }}
                                 />
-                                <DeleteImage
-                                  setOld={setOldImages}
-                                  setDel={setDeleteImages}
-                                  OldImages={oldImages}
-                                  DeleteImages={deleteImages}
-                                  img={image.image}
-                                />
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </Form.Group>
-                    <div className="text-center d-flex justify-content-between">
-                      <Button
-                        variant="secondary"
-                        onClick={handlePreviousPage}
-                        className="me-2"
-                      >
-                        الصفحة السابقة
-                      </Button>
-                      <Button variant="secondary" onClick={handleNextPage}>
-                        الصفحة التالية
-                      </Button>
-                    </div>
-                  </>
+                        )}
+
+                        {oldImages.length > 0 && (
+                          <div className="mt-2">
+                            <h5>الصور القديمة:</h5>
+                            <div className="d-flex flex-wrap">
+                              {oldImages.map((image, index) => (
+                                <div
+                                  key={index}
+                                  style={{
+                                    position: "relative",
+                                  }}
+                                >
+                                  <img
+                                    key={index}
+                                    src={image.image}
+                                    alt={`AdditionalImage ${index}`}
+                                    style={{
+                                      maxWidth: "150px",
+                                      height: "auto",
+                                      margin: "0 10px 10px 0",
+                                      borderRadius: "5px",
+                                      position: "relative",
+                                    }}
+                                  />
+                                  <DeleteImage
+                                    setOld={setOldImages}
+                                    setDel={setDeleteImages}
+                                    OldImages={oldImages}
+                                    DeleteImages={deleteImages}
+                                    img={image.image}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </Form.Group>
+                      <div className="text-center d-flex justify-content-between">
+                        <Button
+                          variant="secondary"
+                          onClick={handlePreviousPage}
+                          className="me-2"
+                        >
+                          الصفحة السابقة
+                        </Button>
+                        <Button variant="secondary" onClick={handleNextPage}>
+                          الصفحة التالية
+                        </Button>
+                      </div>
+                    </>
                   )}
                   {currentPage === 6 && (
                     <>
@@ -1096,68 +1100,80 @@ const handlePriceChange = (e) => {
                   )}
                   {currentPage === 7 && (
                     <>
-                       <Form.Group controlId="governorate" className="mb-3">
-                        <Form.Label className='required'>
-                        {govLoad && <span className="loader"></span>}
-                         المحافظة
-                          </Form.Label>
+                      <Form.Group controlId="governorate" className="mb-3">
+                        <Form.Label className="required">
+                          {govLoad && <span className="loader"></span>}
+                          المحافظة
+                        </Form.Label>
                         <Form.Select
                           name="governorate"
                           value={formData.governorate}
                           onChange={handleChange}
                           required
                         >
-                          {!govLoad && <>
-                            <option value="">اختر المحافظة</option>
-                            {governorates.map((gov, index) => (
-                              <option key={gov.id} value={gov.name}>{gov.name}</option>
-                            ))}
-                          </>}
+                          {!govLoad && (
+                            <>
+                              <option value="">اختر المحافظة</option>
+                              {governorates.map((gov, index) => (
+                                <option key={gov.id} value={gov.name}>
+                                  {gov.name}
+                                </option>
+                              ))}
+                            </>
+                          )}
                         </Form.Select>
                       </Form.Group>
 
                       <Form.Group controlId="city" className="mb-3">
-                        <Form.Label className='required'>
-                        {cityLoad && <span className="loader"></span>}
+                        <Form.Label className="required">
+                          {cityLoad && <span className="loader"></span>}
                           المدينة
-                          </Form.Label>
+                        </Form.Label>
                         <Form.Select
                           name="city"
                           value={formData.city}
                           onChange={handleChange}
                           required
                         >
-                         {!cityLoad&& <>
-                            <option value="">اختر المدينة</option>
-                            {cities.map((city) => (
-                              <option key={city.name} value={city.name}>{city.name}</option>
-                            ))}
-                          </>}
+                          {!cityLoad && (
+                            <>
+                              <option value="">اختر المدينة</option>
+                              {cities.map((city) => (
+                                <option key={city.name} value={city.name}>
+                                  {city.name}
+                                </option>
+                              ))}
+                            </>
+                          )}
                         </Form.Select>
                       </Form.Group>
 
                       <Form.Group controlId="region" className="mb-3">
                         <Form.Label>
-                        {regionLoad && <span className="loader"></span>}
+                          {regionLoad && <span className="loader"></span>}
                           المنطقة
-                          </Form.Label>
+                        </Form.Label>
                         <Form.Select
                           name="region"
                           value={formData.region}
                           onChange={handleChange}
                         >
-                         {!regionLoad && <>
-                            <option value="">اختر المنطقة</option>
-                            {regions.map((region) => (
-                              <option key={region.id} value={region.name}>{region.name}</option>
-                            ))}
-                          </>}
+                          {!regionLoad && (
+                            <>
+                              <option value="">اختر المنطقة</option>
+                              {regions.map((region) => (
+                                <option key={region.id} value={region.name}>
+                                  {region.name}
+                                </option>
+                              ))}
+                            </>
+                          )}
                         </Form.Select>
                       </Form.Group>
 
                       <Form.Group controlId="street" className="mb-3">
                         <Form.Label>
-                        {streetLoad && <span className="loader"></span>}
+                          {streetLoad && <span className="loader"></span>}
                           الشارع
                         </Form.Label>
                         <Form.Select
@@ -1165,42 +1181,55 @@ const handlePriceChange = (e) => {
                           value={formData.street}
                           onChange={handleChange}
                         >
-                         {!streetLoad&& <>
-                            <option value="">اختر الشارع</option>
-                            {streets.map((street) => (
-                              <option key={street.id} value={street.name}>{street.name}</option>
-                            ))}
-                          </>}
+                          {!streetLoad && (
+                            <>
+                              <option value="">اختر الشارع</option>
+                              {streets.map((street) => (
+                                <option key={street.id} value={street.name}>
+                                  {street.name}
+                                </option>
+                              ))}
+                            </>
+                          )}
                         </Form.Select>
                         {/* فى حاله عدم وجود شارع */}
                         <Form.Control
-                          className='mt-3'
+                          className="mt-3"
                           type="text"
                           name="street"
-                          placeholder='فى حاله عدم وجود الشارع يرجى كتابته هنا'
+                          placeholder="فى حاله عدم وجود الشارع يرجى كتابته هنا"
                           value={formData.street}
                           onChange={handleChange}
                           maxLength="30"
                         />
                       </Form.Group>
 
-                      <Form.Group controlId="compound" className="mb-3">
-                        <Form.Label>
-                        {compoundLoad && <span className="loader"></span>}
-                        اختار اسم الكمبوند السكني (إن وجد)
-                          </Form.Label>
-                        <Form.Select
-                          name="compound_name"
-                          value={formData.compound_name}
-                          onChange={handleChange}
-                        >
-                          {!compoundLoad&&<>
-                            <option value="">اختر الكومباوند</option>
-                            {compounds.map((compound) => (
-                              <option key={compound.id} value={compound.name}>{compound.name}</option>
-                            ))}
-                          </>}
-                        </Form.Select>
+                      <Form.Group
+                        as={Col}
+                        controlId="compound"
+                        className="mb-3"
+                      >
+                        <Form.Label className="required">
+                          {compoundLoad && <span className="loader"></span>}
+                          اختار اسم الكمبوند السكني (إن وجد)
+                        </Form.Label>
+                        {Ad.property.compound_name && (
+                          <p>اختيارك القديم:({Ad.property.compound_name})</p>
+                        )}
+                        <Autocomplete
+                          disablePortal
+                          onChange={(event, newValue) => {
+                            handleOptionSelect(newValue ? newValue.name : "");
+                          }}
+                          options={compounds}
+                          getOptionLabel={(option) => option.name}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="اختر الكمبوند السكني"
+                            />
+                          )}
+                        />
                       </Form.Group>
 
                       <div className="text-center d-flex justify-content-between">

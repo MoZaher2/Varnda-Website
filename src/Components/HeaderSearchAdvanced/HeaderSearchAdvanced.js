@@ -241,11 +241,17 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
         };
         setSendfilter({
           type: selectedOption,
-          gov: address.governorate.length>0?address.governorate[0]:"",
-          city: address.city.length>0?address.city[0]:"",
-          region: address.region.length>0?address.region[0]:"",
+          gov:
+            address.governorate && address.governorate.length > 0
+              ? address.governorate[0]
+              : "",
+          city: address.city && address.city.length > 0 ? address.city[0] : "",
+          region:
+            address.region && address.region.length > 0
+              ? address.region[0]
+              : "",
           compound: "",
-        })
+        });
         // Filter out parameters with null, undefined, empty string, or empty arrays
         const filteredParams = Object.fromEntries(
           Object.entries(params).filter(

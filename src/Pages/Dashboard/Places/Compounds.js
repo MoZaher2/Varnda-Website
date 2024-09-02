@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import OverPage from "../../../Components/OverPage/OverPage.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
+import { Link } from "react-router-dom";
 export default function Compounds() {
   const role = localStorage.getItem("role")
   const token = Cookies.get("token");
@@ -30,6 +31,9 @@ export default function Compounds() {
   const [governorates, setGovernorates] = useState([]);
   const [cities, setCities] = useState([]);
   const [compounds, setCompounds] = useState([]);
+  const [govUrL, setGovUrl] = useState('');
+  const [cityUrL, setCityUrl] = useState('');
+
   const handleClose = () => setShow(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [loadEdit, setLoadEdit] = useState(false);
@@ -73,7 +77,28 @@ export default function Compounds() {
 
   const handleGetChange = (e) => {
     const { name, value } = e.target;
+   
+    if (name === "city") {
+      // خاصه باللينكات
+      let selectedCity = cities.find((city) => city.id == value);
+      if (selectedCity) {
+        setCityUrl(selectedCity.url);
+      } else {
+        setCityUrl("");
+      }
+      setFormData({ ...formData, governorate: value, city: "" });
+      setCities([]);
+      setCompounds([]);
+    } 
+
     if (name === "governorate") {
+      // خاصه باللينكات
+      let selectedGovernorate = governorates.find((gov) => gov.id == value);
+      if (selectedGovernorate) {
+        setGovUrl(selectedGovernorate.url);
+      } else {
+        setGovUrl("");
+      }
       setFormData({ ...formData, governorate: value, city: "" });
       setCities([]);
       setCompounds([]);
@@ -470,7 +495,13 @@ export default function Compounds() {
                       )}
                     </td>
                     <td>{item.meta_title}</td>
-                    <td>{item.url}</td>
+                    <td>
+                      {govUrL && cityUrL && item.url ? (
+                        <Link to={`/${govUrL}/${cityUrL}/${item.url}`}>{item.url}</Link>
+                      ) : (
+                        <span>Invalid URL</span>
+                      )}
+                    </td>
                     <td>
                       <Button
                         variant="warning"

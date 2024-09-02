@@ -55,6 +55,7 @@ export default function SignupPage() {
           const response = await api.post("/register", {
             ...formData,
           });
+          console.log(response.data.data)
           Cookies.set("token", response.data.data.token);
           Cookies.set("user_id", response.data.data.user_id);
           Cookies.set('email', response.data.data.email);
@@ -62,6 +63,11 @@ export default function SignupPage() {
           Cookies.set('role', response.data.data.role);
           localStorage.setItem('role', response.data.data.role);
           Cookies.set('verify',null)
+          Cookies.set("image", response.data.data.image);
+          Cookies.set('first_name', response.data.data.first_name);
+          Cookies.set('last_name', response.data.data.last_name);
+          Cookies.set('phone', response.data.data.phone);
+
           window.scrollTo({ top: 0, behavior: 'smooth' });
           setOverlay(true);
           // setAlert({ msg: "تم انشاء الحساب بنجاح", variant: 1 });

@@ -544,9 +544,7 @@ const CardDetails = ({ propertyDetails }) => {
                           propertyDetails.whats_phone
                         }&text=${encodeURIComponent(
                           "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
-                        )}${encodeURIComponent(
-                          `http://varnda.com/property/${propertyDetails.slug}`
-                        )}`}
+                        )}${encodeURIComponent(`http://varnda.com/property/${encodeURIComponent(propertyDetails.slug)}`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >

@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import OverPage from "./../../../Components/OverPage/OverPage";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
+import { Link } from "react-router-dom";
 
 export default function Governments() {
 
@@ -356,7 +357,14 @@ export default function Governments() {
                 </td>
                 {/* <td>{item.meta_description}</td> */}
                 <td>{item.meta_title}</td>
-                <td>{item.url}</td>
+                <td>
+                  {item.url ? (
+                    <Link to={`/${item.url}`}>{item.url}</Link>
+                  ) : (
+                    <span>Invalid URL</span>
+                  )}
+                </td>
+
                 <td>
                   <Button
                     variant="warning"
@@ -513,13 +521,15 @@ export default function Governments() {
                     )}
                   </Modal>
                 </td>
-                {role==='admin'&&<DeleteItem
-                  id={selectedItemId}
-                  setId={setSelectedItemId}
-                  itemId={item.id}
-                  DeleteFun={handleDelete}
-                  load={loadId}
-                />}
+                {role === "admin" && (
+                  <DeleteItem
+                    id={selectedItemId}
+                    setId={setSelectedItemId}
+                    itemId={item.id}
+                    DeleteFun={handleDelete}
+                    load={loadId}
+                  />
+                )}
               </tr>
             ))}
           </tbody>

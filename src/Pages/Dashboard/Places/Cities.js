@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import OverPage from "../../../Components/OverPage/OverPage.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
+import { Link } from "react-router-dom";
 
 export default function Cities() {
 
@@ -55,6 +56,7 @@ export default function Cities() {
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
   const [governorates, setGovernorates] = useState([]);
+  const [govUrL, setGovUrl] = useState("cairo");
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [cities, setCities] = useState([]);
   const handleClose = () => setShow(false);
@@ -73,8 +75,16 @@ export default function Cities() {
     setShow(true);
   };
 
-  const handleChange = (e) => {
+  const handelLocationChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'governorate') {
+      let selectedGovernorate = governorates.find(gov => gov.id == value);
+      if (selectedGovernorate) {
+        setGovUrl(selectedGovernorate.url);
+      } else {
+        setGovUrl('');
+      }
+    }
     setFormData({
       ...formData,
       [name]: value,
@@ -111,6 +121,8 @@ export default function Cities() {
           },
         }
       );
+      
+      console.log(response.data.data)
       setCities(response.data.data);
     } catch (error) {
       console.log(error);
@@ -350,7 +362,7 @@ export default function Cities() {
         <Form.Select
           name="governorate"
           value={formData.governorate}
-          onChange={handleChange}
+          onChange={handelLocationChange}
           required
         >
           {governorates.map((gov, index) => (
@@ -400,7 +412,13 @@ export default function Cities() {
                       )}
                     </td>
                     <td>{item.meta_title}</td>
-                    <td>{item.url}</td>
+                    <td>
+                      {govUrL && item.url ? (
+                        <Link to={`/${govUrL}/${item.url}`}>{item.url}</Link>
+                      ) : (
+                        <span>Invalid URL</span>
+                      )}
+                    </td>
 
                     <td>
                       <Button
@@ -574,13 +592,15 @@ export default function Cities() {
                         )}
                       </Modal>
                     </td>
-                    {role==='admin'&&<DeleteItem
-                      id={selectedItemId}
-                      setId={setSelectedItemId}
-                      itemId={item.id}
-                      DeleteFun={handleDelete}
-                      load={loadId}
-                    />}
+                    {role === "admin" && (
+                      <DeleteItem
+                        id={selectedItemId}
+                        setId={setSelectedItemId}
+                        itemId={item.id}
+                        DeleteFun={handleDelete}
+                        load={loadId}
+                      />
+                    )}
                   </tr>
                 ))}
               </tbody>
