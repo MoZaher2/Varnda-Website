@@ -1,20 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import HomePage from "./Pages/HomePage/HomePage";
 import AboutPage from "./Pages/AboutPage/AboutPage";
 import ContactPage from "./Pages/ContactPage/ContactPage";
 import TermsPage from "./Pages/TermsPage/TermsPage";
-import FindHomePage from "./Pages/FindHomePage/FindHomePage";
 import SearchPage from "./Pages/SearchPage/SearchPage";
-import AdvicePage from "./Pages/AdvicePage/AdvicePage";
-import MixPage from "./Pages/MixPage/MixPage";
-import RegionsOfEgyptPage from "./Pages/RegionsOfEgyptPage/RegionsOfEgyptPage";
-import EventsPage from "./Pages/EventsPage/EventsPage";
-import DetailesPage from "./Pages/DetailesPage/DetailesPage";
-import CompanyPage from "./Pages/CompanyPage/CompanyPage";
-import AreaPage from "./Pages/AreaPage/AreaPage";
-import CompanyDetailes from "./Pages/CompanyDetailes/CompanyDetailes";
 import MoreDeteliesPage from "./Pages/MoreDeteliesPage/MoreDeteliesPage";
 import FavPage from "./Pages/FavPage/FavPage";
 import LoginPage from "./Pages/LoginPage/LoginPage";
@@ -33,7 +23,6 @@ import ProfilePage from "./Pages/ProfilePage/ProfilePage";
 import MyPropertiesPage from "./Pages/MyPropertiesPage/MyPropertiesPage";
 import ArticleDetailes from "./Pages/Articles/ArticleDetailes/ArticleDetailes";
 import Articles from "./Pages/Articles/Articles";
-import ArticlesLayout from "./Components/Articles/ArticlesLayout";
 import ArticlesInCategory from "./Pages/Articles/ArticlesInCategory";
 import AdminLayout from "./Pages/AdminLayout";
 import AddArticle from "./Pages/Dashboard/Articles/AddArticle";
@@ -120,7 +109,7 @@ function App() {
         <Route
           path="/myprofile"
           element={
-            <ProtectedRoute allowedRoles={["user", "admin","writer",'seo']}>
+            <ProtectedRoute allowedRoles={["user", "admin", "writer", "seo"]}>
               <ProfilePage />
             </ProtectedRoute>
           }

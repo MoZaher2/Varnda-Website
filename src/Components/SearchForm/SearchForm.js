@@ -546,9 +546,6 @@ const SearchForm = ({ backgroundImage }) => {
           </Row>
         </Form>
       </div>
-      {/* <Button className="start-search"><Link to="/companyPage" className="link-search">
-        ابحث عن الشركات العقارية
-      </Link></Button> */}
     </div>
   );
 };

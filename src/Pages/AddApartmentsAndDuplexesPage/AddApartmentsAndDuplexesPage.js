@@ -7,7 +7,6 @@ import L from 'leaflet';
 import { Form, Button, Container, Row, Col, ProgressBar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faDollarSign, faBed, faBath, faRulerCombined } from '@fortawesome/free-solid-svg-icons';
-import { AllGovernments } from '../../utility/AllGovernments';
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 import "./AddApartmentsAndDuplexesPage.css"
@@ -110,7 +109,7 @@ const AddApartmentsAndDuplexesPage = () => {
       }
     };
     fetchGov();
-  }, []);
+  }, [token]);
   //City
   useEffect(() => {
     const fetchCity = async () => {
@@ -131,7 +130,7 @@ const AddApartmentsAndDuplexesPage = () => {
       }
     };
     fetchCity();
-  }, [formData.governorate]);
+  }, [formData.governorate,governorates,token]);
 
   // Region
   useEffect(() => {
@@ -152,7 +151,7 @@ const AddApartmentsAndDuplexesPage = () => {
       }
     };
     fetchCity();
-  }, [formData.city]);
+  }, [formData.city,cities,token]);
   // Street
   useEffect(() => {
 
