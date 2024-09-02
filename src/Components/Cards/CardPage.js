@@ -333,7 +333,7 @@ export default function CardPage({ properties=[] ,loading}) {
                             </Col>
                           </Row>
                           <Row>
-                            <p style={{ color: "#898989" ,margin:'0px' }}>
+                            <p style={{ color: "#898989" ,margin:'0px' ,fontWeight: 'bold'}}>
                               {property.property.details_ar&&renderLimitedText(property.property.details_ar, 150)}
                             </p>
                           </Row>
@@ -457,7 +457,7 @@ export default function CardPage({ properties=[] ,loading}) {
                       >
                         <Card.Text style={{ padding: "0px" }}>
                           <Row>
-                            <p style={{ color: "#898989" ,margin:'0px'}}>
+                            <p style={{ color: "#898989" ,margin:'0px',fontWeight: 'bold'}}>
                               {property.property.details_ar&&renderLimitedText(property.property.details_ar, 500)}
                             </p>
                           </Row>

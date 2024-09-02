@@ -62,7 +62,6 @@ export default function GovPage() {
             <>
               <PageSwapper swapperData={data.cities} pageType='gov' />
               <CardPage properties={data.Ads} loading={loading} />
-              
             </>
           )}
           <Footer />
