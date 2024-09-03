@@ -19,9 +19,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import VideoEmbed from "../../utility/VideoEmbed/VideoEmbed";
 import ShowFilterToUser from "../Filters/ShowFilterToUser";
+import usePageSEO from "../../hooks/usePageSEO";
 
 const CardDetails = ({ propertyDetails }) => {
   console.log(propertyDetails);
+
+  usePageSEO({
+    title: propertyDetails.property["Arabic Name"],
+    icon: propertyDetails.property.primary_picture,
+    ogImage: propertyDetails.property.primary_picture,
+});
+
   const position = [
     propertyDetails.property.latitude,
     propertyDetails.property.longitude,

@@ -6,8 +6,15 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import ShowFilterToUser from "../Filters/ShowFilterToUser";
+import usePageSEO from "../../hooks/usePageSEO";
 
 const QuickCardDetails = ({ propertyDetails }) => {
+  
+  usePageSEO({
+    icon: propertyDetails.property.images[0].image,
+    ogImage: propertyDetails.property.images[0].image,
+});
+
   const sliderSettings = {
     dots: true,
     infinite: true,
