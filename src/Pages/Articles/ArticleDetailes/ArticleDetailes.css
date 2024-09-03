@@ -56,3 +56,11 @@ font-size: 18px;
   font-size: 18px;
   font-weight: bold;
 }
+
+.main-title-img{
+  width: 100%;
+}
+
+.articleCont img{
+max-width: 100%;
+}

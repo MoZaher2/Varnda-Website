@@ -13,7 +13,7 @@ export default function Footer() {
   };
 
   return (
-    <div className="footer p-1">
+    <div className="footer p-1 mt-3">
       <Container>
         <div className='icon-div'>
           <p className='icon-text'>فارندا</p>

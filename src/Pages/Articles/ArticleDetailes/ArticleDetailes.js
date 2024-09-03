@@ -58,7 +58,7 @@ export default function ArticleDetailes() {
                       <img
                         src={article.Article_image}
                         alt={article.Title}
-                        className="img-fluid"
+                        className="main-title-img"
                       />
                       <span
                         style={{
@@ -78,6 +78,7 @@ export default function ArticleDetailes() {
 
                     <div className="rtl mt-4">
                       <div
+                      className="articleCont"
                         dangerouslySetInnerHTML={{
                           __html: article.Article_body,
                         }}
