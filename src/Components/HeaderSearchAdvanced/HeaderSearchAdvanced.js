@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./HeaderSearchAdvanced.css";
-import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -9,9 +8,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
-import { Navbar, Nav, Container, NavDropdown, Col, ToggleButton } from 'react-bootstrap';
+import { Navbar, Container,Col, ToggleButton } from 'react-bootstrap';
 import Search from "../Search/Search.js";
-import SaveSearch from "../SaveSearch/SaveSearch.js";
 import queryString from "query-string";
 import { useParams } from "react-router-dom";
 
@@ -39,7 +37,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
     street: query.get("street") ? query.get("street").split(',') : [],
     region: query.get("region") ? query.get("region").split(',') : []
   });
-  const [filter,setFilter]=useState(query.get("filter") || "الأحدث")
+  const [sortBy,setSortBy]=useState(query.get("sortBy") || "الاحدث")
   
   useEffect(() => {
     // Add gov to governorate if it's not already included
@@ -59,7 +57,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
 
   const updateURL = () => {
     const currentParams = {
-      filter,
+      sortBy,
       selectedOption,
       subCategory,
       rooms: rooms.join(','),
@@ -106,13 +104,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
       search: queryString.stringify(filterCurrentParams),
     });
   };
-  // updateURL()
-  // const [address, setAddress] = useState({
-  //   governorate: [],
-  //   city: [],
-  //   street: [],
-  //   region: []
-  // });
 
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -217,7 +208,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
     console.log("___________")
     setDoSearch(!doSearch)
     updateURL()
-  }, [address, selectedOption, subCategory, rooms, bathrooms, area, price, radioValue,filter]);
+  }, [address, selectedOption, subCategory, rooms, bathrooms, area, price, radioValue,sortBy]);
 
   // API
   useEffect(() => {
@@ -259,7 +250,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
               value != null && value !== "" && !(Array.isArray(value) && value.length === 0)
           )
         );
-        const response = await api.get("/searchAds", {
+        const response = await api.get(`/searchAds?sortBy=${sortBy}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -282,7 +273,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
 
   const searchFilter=["الأحدث","الاقل سعر","الاعلى سعر"]
   const handleFilterChange = (option) => {
-    setFilter(option);
+    setSortBy(option);
   };
 
 
@@ -637,13 +628,13 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
             <div className="d-flex align-items-center justify-content-between mb-5">
               <h5 style={{ color: "#0d6efd" }}>عقارات سكنية للبيع في مَصر</h5>
               <Dropdown>
-                <Dropdown.Toggle variant="primary">{filter}</Dropdown.Toggle>
+                <Dropdown.Toggle variant="primary">{sortBy}</Dropdown.Toggle>
                 <Dropdown.Menu style={{ textAlign: "right" }}>
                   {searchFilter.map((option) => (
                     <Dropdown.Item
                       key={option}
                       onClick={() => handleFilterChange(option)}
-                      active={filter === option}
+                      active={sortBy === option}
                     >
                       {option}
                     </Dropdown.Item>

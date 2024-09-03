@@ -385,13 +385,13 @@ const AddCommercialUnitsPage = () => {
         const user_type = Cookies.get("user_type") || null;
         const phone = Cookies.get("phone") || null;
         const whats_phone = Cookies.get("whats_phone") || null;
-        if (phone === "null") {
+        if (phone === null) {
           Cookies.set("phone", formData2.phone);
         }
-        if (user_type === "null") {
+        if (user_type === null) {
           Cookies.set("user_type", formData2.advertiser_type);
         }
-        if (whats_phone === "null") {
+        if (whats_phone === null) {
           Cookies.set("whats_phone", formData2.whats_phone);
         }
         setAlert({ msg: "تم حفظ الإعلان بنجاح", variant: 1 });

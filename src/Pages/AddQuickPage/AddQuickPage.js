@@ -150,10 +150,14 @@ const AddQuickPage = () => {
           // ملئ بيانات التواصل مباشرة
           const phone = Cookies.get("phone") || null;
           const whats_phone = Cookies.get("whats_phone") || null;
-          if (phone === "null") {
+          console.log(phone)
+          console.log(whats_phone)
+          if (phone === null) {
+            console.log("inside",phone)
             Cookies.set("phone", formData.phone);
           }
-          if (whats_phone === "null") {
+          if (whats_phone === null) {
+            console.log("inside",whats_phone)
             Cookies.set("whats_phone", formData.whats_phone);
           }
           setAlert({ msg: "تم حفظ الإعلان بنجاح", variant: 1 });

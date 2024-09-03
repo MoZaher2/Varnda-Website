@@ -36,6 +36,7 @@ import { useNavigate } from "react-router-dom";
 import {Autocomplete,TextField} from "@mui/material";
 
 const AddApartmentsAndDuplexesPage = () => {
+
   const token = Cookies.get("token");
   const [load1, setLoad1] = useState(false);
   const [load2, setLoad2] = useState(false);
@@ -409,13 +410,19 @@ const AddApartmentsAndDuplexesPage = () => {
         const user_type = Cookies.get("user_type") || null;
         const phone = Cookies.get("phone") || null;
         const whats_phone = Cookies.get("whats_phone") || null;
-        if (phone === "null") {
+        console.log(phone)
+        console.log(whats_phone)
+        console.log(user_type)
+        if (phone === null) {
+          console.log("inside phone")
           Cookies.set("phone", formData2.phone);
         }
-        if (user_type === "null") {
+        if (user_type === null) {
+          console.log("inside userType")
           Cookies.set("user_type", formData2.advertiser_type);
         }
-        if (whats_phone === "null") {
+        if (whats_phone === null) {
+          console.log("inside whats")
           Cookies.set("whats_phone", formData2.whats_phone);
         }
 
