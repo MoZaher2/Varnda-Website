@@ -11,6 +11,7 @@ import usePageSEO from "../../hooks/usePageSEO";
 const QuickCardDetails = ({ propertyDetails }) => {
   
   usePageSEO({
+    title:"Varnda",
     icon: propertyDetails.property.images[0].image,
     ogImage: propertyDetails.property.images[0].image,
 });
