@@ -11,9 +11,11 @@ import CommentCard from "../../../Components/Comments/CommentCard.js";
 import Header from "../../../Components/Header/Header.js";
 import Share from "../../../Components/Cards/Share";
 import OverPage from "../../../Components/OverPage/OverPage.js";
+import ArticleCards from "../../../Components/Articles/ArticleCards.js";
 
 export default function ArticleDetailes() {
   const [article, setArticle] = useState({});
+  const [relatedPosts, setRelatedPosts] = useState([]);
   const [overlay, setOverlay] = useState(false);
   const { id } = useParams();
   // استرجاع مقاله حسب اللينك
@@ -23,6 +25,7 @@ export default function ArticleDetailes() {
         setOverlay(true);
         const response = await api.get(`/getPostByUrl/${id}`);
         setArticle(response.data.data.posts[0]);
+        setRelatedPosts(response.data.data.related_posts)
       } catch (error) {
         setArticle("");
         console.log(error);
@@ -78,7 +81,7 @@ export default function ArticleDetailes() {
 
                     <div className="rtl mt-4">
                       <div
-                      className="articleCont"
+                        className="articleCont"
                         dangerouslySetInnerHTML={{
                           __html: article.Article_body,
                         }}
@@ -89,7 +92,7 @@ export default function ArticleDetailes() {
                         {article.tags.map((tag) => (
                           <Button
                             as={Link}
-                            to={`/Blogs/tags/${tag}`}
+                            to={`/Blogs/tags/${tag.replace(/ /g, "-")}`}
                             variant="outline-info"
                             className="tagBtn"
                           >
@@ -109,6 +112,17 @@ export default function ArticleDetailes() {
               404 عفوا, المدونة ليست موجوده
             </Alert>
           )}
+          <hr />
+
+          {relatedPosts.length && (
+            <>
+              <h2 className="text-center title-page py-1 pb-2 container my-3">
+              مقالات قد تعجبك
+              </h2>
+              <ArticleCards articles={relatedPosts} />
+            </>
+          )}
+
           <hr />
           <Container>
             <CommentCard post_id={article.id} />

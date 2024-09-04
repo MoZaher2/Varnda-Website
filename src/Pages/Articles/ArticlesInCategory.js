@@ -19,6 +19,7 @@ export default function ArticlesInCategory() {
   // const category_id=1;
   useEffect(() => {
     const fetchArticle = async () => {
+      console.log("category send: ",category)
       try {
         setOverlay(true)
         const response = await api.post(`/getPostsByCat/${category}`, {
@@ -46,43 +47,47 @@ export default function ArticlesInCategory() {
       <HeaderPageLink activeCategory={category} />
       <>
         <h2 className="text-center title-page py-1 pb-2 container my-3">
-          {category}
+          {category.replace(/-/g, " ")}
         </h2>
-        {overlay ? <OverPage />:articles.length>0?
-        <>
-          <ArticleCards articles={articles} />
-          {/* Pagination */}
-          <div className="d-flex justify-content-center mt-3">
-            <Pagination dir="ltr">
-              <Pagination.Prev
-                onClick={() =>
-                  handlePageChange(currentPage > 1 ? currentPage - 1 : 1)
-                }
-                disabled={currentPage === 1}
-              />
-              {[...Array(totalPages)].map((_, index) => (
-                <Pagination.Item
-                  key={index + 1}
-                  active={index + 1 === currentPage}
-                  onClick={() => handlePageChange(index + 1)}
-                >
-                  {index + 1}
-                </Pagination.Item>
-              ))}
-              <Pagination.Next
-                onClick={() =>
-                  handlePageChange(
-                    currentPage < totalPages ? currentPage + 1 : totalPages
-                  )
-                }
-                disabled={currentPage === totalPages}
-              />
-            </Pagination>
-          </div>
-        </>:<Alert key="warning" className="text-center" variant="warning">
-        لا يوجد مقالات فى هذا التصنيف
-      </Alert>}
-        
+        {overlay ? (
+          <OverPage />
+        ) : articles.length > 0 ? (
+          <>
+            <ArticleCards articles={articles} />
+            {/* Pagination */}
+            <div className="d-flex justify-content-center mt-3">
+              <Pagination dir="ltr">
+                <Pagination.Prev
+                  onClick={() =>
+                    handlePageChange(currentPage > 1 ? currentPage - 1 : 1)
+                  }
+                  disabled={currentPage === 1}
+                />
+                {[...Array(totalPages)].map((_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    active={index + 1 === currentPage}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() =>
+                    handlePageChange(
+                      currentPage < totalPages ? currentPage + 1 : totalPages
+                    )
+                  }
+                  disabled={currentPage === totalPages}
+                />
+              </Pagination>
+            </div>
+          </>
+        ) : (
+          <Alert key="warning" className="text-center" variant="warning">
+            لا يوجد مقالات فى هذا التصنيف
+          </Alert>
+        )}
       </>
       <AddPropertyCard />
       <Footer />

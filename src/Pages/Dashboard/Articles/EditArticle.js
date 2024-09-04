@@ -15,8 +15,8 @@ export default function EditArticle() {
   const Article = location.state?.data;
   const token = Cookies.get("token");
 
-  console.log(Article);
-
+  // console.log(Article);
+  const [staticBody, setStaticBody] = useState("");
   const [article_body, setArticle_body] = useState("");
   const [article_image, setArticle_image] = useState(null);
   const [articleImage, setArticleImage] = useState(null);
@@ -46,6 +46,7 @@ export default function EditArticle() {
       setTagsInBasket(Article.tags);
       setArticleImage(Article.Article_image);
       setArticle_body(Article.Article_body);
+      setStaticBody(Article.Article_body);
     };
     if (Article) fetchArticle();
   }, [Article]);
@@ -140,8 +141,15 @@ export default function EditArticle() {
           formDataToSend.append("meta_description", formData.meta_description);
         }
         formDataToSend.append("finished", formData.finished);
-        let tags = TagsInBasket.join(",");
-        formDataToSend.append("tags", tags);
+        if(TagsInBasket.length>0){
+          let tags = TagsInBasket.join(",");
+          console.log("Taggggggg ",tags)
+          formDataToSend.append("tags", tags); 
+        }
+        // else{
+        //   console.log("Emptyyyyyyyyyyyyyyyyyyyy")
+        //   formDataToSend.append("tags", "ل");
+        // }
         // Set Post
         try {
           setLoad(true);
@@ -363,6 +371,7 @@ export default function EditArticle() {
             <ArticleEditor
               setArticle_body={setArticle_body}
               article_body={article_body}
+              staticBody={staticBody}
             />
           </Form.Group>
         </Row>

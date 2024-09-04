@@ -21,7 +21,7 @@ export default function ArticlesWithTag() {
     const fetchArticle = async () => {
       try {
         setOverlay(true)
-        const response = await api.post(`/getPostsByTag/${tag}`, {
+        const response = await api.post(`/getPostsByTag/${tag.replace(/-/g," ")}`, {
           page: currentPage,
         });
         console.log(response.data)
@@ -35,7 +35,7 @@ export default function ArticlesWithTag() {
       }
     };
     fetchArticle();
-  }, [currentPage]);
+  }, [currentPage,tag]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -46,7 +46,7 @@ export default function ArticlesWithTag() {
       <Header />
       <>
         <h2 className="text-center title-page py-1 pb-2 container my-3">
-          {tag}
+          {tag.replace(/-/g," ")}
         </h2>
         {overlay ? <OverPage />:articles.length>0?<>
           <ArticleCards articles={articles} />

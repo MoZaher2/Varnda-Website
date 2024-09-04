@@ -581,7 +581,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                   </Form.Group>
                 </Col>
 
-                <Col lg="4" md="6" className="mb-2" >
+                {/* <Col lg="4" md="6" className="mb-2" >
                   <Form.Group className="inputLocationAdvanced">
                     <ButtonGroup className="d-flex justify-content-between groub-btns" dir="ltr">
                       {radios.map((radio, idx) => (
@@ -600,9 +600,9 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                         </ToggleButton>
                       ))}
                     </ButtonGroup>
-
                   </Form.Group>
-                </Col>
+                </Col> */}
+
                 <Col>
                   <div className="d-flex flex-row-reverse pr-3">
                     <Button variant="secondary" onClick={handleReset}>

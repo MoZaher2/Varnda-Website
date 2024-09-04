@@ -21,19 +21,32 @@ export default function HeaderPageLink({activeCategory}) {
 
   return (
     <>
-    <Navbar bg="light" data-bs-theme="light" dir="rtl">
+      <Navbar bg="light" data-bs-theme="light" dir="rtl">
         <Container>
           <Nav className="linkCont">
-            {categories.map((category) => (
-              <div className="page-link" key={category.id}>
-                <Nav.Link href={`/Blogs/${category.category_name}`} className={`link ${category.category_name === activeCategory ? "activelink" : ""}`}>
-                  {category.category_name}
-                </Nav.Link>
-              </div>
-            ))}
-            </Nav>
+            {categories.map((category) => {
+              const formattedCategoryName = category.category_name.replace(
+                /-/g,
+                " "
+              );
+              return (
+                <div className="page-link" key={category.id}>
+                  <Nav.Link
+                    href={`/Blogs/${category.category_name}`}
+                    className={`link ${
+                      category.category_name === activeCategory
+                        ? "activelink"
+                        : ""
+                    }`}
+                  >
+                    {formattedCategoryName}
+                  </Nav.Link>
+                </div>
+              );
+            })}
+          </Nav>
         </Container>
       </Navbar>
     </>
-  )
+  );
 }

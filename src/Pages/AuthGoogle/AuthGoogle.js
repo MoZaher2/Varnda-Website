@@ -18,6 +18,12 @@ const AuthGoogle = () => {
     const user_id = query.get('user_id');
     const first_name = query.get('first_name');
     
+    const last_name = query.get("last_name");
+    const phone = query.get("phone");
+    const whats_phone = query.get("whats_phone");
+    const user_type = query.get("user_type");
+    const bio = query.get("bio");
+
     
     useEffect(()=>{
         if (errorMessage) {
@@ -33,6 +39,13 @@ const AuthGoogle = () => {
                 Cookies.set("user_id", user_id);
                 Cookies.set('first_name', first_name);
                 Cookies.set("verify", 'true')
+                
+                Cookies.set("last_name", last_name)
+                Cookies.set("phone", phone)
+                Cookies.set("whats_phone", whats_phone)
+                Cookies.set("user_type", user_type)
+                Cookies.set("bio", bio)
+                
                 navigate(location.pathname, { replace: true });
                 navigate('/');
         }

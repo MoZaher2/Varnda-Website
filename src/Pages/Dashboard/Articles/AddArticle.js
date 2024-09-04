@@ -6,15 +6,15 @@ import api from "../../../API/ApiLink.js";
 import LoadingBtn from "../../../Components/LoadingBtn.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import Cookies from "js-cookie";
-import usePageSEO from "../../../hooks/usePageSEO.js";
 import AddTag from "./../../../Components/Tags/AddTag";
 
 export default function AddArticle() {
   const token = Cookies.get("token");
   const adminId = Cookies.get("user_id");
 
-  const [article_body, setArticle_body] = useState("<h1>اكتب مقالتك هنا!</h1>");
+  const [article_body, setArticle_body] = useState("");
   const [categories, setCategories] = useState([]);
+ 
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate();
   const [showConfirm, setShowConfirm] = useState(false);
@@ -78,6 +78,9 @@ export default function AddArticle() {
     };
     fetchCategory();
   }, []);
+
+
+
 
   const handelSubmit = async (e) => {
     e.preventDefault();

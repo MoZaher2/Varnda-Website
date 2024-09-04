@@ -25,9 +25,7 @@ const CardDetails = ({ propertyDetails }) => {
   console.log(propertyDetails);
 
   usePageSEO({
-    title: propertyDetails.property["Arabic Name"],
-    icon: propertyDetails.property.primary_picture,
-    ogImage: propertyDetails.property.primary_picture,
+    title: propertyDetails.property["Arabic Name"]
 });
 
   const position = [
