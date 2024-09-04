@@ -63,20 +63,22 @@ export default function ArticleDetailes() {
                         alt={article.Title}
                         className="main-title-img"
                       />
-                      <span
-                        style={{
-                          position: "absolute",
-                          bottom: "0px",
-                          right: "0px",
-                        }}
-                      >
-                        <Link
-                          to={`/Blogs/${article.category_name}`}
-                          className="categoryLink"
+                      {article.category_name && (
+                        <span
+                          style={{
+                            position: "absolute",
+                            bottom: "0px",
+                            right: "0px",
+                          }}
                         >
-                          {article.category_name}
-                        </Link>
-                      </span>
+                          <Link
+                            to={`/Blogs/${article.category_name}`}
+                            className="categoryLink"
+                          >
+                            {article.category_name.replace(/-/g, " ")}
+                          </Link>
+                        </span>
+                      )}
                     </div>
 
                     <div className="rtl mt-4">
@@ -117,7 +119,7 @@ export default function ArticleDetailes() {
           {relatedPosts.length && (
             <>
               <h2 className="text-center title-page py-1 pb-2 container my-3">
-              مقالات قد تعجبك
+                مقالات قد تعجبك
               </h2>
               <ArticleCards articles={relatedPosts} />
             </>
