@@ -40,7 +40,7 @@ export default function ShowAllUsers({ role }) {
           });
           setShow(true);
           setTimeout(() => {
-            localStorage.removeItem("role");
+            // localStorage.removeItem("role");
             Object.keys(Cookies.get()).forEach(function (cookieName) {
               Cookies.remove(cookieName);
             });
@@ -83,7 +83,7 @@ export default function ShowAllUsers({ role }) {
           });
           setShow(true);
           setTimeout(() => {
-            localStorage.removeItem("role");
+            // localStorage.removeItem("role");
             Object.keys(Cookies.get()).forEach(function (cookieName) {
               Cookies.remove(cookieName);
             });

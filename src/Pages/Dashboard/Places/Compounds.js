@@ -7,8 +7,10 @@ import OverPage from "../../../Components/OverPage/OverPage.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 import { Link } from "react-router-dom";
+
 export default function Compounds() {
-  const role = localStorage.getItem("role")
+  const role = Cookies.get("role")
+  // const role = localStorage.getItem("role")
   const token = Cookies.get("token");
   const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({

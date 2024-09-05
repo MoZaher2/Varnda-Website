@@ -325,7 +325,7 @@ function App() {
         <Route
           path="/favorite-properties"
           element={
-            <ProtectedRoute allowedRoles={["user", "admin"]}>
+            <ProtectedRoute allowedRoles={["user"]}>
               <FavPage />
             </ProtectedRoute>
           }

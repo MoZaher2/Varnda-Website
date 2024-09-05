@@ -11,7 +11,8 @@ import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 
 export default function ArticlesCategory() {
     const token = Cookies.get("token");
-    const role = localStorage.getItem("role")
+    const role = Cookies.get("role")
+    // const role = localStorage.getItem("role")
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [loadId, setLoadId] = useState(false)
     const [articles, setArticles] = useState([])

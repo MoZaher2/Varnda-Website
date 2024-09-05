@@ -61,7 +61,7 @@ export default function SignupPage() {
           Cookies.set('email', response.data.data.email);
           Cookies.set('phone', response.data.data.phone);
           Cookies.set('role', response.data.data.role);
-          localStorage.setItem('role', response.data.data.role);
+          // localStorage.setItem('role', response.data.data.role);
           Cookies.set('verify',null)
           Cookies.set("image", response.data.data.image);
           Cookies.set('first_name', response.data.data.first_name);

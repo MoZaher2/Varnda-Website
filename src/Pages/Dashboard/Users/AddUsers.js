@@ -79,7 +79,7 @@ export default function AddUsers() {
               variant: 3,
             });
             setTimeout(() => {
-              localStorage.removeItem("role");
+              // localStorage.removeItem("role");
               Object.keys(Cookies.get()).forEach(function (cookieName) {
                 Cookies.remove(cookieName);
               });

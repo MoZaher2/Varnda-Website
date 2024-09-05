@@ -18,7 +18,8 @@ import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 
 export default function Regions() {
 
-  const role = localStorage.getItem("role")
+  const role = Cookies.get("role")
+  // const role = localStorage.getItem("role")
   const token = Cookies.get("token");
   const [getForm, setGetForm] = useState({
     governorate: "",

@@ -45,7 +45,7 @@ export default function LoginPage() {
         Cookies.set("image", response.data.data.user.image);
 
         Cookies.set('role', response.data.data.user.role);
-        localStorage.setItem('role', response.data.data.user.role);
+        // localStorage.setItem('role', response.data.data.user.role);
 
         Cookies.set('first_name', response.data.data.user.first_name);
         Cookies.set('email', response.data.data.user.email);

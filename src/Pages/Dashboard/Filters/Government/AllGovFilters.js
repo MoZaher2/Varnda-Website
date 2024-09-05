@@ -11,7 +11,9 @@ import DeleteItem from "../../../../Components/DeleteItem/DeleteItem.js";
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function AllGovFilters() {
-  const role = localStorage.getItem("role")
+
+  const role = Cookies.get("role")
+  // const role = localStorage.getItem("role")
   const navigate = useNavigate();
   const [loadId, setLoadId] = useState(false);
   const [filters, setFilters] = useState([]);

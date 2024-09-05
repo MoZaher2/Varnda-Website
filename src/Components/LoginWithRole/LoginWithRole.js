@@ -41,7 +41,7 @@ export default function LoginWithRole({role}) {
         Cookies.set('token', response.data.data.token);
         Cookies.set("image", response.data.data.user.image);
         Cookies.set('role', response.data.data.user.role);
-        localStorage.setItem('role', response.data.data.user.role);
+        // localStorage.setItem('role', response.data.data.user.role);
         Cookies.set('email', response.data.data.user.email);
         Cookies.set('first_name', response.data.data.user.name);
         Cookies.set('phone', response.data.data.user.phone);

@@ -234,7 +234,7 @@ useEffect(() => {
               msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
               variant: 3,
             });
-            localStorage.removeItem("role");
+            // localStorage.removeItem("role");
             Object.keys(Cookies.get()).forEach(function (cookieName) {
               Cookies.remove(cookieName);
             });

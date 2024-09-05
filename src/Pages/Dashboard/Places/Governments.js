@@ -18,7 +18,8 @@ import { Link } from "react-router-dom";
 
 export default function Governments() {
 
-  const role = localStorage.getItem("role")
+  const role = Cookies.get("role")
+  // const role = localStorage.getItem("role")
   const [load, setLoad] = useState(false);
   const [loadEdit, setLoadEdit] = useState(false);
   const [loadId, setLoadId] = useState(false);

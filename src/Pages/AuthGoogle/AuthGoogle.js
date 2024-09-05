@@ -31,7 +31,7 @@ const AuthGoogle = () => {
             setError(errorMessage);
         } else {
             if (token && role) {
-                localStorage.setItem('role', role);
+                // localStorage.setItem('role', role);
                 Cookies.set('token', token);
                 Cookies.set("image", image);
                 Cookies.set('role', role);

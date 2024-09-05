@@ -10,7 +10,8 @@ import { Link } from "react-router-dom";
 
 export default function Cities() {
 
-  const role = localStorage.getItem("role")
+  const role = Cookies.get("role")
+  // const role = localStorage.getItem("role")
   const token = Cookies.get("token");
   const [formData, setFormData] = useState({
     governorate: 1,

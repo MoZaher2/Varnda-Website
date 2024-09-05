@@ -28,7 +28,8 @@ import OverPage from './../OverPage/OverPage';
 export default function CardFav({ properties ,overlay }) {
   console.log(properties);
   const token = Cookies.get("token");
-  const role = localStorage.getItem("role")
+  const role = Cookies.get("role")
+  // const role = localStorage.getItem("role")
   const settings = {
     dots: false,
     infinite: true,

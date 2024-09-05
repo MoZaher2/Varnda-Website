@@ -25,7 +25,7 @@ const [articles,setArticles]=useState([])
       <Swiper
         spaceBetween={50}
         autoplay={{
-          delay: 1500,
+          delay: 2500,
           disableOnInteraction: false,
         }}
         modules={[Autoplay]}

@@ -32,7 +32,8 @@ export default function Header() {
   const token = Cookies.get('token')
   const image = Cookies.get('image')
   const first_name = Cookies.get('first_name')
-  const role = localStorage.getItem("role")
+  const role = Cookies.get("role")
+  // const role = localStorage.getItem("role")
   const Logout = async () => {
     try {
       const response = await api.post("/logout", {}, {
@@ -44,7 +45,7 @@ export default function Header() {
     } catch (error) {
       console.log(error);
     } finally {
-      localStorage.removeItem("role");
+      // localStorage.removeItem("role");
       Object.keys(Cookies.get()).forEach(function (cookieName) {
         Cookies.remove(cookieName);
       });

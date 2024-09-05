@@ -8,7 +8,8 @@ import LoadingBtn from "../../../Components/LoadingBtn";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem";
 export default function AllArticles() {
     const token = Cookies.get("token");
-    const role = localStorage.getItem("role")
+    const role = Cookies.get("role")
+    // const role = localStorage.getItem("role")
     
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [overlay, setOverlay] = useState(false)

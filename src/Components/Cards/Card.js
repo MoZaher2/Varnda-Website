@@ -33,7 +33,8 @@ import { faPhone } from "@fortawesome/free-solid-svg-icons";
 
 export default function PropertyCard({ properties=[] ,loading}) {
     const token = Cookies.get("token")
-    const role = localStorage.getItem("role")
+    const role = Cookies.get("role")
+    // const role = localStorage.getItem("role")
 
     const settings = {
         dots: false,

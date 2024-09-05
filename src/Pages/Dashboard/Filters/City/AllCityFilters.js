@@ -12,7 +12,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export default function AllCityFilters() {
   
-  const role = localStorage.getItem("role")
+  const role = Cookies.get("role")
+  // const role = localStorage.getItem("role")
   const navigate = useNavigate();
   const [loadId, setLoadId] = useState(false);
   const [filters, setFilters] = useState([]);

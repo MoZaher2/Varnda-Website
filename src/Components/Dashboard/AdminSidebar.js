@@ -6,7 +6,8 @@ import Cookies from 'js-cookie';
 import api from "../../API/ApiLink";
 export default function SideBar() {
   const token = Cookies.get("token")
-  const role = localStorage.getItem("role")
+  const role = Cookies.get("role")
+  // const role = localStorage.getItem("role")
   const navigate = useNavigate()
   const Logout = async () => {
     try {
@@ -19,7 +20,7 @@ export default function SideBar() {
     } catch (error) {
       console.log(error);
     } finally {
-      localStorage.removeItem("role");
+      // localStorage.removeItem("role");
       Object.keys(Cookies.get()).forEach(function (cookieName) {
         Cookies.remove(cookieName);
       });

@@ -8,7 +8,8 @@ import DeleteItem from './../../Components/DeleteItem/DeleteItem';
 
 function CategoryArticle() {
     const token=Cookies.get("token")
-    const role = localStorage.getItem("role")
+    const role = Cookies.get("role")
+    // const role = localStorage.getItem("role")
     const [category_name, setCategory_name] = useState("")
     const [load, setLoad] = useState(false)
     const [loadId, setLoadId] = useState(false)
