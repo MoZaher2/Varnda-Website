@@ -14,11 +14,11 @@ import Cookies from "js-cookie";
 import OverPage from "./../../../Components/OverPage/OverPage";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Governments() {
-
-  const role = Cookies.get("role")
+  const navigate = useNavigate();
+  const role = Cookies.get("role");
   // const role = localStorage.getItem("role")
   const [load, setLoad] = useState(false);
   const [loadEdit, setLoadEdit] = useState(false);
@@ -205,6 +205,7 @@ export default function Governments() {
       setFormData({ ...formData, [name]: value });
     }
   }
+
   function handelEditeChange(e) {
     const { name, value, type, files } = e.target;
     if (type === "file" && name === "image") {
@@ -356,7 +357,6 @@ export default function Governments() {
                     "لايوجد صوره"
                   )}
                 </td>
-                {/* <td>{item.meta_description}</td> */}
                 <td>{item.meta_title}</td>
                 <td>
                   {item.url ? (
@@ -370,157 +370,13 @@ export default function Governments() {
                   <Button
                     variant="warning"
                     onClick={() => {
-                      handleShow(item.id, governorates[index]);
+                      navigate("/dashboard/edit-governments", {
+                        state: { data: governorates[index] },
+                      });
                     }}
                   >
                     تعديل
                   </Button>
-                  <Modal
-                    size="lg"
-                    show={show}
-                    onHide={handleClose}
-                    backdrop="static"
-                    keyboard={false}
-                    style={{ background: "rgba(0, 0, 0, 0.125)" }}
-                  >
-                    <Modal.Header>
-                      <Modal.Title>تعديل المحافظة</Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                      <Form className="mt-3">
-                        <Row className="mb-2">
-                          <Form.Group as={Col} xs="6" controlId="formArName">
-                            <Form.Label>اسم المحافظة</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="name"
-                              value={editData.name}
-                              placeholder="اسم المحافظة بالعربى"
-                              onChange={handelEditeChange}
-                              required
-                            />
-                          </Form.Group>
-                          <Form.Group as={Col} xs="6" controlId="formAEnName">
-                            <Form.Label>اسم المحافظة انجليزى</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="english_name"
-                              value={editData.english_name}
-                              placeholder="اسم المحافظة بالانجليزى"
-                              onChange={handelEditeChange}
-                            />
-                          </Form.Group>
-                        </Row>
-
-                        <Row className="mb-2">
-                          <Form.Group as={Col} xs="6" controlId="formTitle">
-                            <Form.Label>العنوان الرئيسي</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="h1_title"
-                              value={editData.h1_title}
-                              onChange={handelEditeChange}
-                            />
-                          </Form.Group>
-                          <Form.Group as={Col} xs="6" controlId="formMetaTitle">
-                            <Form.Label>عنوان الصفحه فى الميتا</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="meta_title"
-                              value={editData.meta_title}
-                              onChange={handelEditeChange}
-                            />
-                          </Form.Group>
-                        </Row>
-
-                        <Row className="mb-2">
-                          <Form.Group as={Col} xs="6" controlId="formTitle">
-                            <Form.Label>رابط المحافظه</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="url"
-                              value={editData.url}
-                              placeholder="يجب ان يكون فريد من نوعه"
-                              onChange={handelEditeChange}
-                            />
-                          </Form.Group>
-
-                          <Form.Group as={Col} xs="6" controlId="formMetaTitle">
-                            <Form.Label>ميتا دسكريبشن</Form.Label>
-                            <Form.Control
-                              as="textarea"
-                              name="meta_description"
-                              value={editData.meta_description}
-                              onChange={handelEditeChange}
-                            />
-                          </Form.Group>
-                        </Row>
-
-                        <Row>
-                          <Form.Group controlId="image" className="mb-3">
-                            <Form.Label>الصورة الأساسية للصفحة</Form.Label>
-                            <Form.Control
-                              type="file"
-                              name="image"
-                              onChange={handelEditeChange}
-                            />
-
-                            <div className="mt-2">
-                              <h5>الصورة الأساسية</h5>
-                              {newImage ? (
-                                <img
-                                  src={URL.createObjectURL(newImage)}
-                                  alt="MainImage"
-                                  style={{
-                                    maxWidth: "300px",
-                                    height: "auto",
-                                    margin: "0 10px 10px 0",
-                                    borderRadius: "5px",
-                                  }}
-                                />
-                              ) : editData.image ? (
-                                <img
-                                  src={editData.image}
-                                  alt="MainImage"
-                                  style={{
-                                    maxWidth: "300px",
-                                    height: "auto",
-                                    margin: "0 10px 10px 0",
-                                    borderRadius: "5px",
-                                  }}
-                                />
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </Form.Group>
-                        </Row>
-                      </Form>
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleClose}>
-                        الغاء
-                      </Button>
-                      <Button
-                        variant="success"
-                        onClick={handleEdite}
-                        disabled={loadEdit}
-                      >
-                        {loadEdit ? <LoadingBtn /> : " حفظ التعديل"}
-                      </Button>
-                    </Modal.Footer>
-                    {showAlert && (
-                      <>
-                        <AlertMessage
-                          msg={alert.msg}
-                          setShow={setShowAlert}
-                          variant={alert.variant}
-                        />
-                      </>
-                    )}
-                  </Modal>
                 </td>
                 {role === "admin" && (
                   <DeleteItem

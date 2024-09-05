@@ -71,6 +71,9 @@ import AddRegionFilter from "./Pages/Dashboard/Filters/Region/AddRegionFilter";
 import SendEmail from "./Pages/ForgetPasswordPage/SendEmail";
 import ResetPassword from "./Pages/ForgetPasswordPage/ResetPassword";
 import DeleteImages from "./Components/DeleteItem/DeleteImages";
+import EditGovernments from "./Pages/Dashboard/EditPlaces/EditGovernments";
+import EditCities from "./Pages/Dashboard/EditPlaces/EditCities";
+import EditCompounds from "./Pages/Dashboard/EditPlaces/EditCompounds";
 
 function App() {
   return (
@@ -161,6 +164,15 @@ function App() {
             }
           />
           <Route
+            path="edit-governments"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <EditGovernments />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="cities"
             element={
               <ProtectedRoute allowedRoles={["admin", "seo"]}>
@@ -168,6 +180,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="edit-cities"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <EditCities />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="regions"
             element={
@@ -184,6 +205,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="compounds"
             element={
@@ -192,6 +214,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="edit-compounds"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <EditCompounds />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="molls"
             element={

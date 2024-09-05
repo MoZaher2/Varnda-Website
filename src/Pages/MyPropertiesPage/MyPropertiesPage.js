@@ -10,21 +10,18 @@ import OverPage from "../../Components/OverPage/OverPage.js";
 
 const MyPropertiesPage = () => {
   const token = Cookies.get("token");
-  const user_id = Cookies.get("user_id");
   const [data, setData] = useState([]);
   const [overlay, setOverlay] = useState(false);
   // استرجاع اعلانات الشخص
   const handelSearch = async () => {
     try {
       setOverlay(true);
-      const response = await api.get(`/searchAds`, {
+      const response = await api.get(`/getAdsByUser`, {
         headers: {
           Authorization: `Bearer ${token}`,
-        },
-        params: {
-          user_id,
-        },
+        }
       });
+      console.log(response.data.data)
       setData(response.data.data);
     } catch (err) {
       console.log(err);
@@ -34,7 +31,7 @@ const MyPropertiesPage = () => {
   };
   useEffect(() => {
     handelSearch();
-  }, [user_id]);
+  }, [token]);
 
   return (
     <>

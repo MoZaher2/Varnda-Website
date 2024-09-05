@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { Form, Button, Table, Modal, Row, Col, Alert } from "react-bootstrap";
+import { Form, Button, Table, Row, Col, Alert } from "react-bootstrap";
 import api from "../../../API/ApiLink.js";
 import LoadingBtn from "../../../Components/LoadingBtn.js";
 import Cookies from "js-cookie";
 import OverPage from "../../../Components/OverPage/OverPage.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Cities() {
 
+  const navigate = useNavigate();
   const role = Cookies.get("role")
   // const role = localStorage.getItem("role")
   const token = Cookies.get("token");
@@ -24,16 +25,7 @@ export default function Cities() {
     url: "",
   });
 
-  //
-  const [editData, setEditData] = useState({
-    name: "",
-    english_name: "",
-    meta_title: "",
-    h1_title: "",
-    meta_description: "",
-    image: "",
-    url: "",
-  });
+
   const resetData = () => {
     setFormData({
       ...formData,
@@ -49,32 +41,15 @@ export default function Cities() {
 
   const [loadId, setLoadId] = useState(false);
   const [image, setImage] = useState(null);
-  const [loadEdit, setLoadEdit] = useState(false);
-  const [newImage, setNewImage] = useState(null);
   const [overlay, setOverlay] = useState(false);
   const [load, setLoad] = useState(false);
-  const [show, setShow] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
   const [governorates, setGovernorates] = useState([]);
   const [govUrL, setGovUrl] = useState("cairo");
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [cities, setCities] = useState([]);
-  const handleClose = () => setShow(false);
-  const handleShow = (id, city) => {
-    console.log(city);
-    setSelectedItemId(id);
-    setEditData({
-      name: city.name,
-      english_name: city.english_name,
-      meta_title: city.meta_title,
-      h1_title: city.h1_title,
-      meta_description: city.meta_description,
-      image: city.image,
-      url: city.url,
-    });
-    setShow(true);
-  };
+
 
   const handelLocationChange = (e) => {
     const { name, value } = e.target;
@@ -135,44 +110,6 @@ export default function Cities() {
     fetchCity();
   }, [formData.governorate]);
 
-  // تعديل المدن
-  const handleEdite = async () => {
-    setLoadEdit(true);
-    const allFormData = new FormData();
-    // Append form fields
-    for (const [key, value] of Object.entries(editData)) {
-      if (key !== "image" && value) {
-        allFormData.append(key, value);
-      }
-    }
-    if (newImage) {
-      allFormData.append("image", editData.image[0]);
-    }
-    try {
-      const response = await api.post(
-        `/updateCity/${selectedItemId}`,
-        allFormData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      fetchCity();
-      setNewImage(null);
-      setShow(false);
-    } catch (err) {
-      if (err.response.data.status == 422) {
-        console.log("first");
-        setAlert({ msg: "هناك رابط اخر مشابهه لهذا", variant: 3 });
-        setShowAlert(true);
-      }
-    } finally {
-      setLoadEdit(false);
-    }
-  };
-
   // حذف المدينة
   const handleDelete = async (id) => {
     try {
@@ -228,19 +165,6 @@ export default function Cities() {
       }
     }
   };
-
-  function handelEditeChange(e) {
-    const { name, value, type, files } = e.target;
-    if (type === "file" && name === "image") {
-      setNewImage(files[0]);
-      setEditData({
-        ...editData,
-        [name]: files,
-      });
-    } else {
-      setEditData({ ...editData, [name]: value });
-    }
-  }
 
   function handelChange(e) {
     const { name, value, type, files } = e.target;
@@ -425,173 +349,13 @@ export default function Cities() {
                       <Button
                         variant="warning"
                         onClick={() => {
-                          handleShow(item.id, cities[index]);
+                          navigate("/dashboard/edit-cities", {
+                            state: { data: cities[index] },
+                          });
                         }}
                       >
                         تعديل
                       </Button>
-                      <Modal
-                        size="lg"
-                        show={show}
-                        onHide={handleClose}
-                        backdrop="static"
-                        keyboard={false}
-                        style={{ background: "rgba(0, 0, 0, 0.125)" }}
-                      >
-                        <Modal.Header>
-                          <Modal.Title>تعديل المدينة</Modal.Title>
-                        </Modal.Header>
-
-                        <Modal.Body>
-                          <Form className="mt-3">
-                            <Row className="mb-2">
-                              <Form.Group
-                                as={Col}
-                                xs="6"
-                                controlId="formArName"
-                              >
-                                <Form.Label>اسم المدينة</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  name="name"
-                                  value={editData.name}
-                                  placeholder="اسم المدينة بالعربى"
-                                  onChange={handelEditeChange}
-                                  required
-                                />
-                              </Form.Group>
-                              <Form.Group
-                                as={Col}
-                                xs="6"
-                                controlId="formAEnName"
-                              >
-                                <Form.Label>اسم المدينة انجليزى</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  name="english_name"
-                                  value={editData.english_name}
-                                  placeholder="اسم المدينة بالانجليزى"
-                                  onChange={handelEditeChange}
-                                />
-                              </Form.Group>
-                            </Row>
-
-                            <Row className="mb-2">
-                              <Form.Group as={Col} xs="6" controlId="formTitle">
-                                <Form.Label>العنوان الرئيسي</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  name="h1_title"
-                                  value={editData.h1_title}
-                                  onChange={handelEditeChange}
-                                />
-                              </Form.Group>
-                              <Form.Group
-                                as={Col}
-                                xs="6"
-                                controlId="formMetaTitle"
-                              >
-                                <Form.Label>عنوان الصفحه فى الميتا</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  name="meta_title"
-                                  value={editData.meta_title}
-                                  onChange={handelEditeChange}
-                                />
-                              </Form.Group>
-                            </Row>
-
-                            <Row className="mb-2">
-                              <Form.Group as={Col} xs="6" controlId="formTitle">
-                                <Form.Label>رابط المدينة</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  name="url"
-                                  value={editData.url}
-                                  placeholder="يجب ان يكون فريد من نوعه"
-                                  onChange={handelEditeChange}
-                                />
-                              </Form.Group>
-
-                              <Form.Group
-                                as={Col}
-                                xs="6"
-                                controlId="formMetaTitle"
-                              >
-                                <Form.Label>ميتا دسكريبشن</Form.Label>
-                                <Form.Control
-                                  as="textarea"
-                                  name="meta_description"
-                                  value={editData.meta_description}
-                                  onChange={handelEditeChange}
-                                />
-                              </Form.Group>
-                            </Row>
-
-                            <Row>
-                              <Form.Group controlId="image" className="mb-3">
-                                <Form.Label>الصورة الأساسية للصفحة</Form.Label>
-                                <Form.Control
-                                  type="file"
-                                  name="image"
-                                  onChange={handelEditeChange}
-                                />
-
-                                <div className="mt-2">
-                                  <h5>الصورة الأساسية</h5>
-                                  {newImage ? (
-                                    <img
-                                      src={URL.createObjectURL(newImage)}
-                                      alt="MainImage"
-                                      style={{
-                                        maxWidth: "300px",
-                                        height: "auto",
-                                        margin: "0 10px 10px 0",
-                                        borderRadius: "5px",
-                                      }}
-                                    />
-                                  ) : editData.image ? (
-                                    <img
-                                      src={editData.image}
-                                      alt="MainImage"
-                                      style={{
-                                        maxWidth: "300px",
-                                        height: "auto",
-                                        margin: "0 10px 10px 0",
-                                        borderRadius: "5px",
-                                      }}
-                                    />
-                                  ) : (
-                                    ""
-                                  )}
-                                </div>
-                              </Form.Group>
-                            </Row>
-                          </Form>
-                        </Modal.Body>
-
-                        <Modal.Footer>
-                          <Button variant="secondary" onClick={handleClose}>
-                            الغاء
-                          </Button>
-                          <Button
-                            variant="success"
-                            onClick={handleEdite}
-                            disabled={loadEdit}
-                          >
-                            {loadEdit ? <LoadingBtn /> : " حفظ التعديل"}
-                          </Button>
-                        </Modal.Footer>
-                        {showAlert && (
-                          <>
-                            <AlertMessage
-                              msg={alert.msg}
-                              setShow={setShowAlert}
-                              variant={alert.variant}
-                            />
-                          </>
-                        )}
-                      </Modal>
                     </td>
                     {role === "admin" && (
                       <DeleteItem
