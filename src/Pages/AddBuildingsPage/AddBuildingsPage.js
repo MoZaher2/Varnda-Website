@@ -292,7 +292,21 @@ const AddBuildingsPage = () => {
   const handleSubmit1 = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if (form.checkValidity() === false || !formData.primary_picture) {
+    if (
+      form.checkValidity() === false ||
+      !(
+        formData.name_ad_ar &&
+        formData.type &&
+        formData.details_ar &&
+        formData.price &&
+        formData.sub_category &&
+        formData.primary_picture &&
+        formData.full_address &&
+        formData.governorate &&
+        formData.city &&
+        formData.floors
+      )
+    ) {
       e.stopPropagation();
       setAlert({ msg: "يرجى التأكد من ملئ الحقول المطلوبه *", variant: 3 });
       window.scrollTo({ top: 0, behavior: "smooth" });

@@ -33,10 +33,9 @@ import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from "react-router-dom";
 
-import {Autocomplete,TextField} from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 
 const AddApartmentsAndDuplexesPage = () => {
-
   const token = Cookies.get("token");
   const [load1, setLoad1] = useState(false);
   const [load2, setLoad2] = useState(false);
@@ -95,11 +94,7 @@ const AddApartmentsAndDuplexesPage = () => {
     sub_category: "",
   });
 
-
   const [compoundLoad, setCompoundLoad] = useState(false);
-
-
-
 
   const [primary_picture, setPrimary_picture] = useState(null);
   const [images, setImages] = useState([]);
@@ -222,7 +217,7 @@ const AddApartmentsAndDuplexesPage = () => {
         setCompounds(response.data.data);
       } catch (error) {
         console.log(error);
-      }finally {
+      } finally {
         setCompoundLoad(false);
       }
     };
@@ -323,7 +318,23 @@ const AddApartmentsAndDuplexesPage = () => {
   const handleSubmit1 = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if (form.checkValidity() === false || !formData.primary_picture) {
+    if (
+      form.checkValidity() === false ||
+      !(
+        formData.name_ad_ar &&
+        formData.type &&
+        formData.details_ar &&
+        formData.price &&
+        formData.sub_category &&
+        formData.area &&
+        formData.rooms &&
+        formData.finishing_type &&
+        formData.primary_picture &&
+        formData.full_address &&
+        formData.governorate &&
+        formData.city
+      )
+    ) {
       e.stopPropagation();
       setAlert({ msg: "يرجى التأكد من ملئ الحقول المطلوبه *", variant: 3 });
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -410,19 +421,19 @@ const AddApartmentsAndDuplexesPage = () => {
         const user_type = Cookies.get("user_type") || null;
         const phone = Cookies.get("phone") || null;
         const whats_phone = Cookies.get("whats_phone") || null;
-        console.log(phone)
-        console.log(whats_phone)
-        console.log(user_type)
+        console.log(phone);
+        console.log(whats_phone);
+        console.log(user_type);
         if (phone === null) {
-          console.log("inside phone")
+          console.log("inside phone");
           Cookies.set("phone", formData2.phone);
         }
         if (user_type === null) {
-          console.log("inside userType")
+          console.log("inside userType");
           Cookies.set("user_type", formData2.advertiser_type);
         }
         if (whats_phone === null) {
-          console.log("inside whats")
+          console.log("inside whats");
           Cookies.set("whats_phone", formData2.whats_phone);
         }
 
@@ -1111,13 +1122,13 @@ const AddApartmentsAndDuplexesPage = () => {
                           maxLength="30"
                         />
                       </Form.Group>
-                      
+
                       <Form.Group
                         as={Col}
                         controlId="compound"
                         className="mb-3"
                       >
-                        <Form.Label className="required">
+                        <Form.Label>
                           {compoundLoad && <span className="loader"></span>}
                           اختار اسم الكمبوند السكني (إن وجد)
                         </Form.Label>

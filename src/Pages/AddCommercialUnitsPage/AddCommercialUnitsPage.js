@@ -298,7 +298,17 @@ const AddCommercialUnitsPage = () => {
   const handleSubmit1 = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if (form.checkValidity() === false || !formData.primary_picture) {
+    if (form.checkValidity() === false || !(
+      formData.name_ad_ar &&
+      formData.type &&
+      formData.details_ar &&
+      formData.price &&
+      formData.sub_category &&
+      formData.primary_picture &&
+      formData.full_address &&
+      formData.governorate &&
+      formData.city
+    )) {
       e.stopPropagation();
       setAlert({ msg: "يرجى التأكد من ملئ الحقول المطلوبه *", variant: 3 });
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -871,7 +881,7 @@ const AddCommercialUnitsPage = () => {
                           controlId="primary_picture"
                           className="mb-3"
                         >
-                          <Form.Label>الصورة الأساسية للإعلان</Form.Label>
+                          <Form.Label className="required">الصورة الأساسية للإعلان</Form.Label>
                           <Form.Control
                             type="file"
                             name="primary_picture"

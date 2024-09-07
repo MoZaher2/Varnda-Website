@@ -320,7 +320,20 @@ const AddResortsAndCoastsPage = () => {
   const handleSubmit1 = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if (form.checkValidity() === false || !formData.primary_picture) {
+    if (form.checkValidity() === false || !(
+      formData.name_ad_ar &&
+      formData.type &&
+      formData.details_ar &&
+      formData.price &&
+      formData.sub_category &&
+      formData.area &&
+      formData.rooms &&
+      formData.finishing_type &&
+      formData.primary_picture &&
+      formData.full_address &&
+      formData.governorate &&
+      formData.city
+    )) {
       e.stopPropagation();
       setAlert({ msg: "يرجى التأكد من ملئ الحقول المطلوبه *", variant: 3 });
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -703,7 +716,7 @@ const AddResortsAndCoastsPage = () => {
                       <Row>
                         <Col xs={12} md={6}>
                           <Form.Group controlId="area" className="mb-3">
-                            <Form.Label>
+                            <Form.Label className="required">
                               <FontAwesomeIcon
                                 icon={faRulerCombined}
                                 className="me-2"
@@ -716,6 +729,7 @@ const AddResortsAndCoastsPage = () => {
                               value={formData.area}
                               onChange={handleChange}
                               min={2}
+                              required
                             />
                           </Form.Group>
                         </Col>
@@ -1132,7 +1146,7 @@ const AddResortsAndCoastsPage = () => {
                         controlId="compound"
                         className="mb-3"
                       >
-                        <Form.Label className="required">
+                        <Form.Label>
                           {compoundLoad && <span className="loader"></span>}
                           القرية السياحية (إن وجد)
                         </Form.Label>

@@ -318,7 +318,20 @@ const AddVillasAndPalacesPage = () => {
   const handleSubmit1 = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if (form.checkValidity() === false || !formData.primary_picture) {
+    if (form.checkValidity() === false || !(
+      formData.name_ad_ar &&
+      formData.type &&
+      formData.details_ar &&
+      formData.price &&
+      formData.sub_category &&
+      formData.rooms &&
+      formData.finishing_type &&
+      formData.primary_picture &&
+      formData.full_address &&
+      formData.governorate &&
+      formData.city&&
+      formData.rooms
+    )) {
       e.stopPropagation();
       setAlert({ msg: "يرجى التأكد من ملئ الحقول المطلوبه *", variant: 3 });
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -888,7 +901,7 @@ const AddVillasAndPalacesPage = () => {
                           controlId="primary_picture"
                           className="mb-3"
                         >
-                          <Form.Label>الصورة الأساسية للإعلان</Form.Label>
+                          <Form.Label className="required">الصورة الأساسية للإعلان</Form.Label>
                           <Form.Control
                             type="file"
                             name="primary_picture"
@@ -1098,7 +1111,7 @@ const AddVillasAndPalacesPage = () => {
                         controlId="compound"
                         className="mb-3"
                       >
-                        <Form.Label className="required">
+                        <Form.Label>
                           {compoundLoad && <span className="loader"></span>}
                           اختار اسم الكمبوند السكني (إن وجد))
                         </Form.Label>
