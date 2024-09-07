@@ -7,11 +7,14 @@ import styles from "./MyPropertiesPage.module.css"; // Import CSS module
 import api from "../../API/ApiLink.js";
 import Cookies from "js-cookie";
 import OverPage from "../../Components/OverPage/OverPage.js";
+import AlertMessage from "../../Components/Alert/Alert.js";
 
 const MyPropertiesPage = () => {
   const token = Cookies.get("token");
   const [data, setData] = useState([]);
   const [overlay, setOverlay] = useState(false);
+  const [show, setShow] = useState(false);
+  const [alert, setAlert] = useState({ msg: "", variant: 0 });
   // استرجاع اعلانات الشخص
   const handelSearch = async () => {
     try {
@@ -23,8 +26,19 @@ const MyPropertiesPage = () => {
       });
       console.log(response.data.data)
       setData(response.data.data);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      if (error.response.status === 401) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setAlert({
+          msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+          variant: 3,
+        });
+        setShow(true);
+        Object.keys(Cookies.get()).forEach(function (cookieName) {
+          Cookies.remove(cookieName);
+        });
+      }
+      console.log(error);
     } finally {
       setOverlay(false);
     }
@@ -52,8 +66,16 @@ const MyPropertiesPage = () => {
           )}
         </>
       )}
-
       <Footer />
+      {show && (
+          <>
+            <AlertMessage
+              msg={alert.msg}
+              setShow={setShow}
+              variant={alert.variant}
+            />
+          </>
+        )}
     </>
   );
 };

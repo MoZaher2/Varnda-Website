@@ -101,7 +101,7 @@ const logWithGoogle = () => {
     <Container className="login-container mt-5" dir="rtl">
       
       <Row className="justify-content-center">
-        <Col xs={12} md={6} lg={4}>
+        <Col xs={12} md={6}>
           <h2 className="text-center mb-4" style={{ color: "#007bff" }}>
             تسجيل الدخول
           </h2>

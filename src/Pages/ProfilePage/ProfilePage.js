@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 const ProfilePage = () => {
   
   const token = Cookies.get('token');
-  console.log(token)
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
@@ -90,14 +89,22 @@ const ProfilePage = () => {
             variant: 1
           })
           Cookies.remove("token")
-          window.scrollTo({ top: 0, behavior: 'smooth' });
           setTimeout(() => navigate('/login'), 2000);
-        } catch (err) {
-          if (err.response.data.status === 400) {
+        } catch (error) {
+          if (error.response.data.status === 400) {
             setAlert({
               msg: "كلمه المرور غير صحيحه",
               variant: 3
             })
+          }
+          else if (error.response.status === 401) {
+            setAlert({
+              msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+              variant: 3,
+            });
+            Object.keys(Cookies.get()).forEach(function (cookieName) {
+              Cookies.remove(cookieName);
+            });
           }
           else {
             setAlert({
@@ -105,11 +112,12 @@ const ProfilePage = () => {
               variant: 2
             })
           }
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-
         }
-        setShow(true);
-        setLoad(false)
+        finally{
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setShow(true);
+          setLoad(false)
+        }
       }
     }
     setValidated(true);
@@ -135,23 +143,33 @@ const ProfilePage = () => {
       Cookies.set("phone", userData.phone)
       Cookies.set("user_type", userData.user_type)
 
-
       setAlert({
         msg: "تم تحديث بياناتك بنجاح",
         variant: 1
       })
-      setShow(true)
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      if (error.response.status === 401) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setAlert({
+          msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+          variant: 3,
+        });
+        Object.keys(Cookies.get()).forEach(function (cookieName) {
+          Cookies.remove(cookieName);
+        });
+      }
+      else{
       setAlert({
         msg: "حدث خطا اثناء تغيير البيانات",
         variant: 2
       })
+    }
+      console.log(error);
+    }finally{
       setShow(true)
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      setLoad2(false);
     }
-    setLoad2(false);
   };
 
   const handleImageChange = (e) => {
@@ -174,12 +192,12 @@ const ProfilePage = () => {
       // Create FormData and append image file
       const formData = new FormData();
       if (profileImageFile) {
-        formData.append("image", profileImageFile); // Append image file
+        formData.append("image", profileImageFile); 
       }
       const response = await api.post("/updateUser", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data' // Ensure correct content type
+          'Content-Type': 'multipart/form-data'
         }
       });
       const userData = response.data.data;
@@ -188,18 +206,30 @@ const ProfilePage = () => {
         msg: "تم تحديث الصوره بنجاح",
         variant: 1
       });
-      setShow(true);
       setImageSelected(false);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err) {
-      setAlert({
-        msg: "حدث خطا اثناء تغيير الصوره",
-        variant: 2
-      });
+    } catch (error) {
+      if (error.response.status === 401) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setAlert({
+          msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+          variant: 3,
+        });
+        setShow(true);
+        Object.keys(Cookies.get()).forEach(function (cookieName) {
+          Cookies.remove(cookieName);
+        });
+      }
+      else{
+        setAlert({
+          msg: "حدث خطا اثناء تغيير الصوره",
+          variant: 2
+        });
+      }
+    }finally{
       setShow(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      setLoad3(false);
     }
-    setLoad3(false);
   };
 
   return (

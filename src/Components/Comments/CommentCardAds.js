@@ -16,6 +16,7 @@ import api from "../../API/ApiLink";
 import Cookies from "js-cookie";
 import LoadingBtn from "../LoadingBtn";
 import OverPage from "../OverPage/OverPage";
+import AlertMessage from "../Alert/Alert";
 export default function CommentCardAds({ ads_id }) {
   const userId = Cookies.get("user_id");
   const token = Cookies.get("token");
@@ -24,7 +25,8 @@ export default function CommentCardAds({ ads_id }) {
   const [open, setOpen] = useState(false);
   const [load, setLoad] = useState(false);
   const [comments, setComments] = useState([]);
-
+  const [show, setShow] = useState(false);
+  const [alert, setAlert] = useState({ msg: "", variant: 0 });
   // التعليقات الخاصه بالشيئ
   const fetchComments = async () => {
     try {
@@ -55,8 +57,19 @@ export default function CommentCardAds({ ads_id }) {
       );
       setOpen(false);
       fetchComments();
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      if (error.response.status === 401) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setAlert({
+          msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+          variant: 3,
+        });
+        setShow(true);
+        Object.keys(Cookies.get()).forEach(function (cookieName) {
+          Cookies.remove(cookieName);
+        });
+      }
+      console.log(error);
     } finally {
       setLoad(false);
     }
@@ -175,6 +188,15 @@ export default function CommentCardAds({ ads_id }) {
           </Alert>
         )}
       </Row>
+      {show && (
+          <>
+            <AlertMessage
+              msg={alert.msg}
+              setShow={setShow}
+              variant={alert.variant}
+            />
+          </>
+        )}
     </>
   );
 }

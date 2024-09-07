@@ -507,6 +507,19 @@ const CardDetails = ({ propertyDetails }) => {
                             </th>
                           </tr>
                         )}
+                        {propertyDetails.property.mall_name && (
+                          <tr>
+                            <th
+                              className="w-50 p-3"
+                              style={{ borderTop: "1px solid #dee2e6" }}
+                            >
+                              المول
+                            </th>
+                            <th className="w-50 p-3 leftTablePart">
+                              {propertyDetails.property.mall_name}
+                            </th>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   </Col>

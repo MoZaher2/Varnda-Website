@@ -24,10 +24,13 @@ import "slick-carousel/slick/slick-theme.css";
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import AlertMessage from "../Alert/Alert.js";
 
 export default function CardPage({ properties=[] ,loading}) {
     const token = Cookies.get("token")
     const role = Cookies.get("role")
+    const [show, setShow] = useState(false);
+    const [alert, setAlert] = useState({ msg: "", variant: 0 });
     // const role = localStorage.getItem("role")
     const settings = {
         dots: false,
@@ -60,8 +63,19 @@ export default function CardPage({ properties=[] ,loading}) {
             newFavorites[index] = !newFavorites[index];
             setFavorites(newFavorites);
 
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+          if (error.response.status === 401) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            setAlert({
+              msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+              variant: 3,
+            });
+            setShow(true);
+            Object.keys(Cookies.get()).forEach(function (cookieName) {
+              Cookies.remove(cookieName);
+            });
+          }
+            console.log(error);
         }
         finally {
             setLoadId(null)
@@ -486,6 +500,15 @@ export default function CardPage({ properties=[] ,loading}) {
             )}
          </Row>
          </>
+      )}
+      {show && (
+        <>
+          <AlertMessage
+            msg={alert.msg}
+            setShow={setShow}
+            variant={alert.variant}
+          />
+        </>
       )}
       </>
     );

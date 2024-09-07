@@ -261,6 +261,7 @@ if (Ad) fetchAd();
         });
         setMolls(response.data.data)
       } catch (error) {
+        setMolls([])
         console.log(error);
       }finally{
         setMollLoad(false)
@@ -1223,7 +1224,7 @@ const handlePriceChange = (e) => {
                           value={formData.mall_name}
                           onChange={handleChange}
                         >
-                          {mollLoad && (
+                          {!mollLoad && (
                             <>
                               <option value="">اختر المول</option>
                               {molls.map((moll) => (

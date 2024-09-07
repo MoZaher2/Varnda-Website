@@ -112,7 +112,6 @@ const AddApartmentsAndDuplexesPage = () => {
     ملحقات: [
       "مزرعة مواشي خدم",
       "حوش",
-      ,
       "حديقة أو جنينه",
       "مساحة اضافيه خارجية",
     ],
@@ -130,6 +129,17 @@ const AddApartmentsAndDuplexesPage = () => {
         });
         setGovernorates(response.data.data);
       } catch (error) {
+        if (error.response.status === 401) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setAlert({
+            msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+            variant: 3,
+          });
+          setShow(true);
+          Object.keys(Cookies.get()).forEach(function (cookieName) {
+            Cookies.remove(cookieName);
+          });
+        }
         console.log(error);
       }
     };
