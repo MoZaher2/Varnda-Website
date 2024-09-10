@@ -7,12 +7,19 @@ import api from "../../API/ApiLink";
 import { format } from 'date-fns';
 import OverPage from './../../Components/OverPage/OverPage';
 import DeleteItem from "../../Components/DeleteItem/DeleteItem";
+import { useNavigate } from "react-router-dom";
+import AlertMessage from "../../Components/Alert/Alert";
+
 export default function AllAds() {
+
     const token = Cookies.get("token");
+    const navigate = useNavigate();
     const [data, setData] = useState([])
     const [overlay, setOverlay] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [loadId, setLoadId] = useState(false);
+    const [show, setShow] = useState(false);
+    const [alert, setAlert] = useState({ msg: "", variant: 0 });
 
     // استرجاع كل الاعلانات
     const handelAllAds = async () => {
@@ -24,9 +31,24 @@ export default function AllAds() {
                 }
             });
             setData(response.data.data)
-            console.log(response.data.data);
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
+            if (error.response.status === 401) {
+              setAlert({
+                msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+                variant: 3,
+              });
+              Object.keys(Cookies.get()).forEach(function (cookieName) {
+                Cookies.remove(cookieName);
+              });
+              setTimeout(() => {
+                navigate("/admin-login");
+              }, 2500);
+            }
+            else{
+              setAlert({ msg: "حدث خطأ اثناء استرجاع الاعلانات .يرجى المحاوله مره اخرى", variant: 2 });
+            }
+              setShow(true);
         }finally{
             setOverlay(false)
         }
@@ -111,6 +133,16 @@ export default function AllAds() {
                 لا يوجد اعلانات
               </Alert>
             )}
+          </>
+        )}
+
+        {show && (
+          <>
+            <AlertMessage
+              msg={alert.msg}
+              setShow={setShow}
+              variant={alert.variant}
+            />
           </>
         )}
       </>

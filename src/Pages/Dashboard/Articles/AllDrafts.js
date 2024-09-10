@@ -59,6 +59,13 @@ useEffect(() => {
     }
 };
 
+//اعرض جزء من الوصف 
+const renderLimitedText = (text, charLimit) => {
+  if (text.length > charLimit) {
+      return `${text.substring(0, charLimit)}....`;
+  }
+  return text;
+};
 
 return (
   <>
@@ -82,7 +89,10 @@ return (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.Title}</td>
-              <td>{item.meta_description}</td>
+              <td>
+                {item.meta_description &&
+                  renderLimitedText(item.meta_description, 60)}
+              </td>
               <td>{item.key_words}</td>
               <td>
                 <Button
@@ -94,15 +104,6 @@ return (
                   تعديل
                 </Button>
               </td>
-              {/* <td>
-                <Button
-                  variant="danger"
-                  disabled={loadId === item.id}
-                  onClick={() => handleDelete(item.id)}
-                >
-                  {loadId === item.id ? <LoadingBtn /> : "حذف"}
-                </Button>
-              </td> */}
 
               {role==='admin'&&<DeleteItem
                 id={selectedItemId}

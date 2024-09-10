@@ -2,12 +2,13 @@ import AdminSidebar from "../Components/Dashboard/AdminSidebar";
 import { Row, Col, Navbar } from 'react-bootstrap';
 import { Outlet } from "react-router-dom";
 import Header from "../Components/Header/Header";
+
 export default function AdminLayout() {
 
     return (
       <>
         <Header />
-        <Row>
+        <Row className="m-0">
           <Col lg={3} md={4}>
             <Navbar bg="light" expand="md">
               <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -4,11 +4,11 @@ import Cookies from "js-cookie";
 import api from "../../../API/ApiLink.js";
 import LoadingBtn from "../../../Components/LoadingBtn.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
-
+import { useNavigate } from "react-router-dom";
 
 export default function AddUsers() {
   const token = Cookies.get("token");
-
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
@@ -62,40 +62,35 @@ export default function AddUsers() {
             formDataToSend.append(key, formData[key]);
           }
         }
-
         const response = await api.post("/admin/createUser", formDataToSend, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        window.scrollTo({ top: 0, behavior: "smooth" });
         setAlert({ msg: "تم انشاء الحساب بنجاح", variant: 1 });
-      } catch (err) {
-        try {
-          const errdata = err.response.data;
-          if (err.response.status == 401) {
-            setAlert({
-              msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
-              variant: 3,
-            });
-            setTimeout(() => {
-              // localStorage.removeItem("role");
-              Object.keys(Cookies.get()).forEach(function (cookieName) {
-                Cookies.remove(cookieName);
-              });
-            }, 2000);
-            navigator("/admin-login");
-          }
-          console.log(errdata);
-          setAlert({ msg: "الايميل او الرقم مستخدم بالفعل", variant: 3 });
-          setShow(true);
-        } catch (err) {
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 401) {
+          setAlert({
+            msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+            variant: 3,
+          });
+          Object.keys(Cookies.get()).forEach(function (cookieName) {
+            Cookies.remove(cookieName);
+          });
+          setTimeout(() => {
+            navigate("/admin-login");
+          }, 2500);
+        } else if(error.response.status === 422) {
+          setAlert({ msg: "الايميل مستخدم بالفعل", variant: 3 });
+        }
+        else{
           setAlert({ msg: "حدث خطأ. تاكد من الاتصال بالانترنت", variant: 2 });
-          setShow(true);
         }
       } finally {
-        setLoad(false);
         setShow(true);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setLoad(false);
       }
     }
     setValidated(true);

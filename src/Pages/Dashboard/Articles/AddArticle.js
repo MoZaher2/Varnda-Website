@@ -7,6 +7,7 @@ import LoadingBtn from "../../../Components/LoadingBtn.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import Cookies from "js-cookie";
 import AddTag from "./../../../Components/Tags/AddTag";
+import AlertArError from "../../../Components/Alert/AlertArError.js";
 
 export default function AddArticle() {
   const token = Cookies.get("token");
@@ -31,6 +32,10 @@ export default function AddArticle() {
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
+
+  const [showArError, setShowArError] = useState(false);
+  const [alertArError, setAlertArError] = useState([]);
+
   const [TagsInBasket, setTagsInBasket] = useState([]);
   const [formData, setFormData] = useState({
     title: "", //req
@@ -104,9 +109,16 @@ export default function AddArticle() {
         formDataToSend.append("admin_id", adminId);
         let tags = TagsInBasket.join(",");
         formDataToSend.append("tags", tags);
+
         for (const key in formData) {
-          formDataToSend.append(key, formData[key]);
+          if(key==='article_url'){
+            formDataToSend.append(key, formData[key].trim().replace(/ /g, "-"));
+          }
+          else{
+            formDataToSend.append(key, formData[key]);
+          }
         }
+
         // Set Post
         try {
           setLoad(true);
@@ -142,13 +154,17 @@ export default function AddArticle() {
                 }, 2000);
             }
             setShow(true);
-          } catch (err) {
-            setAlert({ msg: "حدث خطا اثناء نشر المدونة", variant: 2 });
+          } catch (error) {
+            console.log(error)        
+            setAlert({ msg: "حدث خطا اثناء نشر المدونة", variant: 2 });    
+            setShow(true) 
           }
         } catch (error) {
           console.log(error)
           if (error.response.status === 422) {
-            setAlert({ msg: "هناك مقال اخر بهذا الرابط", variant: 2 });
+            console.log(error.response.data.data)
+            setAlertArError(error.response.data.data)
+            setShowArError(true)
           } else if (error.response.status === 401) {
             setAlert({
               msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
@@ -158,9 +174,9 @@ export default function AddArticle() {
               Object.keys(Cookies.get()).forEach(function (cookieName) {
                 Cookies.remove(cookieName);
               });
+              setShow(true);
           }
         } finally {
-          setShow(true);
           setLoad(false);
           setShowConfirm(false);
           window.scrollTo({ top: 0, behavior: "smooth" });
@@ -186,6 +202,14 @@ export default function AddArticle() {
         onSubmit={handelSubmit}
         style={{ position: "relative" }}
       >
+        {showArError && (
+          <>
+            <AlertArError
+              msg={alertArError}
+              setShowArError={setShowArError}
+            />
+          </>
+        )}
         {show && (
           <>
             <AlertMessage
@@ -196,7 +220,7 @@ export default function AddArticle() {
           </>
         )}
         <Row>
-          <Col xs={8}>
+          <Col xs={12} md={8}>
             <Row>
               <Form.Group as={Col} controlId="formGridTitle">
                 <Form.Label>عنوان المدونة:</Form.Label>
@@ -263,9 +287,9 @@ export default function AddArticle() {
               </Form.Select>
             </Form.Group>
           </Col>
-          <Col xs={4}>
+          <Col xs={12} md={4}>
             <Form.Group controlId="article_image" className="mb-3">
-              <Form.Label>الصورة الأساسية للمقال:</Form.Label>
+              <Form.Label className="required">الصورة الأساسية للمقال:</Form.Label>
               <Form.Control
                 type="file"
                 name="article_image"
@@ -305,10 +329,12 @@ export default function AddArticle() {
             <ArticleEditor setArticle_body={setArticle_body} />
           </Form.Group>
         </Row>
-        <Row className="justify-content-evenly">
+        <Row className="justify-content-evenly  mt-3">
           <Button
             as={Col}
-            xs={3}
+            xs={5}
+            md={4}
+            lg={3}
             variant="primary"
             onClick={() => {
               handleShow(1);
@@ -318,7 +344,9 @@ export default function AddArticle() {
           </Button>
           <Button
             as={Col}
-            xs={3}
+            xs={5}
+            md={4}
+            lg={3}
             variant="info"
             onClick={() => {
               handleShow(0);

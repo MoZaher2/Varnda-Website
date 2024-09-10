@@ -8,9 +8,13 @@ import "./AddQuickPage.css";
 import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from "react-router-dom";
+import AlertArError from "../../Components/Alert/AlertArError.js";
 const AddQuickPage = () => {
   const navigate = useNavigate();
-  const token = Cookies.get("token");
+  const token = Cookies.get("token");  
+  const [showArError, setShowArError] = useState(false);
+  const [alertArError, setAlertArError] = useState([]);
+
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
@@ -180,14 +184,20 @@ const AddQuickPage = () => {
         } catch (err) {
           console.log(err);
         }
-      } catch (err) {
-        setAlert({
-          msg: "حدث خطا اثناء حفظ الاعلان يرجى المحاوله مره ثانيه",
-          variant: 2,
-        });
-        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 422) {
+          console.log(error.response.data.data)
+          setAlertArError(error.response.data.data)
+          setShowArError(true)
+        }else{
+          setAlert({
+            msg: "حدث خطا اثناء حفظ الاعلان يرجى المحاوله مره ثانيه",
+            variant: 2,
+          });
         setShow(true);
-        console.log(err);
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } finally {
         setLoad(false);
       }
@@ -332,6 +342,14 @@ const AddQuickPage = () => {
             </Col>
           </Row>
         </Container>
+        {showArError && (
+          <>
+            <AlertArError
+              msg={alertArError}
+              setShowArError={setShowArError}
+            />
+          </>
+        )}
         {show && (
           <>
             <AlertMessage

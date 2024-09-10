@@ -64,7 +64,7 @@ export default function AddTag({TagsInBasket,setTagsInBasket}) {
   return (
     <div>
       <Row className="mt-3">
-        <Form.Group as={Col} xs={6} controlId="formGridTitle">
+        <Form.Group as={Col} xs={8} md={6} controlId="formGridTitle">
           <Form.Control
             type="text"
             placeholder="ادخل تاج جديدة"
@@ -72,14 +72,14 @@ export default function AddTag({TagsInBasket,setTagsInBasket}) {
             onChange={(e) => setTag(e.target.value)}
           />
         </Form.Group>
-        <Button as={Col} xs={2} variant="primary" onClick={handleAddTag}>
+        <Button as={Col} xs={4} md={4} lg={2} variant="primary" onClick={handleAddTag}>
           اضافه التاج
         </Button>
       </Row>
 
       <Row className="mt-3">
         <Autocomplete
-        as={Col} xs={6}
+        as={Col} xs={12} md={6}
           disablePortal
           onChange={(event, newValue) => {
             handleOptionSelect(newValue ? newValue : "");

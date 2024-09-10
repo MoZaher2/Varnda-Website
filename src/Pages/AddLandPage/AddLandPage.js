@@ -32,6 +32,7 @@ import "../AddApartmentsAndDuplexesPage/AddApartmentsAndDuplexesPage.css";
 import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from "react-router-dom";
+import AlertArError from "../../Components/Alert/AlertArError.js";
 const AddLandPage = () => {
   const token = Cookies.get("token");
   const [load1, setLoad1] = useState(false);
@@ -39,6 +40,9 @@ const AddLandPage = () => {
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
   const navigate = useNavigate();
+
+  const [showArError, setShowArError] = useState(false);
+  const [alertArError, setAlertArError] = useState([]);
 
   const myIcon = new L.Icon({
     iconUrl: require("leaflet/dist/images/marker-icon.png"),
@@ -358,14 +362,23 @@ const AddLandPage = () => {
         setLoad1(false);
         // للانتقال لاخر صفحه و حفظ الاعلان
         setCurrentPage(currentPage + 1);
-      } catch (err) {
+      } catch (error) {
+        console.log(error);
+
+        if (error.response.status === 422) {
+          console.log(error.response.data.data)
+          setAlertArError(error.response.data.data)
+          setShowArError(true)
+        }
+        else{
         setAlert({
           msg: "حدث خطا اثناء حفظ الاعلان يرجى المحاوله مره ثانيه",
           variant: 2,
         });
-        window.scrollTo({ top: 0, behavior: "smooth" });
         setShow(true);
-        console.log(err);
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } finally {
         setLoad1(false);
       }
     }
@@ -1017,6 +1030,14 @@ const AddLandPage = () => {
             </Col>
           </Row>
         </Container>
+        {showArError && (
+          <>
+            <AlertArError
+              msg={alertArError}
+              setShowArError={setShowArError}
+            />
+          </>
+        )}
         {show && (
           <>
             <AlertMessage

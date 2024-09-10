@@ -84,6 +84,14 @@ const handleChange = (e) => {
     setCategoryName(value);
 }
 
+//اعرض جزء من الوصف 
+const renderLimitedText = (text, charLimit) => {
+  if (text.length > charLimit) {
+      return `${text.substring(0, charLimit)}....`;
+  }
+  return text;
+};
+
 return (
   <>
     <Form.Group controlId="category" className="mb-3">
@@ -127,7 +135,10 @@ return (
                 <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.Title}</td>
-                  <td>{item.meta_description}</td>
+                  <td>
+                    {item.meta_description &&
+                      renderLimitedText(item.meta_description, 50)}
+                  </td>
                   <td>{item.key_words}</td>
                   <td>
                     <Link to={`/Blog/${item.Article_url}`}>
@@ -154,13 +165,15 @@ return (
                 </Button>
               </td> */}
 
-                {role==='admin'&&<DeleteItem
-                  id={selectedItemId}
-                  setId={setSelectedItemId}
-                  itemId={item.id}
-                  DeleteFun={handleDelete}
-                  load={loadId}
-                />}
+                  {role === "admin" && (
+                    <DeleteItem
+                      id={selectedItemId}
+                      setId={setSelectedItemId}
+                      itemId={item.id}
+                      DeleteFun={handleDelete}
+                      load={loadId}
+                    />
+                  )}
                 </tr>
               ))}
             </tbody>

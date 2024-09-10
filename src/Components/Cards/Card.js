@@ -69,6 +69,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
             newFavorites[index] = !newFavorites[index];
             setFavorites(newFavorites);
         } catch (error) {
+          console.log(error);
           if (error.response.status === 401) {
             window.scrollTo({ top: 0, behavior: "smooth" });
             setAlert({
@@ -80,7 +81,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
               Cookies.remove(cookieName);
             });
           }
-            console.log(error);
+          
         }
         finally {
             setLoadId(null)

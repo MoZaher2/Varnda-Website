@@ -5,11 +5,14 @@ import Cookies from 'js-cookie';
 import LoadingBtn from '../../Components/LoadingBtn.js';
 import OverPage from './../../Components/OverPage/OverPage';
 import DeleteItem from './../../Components/DeleteItem/DeleteItem';
-
+import { useNavigate } from "react-router-dom";
+import AlertMessage from '../../Components/Alert/Alert.js';
 function CategoryArticle() {
     const token=Cookies.get("token")
     const role = Cookies.get("role")
-    // const role = localStorage.getItem("role")
+    const navigate = useNavigate();
+    const [showAlert, setShowAlert] = useState(false);
+  const [alert, setAlert] = useState({ msg: "", variant: 0 });
     const [category_name, setCategory_name] = useState("")
     const [load, setLoad] = useState(false)
     const [loadId, setLoadId] = useState(false)
@@ -60,8 +63,21 @@ function CategoryArticle() {
             );
             fetchData();
             console.log(response.data);
-          } catch (err) {
-            console.log(err);
+          } catch (error) {
+            console.log(error);
+            if (error.response.status === 401) {
+              setAlert({
+                msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+                variant: 3,
+              });
+              Object.keys(Cookies.get()).forEach(function (cookieName) {
+                Cookies.remove(cookieName);
+              });
+            }
+            else{
+              setAlert({ msg: "حدث خطأ اثناء تعديل التصنيف .يرجى المحاوله مره اخرى", variant: 2 });
+            }
+              setShowAlert(true);
           } finally {
             setLoadEdit(false);
             setShow(false);
@@ -79,8 +95,25 @@ function CategoryArticle() {
             })
             fetchData()
             console.log(response.data);
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
+            if (error.response.status === 401) {
+              setAlert({
+                msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+                variant: 3,
+              });
+              Object.keys(Cookies.get()).forEach(function (cookieName) {
+                Cookies.remove(cookieName);
+              });
+              setTimeout(() => {
+                navigate("/admin-login");
+              }, 2500);
+            }
+            else{
+              setAlert({ msg: "حدث خطأ اثناء حذف التصنيف .يرجى المحاوله مره اخرى", variant: 2 });
+            }
+            setShowAlert(true);
+      
         }finally {
             setLoadId(false);
           }
@@ -107,15 +140,32 @@ function handleNewCategory(e) {
             })
             console.log(response.data);
             fetchData()
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+          console.log(error);
+          if (error.response.status === 401) {
+            setAlert({
+              msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+              variant: 3,
+            });
+            Object.keys(Cookies.get()).forEach(function (cookieName) {
+              Cookies.remove(cookieName);
+            });
+            setTimeout(() => {
+              navigate("/admin-login");
+            }, 2500);
+          }
+          else{
+            setAlert({ msg: "حدث خطأ اثناء اضافة التصنيف .يرجى المحاوله مره اخرى", variant: 2 });
+          }
+            setShowAlert(true);
+                
         } finally {
             setLoad(false)
         }
     }
     return (
       <>
-        <Form onSubmit={handleAddCategory}>
+        <Form onSubmit={handleAddCategory} className="mt-3">
           <Row className="align-items-center">
             <Col xs="8">
               <InputGroup className="mb-2" dir="ltr">
@@ -214,6 +264,16 @@ function handleNewCategory(e) {
          )}
        </>}
       
+
+       {showAlert && (
+            <>
+              <AlertMessage
+                msg={alert.msg}
+                setShow={setShowAlert}
+                variant={alert.variant}
+              />
+            </>
+          )}
       </>
     );
 }

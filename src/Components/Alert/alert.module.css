@@ -9,6 +9,32 @@
     animation-duration: 2s;
     animation-fill-mode: forwards;
 }
+
+.alertSideBar{
+  position: absolute;
+  top: 0px;
+  /* width: 70vw; */
+  height: 65px;
+  animation-name: alert_up2down__sUKB7;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.alertArError{
+  position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translate(-50%);
+    width: 60%;
+    animation-name: up2down;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+.alertArError p{
+  margin-bottom: 0px;
+}
+
 @keyframes up2down {
      from {
         top: -60px;
@@ -18,8 +44,8 @@
   }
 }
 @media only screen and (max-width: 768px) {
-    .alert {
+    .alert,.alertArError {
         width: 99%;
-        height: 70px;
     }
+    
   }

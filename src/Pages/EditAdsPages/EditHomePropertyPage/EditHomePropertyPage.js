@@ -35,11 +35,14 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom"; //
 import DeleteImage from "../../../Components/DeleteImage/DeleteImage.js"; //
 import { Autocomplete, TextField } from "@mui/material";
+import AlertArError from "../../../Components/Alert/AlertArError.js";
 
 const EditHomePropertyPage = () => {
   const location = useLocation(); //
   const Ad = location.state?.data; //
   const token = Cookies.get("token");
+  const [showArError, setShowArError] = useState(false);
+  const [alertArError, setAlertArError] = useState([]);
   // خاصين بتعديل الصور
   const [oldImages, setOldImages] = useState([]);
   const [deleteImages, setDeleteImages] = useState([]);
@@ -475,14 +478,21 @@ const EditHomePropertyPage = () => {
         setTimeout(() => {
           navigate("/myproperties");
         }, 2000);
-      } catch (err) {
-        console.log(err);
-        setAlert({
-          msg: "حدث خطا اثناء تعديل الاعلان يرجى المحاوله مره ثانيه",
-          variant: 2,
-        });
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 422) {
+          console.log(error.response.data.data)
+          setAlertArError(error.response.data.data)
+          setShowArError(true)
+        }
+        else{
+          setAlert({
+            msg: "حدث خطا اثناء تعديل الاعلان يرجى المحاوله مره ثانيه",
+            variant: 2,
+          });
+          setShow(true);
+        }
         window.scrollTo({ top: 0, behavior: "smooth" });
-        setShow(true);
       } finally {
         setLoad(false);
       }
@@ -1347,6 +1357,14 @@ const EditHomePropertyPage = () => {
             </Col>
           </Row>
         </Container>
+        {showArError && (
+          <>
+            <AlertArError
+              msg={alertArError}
+              setShowArError={setShowArError}
+            />
+          </>
+        )}
         {show && (
           <>
             <AlertMessage

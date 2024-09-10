@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useLocation } from "react-router-dom"; //
 import DeleteImage from "../../../Components/DeleteImage/DeleteImage.js";
+import AlertArError from "../../../Components/Alert/AlertArError.js";
 const EditQuickPage = () => {
   const location = useLocation(); //
   const Ad = location.state?.data; //
@@ -49,6 +50,8 @@ const EditQuickPage = () => {
 
   const navigate = useNavigate();
   const token = Cookies.get("token");
+  const [showArError, setShowArError] = useState(false);
+  const [alertArError, setAlertArError] = useState([]);
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
@@ -144,7 +147,6 @@ const EditQuickPage = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       setShow(true);
     } else {
-      const token = Cookies.get("token");
       try {
         setLoad(true);
         const allFormData = new FormData();
@@ -184,14 +186,21 @@ const EditQuickPage = () => {
         setTimeout(() => {
           navigate("/myproperties");
         }, 2000);
-      } catch (err) {
-        setAlert({
-          msg: "حدث خطا اثناء تعديل الاعلان يرجى المحاوله مره ثانيه",
-          variant: 2,
-        });
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 422) {
+          console.log(error.response.data.data)
+          setAlertArError(error.response.data.data)
+          setShowArError(true)
+        }
+        else{
+          setAlert({
+            msg: "حدث خطا اثناء تعديل الاعلان يرجى المحاوله مره ثانيه",
+            variant: 2,
+          });
+          setShow(true);
+        }
         window.scrollTo({ top: 0, behavior: "smooth" });
-        setShow(true);
-        console.log(err);
       } finally {
         setLoad(false);
       }
@@ -383,6 +392,14 @@ const EditQuickPage = () => {
             </Col>
           </Row>
         </Container>
+        {showArError && (
+          <>
+            <AlertArError
+              msg={alertArError}
+              setShowArError={setShowArError}
+            />
+          </>
+        )}
         {show && (
           <>
             <AlertMessage

@@ -8,6 +8,7 @@ import AlertMessage from "../../../Components/Alert/Alert.js";
 import Cookies from "js-cookie";
 import AddTag from "./../../../Components/Tags/AddTag";
 import { useLocation } from "react-router-dom";
+import AlertArError from "../../../Components/Alert/AlertArError.js";
 
 export default function EditArticle() {
   const navigate = useNavigate();
@@ -57,6 +58,8 @@ export default function EditArticle() {
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
+  const [showArError, setShowArError] = useState(false);
+  const [alertArError, setAlertArError] = useState([]);
 
   const handleClose = () => setShowConfirm(false);
   const handleShow = (finished) => {
@@ -126,7 +129,7 @@ export default function EditArticle() {
           formDataToSend.append("article_body", article_body);
         }
         if (formData.article_url !== Article.Article_url) {
-          formDataToSend.append("article_url", formData.article_url);
+          formDataToSend.append("article_url", formData.article_url.trim().replace(/ /g, "-"));
         }
         if (formData.title !== Article.Title) {
           formDataToSend.append("title", formData.title);
@@ -143,13 +146,8 @@ export default function EditArticle() {
         formDataToSend.append("finished", formData.finished);
         if(TagsInBasket.length>0){
           let tags = TagsInBasket.join(",");
-          console.log("Taggggggg ",tags)
           formDataToSend.append("tags", tags); 
         }
-        // else{
-        //   console.log("Emptyyyyyyyyyyyyyyyyyyyy")
-        //   formDataToSend.append("tags", "ل");
-        // }
         // Set Post
         try {
           setLoad(true);
@@ -189,25 +187,28 @@ export default function EditArticle() {
               }, 2000);
             }
             setShow(true);
-          } catch (err) {
-            setAlert({ msg: "حدث خطا اثناء تعديل المدونة", variant: 2 });
+          } catch (error) {
+            console.log(error)        
+              setAlert({ msg: "حدث خطا اثناء تعديل المدونة", variant: 2 });     
+              setShow(true)       
           }
         } catch (error) {
+          console.log(error)
           if (error.response.status === 422) {
-            console.log(error)
-            setAlert({ msg: "هناك مقال اخر بهذا الرابط", variant: 2 });
+            console.log(error.response.data.data)
+            setAlertArError(error.response.data.data)
+            setShowArError(true)
           } else if (error.response.status === 401) {
             setAlert({
               msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
               variant: 3,
             });
-            // localStorage.removeItem("role");
             Object.keys(Cookies.get()).forEach(function (cookieName) {
               Cookies.remove(cookieName);
             });
+            setShow(true);
           }
         } finally {
-          setShow(true);
           setLoad(false);
           setShowConfirm(false);
           window.scrollTo({ top: 0, behavior: "smooth" });
@@ -236,6 +237,15 @@ export default function EditArticle() {
         onSubmit={handelSubmit}
         style={{ position: "relative" }}
       >
+        {showArError && (
+          <>
+            <AlertArError
+              msg={alertArError}
+              setShowArError={setShowArError}
+            />
+          </>
+        )}
+
         {show && (
           <>
             <AlertMessage
@@ -246,7 +256,7 @@ export default function EditArticle() {
           </>
         )}
         <Row>
-          <Col xs={8}>
+          <Col xs={12} md={8}>
             <Row>
               <Form.Group as={Col} controlId="formGridTitle">
                 <Form.Label>عنوان المدونة:</Form.Label>
@@ -269,9 +279,6 @@ export default function EditArticle() {
                   onChange={handleChange}
                   required
                 />
-                {/* <Form.Control.Feedback type="invalid">
-                                    يجب كتابة اسم فريد
-                                </Form.Control.Feedback> */}
               </Form.Group>
             </Row>
             <Form.Group as={Col} controlId="formGridMeta">
@@ -317,9 +324,9 @@ export default function EditArticle() {
               </Form.Select>
             </Form.Group>
           </Col>
-          <Col xs={4}>
+          <Col xs={12} md={4}>
             <Form.Group controlId="article_image" className="mb-3">
-              <Form.Label>الصورة الأساسية للمقال:</Form.Label>
+              <Form.Label className="required">الصورة الأساسية للمقال:</Form.Label>
               <Form.Control
                 type="file"
                 name="article_image"
@@ -345,8 +352,8 @@ export default function EditArticle() {
                     src={articleImage}
                     alt="articleimage"
                     style={{
-                      maxWidth: "300px",
-                      height: "auto",
+                      maxWidth: "100%",
+                      height: "200px",
                       margin: "0 10px 10px 0",
                       borderRadius: "5px",
                     }}
@@ -376,10 +383,12 @@ export default function EditArticle() {
           </Form.Group>
         </Row>
 
-        <Row className="justify-content-evenly">
+        <Row className="justify-content-evenly mt-3">
           <Button
             as={Col}
-            xs={3}
+            xs={5}
+            md={4}
+            lg={3}
             variant="primary"
             onClick={() => {
               handleShow(1);
@@ -389,7 +398,9 @@ export default function EditArticle() {
           </Button>
           <Button
             as={Col}
-            xs={3}
+            xs={5}
+            md={4}
+            lg={3}
             variant="info"
             onClick={() => {
               handleShow(0);

@@ -9,7 +9,6 @@ export default function AllGovernorates() {
     const fetchAllGov = async () => {
       try {
         const response = await api.get("/getAllGovernoratesForHomepage");
-
         setAllGov(response.data.data);
       } catch (err) {
         console.log(err);

@@ -34,6 +34,7 @@ import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from "react-router-dom";
 
 import { Autocomplete, TextField } from "@mui/material";
+import AlertArError from "../../Components/Alert/AlertArError.js";
 
 const AddApartmentsAndDuplexesPage = () => {
   const token = Cookies.get("token");
@@ -42,6 +43,9 @@ const AddApartmentsAndDuplexesPage = () => {
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
   const navigate = useNavigate();
+
+  const [showArError, setShowArError] = useState(false);
+  const [alertArError, setAlertArError] = useState([]);
 
   const myIcon = new L.Icon({
     iconUrl: require("leaflet/dist/images/marker-icon.png"),
@@ -389,14 +393,22 @@ const AddApartmentsAndDuplexesPage = () => {
         setFormData2({ ...formData2, property_id: prop_id });
         // للانتقال لاخر صفحه و حفظ الاعلان
         setCurrentPage(currentPage + 1);
-      } catch (err) {
+      } catch (error) {
+        console.log(error);
+
+        if (error.response.status === 422) {
+          console.log(error.response.data.data)
+          setAlertArError(error.response.data.data)
+          setShowArError(true)
+        }
+        else{
         setAlert({
           msg: "حدث خطا اثناء حفظ الاعلان يرجى المحاوله مره ثانيه",
           variant: 2,
         });
-        window.scrollTo({ top: 0, behavior: "smooth" });
         setShow(true);
-        console.log(err);
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } finally {
         setLoad1(false);
       }
@@ -1271,6 +1283,14 @@ const AddApartmentsAndDuplexesPage = () => {
             </Col>
           </Row>
         </Container>
+        {showArError && (
+          <>
+            <AlertArError
+              msg={alertArError}
+              setShowArError={setShowArError}
+            />
+          </>
+        )}
         {show && (
           <>
             <AlertMessage

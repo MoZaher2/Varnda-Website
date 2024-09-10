@@ -8,8 +8,10 @@ import AlertMessage from "../../../Components/Alert/Alert.js";
 import OverPage from "../../../Components/OverPage/OverPage.js";
 import { Avatar } from "@mui/joy";
 import DeleteUser from "../../../Components/DeleteItem/DeleteUser.js";
+import { useNavigate } from "react-router-dom";
 
 export default function ShowAllUsers({ role }) {
+const navigate = useNavigate();
   const [overlay, setOverlay] = useState(false);
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
@@ -28,30 +30,25 @@ export default function ShowAllUsers({ role }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
       setData(response.data.data);
-    } catch (err) {
-      try {
-        const errdata = err.response.data;
-        if (err.response.status == 401) {
-          setAlert({
-            msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
-            variant: 3,
-          });
-          setShow(true);
-          setTimeout(() => {
-            // localStorage.removeItem("role");
-            Object.keys(Cookies.get()).forEach(function (cookieName) {
-              Cookies.remove(cookieName);
-            });
-          }, 2000);
-          navigator("/admin-login");
-        }
-        console.log(errdata);
-      } catch (err) {
-        setAlert({ msg: "حدث خطأ. تاكد من الاتصال بالانترنت", variant: 2 });
-        setShow(true);
+    } catch (error) {
+      if (error.response.status === 401) {
+        setAlert({
+          msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+          variant: 3,
+        });
+        Object.keys(Cookies.get()).forEach(function (cookieName) {
+          Cookies.remove(cookieName);
+        });
+        setTimeout(() => {
+          navigate("/admin-login");
+        }, 2500);
       }
+      else{
+        setAlert({ msg: "حدث خطأ اثناء استرجاع المستخدمين .يرجى المحاوله مره اخرى", variant: 2 });
+      }
+        setShow(true);
+
     } finally {
       setOverlay(false);
     }
@@ -73,28 +70,24 @@ export default function ShowAllUsers({ role }) {
         },
       });
       handelGetAllUser()
-    } catch (err) {
-      try {
-        const errdata = err.response.data;
-        if (err.response.status == 401) {
-          setAlert({
-            msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
-            variant: 3,
-          });
-          setShow(true);
-          setTimeout(() => {
-            // localStorage.removeItem("role");
-            Object.keys(Cookies.get()).forEach(function (cookieName) {
-              Cookies.remove(cookieName);
-            });
-          }, 2000);
-          navigator("/admin-login");
-        }
-        console.log(errdata);
-      } catch (err) {
-        setAlert({ msg: "حدث خطأ. تاكد من الاتصال بالانترنت", variant: 2 });
-        setShow(true);
+    } catch (error) {
+      console.log(error)
+      if (error.response.status === 401) {
+        setAlert({
+          msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
+          variant: 3,
+        });
+        Object.keys(Cookies.get()).forEach(function (cookieName) {
+          Cookies.remove(cookieName);
+        });
+        setTimeout(() => {
+          navigate("/admin-login");
+        }, 2500);
       }
+      else{
+        setAlert({ msg: "حدث خطأ اثناء حذف المستخدم .يرجى المحاوله مره اخرى", variant: 2 });
+      }
+        setShow(true);
     } finally {
       setLoadId(false);
     }
