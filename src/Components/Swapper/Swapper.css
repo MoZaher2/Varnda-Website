@@ -1,4 +1,8 @@
-.card {
+.card{
+  text-decoration: none;
+}
+
+.card-Home {
   display: block;
   text-align: center;
   text-decoration: none;
@@ -11,7 +15,7 @@
   width: 100%;
 }
 
-.card img {
+.card-Home img {
   width: 100%;
   height: 220px;
 }

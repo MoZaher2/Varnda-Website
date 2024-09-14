@@ -117,67 +117,72 @@ return (
     ) : (
       <>
         {articles.length > 0 ? (
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>عنوان المدونة</th>
-                <th>الميتا دسكريبشن</th>
-                <th>الكلمات المفتاحيه</th>
-                <th>رابط المدونة</th>
-                <th colSpan={2} className="text-center">
-                  أجراءات
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {articles.map((item, index) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.Title}</td>
-                  <td>
-                    {item.meta_description &&
-                      renderLimitedText(item.meta_description, 50)}
-                  </td>
-                  <td>{item.key_words}</td>
-                  <td>
-                    <Link to={`/Blog/${item.Article_url}`}>
-                      {item.Article_url}
-                    </Link>
-                  </td>
-                  <td>
-                    <Button
-                      variant="warning"
-                      as={Link}
-                      to="/dashboard/edit-Blog"
-                      state={{ data: articles[index] }}
-                    >
-                      تعديل
-                    </Button>
-                  </td>
-                  {/* <td>
-                 <Button
-                  variant="danger"
-                  disabled={loadId === item.id}
-                  onClick={() => handleDelete(item.id)}
-                >
-                  {loadId === item.id ? <LoadingBtn /> : "حذف"}
-                </Button>
-              </td> */}
-
-                  {role === "admin" && (
-                    <DeleteItem
-                      id={selectedItemId}
-                      setId={setSelectedItemId}
-                      itemId={item.id}
-                      DeleteFun={handleDelete}
-                      load={loadId}
-                    />
-                  )}
+          <>
+            <h2 className="text-center title-page py-1 pb-2 container my-3">
+              مدونات تصنيف "{categoryName}"
+            </h2>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>عنوان المدونة</th>
+                  <th>الميتا دسكريبشن</th>
+                  <th>الكلمات المفتاحيه</th>
+                  <th>رابط المدونة</th>
+                  <th colSpan={2} className="text-center">
+                    أجراءات
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {articles.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.Title}</td>
+                    <td>
+                      {item.meta_description &&
+                        renderLimitedText(item.meta_description, 50)}
+                    </td>
+                    <td>{item.key_words}</td>
+                    <td>
+                      <Link to={`/Blog/${item.Article_url}`}>
+                        {item.Article_url}
+                      </Link>
+                    </td>
+                    <td>
+                      <Button
+                        variant="warning"
+                        as={Link}
+                        to="/dashboard/edit-Blog"
+                        state={{ data: articles[index] }}
+                      >
+                        تعديل
+                      </Button>
+                    </td>
+                    {/* <td>
+                   <Button
+                    variant="danger"
+                    disabled={loadId === item.id}
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    {loadId === item.id ? <LoadingBtn /> : "حذف"}
+                  </Button>
+                </td> */}
+
+                    {role === "admin" && (
+                      <DeleteItem
+                        id={selectedItemId}
+                        setId={setSelectedItemId}
+                        itemId={item.id}
+                        DeleteFun={handleDelete}
+                        load={loadId}
+                      />
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </>
         ) : (
           <Alert key="warning" variant="warning">
             لا يوجد مقالات فى هذا التصنيف

@@ -47,7 +47,7 @@ const [articles,setArticles]=useState([])
       >
         {articles.map(card => (
           <SwiperSlide key={card.id}> 
-            <Link to={`/Blog/${card.article_url}`} className="card">
+            <Link to={`/Blog/${card.article_url}`} className="card-Home">
               <img src={card.article_image} alt={card.title} />
               <p className="cardP">{card.title}</p>
             </Link>

@@ -82,52 +82,57 @@ export default function AllAds() {
         ) : (
           <>
             {data.length > 0 ? (
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>اسم العقار</th>
-                    <th>الفئه</th>
-                    <th>نوع العقار</th>
-                    <th>رابط العقار</th>
-                    <th>تاريخ الرفع</th>
-                    <th>أجراءات</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((item) => (
-                    <tr key={item.id} className="text-center">
-                      <td>{item.id}</td>
-                      <td>{item.property["Arabic Name"]}</td>
-                      <td>{item.property.Category}</td>
-                      <td>{item.property["Sub Category"]}</td>
-                      <td>
-                        <Link to={`/property/${item.slug}`}>
-                          الذهاب للاعلان
-                        </Link>
-                      </td>
-                      <td>
-                        {format(
-                          new Date(item.property.created_at),
-                          "dd-MM-yyyy HH:mm:ss"
-                        )}
-                      </td>
-                      {/* <td>
-                                 <Button variant="danger" onClick={() => handleDelete(item.id)}>
-                                     حذف
-                                 </Button>
-                             </td> */}
-                      <DeleteItem
-                        id={selectedItemId}
-                        setId={setSelectedItemId}
-                        itemId={item.id}
-                        DeleteFun={handleDelete}
-                        load={loadId}
-                      />
+              <>
+                <h2 className="text-center title-page py-1 pb-2 container my-3">
+                  جميع اعلانات الموقع
+                </h2>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>اسم العقار</th>
+                      <th>الفئه</th>
+                      <th>نوع العقار</th>
+                      <th>رابط العقار</th>
+                      <th>تاريخ الرفع</th>
+                      <th>أجراءات</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
+                  </thead>
+                  <tbody>
+                    {data.map((item) => (
+                      <tr key={item.id} className="text-center">
+                        <td>{item.id}</td>
+                        <td>{item.property["Arabic Name"]}</td>
+                        <td>{item.property.Category}</td>
+                        <td>{item.property["Sub Category"]}</td>
+                        <td>
+                          <Link to={`/property/${item.slug}`}>
+                            الذهاب للاعلان
+                          </Link>
+                        </td>
+                        <td>
+                          {format(
+                            new Date(item.property.created_at),
+                            "dd-MM-yyyy HH:mm:ss"
+                          )}
+                        </td>
+                        {/* <td>
+                                   <Button variant="danger" onClick={() => handleDelete(item.id)}>
+                                       حذف
+                                   </Button>
+                               </td> */}
+                        <DeleteItem
+                          id={selectedItemId}
+                          setId={setSelectedItemId}
+                          itemId={item.id}
+                          DeleteFun={handleDelete}
+                          load={loadId}
+                        />
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </>
             ) : (
               <Alert key="warning" className="text-center" variant="warning">
                 لا يوجد اعلانات

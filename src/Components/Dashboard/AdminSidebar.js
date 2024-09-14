@@ -193,6 +193,26 @@ useEffect(() => {
               </DropdownButton>
             )}
 
+            {/* التعليقات */}
+            {role === "admin" && (
+              <DropdownButton
+                id="dropdown-basic-button"
+                align="end"
+                title="التعليقات"
+                className="w-100 sideDropdown"
+              >
+                <Dropdown.Item href="/dashboard/ads-comments">
+                  تعليقات الاعلانات
+                </Dropdown.Item>
+                <Dropdown.Item href="/dashboard/posts-comments">
+                  تعليقات المدونات
+                </Dropdown.Item>
+            
+              </DropdownButton>
+            )}
+
+
+
             <Button variant="danger" className="w-100" onClick={Logout}>
               تسجيل الخروج
             </Button>

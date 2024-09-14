@@ -188,75 +188,80 @@ function handleNewCategory(e) {
         </Form>
 {overlay?<OverPage/>: <>
          {data.length > 0 ? (
-           <Table striped bordered hover>
-             <thead>
-               <tr>
-                 <th>#</th>
-                 <th>اسم التصنيف</th>
-                 <th>تعديل</th>
-                 <th>حذف</th>
-               </tr>
-             </thead>
-             <tbody>
-               {data.map((item) => (
-                 <tr key={item.id}>
-                   <td>{item.id}</td>
-                   <td>{item.category_name}</td>
-                   <td>
-                     <Button variant="warning"
-                      onClick={() => {
-                        handleShow(item.id, item.category_name);
-                      }}
-                   >
-                       تعديل
-                     </Button>
-        
-                     <Modal show={show} onHide={handleClose}>
-                       <Modal.Header>
-                         <Modal.Title>تعديل اسم التصنيف</Modal.Title>
-                       </Modal.Header>
-        
-                       <Modal.Body>
-                         <Form.Control
-                           type="text"
-                           name="newCategory"
-                           value={newCategory}
-                           onChange={handleNewCategory}
-                         />
-                       </Modal.Body>
-                       <Modal.Footer>
-                         <Button variant="secondary" onClick={handleClose}>
-                           الغاء
-                         </Button>
-                         <Button
-                           variant="primary"
-                           onClick={handleEdite}
-                           disabled={loadEdit}
-                         >
-                           {loadEdit ? <LoadingBtn /> : " حفظ التعديل"}
-                         </Button>
-                       </Modal.Footer>
-                     </Modal>
-                   </td>
-                   {role==='admin'&&<DeleteItem
-                      id={selectedItemId}
-                      setId={setSelectedItemId}
-                      itemId={item.id}
-                      DeleteFun={handleDelete}
-                      load={loadId}
-                    />}
-                   {/* <td>
-                     <Button
-                       variant="danger"
-                       onClick={() => handleDelete(item.id)}
-                     >
-                       حذف
-                     </Button>
-                   </td> */}
-                 </tr>
-               ))}
-             </tbody>
-           </Table>
+           <>
+            <h2 className="text-center title-page py-1 pb-2 container my-3">
+        تصنيفات المدونات
+      </h2>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>اسم التصنيف</th>
+                  <th>تعديل</th>
+                  <th>حذف</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.category_name}</td>
+                    <td>
+                      <Button variant="warning"
+                       onClick={() => {
+                         handleShow(item.id, item.category_name);
+                       }}
+                    >
+                        تعديل
+                      </Button>
+            
+                      <Modal show={show} onHide={handleClose}>
+                        <Modal.Header>
+                          <Modal.Title>تعديل اسم التصنيف</Modal.Title>
+                        </Modal.Header>
+            
+                        <Modal.Body>
+                          <Form.Control
+                            type="text"
+                            name="newCategory"
+                            value={newCategory}
+                            onChange={handleNewCategory}
+                          />
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={handleClose}>
+                            الغاء
+                          </Button>
+                          <Button
+                            variant="primary"
+                            onClick={handleEdite}
+                            disabled={loadEdit}
+                          >
+                            {loadEdit ? <LoadingBtn /> : " حفظ التعديل"}
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </td>
+                    {role==='admin'&&<DeleteItem
+                       id={selectedItemId}
+                       setId={setSelectedItemId}
+                       itemId={item.id}
+                       DeleteFun={handleDelete}
+                       load={loadId}
+                     />}
+                    {/* <td>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        حذف
+                      </Button>
+                    </td> */}
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+           </>
          ) : (
            <Alert key="warning" variant="warning">
              لا يوجد تصنيفات

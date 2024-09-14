@@ -74,6 +74,10 @@ import DeleteImages from "./Components/DeleteItem/DeleteImages";
 import EditGovernments from "./Pages/Dashboard/EditPlaces/EditGovernments";
 import EditCities from "./Pages/Dashboard/EditPlaces/EditCities";
 import EditCompounds from "./Pages/Dashboard/EditPlaces/EditCompounds";
+import ShowAdsComments from "./Pages/Dashboard/Comments/ShowAdsComments";
+import ShowPostsComments from "./Pages/Dashboard/Comments/ShowPostsComments";
+import GovsHome from "./Pages/GovsHome/GovsHome";
+import ProjectsHome from "./Pages/ProjectsHome/ProjectsHome";
 
 function App() {
   return (
@@ -93,6 +97,10 @@ function App() {
         <Route path="/send-email" element={<SendEmail />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
+        <Route path="/governorates" element={<GovsHome />} />
+        <Route path="/projects" element={<ProjectsHome />} />
+        <Route path="/projects/:compound" element={<CompoundPage />} />
+        
         <Route path="/Blogs" element={<Articles />} />
         <Route path="/Blogs/:category" element={<ArticlesInCategory />} />
         <Route path="/Blogs/tags/:tag" element={<ArticlesWithTag />} />
@@ -350,6 +358,24 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {/* coments */}
+          <Route
+            path="ads-comments"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <ShowAdsComments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="posts-comments"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <ShowPostsComments />
+              </ProtectedRoute>
+            }
+          />
+
         </Route>
 
         {/* User Routes */}

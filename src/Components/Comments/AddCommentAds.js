@@ -14,7 +14,7 @@ export default function AddCommentAds({ ads_id }) {
   const addComment = async () => {
     setLoad(true);
     try {
-      const response = await api.post(
+      await api.post(
         `add-ad-comment`,
         { ad_slug: ads_id, comment },
         {

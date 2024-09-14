@@ -44,7 +44,7 @@ export default function CommentCard({ post_id }) {
   const handleDeleteComment = async (comment_id) => {
     setLoad(true);
     try {
-      const response = await api.post(
+      await api.post(
         `delete-comment`,
         { comment_id },
         {

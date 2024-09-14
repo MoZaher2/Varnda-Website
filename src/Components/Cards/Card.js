@@ -60,7 +60,7 @@ export default function PropertyCard({ properties=[] ,loading}) {
     const handleLove = async (ad_id, index) => {
         setLoadId(ad_id)
         try {
-            const response = await api.post("/flip-favorite", { ad_id }, {
+            await api.post("/flip-favorite", { ad_id }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }

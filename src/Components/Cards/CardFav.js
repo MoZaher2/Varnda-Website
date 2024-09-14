@@ -52,7 +52,7 @@ export default function CardFav({ properties ,overlay }) {
   const handleLove = async (id, index) => {
     setLoadId(id);
     try {
-      const response = await api.post(
+      await api.post(
         "/flip-favorite",
         { ad_id: id },
         {

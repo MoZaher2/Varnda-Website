@@ -16,13 +16,16 @@ import {
   faUser,
   faFileAlt,
   faTachometerAlt,
-  faBuilding
+  faBuilding,
+  faMapMarkedAlt,
+  faCity
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'js-cookie';
 import api from "../../API/ApiLink";
 import { Box, Avatar, Card, CardContent, Typography, Button, IconButton, Modal, ModalDialog } from '@mui/joy';
+import AllGovernorates from './../AllGovernorates/AllGovernorates';
 
 
 
@@ -125,7 +128,12 @@ export default function Header() {
                   <FontAwesomeIcon icon={faBuilding} className="ms-2" />
                   تصفح عقاراتك
                 </NavDropdown.Item>
-
+{/*  */}
+                <NavDropdown.Item as={Link} to="/governorates" className="text-end">
+                  <FontAwesomeIcon icon={faMapMarkedAlt} className="ms-2" />
+                  المحافظات
+                  </NavDropdown.Item>
+{/*  */}
 
 
 
@@ -158,6 +166,14 @@ export default function Header() {
                 <FontAwesomeIcon icon={faFileAlt} className="ms-2" />
                 المدونة
               </Nav.Link>
+
+{/*  */}
+              <Nav.Link as={Link} to="/projects"  style={{color: 'white'}}>
+                <FontAwesomeIcon icon={faCity} className="ms-2" />
+                المشروعات العقارية
+              </Nav.Link>
+{/*  */}
+
             </Nav>
           </Navbar.Collapse>
         </Container>

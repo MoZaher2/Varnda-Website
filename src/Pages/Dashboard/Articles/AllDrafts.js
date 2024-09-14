@@ -69,6 +69,9 @@ const renderLimitedText = (text, charLimit) => {
 
 return (
   <>
+   <h2 className="text-center title-page py-1 pb-2 container my-3">
+        جميع المسودات
+      </h2>
     <Table striped bordered hover>
       <thead>
         <tr>
