@@ -22,16 +22,18 @@ export default function Footer() {
         <Row className="d-flex justify-content-between align-items-center">
           <Col md={8} dir="rtl" className="footer-links mb-3">
             
-              <Link to="/aboutUs" className="ms-3 fs-5 footer-link">
+              <Link to="/about-us" className="ms-3 fs-5 footer-link">
                 نبذه عنا
               </Link>
-              <Link to="/contactUs" className="ms-3 fs-5 footer-link">
+              <Link to="/contact-us" className="ms-3 fs-5 footer-link">
                 اتصل بنا
               </Link>
-              <Link to="/terms" className="ms-3 fs-5 footer-link">
-                سياسة الخصوصية و الشروط
+              <Link to="/privacy-policy" className="ms-3 fs-5 footer-link">
+                سياسة الخصوصية
               </Link>
-
+              <Link to="/terms" className="ms-3 fs-5 footer-link">
+                شروط الأستخدام
+              </Link>
           </Col>
           <Col md={4} className="d-flex justify-content-end">
             <Link to="#" className="ms-2 fs-3 icon-social">

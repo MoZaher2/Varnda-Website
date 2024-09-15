@@ -10,11 +10,17 @@ import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 import { useNavigate } from 'react-router-dom';
 import OverPage from "../../Components/OverPage/OverPage.js";
+import usePageSEO from "../../hooks/usePageSEO.js";
 
 
 
 export default function LoginPage() {
 
+// Set SEO settings
+usePageSEO({
+  title: "تسجيل الدخول",
+  keywords:["تسجيل الدخول"],
+});
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [load, setLoad] = useState(false);

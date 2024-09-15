@@ -15,6 +15,7 @@ import AddQuickCard from "../../Components/Cards/AddProperty/AddQuickCard";
 import { useParams } from "react-router-dom";
 import api from "../../API/ApiLink"
 import ShowFilterToUser from "../../Components/Filters/ShowFilterToUser";
+import usePageSEO from "../../hooks/usePageSEO";
 
 export default function FilterPage() {
 
@@ -34,6 +35,7 @@ export default function FilterPage() {
             "Content-Type": "multipart/form-data",
           }
         });
+        console.log(response.data)
         console.log(response.data.data.ads)
         setData(response.data.data)
     } catch (err) {
@@ -51,6 +53,13 @@ if(filter){
   GetFilterAds()
 }
 },[filter])
+
+// Set SEO settings
+usePageSEO({
+  title: data.filter.filter_name||"Varnda",
+  description: data.filter.meta_description?data.filter.meta_description:"",
+  keywords:data.filter.key_words ? data.filter.key_words.split(",") : [],
+});
 
   return (
     <>

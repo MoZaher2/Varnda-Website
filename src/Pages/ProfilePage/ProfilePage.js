@@ -8,8 +8,14 @@ import LoadingBtn from "../../Components/LoadingBtn.js";
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import usePageSEO from '../../hooks/usePageSEO.js';
 const ProfilePage = () => {
   
+// Set SEO settings
+usePageSEO({
+  title: "الملف الشخصى",
+  keywords:["الملف الشخصى"],
+});
   const token = Cookies.get('token');
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);

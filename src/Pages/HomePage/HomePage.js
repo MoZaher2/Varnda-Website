@@ -11,9 +11,14 @@ import Company from "../../Components/Company/Company";
 import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard.js";
 import AddQuickCard from "../../Components/Cards/AddProperty/AddQuickCard.js";
 import AllGovernorates from "../../Components/AllGovernorates/AllGovernorates.js";
+import usePageSEO from "../../hooks/usePageSEO.js";
 
 export default function HomePage() {
 
+// Set SEO settings
+usePageSEO({
+  title: "Varnda",
+});
   return (
     <>
       <Header />

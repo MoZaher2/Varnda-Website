@@ -7,8 +7,16 @@ import Footer from "../../Components/Footer/Footer";
 import OverPage from "../../Components/OverPage/OverPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import usePageSEO from "../../hooks/usePageSEO";
 
 export default function ProjectsHome() {
+
+    // Set SEO settings
+    usePageSEO({
+      title: "المشروعات العقارية",
+      description: "تعرّف على أبرز المشروعات العقارية التي تناسب احتياجاتك بمواقع مميزة وخطط سداد مريحة. احصل على فرصة الاستثمار الأمثل اليوم",
+      keywords: ["المشروعات العقارية"],
+    });
   const [overlay, setOverlay] = useState(false);
   const [allGov, setAllGov] = useState([]);
   const [allCities, setAllCities] = useState([]);

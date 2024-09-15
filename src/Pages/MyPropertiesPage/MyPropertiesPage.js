@@ -8,8 +8,15 @@ import api from "../../API/ApiLink.js";
 import Cookies from "js-cookie";
 import OverPage from "../../Components/OverPage/OverPage.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
+import usePageSEO from "../../hooks/usePageSEO.js";
 
 const MyPropertiesPage = () => {
+
+// Set SEO settings
+usePageSEO({
+  title: "تصفح عقاراتك",
+  keywords:["تصفح عقاراتك"],
+});
   const token = Cookies.get("token");
   const [data, setData] = useState([]);
   const [overlay, setOverlay] = useState(false);

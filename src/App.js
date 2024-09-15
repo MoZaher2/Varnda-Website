@@ -78,6 +78,7 @@ import ShowAdsComments from "./Pages/Dashboard/Comments/ShowAdsComments";
 import ShowPostsComments from "./Pages/Dashboard/Comments/ShowPostsComments";
 import GovsHome from "./Pages/GovsHome/GovsHome";
 import ProjectsHome from "./Pages/ProjectsHome/ProjectsHome";
+import PrivacyPolicyPage from "./Pages/PrivacyPolicyPage/PrivacyPolicyPage";
 
 function App() {
   return (
@@ -106,9 +107,10 @@ function App() {
         <Route path="/Blogs/tags/:tag" element={<ArticlesWithTag />} />
         <Route path="/Blog/:id" element={<ArticleDetailes />} />
 
-        <Route path="/aboutUs" element={<AboutPage />} />
-        <Route path="/contactUs" element={<ContactPage />} />
+        <Route path="/about-us" element={<AboutPage />} />
+        <Route path="/contact-us" element={<ContactPage />} />
         <Route path="/terms" element={<TermsPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
         <Route path="/search" element={<SearchPage />} />
         <Route path="/search/:gov" element={<SearchPage />} />

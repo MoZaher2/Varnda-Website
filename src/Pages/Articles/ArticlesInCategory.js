@@ -9,8 +9,10 @@ import HeaderPageLink from "../../Components/HeaderPageLink/HeaderPageLink.js";
 import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard.js";
 import Footer from "../../Components/Footer/Footer.js";
 import OverPage from './../../Components/OverPage/OverPage';
+import usePageSEO from "../../hooks/usePageSEO.js";
 
 export default function ArticlesInCategory() {
+
   const { category } = useParams();
   const [articles, setArticles] = useState([]);
   const [overlay, setOverlay] = useState(false);
@@ -40,6 +42,12 @@ export default function ArticlesInCategory() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+// Set SEO settings
+usePageSEO({
+  title: category.replace(/-/g, " "),
+  keywords:[category.replace(/-/g, " ")],
+});
 
   return (
     <>

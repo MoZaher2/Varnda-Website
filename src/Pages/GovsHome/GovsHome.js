@@ -4,8 +4,16 @@ import api from "../../API/ApiLink";
 import { Link } from "react-router-dom";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
+import usePageSEO from "../../hooks/usePageSEO";
 
 export default function GovsHome() {
+
+    // Set SEO settings
+    usePageSEO({
+      title: "المحافظات",
+      description: "استكشف أفضل العقارات في المحافظات والمدن مع خيارات متنوعة تناسب جميع الاحتياجات. اختر موقعك المثالي الآن وابدأ رحلتك في السكن والاستثمار.",
+      keywords:["المحافظات"],
+    });
   const [allGov, setAllGov] = useState([]);
   useEffect(() => {
     const fetchAllGov = async () => {

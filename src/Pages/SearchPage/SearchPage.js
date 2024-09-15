@@ -13,6 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard";
 import AddQuickCard from "../../Components/Cards/AddProperty/AddQuickCard";
 import ShowFilterToUser from "../../Components/Filters/ShowFilterToUser";
+import usePageSEO from "../../hooks/usePageSEO";
 // import queryString from "query-string";
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -20,6 +21,10 @@ const useQuery = () => {
 
 export default function SearchPage() {
 
+// Set SEO settings
+usePageSEO({
+  title: "Varnda",
+});
   const query = useQuery();//
   const navigate = useNavigate();//
   const [properties,setProperties]=useState([])

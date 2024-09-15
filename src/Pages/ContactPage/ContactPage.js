@@ -7,7 +7,15 @@ import "./ContactPage.css"
 import Header from '../../Components/Header/Header';
 import imageEgypt from "../../images/مصر.svg"
 import Footer from '../../Components/Footer/Footer';
+import usePageSEO from '../../hooks/usePageSEO';
 export default function ContactPage() {
+
+    // Set SEO settings
+    usePageSEO({
+      title:"اتصل بنا",
+      keywords: ["اتصل بنا"],
+    });
+
 
   const myIcon = new L.Icon({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),

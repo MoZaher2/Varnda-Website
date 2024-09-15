@@ -6,10 +6,13 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import ShowFilterToUser from "../Filters/ShowFilterToUser";
+import usePageSEO from "../../hooks/usePageSEO";
 
 const QuickCardDetails = ({ propertyDetails }) => {
 
-
+  usePageSEO({
+    title: "Varnda"
+});
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -95,21 +98,6 @@ const QuickCardDetails = ({ propertyDetails }) => {
                   >
                     <FontAwesomeIcon icon={faEnvelope} /> الإيميل
                   </Button>
-                  {/* <a
-                    href={`https://api.whatsapp.com/send?phone=2${
-                      propertyDetails.whats_phone
-                    }&text=${encodeURIComponent(
-                      "مرحباً، أنا مهتم بعقارك الموجود على فارندا.: "
-                    )}${encodeURIComponent(
-                      `http://varnda.com/property/${propertyDetails.slug}`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button variant="success" className="m-2 btn-lg">
-                      <FontAwesomeIcon icon={faWhatsapp} /> واتساب
-                    </Button>
-                  </a> */}
                   <a
                     href={`https://api.whatsapp.com/send?phone=2${
                       propertyDetails.whats_phone

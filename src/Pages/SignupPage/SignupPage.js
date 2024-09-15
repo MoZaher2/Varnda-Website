@@ -11,9 +11,15 @@ import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
 // import OverPage from "../../Components/OverPage/OverPage.js";//
 import AlertSignUp from "../../Components/Alert/AlertVerifySignup.js";
+import usePageSEO from "../../hooks/usePageSEO.js";
 
 export default function SignupPage() {
-  // const navigate = useNavigate();//
+  
+// Set SEO settings
+usePageSEO({
+  title: "إنشاء حساب",
+  keywords:["إنشاء حساب"],
+});
   const [validated, setValidated] = useState(false);
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);

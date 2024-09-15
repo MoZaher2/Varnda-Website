@@ -9,8 +9,15 @@ import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 import CardFav from '../../Components/Cards/CardFav.js';
 import AlertMessage from '../../Components/Alert/Alert.js';
+import usePageSEO from '../../hooks/usePageSEO.js';
 
 export default function FavPage() {
+
+// Set SEO settings
+usePageSEO({
+  title: "الأعلانات المفضلة",
+  keywords:["الأعلانات المفضلة"],
+});
 const token=Cookies.get("token")
   const[properties,setProperties]=useState([])
   const[overlay,setOverlay]=useState(false)

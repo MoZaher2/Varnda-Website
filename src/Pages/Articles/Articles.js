@@ -8,8 +8,15 @@ import Footer from "../../Components/Footer/Footer.js";
 import HeaderPageLink from "../../Components/HeaderPageLink/HeaderPageLink.js";
 import Header from "../../Components/Header/Header.js";
 import OverPage from "../../Components/OverPage/OverPage.js";
+import usePageSEO from "../../hooks/usePageSEO.js";
 
 export default function Articles() {
+  
+// Set SEO settings
+usePageSEO({
+  title: "المدونات",
+  keywords:["المدونات"],
+});
   const [articles, setArticles] = useState([]);
   const [overlay, setOverlay] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);

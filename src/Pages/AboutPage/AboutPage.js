@@ -7,7 +7,14 @@ import about_3 from "../../images/About_3.jpeg";
 import about_4 from "../../images/About_4.jpeg";
 import about_5 from "../../images/About_5.jpeg";
 import Footer from "../../Components/Footer/Footer";
+import usePageSEO from "../../hooks/usePageSEO";
 export default function AboutPage() {
+      // Set SEO settings
+      usePageSEO({
+        title:"نبذة عنا",
+        keywords: ["نبذة عنا"],
+      });
+  
   return (
     <>
       <Header />
