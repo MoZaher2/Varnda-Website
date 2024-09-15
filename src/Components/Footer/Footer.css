@@ -9,7 +9,7 @@ body {
 }
 
 .footer {
-  background: #efefefd7;
+  background: #0d6efd  ;
   align-items: center;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -32,10 +32,11 @@ align-items: center;
   font-size: 18px;
   text-decoration: none;
   font-weight: 600 !important;
+  color: white;
 }
 
 .footer-link-circle{
-  background: #0d6efd;
+  background: white;
   width: 8px;
   height: 8px;
   display: inline-block;
@@ -63,6 +64,7 @@ align-items: center;
 
 .footer .icon-social {
   font-size: 25px;
+  color: white;
 }
 
 .scroll-to-top {
@@ -72,11 +74,12 @@ align-items: center;
 }
 
 .scroll-to-top button {
-  background: #fff;
-    color: #0d6efd;
-    padding: 5px 9px;
-    border-radius: 5px;
-    font-size: 20px;
+  background: #0d6efd;
+  color: white;
+  padding: 5px 9px;
+  border-radius: 5px;
+  font-size: 20px;
+  border: 2px solid white;
 }
 /*  */
 .icon-div{
@@ -87,7 +90,7 @@ align-items: center;
   margin-bottom: 30px;
 }
 .icon-text{
-  color: #0d6efd;
+  color: white;
     font-size: 60px;
     font-weight: bold;
     margin-bottom: 0px;
@@ -99,7 +102,7 @@ width: 60px;
 .footer-text{
   font-size: 18px;
   font-weight: 500;
-  color: #0d6efd;
+  color: white;
   margin-bottom: 0px;
 }
 
@@ -114,3 +117,4 @@ gap: 140px;
       gap:32px;
   }
 }
+

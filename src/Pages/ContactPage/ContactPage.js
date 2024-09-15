@@ -8,6 +8,7 @@ import Header from '../../Components/Header/Header';
 import imageEgypt from "../../images/مصر.svg"
 import Footer from '../../Components/Footer/Footer';
 import usePageSEO from '../../hooks/usePageSEO';
+import FooterContactUs from '../../Components/Footer/FooterContactUs';
 export default function ContactPage() {
 
     // Set SEO settings
@@ -116,9 +117,9 @@ export default function ContactPage() {
       </form>
 
       <h2 className="h1 text-center">العنوان</h2>
-      <p className="fs-5 my-4 text-center " style={{ fontWeight: "700", color: "#0d6efd" }}>القطاع الثاني قطعة 176 مصر <img src={imageEgypt} alt="مصر" width="50" className="ms-3" /></p>
+      <p className="fs-5 my-4 text-center " style={{ fontWeight: "700", color: "#0d6efd" }}>مول اركان الشيخ زايد <img src={imageEgypt} alt="مصر" width="50" className="ms-3" /></p>
 
-      <Footer />
+      <FooterContactUs />
 
     </>
   );

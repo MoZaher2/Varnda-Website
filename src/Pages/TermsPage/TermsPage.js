@@ -81,7 +81,7 @@ export default function TermsPage() {
           dir="rtl"
           className=" p-2"
           style={{ background: "#fff", color: "blue", borderRadius: "5px" }}
-        >	تصفح واستخدام الموقع فارندا Varnda أو برامجه او تطبيقاته، يعد هذا إقرار بالموافقة على سياسة الخصوصية عند فارندا Varnda. (للاطلاع على سياسة الخصوصية <Link to="https://varnda.com/" style={{color:"#555"}}>اضغط هنا </Link> ).</p>
+        >	تصفح واستخدام الموقع فارندا Varnda أو برامجه او تطبيقاته، يعد هذا إقرار بالموافقة على سياسة الخصوصية عند فارندا Varnda. (للاطلاع على سياسة الخصوصية <Link to="/privacy-policy" style={{color:"#555"}}>اضغط هنا </Link> ).</p>
           <p
           dir="rtl"
           className=" p-2"

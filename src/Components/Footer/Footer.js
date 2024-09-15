@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faYoutube,
   faInstagram,
-  faLinkedin,
+  faPinterestP,
+  faTwitter,
   faFacebookF,
 } from "@fortawesome/free-brands-svg-icons";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
@@ -55,16 +56,19 @@ export default function Footer() {
             </div>
 
             <div className="icon-social-container">
-              <Link to="#" className="icon-social">
+              <Link to="https://youtube.com/@varndaeg" target="_blank" rel="noopener noreferrer" className="icon-social">
                 <FontAwesomeIcon icon={faYoutube} />
               </Link>
-              <Link to="#" className="icon-social">
+              <Link to="https://www.instagram.com/varnda76" target="_blank" rel="noopener noreferrer" className="icon-social" >
                 <FontAwesomeIcon icon={faInstagram} />
               </Link>
-              <Link to="#" className="icon-social">
-                <FontAwesomeIcon icon={faLinkedin} />
+              <Link to="https://x.com/varndacom" target="_blank" rel="noopener noreferrer" className="icon-social">
+                <FontAwesomeIcon icon={faTwitter} />
               </Link>
-              <Link to="#" className="icon-social">
+              <Link to="https://www.pinterest.com/varnda3" target="_blank" rel="noopener noreferrer" className="icon-social">
+                <FontAwesomeIcon icon={faPinterestP} />
+              </Link>
+              <Link to="https://m.facebook.com/Varndaeg/" target="_blank" rel="noopener noreferrer" className="icon-social">
                 <FontAwesomeIcon icon={faFacebookF} />
               </Link>
             </div>
