@@ -79,6 +79,7 @@ import ShowPostsComments from "./Pages/Dashboard/Comments/ShowPostsComments";
 import GovsHome from "./Pages/GovsHome/GovsHome";
 import ProjectsHome from "./Pages/ProjectsHome/ProjectsHome";
 import PrivacyPolicyPage from "./Pages/PrivacyPolicyPage/PrivacyPolicyPage";
+import GeneralPages from "./Pages/Dashboard/GeneralPages";
 
 function App() {
   return (
@@ -144,6 +145,14 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["admin"]}>
                 <AllAds />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="general-pages"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "seo"]}>
+                <GeneralPages />
               </ProtectedRoute>
             }
           />

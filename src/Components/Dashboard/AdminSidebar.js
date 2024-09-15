@@ -91,6 +91,14 @@ useEffect(() => {
               </DropdownButton>
             )}
 
+            {(role === "admin" || role === "seo") && (
+              <Link to="/dashboard/general-pages" className="w-100 button-link">
+                <Button variant="primary" className="w-100">
+                  الصفحات العامة
+                </Button>
+              </Link>
+            )}
+
             {role === "admin" && (
               <Link to="/dashboard/all-ads" className="w-100 button-link">
                 <Button variant="primary" className="w-100">
@@ -207,11 +215,8 @@ useEffect(() => {
                 <Dropdown.Item href="/dashboard/posts-comments">
                   تعليقات المدونات
                 </Dropdown.Item>
-            
               </DropdownButton>
             )}
-
-
 
             <Button variant="danger" className="w-100" onClick={Logout}>
               تسجيل الخروج
