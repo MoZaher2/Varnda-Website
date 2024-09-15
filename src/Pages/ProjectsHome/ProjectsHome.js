@@ -8,7 +8,7 @@ import OverPage from "../../Components/OverPage/OverPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import usePageSEO from "../../hooks/usePageSEO";
-
+import "./projectsHome.css"
 export default function ProjectsHome() {
 
     // Set SEO settings
@@ -98,10 +98,9 @@ export default function ProjectsHome() {
                 {allGov.map(
                   (gov) =>
                     gov.url && (
-                      <Col xs={4} sm={4} md={3} lg={2} className="text-center">
-                        <Button
-                          variant="outline-primary"
-                          size="md"
+                      <Col sm={6} md={4} lg={3}  className="text-center">
+                        <button
+                        className="project-btn" 
                           onClick={() => {
                             setFormData({
                               ...formData,
@@ -110,7 +109,7 @@ export default function ProjectsHome() {
                           }}
                         >
                           {gov.name}
-                        </Button>
+                        </button>
                       </Col>
                     )
                 )}
@@ -123,25 +122,15 @@ export default function ProjectsHome() {
                   {allCities.map(
                     (city) =>
                       city.url && (
-                        <Col
-                          xs={4}
-                          sm={4}
-                          md={3}
-                          lg={2}
-                          className="text-center"
-                        >
-                          <Button
-                            variant="outline-primary"
-                            size="md"
-                            onClick={() => {
+                        <Col md={6} lg={4} className="text-center" >
+                          <button className="project-btn" onClick={() => {
                               setFormData({
                                 ...formData,
                                 city: city.url,
                               });
-                            }}
-                          >
-                            {city.name}
-                          </Button>
+                            }}>
+                          {city.name}
+                          </button>
                         </Col>
                       )
                   )}
@@ -165,18 +154,19 @@ export default function ProjectsHome() {
             )}
             {/* المشروعات العقارية */}
             {allCompounds.length > 0 ? (
-              <Row className="g-3">
+              <Row className="g-3 justify-content-center">
                 {allCompounds.map(
                   (compound) =>
                     compound.url && (
-                      <Col md={6} lg={4} className="text-center">
+                      <Col md={9} lg={8} className="text-center">
                         <Link
                           to={`/projects/${compound.url}`}
                           key={compound.url}
+                          className="project-link"
                         >
-                          <Button variant="outline-primary" size="md">
+                          <button className="project-btn">
                             {compound.name}
-                          </Button>
+                          </button>
                         </Link>
                       </Col>
                     )

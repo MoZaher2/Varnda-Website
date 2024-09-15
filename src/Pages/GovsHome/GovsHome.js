@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import usePageSEO from "../../hooks/usePageSEO";
-
+import "./GovsHome.css"
 export default function GovsHome() {
 
     // Set SEO settings
@@ -41,11 +41,13 @@ export default function GovsHome() {
             {allGov.map(
               (gov) =>
                 gov.url && (
-                  <Col xs={4} sm={4} md={3} lg={2} className="text-center">
-                    <Link to={`/${gov.url}`} key={gov.url}>
-                      <Button variant="outline-primary" size="md">
+                  <Col sm={6} md={4} lg={3} className="text-center">
+                    <Link to={`/${gov.url}`} key={gov.url}
+                    className="govs-link">
+                      <button 
+                     className="govs-btn">
                         {gov.name}
-                      </Button>
+                      </button>
                     </Link>
                   </Col>
                 )

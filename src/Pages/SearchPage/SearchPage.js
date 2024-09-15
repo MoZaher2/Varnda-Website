@@ -67,7 +67,7 @@ usePageSEO({
       </Container>
       <AddPropertyCard />
       <Footer />
-      <AddQuickCard />
+      {/* <AddQuickCard /> */}
     </>
   );
 }

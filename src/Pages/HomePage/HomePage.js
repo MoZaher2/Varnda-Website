@@ -26,9 +26,9 @@ usePageSEO({
       <Swapper />
       <AddPropertyCard />
       <Company />
+      <AddQuickCard />
       <AllGovernorates />
       <Footer />
-      <AddQuickCard />
     </>
   );
 }
