@@ -47,7 +47,7 @@ export default function AllGovFilters() {
   const handleDelete = async (id) => {
     try {
       setLoadId(true);
-      const response = await api.delete(`/deleteFilter/${id}`, {
+      await api.delete(`/deleteFilter/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

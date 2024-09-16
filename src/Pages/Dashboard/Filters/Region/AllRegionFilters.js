@@ -13,7 +13,6 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function AllRegionFilters() {
   
   const role = Cookies.get("role")
-  // const role = localStorage.getItem("role")
   const navigate = useNavigate();
   const [loadId, setLoadId] = useState(false);
   const [filters, setFilters] = useState([]);
@@ -47,7 +46,7 @@ export default function AllRegionFilters() {
   const handleDelete = async (id) => {
     try {
       setLoadId(true);
-      const response = await api.delete(`/deleteFilter/${id}`, {
+      await api.delete(`/deleteFilter/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

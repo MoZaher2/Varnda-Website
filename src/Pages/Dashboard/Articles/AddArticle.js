@@ -101,7 +101,6 @@ export default function AddArticle() {
         formData.category_id &&
         article_image
       ) {
-        console.log(adminId)
         const imageUrls = extractImageUrls(article_body);
         const formDataToSend = new FormData();
         formDataToSend.append("article_image", article_image);
@@ -131,7 +130,7 @@ export default function AddArticle() {
           const postId = response.data.data.post_id;
           //Confirm images url
           try {
-            const response = await api.post(
+            await api.post(
               `/handlingPostImages/${postId}`,
               { image_paths: imageUrls },
               {
@@ -162,7 +161,6 @@ export default function AddArticle() {
         } catch (error) {
           console.log(error)
           if (error.response.status === 422) {
-            console.log(error.response.data.data)
             setAlertArError(error.response.data.data)
             setShowArError(true)
           } else if (error.response.status === 401) {
@@ -183,7 +181,6 @@ export default function AddArticle() {
         }
       } 
       else {
-        // console.log('second')
         setAlert({ msg: "تاكد من ملئ جميع البيانات", variant: 2 });
         setShow(true);
         setShowConfirm(false);

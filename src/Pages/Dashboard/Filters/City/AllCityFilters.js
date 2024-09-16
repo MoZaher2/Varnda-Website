@@ -32,7 +32,6 @@ export default function AllCityFilters() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response.data.data)
       setFilters(response.data.data);
     } catch (error) {
       console.log(error);
@@ -48,7 +47,7 @@ export default function AllCityFilters() {
   const handleDelete = async (id) => {
     try {
       setLoadId(true);
-      const response = await api.delete(`/deleteFilter/${id}`, {
+      await api.delete(`/deleteFilter/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

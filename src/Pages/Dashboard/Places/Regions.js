@@ -142,7 +142,6 @@ export default function Regions() {
           }
         );
         fetchRegion();
-        console.log(response.data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -161,7 +160,6 @@ export default function Regions() {
         },
       });
       fetchRegion();
-      console.log(response.data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -183,7 +181,6 @@ export default function Regions() {
             },
           }
         );
-        console.log(response.data);
         fetchRegion();
       } catch (err) {
         console.log(err);

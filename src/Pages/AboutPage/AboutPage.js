@@ -21,7 +21,7 @@ export default function AboutPage() {
       <Container>
         <Row className="d-flex justify-content-around align-items-center my-5">
           <Col md={5} className="d-flex justify-content-center">
-            <img src={about_1} alt="" className="image-about" />
+            <img src={about_1} alt="about-img" className="image-about" />
           </Col>
 
           <Col md={5} dir="rtl">
@@ -50,13 +50,13 @@ export default function AboutPage() {
             الإرتقاء بمستوى السوق في المنطقة.
           </p>
           <Col md={4}>
-            <img src={about_3} alt="" className="image-about m-2" />
+            <img src={about_3} alt="about-img1" className="image-about m-2" />
           </Col>
           <Col md={4}>
-            <img src={about_4} alt="" className="image-about m-2" />
+            <img src={about_4} alt="about-img2" className="image-about m-2" />
           </Col>
           <Col md={4}>
-            <img src={about_5} alt="" className="image-about m-2" />
+            <img src={about_5} alt="about-img3" className="image-about m-2" />
           </Col>
         </Row>
       </Container>

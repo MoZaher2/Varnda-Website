@@ -1,51 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import api from "../../API/ApiLink";
 import OverPage from '../../Components/OverPage/OverPage';
 import AlertMessage from "../../Components/Alert/Alert";
 
 export default function GeneralPages() {
 
-    const token = Cookies.get("token");
     // const [data, setData] = useState([])
     const [overlay, setOverlay] = useState(false)
     const [show, setShow] = useState(false);
     const [alert, setAlert] = useState({ msg: "", variant: 0 });
-
-    // // استرجاع كل الاعلانات
-    // const handelAllAds = async () => {
-    //     try {
-    //         setOverlay(true)
-    //         const response = await api.get(`/getAllAds`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             }
-    //         });
-    //         setData(response.data.data)
-    //     } catch (error) {
-    //         console.log(error);
-    //         if (error.response.status === 401) {
-    //           setAlert({
-    //             msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
-    //             variant: 3,
-    //           });
-    //           Object.keys(Cookies.get()).forEach(function (cookieName) {
-    //             Cookies.remove(cookieName);
-    //           });
-    //         }
-    //         else{
-    //           setAlert({ msg: "حدث خطأ اثناء استرجاع بيانات الصفحات .يرجى المحاوله مره اخرى", variant: 2 });
-    //         }
-    //           setShow(true);
-    //     }finally{
-    //         setOverlay(false)
-    //     }
-    // };
-    // useEffect(() => {
-    //     handelAllAds();
-    // }, []);
 
     const data = [
       {

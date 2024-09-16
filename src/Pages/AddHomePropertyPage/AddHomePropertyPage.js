@@ -201,7 +201,6 @@ const AddApartmentsAndDuplexesPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data.data);
         setStreets(response.data.data);
       } catch (error) {
         console.log(error);
@@ -254,7 +253,6 @@ const AddApartmentsAndDuplexesPage = () => {
         setPrimary_picture(files[0]);
       } else if (name === "images[]") {
         setImages(Array.from(files));
-        console.log(images);
       }
       setFormData({
         ...formData,
@@ -300,7 +298,7 @@ const AddApartmentsAndDuplexesPage = () => {
       const response = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`
       );
-      console.log(response);
+       
       const address = response.data.features[0].properties.formatted;
       setFormData({
         ...formData,
@@ -385,7 +383,6 @@ const AddApartmentsAndDuplexesPage = () => {
         console.log(error);
 
         if (error.response.status === 422) {
-          console.log(error.response.data.data)
           setAlertArError(error.response.data.data)
           setShowArError(true)
         }
@@ -447,7 +444,6 @@ const AddApartmentsAndDuplexesPage = () => {
         setTimeout(() => {
           navigate("/submit-property");
         }, 2000);
-        console.log(response.data);
       } catch (err) {
         console.log(err);
       }
@@ -484,7 +480,7 @@ const AddApartmentsAndDuplexesPage = () => {
   // لتنسيق شكل الرقم
   const handlePriceChange = (e) => {
     const { value } = e.target;
-    console.log(value);
+     
     const price = value.replace(/,/g, "");
     if (!isNaN(price)) {
       setPriceText(Number(price).toLocaleString("en-US")); //For view

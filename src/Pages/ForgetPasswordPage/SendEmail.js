@@ -1,20 +1,13 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { Link } from "react-router-dom";
 import api from "../../API/ApiLink.js";
-import Cookies from 'js-cookie';
 import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
-import { useNavigate } from 'react-router-dom';
 import OverPage from "../../Components/OverPage/OverPage.js";
 
 
 
 export default function SendEmail() {
-
-  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
@@ -37,7 +30,7 @@ export default function SendEmail() {
     else {
       setLoad(true)
       try {
-        const response = await api.post("/forgot-password", {
+        await api.post("/forgot-password", {
           email: emailSended
         });
         setLoad(false)

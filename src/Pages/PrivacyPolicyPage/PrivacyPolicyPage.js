@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
-import { Link } from "react-router-dom";
 import usePageSEO from "../../hooks/usePageSEO";
 export default function PrivacyPolicyPage() {
 

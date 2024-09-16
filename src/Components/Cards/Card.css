@@ -1,21 +1,4 @@
-/* .slick-prev, .slick-next {
-    font-size: 24px;
-    color:red;
-} 
-[dir='rtl'] .slick-next {
-    right: auto;
-    left: 7px;
-    
-}
-[dir='rtl'] .slick-prev {
-    right: 7px;
-    left: auto;
-    background: red;
-}
 
-.slick-prev:before, .slick-next:before {
-    color: black;
-} */
 @media only screen and (max-width: 775px) {
 .small{
     flex-wrap: wrap;

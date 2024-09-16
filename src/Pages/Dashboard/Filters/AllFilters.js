@@ -9,7 +9,6 @@ import { Link, useNavigate } from "react-router-dom";
 export default function AllFilters() {
 
   const role = Cookies.get("role")
-  // const role = localStorage.getItem("role")
   const navigate = useNavigate();
   const [loadId, setLoadId] = useState(false);
 
@@ -40,7 +39,7 @@ export default function AllFilters() {
   const handleDelete = async (id) => {
     try {
       setLoadId(true);
-      const response = await api.delete(`/deleteFilter/${id}`, {
+      await api.delete(`/deleteFilter/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

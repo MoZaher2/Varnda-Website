@@ -2,13 +2,10 @@
   background-size: cover;
   background-position: center;
 
-  /* height: 85vh; */
   text-align: center;
   padding: 50px 0;
   margin: 25px 20px;
   border-radius: 12px;
-  /* background: rgb(13,110,253) !important; */
-  /* background: linear-gradient(180deg, rgba(13, 110, 253, 1) 65%, rgba(254, 253, 253, 1) 100%) !important; */
 }
 
 .search-form-container h1 {
@@ -129,9 +126,6 @@
 
 @media only screen and (max-width: 435px) {
 
-  /* .searchBtn{
-    margin-top: 16px;
-  } */
   .custToggle {
     width: 85% !important;
   }

@@ -25,7 +25,6 @@ export default function CompoundPage() {
         setLoading(true)
         const response = await api.get(`/getAdsByCompound/${compound}`);
         setData(response.data.data)
-        console.log(response.data.data)
       } catch (error) {
         console.log(error);
         if(error.response.data.status===404)

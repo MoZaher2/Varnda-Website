@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import './Editor.css'; 
 import api from "../../API/ApiLink.js";
@@ -8,11 +8,9 @@ export default function ArticleEditor({setArticle_body,article_body="",staticBod
 
 
   const token=Cookies.get("token")
-  // const [content, setContent] = useState(article_body)
   const [loading, setLoading] = useState(false);
 
   const handleEditorChange = (content) => {
-    // setContent(content);
     setArticle_body(content)
   };
 
@@ -26,7 +24,6 @@ export default function ArticleEditor({setArticle_body,article_body="",staticBod
       }
   })
       .then(response => {
-        console.log(response.data.data);
         setLoading(false);
         success(response.data.data);
       })
@@ -45,7 +42,6 @@ export default function ArticleEditor({setArticle_body,article_body="",staticBod
       )}
       <Editor
         apiKey='48w8wog8uwleo8euhujpdg4xx4cc03mskhs2ssf876m3jl2t'
-        // value={staticBody}
         onEditorChange={handleEditorChange}
 
         init={{
@@ -61,11 +57,6 @@ export default function ArticleEditor({setArticle_body,article_body="",staticBod
             }
           },
           setup: (editor) => {
-            // editor.on('change', () => {
-            //   const content = editor.getContent();
-            //   setArticle_body(content)
-            //   console.log(content)
-            // });
 
             editor.on('drop', (e) => {
               e.preventDefault();
@@ -78,7 +69,7 @@ export default function ArticleEditor({setArticle_body,article_body="",staticBod
                   filename: () => file.name
                 };
                 handleImageUpload(blobInfo, (url) => {
-                  editor.insertContent(`<img src="${url}" />`);
+                  editor.insertContent(`<img src="${url}" alt="article-image" />`);
                 }, (message) => {
                   console.error(message);
                 });
@@ -108,18 +99,13 @@ export default function ArticleEditor({setArticle_body,article_body="",staticBod
               filename: () => file.name
             };
             handleImageUpload(blobInfo, (url) => {
-              window.tinyMCE.activeEditor.insertContent(`<img src="${url}" />`);
+              window.tinyMCE.activeEditor.insertContent(`<img src="${url}" alt="article-image" />`);
             }, (message) => {
               console.error(message);
             });
           }
         }}
       />
-
-      {/* <div className="rtl">
-        <h2>شكل المدونة:</h2>
-        <div dangerouslySetInnerHTML={{ __html: article_body }} />
-      </div> */}
     </div>
   );
 }

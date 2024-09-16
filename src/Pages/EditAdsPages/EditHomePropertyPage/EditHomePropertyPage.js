@@ -132,7 +132,6 @@ const EditHomePropertyPage = () => {
       setPosition([Ad.property.latitude, Ad.property.longitude]);
       setOld_primary_picture(Ad.property.primary_picture);
     };
-    console.log("بيانات الاعلان قب التعديل", Ad);
     if (Ad) fetchAd();
   }, [Ad]);
 
@@ -394,7 +393,7 @@ const EditHomePropertyPage = () => {
       const response = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`
       );
-      console.log(response);
+       
       const address = response.data.features[0].properties.formatted;
       setFormData({
         ...formData,
@@ -425,7 +424,6 @@ const EditHomePropertyPage = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       setShow(true);
     } else {
-      // console.log(formData.id)
       try {
         setLoad(true);
         const allFormData = new FormData();
@@ -433,26 +431,22 @@ const EditHomePropertyPage = () => {
         // Append other form fields
         for (const [key, value] of Object.entries(formData)) {
           if (key !== "images[]" && key !== "primary_picture" && value) {
-            // console.log("key",key)
-            // console.log("value",value)
             allFormData.append(key, value);
           }
         }
         // Append images
         if (images) {
-          // console.log("images",images)
           for (let i = 0; i < images.length; i++) {
             allFormData.append("images[]", formData["images[]"][i]);
           }
         }
         if (primary_picture) {
-          // console.log("primary_picture",primary_picture)
           allFormData.append("primary_picture", formData.primary_picture[0]);
         }
         // Append position
         allFormData.append("latitude", position[0]);
         allFormData.append("longitude", position[1]);
-        // console.log(position[0], position[1]);
+         
 
         // ارسال الصور المحذوفه
         let deleted_images = deleteImages.join(",");
@@ -471,7 +465,6 @@ const EditHomePropertyPage = () => {
             },
           }
         );
-        console.log("الاعلانات بعد التعديل", response.data);
         setAlert({ msg: "تم تعديل الإعلان بنجاح", variant: 1 });
         window.scrollTo({ top: 0, behavior: "smooth" });
         setShow(true);
@@ -481,7 +474,6 @@ const EditHomePropertyPage = () => {
       } catch (error) {
         console.log(error);
         if (error.response.status === 422) {
-          console.log(error.response.data.data)
           setAlertArError(error.response.data.data)
           setShowArError(true)
         }
@@ -528,7 +520,7 @@ const EditHomePropertyPage = () => {
   // لتنسيق شكل الرقم
   const handlePriceChange = (e) => {
     const { value } = e.target;
-    console.log(value);
+     
     const price = value.replace(/,/g, "");
     if (!isNaN(price)) {
       setPriceText(Number(price).toLocaleString("en-US")); //For view

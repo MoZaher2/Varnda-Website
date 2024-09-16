@@ -14,7 +14,6 @@ export default function ArticleCards({articles}) {
               <Card.Body>
                 <Card.Title>{article.Title}</Card.Title>
                 <Card.Text className='article-body'>
-                  {/* {article.Article_body} */}
                   <div className="rtl miniwords" dangerouslySetInnerHTML={{ __html: article.Article_body }} />
                 </Card.Text>
               </Card.Body>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import OverPage from '../../Components/OverPage/OverPage';
 import { Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 

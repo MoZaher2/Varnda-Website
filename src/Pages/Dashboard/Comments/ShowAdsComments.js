@@ -62,7 +62,6 @@ const navigate = useNavigate();
 
     // حذف التعليق
     const handleDelete = async (id) => {
-      console.log(id)
       setSelectedItemId(id);
       setLoadId(true);
       try {

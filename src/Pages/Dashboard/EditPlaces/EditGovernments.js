@@ -10,7 +10,6 @@ export default function EditGovernments() {
   const navigate = useNavigate();
   const location = useLocation(); //
   const Gov = location.state?.data; //
-  console.log(Gov);
   const token = Cookies.get("token");
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
@@ -73,7 +72,7 @@ export default function EditGovernments() {
       allFormData.append("image", editData.image[0]);
     }
     try {
-      const response = await api.post(
+      await api.post(
         `/updateGovernorate/${editData.id}`,
         allFormData,
         {
@@ -90,7 +89,6 @@ export default function EditGovernments() {
       }, 2000);
     } catch (err) {
       if (err.response.data.status == 422) {
-        console.log("first");
         setAlert({ msg: "هناك رابط اخر مشابهه لهذا", variant: 3 });
         // setShowAlert(true);
       }

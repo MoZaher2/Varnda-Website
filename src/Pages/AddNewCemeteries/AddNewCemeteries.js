@@ -22,8 +22,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
   faDollarSign,
-  faBed,
-  faBath,
   faRulerCombined,
 } from "@fortawesome/free-solid-svg-icons";
 import api from "../../API/ApiLink.js";
@@ -96,10 +94,6 @@ const AddNewCemeteries = () => {
   const [cities, setCities] = useState([]);
   const [regions, setRegions] = useState([]);
   const [streets, setStreets] = useState([]);
-  const [compounds, setCompounds] = useState([
-    { id: 1, name: "com1" },
-    { id: 2, name: "com2" },
-  ]);
   const [position, setPosition] = useState([
     30.044376903556085, 31.235749743857397,
   ]); //ابعته ف ال API  latitude longitude
@@ -191,7 +185,6 @@ const AddNewCemeteries = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data.data);
         setStreets(response.data.data);
       } catch (error) {
         console.log(error);
@@ -221,7 +214,6 @@ const AddNewCemeteries = () => {
         setPrimary_picture(files[0]);
       } else if (name === "images[]") {
         setImages(Array.from(files));
-        console.log(images);
       }
       setFormData({
         ...formData,
@@ -266,7 +258,7 @@ const AddNewCemeteries = () => {
       const response = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`
       );
-      console.log(response);
+       
       const address = response.data.features[0].properties.formatted;
       setFormData({
         ...formData,
@@ -317,7 +309,6 @@ const AddNewCemeteries = () => {
         }
 
         // Append images
-        console.log(formData["images[]"]);
         if (images) {
           for (let i = 0; i < images.length; i++) {
             allFormData.append("images[]", formData["images[]"][i]);
@@ -339,8 +330,6 @@ const AddNewCemeteries = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log("page number" + currentPage);
-        console.log(response.data);
         const prop_id = response.data.data.property_id;
         setFormData2({ ...formData2, property_id: prop_id });
         setLoad1(false);
@@ -350,7 +339,6 @@ const AddNewCemeteries = () => {
         console.log(error);
 
         if (error.response.status === 422) {
-          console.log(error.response.data.data)
           setAlertArError(error.response.data.data)
           setShowArError(true)
         }
@@ -412,7 +400,6 @@ const AddNewCemeteries = () => {
         setTimeout(() => {
           navigate("/submit-property");
         }, 2000);
-        console.log(response.data);
       } catch (err) {
         console.log(err);
       }
@@ -449,7 +436,7 @@ const AddNewCemeteries = () => {
   // لتنسيق شكل الرقم
   const handlePriceChange = (e) => {
     const { value } = e.target;
-    console.log(value);
+     
     const price = value.replace(/,/g, "");
     if (!isNaN(price)) {
       setPriceText(Number(price).toLocaleString("en-US")); //For view

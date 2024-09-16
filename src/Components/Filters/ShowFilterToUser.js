@@ -17,7 +17,6 @@ export default function ShowFilterToUser({type="",gov="",city="",region="",compo
   // Fetch filters
   const fetchFilters = async () => {
     try {
-      console.log("Data send in filter: ",type,gov,city,region,compound)
       const formDataToSend = new FormData();
       formDataToSend.append("type", type);
       formDataToSend.append("gov", gov);
@@ -29,7 +28,6 @@ export default function ShowFilterToUser({type="",gov="",city="",region="",compo
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response.data.data);
       setFilters(response.data.data);
     } catch (error) {
       console.log(error);

@@ -113,7 +113,6 @@ const EditApartmentsAndDuplexesPage = () => {
     setPosition([Ad.property.latitude,Ad.property.longitude])
     setOld_primary_picture(Ad.property.primary_picture)
   };
-  console.log("بيانات الاعلان قب التعديل",Ad)
   if (Ad) fetchAd();
 }, [Ad]);
 const [position, setPosition] = useState([30.044376903556085, 31.235749743857397]);
@@ -409,7 +408,6 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
       setShow(true)
     }
     else {
-      // console.log(formData.id)
       try {
         setLoad(true)
         const allFormData = new FormData();
@@ -417,26 +415,21 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
         // Append other form fields
         for (const [key, value] of Object.entries(formData)) {
           if(key!=="images[]"&&key!=="primary_picture"&&value){
-            // console.log("key",key)
-            // console.log("value",value)
             allFormData.append(key, value);
           }
         }
         // Append images
         if (images) {
-          // console.log("images",images)
           for (let i = 0; i < images.length; i++) {
             allFormData.append('images[]', formData['images[]'][i]);
           }
         }
         if (primary_picture) {
-          // console.log("primary_picture",primary_picture)
           allFormData.append('primary_picture', formData.primary_picture[0]);
         }
         // Append position
         allFormData.append('latitude', position[0]);
         allFormData.append('longitude', position[1]);
-        // console.log(position[0], position[1]);
 
         // ارسال الصور المحذوفه
         let deleted_images = deleteImages.join(",");
@@ -446,7 +439,7 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
 
 
         // Post the data
-        const response = await api.post(
+        await api.post(
           `/updateAd/${formData.id}`,
           allFormData,
           {
@@ -456,7 +449,6 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
             },
           }
         );
-        console.log("الاعلانات بعد التعديل",response.data);
         setAlert({ msg: "تم تعديل الإعلان بنجاح", variant: 1 });
         window.scrollTo({ top: 0, behavior: "smooth" });
         setShow(true);
@@ -466,7 +458,6 @@ const [position, setPosition] = useState([30.044376903556085, 31.235749743857397
       } catch (error) {
         console.log(error)
         if (error.response.status === 422) {
-          console.log(error.response.data.data)
           setAlertArError(error.response.data.data)
           setShowArError(true)
         }

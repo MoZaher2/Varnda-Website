@@ -46,7 +46,6 @@ usePageSEO({
           email: formData.email,
           password: formData.password,
         });
-        console.log(response.data)
         Cookies.set('token', response.data.data.token);
         Cookies.set("image", response.data.data.user.image);
 
@@ -67,13 +66,7 @@ usePageSEO({
         setShow(true)
         setAlert({ msg: "تم تسجيل الدخول بنجاح", variant: 1 })
         navigate('/')
-        // if(response.data.data.user.role==="admin"){
-        //   navigate('/dashboard')
-        // }
-        // else{
-        //   navigate('/')
-        // }
-        
+      
       } catch (error) {
         setLoad(false)
         setShow(true)

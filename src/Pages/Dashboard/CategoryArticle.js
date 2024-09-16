@@ -56,12 +56,9 @@ function CategoryArticle() {
   }, []);
 
   const handleEdite = async () => {
-    console.log(newCategory);
     if (newCategory) {
       try {
         setLoadEdit(true);
-        console.log(newCategory)
-        console.log(newCategory.trim().replace(/ /g, "-"))
         const response = await api.post(
           `/categories/${selectedItemId}?category_name=${newCategory.trim().replace(/ /g, "-")}`,
           null,
@@ -72,7 +69,6 @@ function CategoryArticle() {
           }
         );
         fetchData();
-        console.log(response.data);
       } catch (error) {
         console.log(error);
         if (error.response.status === 401) {
@@ -107,7 +103,6 @@ function CategoryArticle() {
         },
       });
       fetchData();
-      console.log(response.data);
     } catch (error) {
       console.log(error);
       if (error.response.status === 401) {
@@ -147,7 +142,6 @@ function CategoryArticle() {
     e.preventDefault();
     setLoad(true);
     try {
-      console.log(category_name);
       const response = await api.post(
         "/AddCategory",
         { category_name: category_name.trim().replace(/ /g, "-")},
@@ -157,7 +151,6 @@ function CategoryArticle() {
           },
         }
       );
-      console.log(response.data);
       fetchData();
     } catch (error) {
       console.log(error);
@@ -276,14 +269,6 @@ function CategoryArticle() {
                           load={loadId}
                         />
                       )}
-                      {/* <td>
-                      <Button
-                        variant="danger"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        حذف
-                      </Button>
-                    </td> */}
                     </tr>
                   ))}
                 </tbody>

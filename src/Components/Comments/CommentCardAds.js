@@ -15,13 +15,11 @@ import Delete from "@mui/icons-material/Delete";
 import api from "../../API/ApiLink";
 import Cookies from "js-cookie";
 import LoadingBtn from "../LoadingBtn";
-import OverPage from "../OverPage/OverPage";
 import AlertMessage from "../Alert/Alert";
 export default function CommentCardAds({ ads_id }) {
   const userId = Cookies.get("user_id");
   const token = Cookies.get("token");
   const role = Cookies.get("role");
-  console.log("user regester: " + userId);
   const [open, setOpen] = useState(false);
   const [load, setLoad] = useState(false);
   const [comments, setComments] = useState([]);
@@ -46,7 +44,7 @@ export default function CommentCardAds({ ads_id }) {
   const handleDeleteComment = async (comment_id) => {
     setLoad(true);
     try {
-      const response = await api.post(
+      await api.post(
         `delete-comment`,
         { comment_id },
         {

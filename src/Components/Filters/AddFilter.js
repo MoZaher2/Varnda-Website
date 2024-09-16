@@ -48,7 +48,6 @@ export default function AddFilter({ department }) {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data)
         setGovernorates(response.data.data);
       } catch (error) {
         setGovernorates([]);
@@ -124,7 +123,6 @@ export default function AddFilter({ department }) {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data)
         setCompounds(response.data.data);
       } catch (error) {
         setCompounds([]);
@@ -172,7 +170,7 @@ export default function AddFilter({ department }) {
         // Set Post
         try {
           setLoad(true);
-          const response = await api.post(
+          await api.post(
             "/addFilter",
             { ...formData, department: department },
             {

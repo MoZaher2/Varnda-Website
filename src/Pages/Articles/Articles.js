@@ -11,12 +11,11 @@ import OverPage from "../../Components/OverPage/OverPage.js";
 import usePageSEO from "../../hooks/usePageSEO.js";
 
 export default function Articles() {
-  
-// Set SEO settings
-usePageSEO({
-  title: "المدونات",
-  keywords:["المدونات"],
-});
+  // Set SEO settings
+  usePageSEO({
+    title: "المدونات",
+    keywords: ["المدونات"],
+  });
   const [articles, setArticles] = useState([]);
   const [overlay, setOverlay] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,15 +24,15 @@ usePageSEO({
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        setOverlay(true)
+        setOverlay(true);
         const response = await api.post(`/getAPosts`, { page: currentPage });
         setArticles(response.data.data.posts);
         setTotalPages(response.data.data.total_pages);
       } catch (error) {
         setArticles([]);
         console.log(error);
-      }finally{
-        setOverlay(false)
+      } finally {
+        setOverlay(false);
       }
     };
     fetchArticle();
@@ -51,41 +50,45 @@ usePageSEO({
         <h2 className="text-center title-page py-1 pb-2 container my-3">
           جميع المدونات
         </h2>
-        {overlay ? <OverPage />:articles.length>0?
-        <>
-         <ArticleCards articles={articles} />
-         {/* Pagination */}
-         <div className="d-flex justify-content-center mt-3">
-           <Pagination dir="ltr">
-             <Pagination.Prev
-               onClick={() =>
-                 handlePageChange(currentPage > 1 ? currentPage - 1 : 1)
-               }
-               disabled={currentPage === 1}
-             />
-             {[...Array(totalPages)].map((_, index) => (
-               <Pagination.Item
-                 key={index + 1}
-                 active={index + 1 === currentPage}
-                 onClick={() => handlePageChange(index + 1)}
-               >
-                 {index + 1}
-               </Pagination.Item>
-             ))}
-             <Pagination.Next
-               onClick={() =>
-                 handlePageChange(
-                   currentPage < totalPages ? currentPage + 1 : totalPages
-                 )
-               }
-               disabled={currentPage === totalPages}
-             />
-           </Pagination>
-         </div>
-       </>:<Alert key="warning" className="text-center" variant="warning">
-        لا يوجد مقالات فى هذا التصنيف
-      </Alert>}
-       
+        {overlay ? (
+          <OverPage />
+        ) : articles.length > 0 ? (
+          <>
+            <ArticleCards articles={articles} />
+            {/* Pagination */}
+            <div className="d-flex justify-content-center mt-3">
+              <Pagination dir="ltr">
+                <Pagination.Prev
+                  onClick={() =>
+                    handlePageChange(currentPage > 1 ? currentPage - 1 : 1)
+                  }
+                  disabled={currentPage === 1}
+                />
+                {[...Array(totalPages)].map((_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    active={index + 1 === currentPage}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() =>
+                    handlePageChange(
+                      currentPage < totalPages ? currentPage + 1 : totalPages
+                    )
+                  }
+                  disabled={currentPage === totalPages}
+                />
+              </Pagination>
+            </div>
+          </>
+        ) : (
+          <Alert key="warning" className="text-center" variant="warning">
+            لا يوجد مقالات فى هذا التصنيف
+          </Alert>
+        )}
       </>
       <AddPropertyCard />
       <Footer />

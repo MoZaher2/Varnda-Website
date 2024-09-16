@@ -3,10 +3,8 @@ import {
   Form,
   Button,
   Table,
-  Modal,
   Row,
   Col,
-  InputGroup,
 } from "react-bootstrap";
 import api from "../../../API/ApiLink.js";
 import LoadingBtn from "../../../Components/LoadingBtn.js";
@@ -21,9 +19,7 @@ export default function Governments() {
   const role = Cookies.get("role");
   // const role = localStorage.getItem("role")
   const [load, setLoad] = useState(false);
-  const [loadEdit, setLoadEdit] = useState(false);
   const [loadId, setLoadId] = useState(false);
-  const [show, setShow] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
@@ -52,33 +48,10 @@ export default function Governments() {
     });
   };
   //
-  const [editData, setEditData] = useState({
-    name: "",
-    english_name: "",
-    meta_title: "",
-    h1_title: "",
-    meta_description: "",
-    image: "",
-    url: "",
-  });
 
   const [image, setImage] = useState(null);
-  const [newImage, setNewImage] = useState(null);
   const [selectedItemId, setSelectedItemId] = useState(null);
-  const handleClose = () => setShow(false);
-  const handleShow = (id, gov) => {
-    setSelectedItemId(id);
-    setEditData({
-      name: gov.name,
-      english_name: gov.english_name,
-      meta_title: gov.meta_title,
-      h1_title: gov.h1_title,
-      meta_description: gov.meta_description,
-      image: gov.image,
-      url: gov.url,
-    });
-    setShow(true);
-  };
+
 
   const token = Cookies.get("token");
   // استرجاع المحافظات
@@ -101,43 +74,6 @@ export default function Governments() {
     fetchGov();
   }, []);
 
-  // تعديل المحافظه
-  const handleEdite = async () => {
-    setLoadEdit(true);
-    const allFormData = new FormData();
-    // Append form fields
-    for (const [key, value] of Object.entries(editData)) {
-      if (key !== "image" && value) {
-        allFormData.append(key, value);
-      }
-    }
-    if (newImage) {
-      allFormData.append("image", editData.image[0]);
-    }
-    try {
-      const response = await api.post(
-        `/updateGovernorate/${selectedItemId}`,
-        allFormData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      fetchGov();
-      setNewImage(null);
-      setShow(false);
-    } catch (err) {
-      if (err.response.data.status == 422) {
-        console.log("first");
-        setAlert({ msg: "هناك رابط اخر مشابهه لهذا", variant: 3 });
-        setShowAlert(true);
-      }
-    } finally {
-      setLoadEdit(false);
-    }
-  };
   // حذف المحافظه
   const handleDelete = async (id) => {
     try {
@@ -148,7 +84,6 @@ export default function Governments() {
         },
       });
       fetchGov();
-      console.log(response.data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -177,13 +112,11 @@ export default function Governments() {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(response.data);
         fetchGov();
         resetData();
         setImage(null);
       } catch (err) {
         if (err.response.data.status == 422) {
-          console.log("first");
           setAlert({ msg: "هناك رابط اخر مشابهه لهذا", variant: 3 });
           setShowAlert(true);
         }
@@ -206,18 +139,6 @@ export default function Governments() {
     }
   }
 
-  function handelEditeChange(e) {
-    const { name, value, type, files } = e.target;
-    if (type === "file" && name === "image") {
-      setNewImage(files[0]);
-      setEditData({
-        ...editData,
-        [name]: files,
-      });
-    } else {
-      setEditData({ ...editData, [name]: value });
-    }
-  }
 
   return (
     <>

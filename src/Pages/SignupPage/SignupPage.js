@@ -5,11 +5,9 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import "./SignupPage.css";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import api from "../../API/ApiLink.js";
 import LoadingBtn from "../../Components/LoadingBtn.js";
 import AlertMessage from "../../Components/Alert/Alert.js";
-// import OverPage from "../../Components/OverPage/OverPage.js";//
 import AlertSignUp from "../../Components/Alert/AlertVerifySignup.js";
 import usePageSEO from "../../hooks/usePageSEO.js";
 
@@ -61,13 +59,11 @@ usePageSEO({
           const response = await api.post("/register", {
             ...formData,
           });
-          console.log(response.data.data)
           Cookies.set("token", response.data.data.token);
           Cookies.set("user_id", response.data.data.user_id);
           Cookies.set('email', response.data.data.email);
           Cookies.set('phone', response.data.data.phone);
           Cookies.set('role', response.data.data.role);
-          // localStorage.setItem('role', response.data.data.role);
           Cookies.set('verify',null)
           Cookies.set("image", response.data.data.image);
           Cookies.set('first_name', response.data.data.first_name);
@@ -76,11 +72,6 @@ usePageSEO({
 
           window.scrollTo({ top: 0, behavior: 'smooth' });
           setOverlay(true);
-          // setAlert({ msg: "تم انشاء الحساب بنجاح", variant: 1 });
-          // setShow(true);
-          // setTimeout(() => {
-          //   navigate("/");
-          // }, 2000)
         } catch (err) {
           try {
             const errdata = err.response.data

@@ -4,13 +4,10 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import api from "../../../API/ApiLink";
 import OverPage from "../../../Components/OverPage/OverPage";
-import LoadingBtn from "../../../Components/LoadingBtn";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem";
 export default function AllArticles() {
     const token = Cookies.get("token");
     const role = Cookies.get("role")
-    // const role = localStorage.getItem("role")
-    
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [overlay, setOverlay] = useState(false)
     const [loadId, setLoadId] = useState(false)

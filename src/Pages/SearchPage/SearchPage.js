@@ -2,19 +2,16 @@ import React, { useState } from "react";
 import "./SearchPage.css";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
-import ListGroup from "react-bootstrap/ListGroup";
 import { Container, Row, Col} from "react-bootstrap";
-import { Link } from "react-router-dom";
 import HeaderSearchAdvanced from "../../Components/HeaderSearchAdvanced/HeaderSearchAdvanced";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PropertyCard from "../../Components/Cards/Card";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard";
-import AddQuickCard from "../../Components/Cards/AddProperty/AddQuickCard";
 import ShowFilterToUser from "../../Components/Filters/ShowFilterToUser";
 import usePageSEO from "../../hooks/usePageSEO";
-// import queryString from "query-string";
+
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
@@ -67,7 +64,6 @@ usePageSEO({
       </Container>
       <AddPropertyCard />
       <Footer />
-      {/* <AddQuickCard /> */}
     </>
   );
 }

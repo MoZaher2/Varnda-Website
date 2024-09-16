@@ -10,7 +10,6 @@ export default function EditCities() {
   const navigate = useNavigate();
   const location = useLocation(); //
   const City = location.state?.data; //
-  console.log(City);
   const token = Cookies.get("token");
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
@@ -73,7 +72,7 @@ export default function EditCities() {
       allFormData.append("image", editData.image[0]);
     }
     try {
-      const response = await api.post(
+      await api.post(
         `/updateCity/${editData.id}`,
         allFormData,
         {
@@ -90,9 +89,8 @@ export default function EditCities() {
       }, 2000);
     } catch (err) {
       if (err.response.data.status == 422) {
-        console.log("first");
         setAlert({ msg: "هناك رابط اخر مشابهه لهذا", variant: 3 });
-        // setShowAlert(true);
+
       }
     } finally {
       setShow(true);

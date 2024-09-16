@@ -74,7 +74,6 @@ export default function Footer() {
             </div>
           </Col>
         </Row>
-        {/* <h5>varnda.com© المنصة العقارية في مصر</h5> */}
         <div className="scroll-to-top">
           <button onClick={scrollToTop} className="btn btn-primary">
             <FontAwesomeIcon icon={faChevronUp} />

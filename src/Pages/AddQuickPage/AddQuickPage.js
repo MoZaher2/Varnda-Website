@@ -146,7 +146,7 @@ const AddQuickPage = () => {
         const prop_id = response.data.data.property_id;
         // Make Ads
         try {
-          const response = await api.post(
+          await api.post(
             "/makeAd",
             {
               property_id: prop_id,
@@ -165,14 +165,12 @@ const AddQuickPage = () => {
           // ملئ بيانات التواصل مباشرة
           const phone = Cookies.get("phone") || null;
           const whats_phone = Cookies.get("whats_phone") || null;
-          console.log(phone)
-          console.log(whats_phone)
+           
+           
           if (phone === null) {
-            console.log("inside",phone)
             Cookies.set("phone", formData.phone);
           }
           if (whats_phone === null) {
-            console.log("inside",whats_phone)
             Cookies.set("whats_phone", formData.whats_phone);
           }
           setAlert({ msg: "تم حفظ الإعلان بنجاح", variant: 1 });
@@ -187,7 +185,6 @@ const AddQuickPage = () => {
       } catch (error) {
         console.log(error);
         if (error.response.status === 422) {
-          console.log(error.response.data.data)
           setAlertArError(error.response.data.data)
           setShowArError(true)
         }else{

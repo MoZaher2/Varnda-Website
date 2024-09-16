@@ -14,7 +14,6 @@ export default function EditFilter() {
 
     const location = useLocation(); //
     const Filter = location.state?.data; //
-    console.log(Filter)
 
     const [formData, setFormData] = useState({
       filter_name: "",
@@ -75,7 +74,6 @@ useEffect(() => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data)
       setGovernorates(response.data.data);
     } catch (error) {
       setGovernorates([]);
@@ -151,7 +149,6 @@ useEffect(() => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data)
       setCompounds(response.data.data);
     } catch (error) {
       setCompounds([]);
@@ -200,8 +197,7 @@ useEffect(() => {
         // Set Post
         try {
           setLoad(true);
-          console.log(formData.department)
-          const response = await api.post(
+          await api.post(
             `/updateFilter/${Filter.id}`,
             { ...formData, department: formData.department },
             {

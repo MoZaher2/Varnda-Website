@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import Cookies from "js-cookie";
 import { Alert } from "react-bootstrap";
 import api from "../../../API/ApiLink";
-import LoadingBtn from "../../../Components/LoadingBtn.js";
 import AlertMessage from "../../../Components/Alert/Alert.js";
 import OverPage from "../../../Components/OverPage/OverPage.js";
 import { Avatar } from "@mui/joy";
@@ -19,8 +18,6 @@ const navigate = useNavigate();
   const [data, setData] = useState([]);
   
   const [loadId, setLoadId] = useState(false);
-  const [selectedItemId, setSelectedItemId] = useState(null);
-
   // استرجاع كل المستخدمين
   const handelGetAllUser = async () => {
     try {
@@ -64,7 +61,7 @@ const navigate = useNavigate();
       const dataToSend = new FormData();
       dataToSend.append("role", role);
       dataToSend.append("email", email);
-      const response = await api.post(`admin/deleteUser`, dataToSend, {
+      await api.post(`admin/deleteUser`, dataToSend, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

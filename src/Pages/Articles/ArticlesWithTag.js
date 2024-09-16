@@ -5,7 +5,6 @@ import api from "../../API/ApiLink.js";
 import { Pagination ,Alert } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Header from "../../Components/Header/Header.js";
-import HeaderPageLink from "../../Components/HeaderPageLink/HeaderPageLink.js";
 import AddPropertyCard from "../../Components/Cards/AddProperty/AddPropertyCard.js";
 import Footer from "../../Components/Footer/Footer.js";
 import OverPage from './../../Components/OverPage/OverPage';
@@ -24,7 +23,6 @@ export default function ArticlesWithTag() {
         const response = await api.post(`/getPostsByTag/${tag.replace(/-/g," ")}`, {
           page: currentPage,
         });
-        console.log(response.data)
         setArticles(response.data.data.posts);
         setTotalPages(response.data.data.total_pages);
       } catch (error) {

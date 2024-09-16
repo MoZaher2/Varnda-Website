@@ -179,7 +179,6 @@ const EditQuickPage = () => {
             },
           }
         );
-        console.log(response.data);
         setAlert({ msg: "تم تعديل الإعلان بنجاح", variant: 1 });
         window.scrollTo({ top: 0, behavior: "smooth" });
         setShow(true);
@@ -189,7 +188,6 @@ const EditQuickPage = () => {
       } catch (error) {
         console.log(error);
         if (error.response.status === 422) {
-          console.log(error.response.data.data)
           setAlertArError(error.response.data.data)
           setShowArError(true)
         }

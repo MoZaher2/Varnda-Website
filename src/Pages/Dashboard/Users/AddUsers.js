@@ -62,7 +62,7 @@ export default function AddUsers() {
             formDataToSend.append(key, formData[key]);
           }
         }
-        const response = await api.post("/admin/createUser", formDataToSend, {
+        await api.post("/admin/createUser", formDataToSend, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

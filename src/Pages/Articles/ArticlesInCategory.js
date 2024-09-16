@@ -21,7 +21,6 @@ export default function ArticlesInCategory() {
   // const category_id=1;
   useEffect(() => {
     const fetchArticle = async () => {
-      console.log("category send: ",category)
       try {
         setOverlay(true)
         const response = await api.post(`/getPostsByCat/${category}`, {
@@ -37,7 +36,7 @@ export default function ArticlesInCategory() {
       }
     };
     fetchArticle();
-  }, [currentPage]);
+  }, [currentPage,category]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);

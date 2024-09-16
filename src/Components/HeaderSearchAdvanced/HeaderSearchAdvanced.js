@@ -5,10 +5,9 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
-import { Navbar, Container,Col, ToggleButton } from 'react-bootstrap';
+import {Container,Col} from 'react-bootstrap';
 import Search from "../Search/Search.js";
 import queryString from "query-string";
 import { useParams } from "react-router-dom";
@@ -77,11 +76,9 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
     if (Array.isArray(address.governorate) && address.governorate.length > 0) {
       // استبعاد العنصر الأول من المصفوفة
       const governoratesExcludingFirst = address.governorate.slice(1);
-    console.log(governoratesExcludingFirst);
       // إذا كانت المصفوفة بعد الاستبعاد تحتوي على عناصر
       if (governoratesExcludingFirst.length > 0) {
         filterCurrentParams.governorate = governoratesExcludingFirst.join(',');
-        console.log(filterCurrentParams.governorate);
       }
     }
     
@@ -142,11 +139,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
     setArea({ min: "", max: "" });
   };
 
-  const handleDone = () => {
-    setShowDropdown(false);
-    setShowPropertyTypeDropdown(false);
-  };
-
   const [showRoomsDropdown, setShowRoomsDropdown] = useState(false);
   const [showPriceDropdown, setShowPriceDropdown] = useState(false);
   
@@ -171,11 +163,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
     );
   };
 
-  const resetSelections = () => {
-    setRooms([]);
-    setBathrooms([]);
-  };
-
 
 
   const [doSearch, setDoSearch] = useState(true)
@@ -189,23 +176,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
   /////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    // const groupedAddress = searchText.reduce((acc, item) => {
-    //   acc[item.type] = acc[item.type] || [];
-    //   acc[item.type].push(item.name);
-    //   return acc;
-    // }, {});
-    // setAddress(groupedAddress);
-
-    console.log("///////////")
-    console.log(address);//سيتم ارسال المحافظه و المدينه و المنطقه و الشارع فى هذا المتغير
-    console.log(selectedOption)// هبعت هنا ال type  عشان احدد بيع وله ايجار
-    console.log(subCategory)// هنا هبعت نوع الحاجه اللى هيبحث عنها فى ال sub_category
-    console.log(rooms)// هبعت عدد الغرف اللى اختارها فى  rooms
-    console.log(bathrooms)// هبعت عدد الحمامات فى  bathrooms
-    console.log(area)//سيتم ارشال area  من حيث  max_area min_area
-    console.log(price)//سيتم ارسال price  من حيث min_price max_price
-    console.log(radioValue)//هبعت فيه حاله العقار سواء جاهز او تحت الانشاء  status
-    console.log("___________")
     setDoSearch(!doSearch)
     updateURL()
   }, [address, selectedOption, subCategory, rooms, bathrooms, area, price, radioValue,sortBy]);
@@ -257,8 +227,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
           params: filteredParams,
         });
         setProperties(response.data.data)
-        console.log("Sending: ",filteredParams);
-        console.log("Response: ",response.data.data);
       } catch (err) {
         console.log(err);
       }finally{
@@ -269,8 +237,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
   }, [doSearch]);
 
   // Filter search result
-  
-
   const searchFilter=["الأحدث","الاقل سعر","الاعلى سعر"]
   const handleFilterChange = (option) => {
     setSortBy(option);
@@ -279,10 +245,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
 
   return (
     <>
-  
-        {/* <Navbar expand="lg">
-          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between show" style={{ paddingRight: "20px" }}> */}
-
           <div id="basic-navbar-nav" className="justify-content-between show mt-2" >
             <Form dir="rtl" className="w-100">
               <Row className="d-flex align-items-center justify-content-start formInfoAdvanced m-0 mb-3 ">
@@ -582,29 +544,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                     </Dropdown>
                   </Form.Group>
                 </Col>
-
-                {/* <Col lg="4" md="6" className="mb-2" >
-                  <Form.Group className="inputLocationAdvanced">
-                    <ButtonGroup className="d-flex justify-content-between groub-btns" dir="ltr">
-                      {radios.map((radio, idx) => (
-                        <ToggleButton
-                          key={idx}
-                          id={`radio-${idx}`}
-                          type="radio"
-                          variant='outline-primary'
-                          name="radio"
-                          style={{ marginLeft: "5px" }}
-                          value={radio.value}
-                          checked={radioValue === radio.value}
-                          onChange={(e) => setRadioValue(e.currentTarget.value)}
-                        >
-                          {radio.name}
-                        </ToggleButton>
-                      ))}
-                    </ButtonGroup>
-                  </Form.Group>
-                </Col> */}
-
                 <Col>
                   <div className="d-flex flex-row-reverse pr-3">
                     <Button variant="secondary" onClick={handleReset}>
@@ -612,12 +551,6 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                     </Button>
                   </div>
                 </Col>
-                {/* حفظ الاعلان مرحله تانيه */}
-                {/* <Col>
-                  <div className="d-flex flex-row-reverse pr-3">
-                    <SaveSearch />
-                  </div>
-                </Col> */}
               </Row>
             </Form>
           </div>

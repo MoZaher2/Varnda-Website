@@ -171,7 +171,6 @@ export default function Regions() {
           }
         );
         fetchStreet();
-        console.log(response.data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -190,7 +189,6 @@ export default function Regions() {
         },
       });
       fetchStreet();
-      console.log(response.data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -212,7 +210,6 @@ export default function Regions() {
             },
           }
         );
-        console.log(response.data);
         fetchStreet();
       } catch (err) {
         console.log(err);

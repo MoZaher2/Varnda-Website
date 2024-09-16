@@ -9,13 +9,9 @@ export default function AllDrafts() {
 
     const token = Cookies.get("token");
     const role = Cookies.get("role")
-    // const role = localStorage.getItem("role")
     const [overlay, setOverlay] = useState(false)
     const [loadId, setLoadId] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState(null);
-    // const [show, setShow] = useState(false);
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
     const [articles, setArticles] = useState([])
     
 

@@ -4,12 +4,6 @@ import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import { Link } from 'react-router-dom';
 import "./Company.css";
-import img15 from "../../images/15.jpeg";
-import img16 from "../../images/16.webp";
-import img17 from "../../images/17.jpeg";
-import img18 from "../../images/18.jpeg";
-import img19 from "../../images/19.jpeg";
-import img20 from "../../images/20.jpeg";
 import imgcompany1 from "../../images/com1_new.webp";
 import imgcompany2 from "../../images/com2_new.webp";
 import imgcompany3 from "../../images/com3_new.webp";
@@ -33,7 +27,7 @@ export default function Company() {
         <Col xs={12} md={6} lg={3} className="mb-4">
           <Link to={`/search?city=القاهرة الجديدة`} className="card">
             <Card>
-              <Card.Img variant="top" src={imgcompany1} />
+              <Card.Img variant="top" src={imgcompany1} alt="القاهرة الجديدة محافظة القاهرة" />
               <Card.Body>
                 <Card.Title>القاهرة الجديدة</Card.Title>
               </Card.Body>
@@ -43,7 +37,7 @@ export default function Company() {
         <Col xs={12} md={6} lg={3} className="mb-4" >
           <Link to={`/search?city=الشيخ زايد`} className="card">
             <Card>
-              <Card.Img variant="top" src={imgcompany2} />
+              <Card.Img variant="top" src={imgcompany2} alt="الشيخ زايد محافظة الجيزة" />
               <Card.Body>
                 <Card.Title>الشيخ زايد </Card.Title>
               </Card.Body>
@@ -53,7 +47,7 @@ export default function Company() {
         <Col xs={12} md={6} lg={3} className="mb-4" >
           <Link to={`/search?city=مصر الجديدة`} className="card">
           <Card>
-            <Card.Img variant="top" src={imgcompany3} />
+            <Card.Img variant="top" src={imgcompany3} alt="مصر الجديدة محافظة القاهرة" />
             <Card.Body>
               <Card.Title>مصر الجديدة </Card.Title>
             </Card.Body>
@@ -63,7 +57,7 @@ export default function Company() {
         <Col xs={12} md={6} lg={3} className="mb-4" >
           <Link to={`/search?city=مدينة نصر`} className="card">
             <Card>
-              <Card.Img variant="top" src={imgcompany4} />
+              <Card.Img variant="top" src={imgcompany4} alt="مدينة نصر محافظة القاهرة" />
               <Card.Body>
                 <Card.Title>مدينة نصر </Card.Title>
               </Card.Body>
@@ -75,7 +69,7 @@ export default function Company() {
         <Col xs={12} md={6} lg={3} className="mb-4" >
           <Link to={`/search?city=6 اكتوبر`} className="card">
             <Card>
-              <Card.Img variant="top" src={imgcompany5} />
+              <Card.Img variant="top" src={imgcompany5} alt="6 اكتوبر محافظة الجيزة"/>
               <Card.Body>
                 <Card.Title> 6 أكتوبر</Card.Title>
               </Card.Body>
@@ -85,7 +79,7 @@ export default function Company() {
         <Col xs={12} md={6} lg={3} className="mb-4" >
           <Link to={`/search?city=المعادي`} className="card">
             <Card>
-              <Card.Img variant="top" src={imgcompany6} />
+              <Card.Img variant="top" src={imgcompany6} alt="المعادى محافظة القاهرة" />
               <Card.Body>
                 <Card.Title>المعادى </Card.Title>
               </Card.Body>
@@ -95,7 +89,7 @@ export default function Company() {
         <Col xs={12} md={6} lg={3} className="mb-4" >
           <Link to={`/search?city=مدينتي`} className="card">
             <Card>
-              <Card.Img variant="top" src={imgcompany7} />
+              <Card.Img variant="top" src={imgcompany7} alt="مدينتى محافظة القاهرة" />
               <Card.Body>
                 <Card.Title>مدينتى </Card.Title>
               </Card.Body>
@@ -106,7 +100,7 @@ export default function Company() {
         <Col xs={12} md={6} lg={3} className="mb-4" >
           <Link to={`/search?city= الساحل الشمالي`} className="card">
             <Card>
-              <Card.Img variant="top" src={imgcompany8} />
+              <Card.Img variant="top" src={imgcompany8} alt="الساحل الشمالى محافظة الإسكندرية" />
               <Card.Body>
                 <Card.Title> الساحل الشمالي </Card.Title>
               </Card.Body>

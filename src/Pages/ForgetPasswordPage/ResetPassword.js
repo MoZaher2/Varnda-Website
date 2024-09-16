@@ -63,7 +63,7 @@ const ResetPassword = () => {
           formData.append('token', urlParams.token);
           formData.append('email', urlParams.email);
 
-          const response = await api.post("/reset-password", formData, {
+          await api.post("/reset-password", formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }

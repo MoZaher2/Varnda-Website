@@ -7,7 +7,6 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
-// import { FaPinterest } from 'react-icons/fa';
 
 export default function Share({url,text=""}) {
 
@@ -53,7 +52,7 @@ export default function Share({url,text=""}) {
 
   const handleActionClick = (url) => {
     window.open(url, '_blank');
-    setOpen(false); // Close the SpeedDial after clicking
+    setOpen(false);
   };
 
   return (

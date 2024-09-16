@@ -19,7 +19,6 @@ useEffect(() => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data.auth)
       if(response.data.auth===false){
         setAlert({
           msg: "انتهت جلستك.يرجى تسجيل الدخول مره اخرى",
@@ -51,7 +50,6 @@ useEffect(() => {
           Authorization: `Bearer ${token}`,
         }
       })
-      console.log(response.data)
     } catch (error) {
       console.log(error);
     } finally {

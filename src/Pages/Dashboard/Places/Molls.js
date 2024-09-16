@@ -19,7 +19,6 @@ import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 export default function Molls() {
 
   const role = Cookies.get("role")
-  // const role = localStorage.getItem("role")
   const token = Cookies.get("token");
   const [getForm, setGetForm] = useState({
     governorate: "",
@@ -140,7 +139,6 @@ export default function Molls() {
           }
         );
         fetchMoll();
-        console.log(response.data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -159,7 +157,6 @@ export default function Molls() {
         },
       });
       fetchMoll();
-      console.log(response.data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -181,7 +178,6 @@ export default function Molls() {
             },
           }
         );
-        console.log(response.data);
         fetchMoll();
       } catch (err) {
         console.log(err);

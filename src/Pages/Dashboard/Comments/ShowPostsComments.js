@@ -62,7 +62,6 @@ export default function ShowPostsComments({ role }) {
 
   // حذف التعليق
   const handleDelete = async (id) => {
-    console.log(id);
     setSelectedItemId(id);
     setLoadId(true);
     try {

@@ -15,13 +15,9 @@ import {
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 export default function FooterContactUs() {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   return (
     <div className="footer py-5 mt-5">

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Alert, Button } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import "./ArticleDetailes.css";
-import HeaderPageLink from "../../../Components/HeaderPageLink/HeaderPageLink.js";
 import Footer from "../../../Components/Footer/Footer";
 import api from "../../../API/ApiLink.js";
 import usePageSEO from "../../../hooks/usePageSEO";

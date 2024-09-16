@@ -3,11 +3,10 @@ import LoadingBtn from "../LoadingBtn";
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 import AlertMessage from "../Alert/Alert.js";
-import { Col, Container, Row, Form, Button, Modal } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Col, Container, Row, Button, Modal } from 'react-bootstrap';
 export default function DeleteImages() {
 
-  const navigate = useNavigate();
+
   const token=Cookies.get("token")
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [load, setLoad] = useState(false);
@@ -26,7 +25,6 @@ export default function DeleteImages() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data)
         setShowDeleteModal(false);
         setAlert({ msg: "تم حذف الصور الغير مستخدمة بنجاح", variant: 1 })
         window.scrollTo({ top: 0, behavior: 'smooth' });

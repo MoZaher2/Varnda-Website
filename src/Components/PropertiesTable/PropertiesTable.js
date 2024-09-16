@@ -19,7 +19,7 @@ const PropertiesTable = ({ data }) => {
     setSelectedItemId(id);
     setLoadId(true);
     try {
-      const response = await api.post(
+      await api.post(
         `/deleteAd/${id}`,
         {},
         {

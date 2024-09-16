@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './FavPage.css';
 import { Container, Row, Col} from 'react-bootstrap';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -33,7 +32,6 @@ const token=Cookies.get("token")
           },
         });
         setProperties(response.data.data);
-        console.log(response.data.data);
       } catch (error) {
         if (error.response.status === 401) {
           window.scrollTo({ top: 0, behavior: "smooth" });

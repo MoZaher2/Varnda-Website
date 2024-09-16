@@ -20,7 +20,7 @@ function SaveSearch() {
         </Modal.Header>
         <Modal.Body>
           <Form>
-           <Form.Control
+            <Form.Control
         type="text"
         placeholder="قم بتسمية عمليه البحث"
         id="inputTextSearch"

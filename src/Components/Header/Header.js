@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./Header.css"
@@ -7,11 +6,9 @@ import Logo from '../../images/logo.png';
 import {
   faSignInAlt,
   faUserPlus,
-  faStar,
   faHeart,
   faPlus,
   faCog,
-  faHome,
   faSignOutAlt,
   faUser,
   faFileAlt,
@@ -24,8 +21,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'js-cookie';
 import api from "../../API/ApiLink";
-import { Box, Avatar, Card, CardContent, Typography, Button, IconButton, Modal, ModalDialog } from '@mui/joy';
-import AllGovernorates from './../AllGovernorates/AllGovernorates';
+import { Avatar } from '@mui/joy';
 
 
 
@@ -44,7 +40,6 @@ export default function Header() {
           Authorization: `Bearer ${token}`,
         }
       })
-      console.log(response.data)
     } catch (error) {
       console.log(error);
     } finally {

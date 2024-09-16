@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { Alert } from "react-bootstrap";
@@ -62,7 +62,7 @@ export default function AllAds() {
         setSelectedItemId(id);
         setLoadId(true);
         try {
-            const response = await api.post(`/deleteAd/${id}`, {},{
+            await api.post(`/deleteAd/${id}`, {},{
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }

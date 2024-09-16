@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button ,Table ,Alert,Form} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
 import api from "../../../API/ApiLink.js";
-import LoadingBtn from "../../../Components/LoadingBtn.js";
-import AlertMessage from "../../../Components/Alert/Alert.js";
 import Cookies from 'js-cookie';
 import OverPage from "../../../Components/OverPage/OverPage.js";
 import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
@@ -12,7 +9,6 @@ import DeleteItem from "../../../Components/DeleteItem/DeleteItem.js";
 export default function ArticlesCategory() {
     const token = Cookies.get("token");
     const role = Cookies.get("role")
-    // const role = localStorage.getItem("role")
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [loadId, setLoadId] = useState(false)
     const [articles, setArticles] = useState([])

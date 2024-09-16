@@ -97,8 +97,6 @@ export default function Cities() {
           },
         }
       );
-      
-      console.log(response.data.data)
       setCities(response.data.data);
     } catch (error) {
       console.log(error);
@@ -114,7 +112,7 @@ export default function Cities() {
   const handleDelete = async (id) => {
     try {
       setLoadId(true);
-      const response = await api.post(`/deleteCity/${id}`, null, {
+      await api.post(`/deleteCity/${id}`, null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -150,13 +148,11 @@ export default function Cities() {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(response.data);
         fetchCity();
         resetData();
         setImage(null);
       } catch (err) {
         if (err.response.data.status == 422) {
-          console.log("first");
           setAlert({ msg: "هناك رابط اخر مشابهه لهذا", variant: 3 });
           setShowAlert(true);
         }

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-// import "./LoginPage.css";
 import api from "../../API/ApiLink.js";
 import Cookies from 'js-cookie';
 import LoadingBtn from "../../Components/LoadingBtn.js";
@@ -36,12 +35,10 @@ export default function LoginWithRole({role}) {
           password: formData.password,
           role
         });
-        console.log(response.data)
 
         Cookies.set('token', response.data.data.token);
         Cookies.set("image", response.data.data.user.image);
         Cookies.set('role', response.data.data.user.role);
-        // localStorage.setItem('role', response.data.data.user.role);
         Cookies.set('email', response.data.data.user.email);
         Cookies.set('first_name', response.data.data.user.name);
         Cookies.set('phone', response.data.data.user.phone);

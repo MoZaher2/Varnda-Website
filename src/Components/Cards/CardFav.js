@@ -14,7 +14,7 @@ import {
   faRulerCombined,
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import { Row, Col, Card, Alert, Overlay } from "react-bootstrap";
+import { Row, Col, Card, Alert} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -27,12 +27,10 @@ import OverPage from "./../OverPage/OverPage";
 import AlertMessage from "../Alert/Alert.js";
 
 export default function CardFav({ properties, overlay }) {
-  console.log(properties);
   const token = Cookies.get("token");
   const role = Cookies.get("role");
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
-  // const role = localStorage.getItem("role")
   const settings = {
     dots: false,
     infinite: true,

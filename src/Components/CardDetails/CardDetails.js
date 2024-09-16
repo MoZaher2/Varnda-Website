@@ -10,11 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./CardDetails.css";
 import {
   faPhone,
-  faBed,
-  faBath,
   faEnvelope,
-  faHome,
-  faRulerCombined,
   faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import VideoEmbed from "../../utility/VideoEmbed/VideoEmbed";
@@ -22,8 +18,6 @@ import ShowFilterToUser from "../Filters/ShowFilterToUser";
 import usePageSEO from "../../hooks/usePageSEO";
 
 const CardDetails = ({ propertyDetails }) => {
-  console.log(propertyDetails);
-
   usePageSEO({
     title: propertyDetails.property["Arabic Name"]
 });
@@ -58,7 +52,6 @@ const CardDetails = ({ propertyDetails }) => {
         propertyDetails.property["Sub Category"] === "تاون هاوس" ||
         propertyDetails.property["Sub Category"] === "توين هاوس"
     );
-    console.log(subCategoryName);
   }, [propertyDetails]);
 
   return (

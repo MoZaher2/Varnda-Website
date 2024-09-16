@@ -22,7 +22,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
   faDollarSign,
-  faBed,
   faBath,
   faRulerCombined,
 } from "@fortawesome/free-solid-svg-icons";
@@ -107,8 +106,8 @@ const AddCommercialUnitsPage = () => {
   const [priceText, setPriceText] = useState("");
   const categories = {
     مرافق: ["عداد كهرباء", "عداد مياه", "غاز طبيعي", "تليفون أرضي"],
-    خدمات: ["حمام خاص ", "مخزن خاص", , "مساحات خارجية", "أمن", "أسانسير"],
-    أجهزة: ["تدفئة", "تكييف", , "أجهزة كشف الحريق"],
+    خدمات: ["حمام خاص ", "مخزن خاص", "مساحات خارجية", "أمن", "أسانسير"],
+    أجهزة: ["تدفئة", "تكييف", "أجهزة كشف الحريق"],
   };
 
   const [governorates, setGovernorates] = useState([]);
@@ -191,7 +190,6 @@ const AddCommercialUnitsPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data.data);
         setStreets(response.data.data);
       } catch (error) {
         console.log(error);
@@ -241,7 +239,6 @@ const AddCommercialUnitsPage = () => {
         setPrimary_picture(files[0]);
       } else if (name === "images[]") {
         setImages(Array.from(files));
-        console.log(images);
       }
       setFormData({
         ...formData,
@@ -268,7 +265,6 @@ const AddCommercialUnitsPage = () => {
         ? prevState[fieldName].filter((item) => item !== amenity)
         : [...prevState[fieldName], amenity],
     }));
-    console.log(formData["facilities[]"]);
   };
 
   const handleChange2 = (e) => {
@@ -289,7 +285,7 @@ const AddCommercialUnitsPage = () => {
       const response = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`
       );
-      console.log(response);
+       
       const address = response.data.features[0].properties.formatted;
       setFormData({
         ...formData,
@@ -372,7 +368,6 @@ const AddCommercialUnitsPage = () => {
         console.log(error);
 
         if (error.response.status === 422) {
-          console.log(error.response.data.data)
           setAlertArError(error.response.data.data)
           setShowArError(true)
         }
@@ -434,7 +429,6 @@ const AddCommercialUnitsPage = () => {
         setTimeout(() => {
           navigate("/submit-property");
         }, 2000);
-        console.log(response.data);
       } catch (err) {
         console.log(err);
       }
@@ -471,7 +465,7 @@ const AddCommercialUnitsPage = () => {
   // لتنسيق شكل الرقم
   const handlePriceChange = (e) => {
     const { value } = e.target;
-    console.log(value);
+     
     const price = value.replace(/,/g, "");
     if (!isNaN(price)) {
       setPriceText(Number(price).toLocaleString("en-US")); //For view

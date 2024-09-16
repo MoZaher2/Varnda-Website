@@ -209,7 +209,6 @@ const AddResortsAndCoastsPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data.data);
         setStreets(response.data.data);
       } catch (error) {
         console.log(error);
@@ -262,7 +261,6 @@ const AddResortsAndCoastsPage = () => {
         setPrimary_picture(files[0]);
       } else if (name === "images[]") {
         setImages(Array.from(files));
-        console.log(images);
       }
       setFormData({
         ...formData,
@@ -290,7 +288,6 @@ const AddResortsAndCoastsPage = () => {
         ? prevState[fieldName].filter((item) => item !== amenity)
         : [...prevState[fieldName], amenity],
     }));
-    console.log(formData["facilities[]"]);
   };
 
   const handleChange2 = (e) => {
@@ -311,7 +308,7 @@ const AddResortsAndCoastsPage = () => {
       const response = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`
       );
-      console.log(response);
+       
       const address = response.data.features[0].properties.formatted;
       setFormData({
         ...formData,
@@ -354,7 +351,6 @@ const AddResortsAndCoastsPage = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       setShow(true);
     } else {
-      console.log(formData);
       const token = Cookies.get("token");
       try {
         setLoad1(true);
@@ -398,7 +394,6 @@ const AddResortsAndCoastsPage = () => {
         console.log(error);
 
         if (error.response.status === 422) {
-          console.log(error.response.data.data)
           setAlertArError(error.response.data.data)
           setShowArError(true)
         }
@@ -460,7 +455,6 @@ const AddResortsAndCoastsPage = () => {
         setTimeout(() => {
           navigate("/submit-property");
         }, 2000);
-        console.log(response.data);
       } catch (err) {
         console.log(err);
       }
@@ -497,7 +491,7 @@ const AddResortsAndCoastsPage = () => {
   // لتنسيق شكل الرقم
   const handlePriceChange = (e) => {
     const { value } = e.target;
-    console.log(value);
+     
     const price = value.replace(/,/g, "");
     if (!isNaN(price)) {
       setPriceText(Number(price).toLocaleString("en-US")); //For view

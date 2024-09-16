@@ -64,7 +64,6 @@ usePageSEO({
       ...prevState,
       [name]: value
     }));
-    console.log(userForm)
   };
 
   const handlePasswordSubmit = async (e) => {
@@ -83,7 +82,7 @@ usePageSEO({
       } else {
         setLoad(true);
         try {
-          const response = await api.post("/change_password", {
+          await api.post("/change_password", {
             ...passwordForm
           }, {
             headers: {

@@ -13,7 +13,6 @@
 .alertSideBar{
   position: absolute;
   top: 0px;
-  /* width: 70vw; */
   height: 65px;
   animation-name: alert_up2down__sUKB7;
   animation-duration: 2s;

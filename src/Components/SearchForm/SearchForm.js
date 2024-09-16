@@ -111,12 +111,6 @@ const SearchForm = ({ backgroundImage }) => {
   ];
   let gov;
   const handleSearch = () => {
-    console.log(subCategory);
-    console.log(selectedOption);
-    console.log(price);
-    console.log(area);
-    console.log(rooms);
-    console.log(bathrooms);
     const currentParams = {
       selectedOption,
       subCategory,
@@ -127,7 +121,6 @@ const SearchForm = ({ backgroundImage }) => {
       minArea: area.min,
       maxArea: area.max,
     };
-    console.log(currentParams);
     let filterCurrentParams = Object.fromEntries(
       Object.entries(currentParams).filter(
         ([key, value]) =>

@@ -29,6 +29,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 3; /* Number of lines before truncating */
+    line-clamp: 3; /* Number of lines before truncating */
     max-height: 4.5em; /* Adjust the max height based on the number of lines */
 }

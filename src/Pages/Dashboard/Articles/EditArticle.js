@@ -16,7 +16,6 @@ export default function EditArticle() {
   const Article = location.state?.data;
   const token = Cookies.get("token");
 
-  // console.log(Article);
   const [staticBody, setStaticBody] = useState("");
   const [article_body, setArticle_body] = useState("");
   const [article_image, setArticle_image] = useState(null);
@@ -151,7 +150,7 @@ export default function EditArticle() {
         // Set Post
         try {
           setLoad(true);
-          const response = await api.post(
+          await api.post(
             `/updatePost/${formData.article_id}`,
             formDataToSend,
             {
@@ -161,11 +160,9 @@ export default function EditArticle() {
               },
             }
           );
-          console.log("imageUrls:");
-          console.log(imageUrls);
           //Confirm images url
           try {
-            const response = await api.post(
+            await api.post(
               `/updatePost_images/${formData.article_id}`,
               { image_paths: imageUrls },
               {
@@ -195,7 +192,6 @@ export default function EditArticle() {
         } catch (error) {
           console.log(error)
           if (error.response.status === 422) {
-            console.log(error.response.data.data)
             setAlertArError(error.response.data.data)
             setShowArError(true)
           } else if (error.response.status === 401) {

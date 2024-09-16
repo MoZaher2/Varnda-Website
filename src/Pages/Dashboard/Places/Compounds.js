@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Form, Button, Table, Modal, Row, Col, Alert } from "react-bootstrap";
+import { Form, Button, Table,Row, Col, Alert } from "react-bootstrap";
 import api from "../../../API/ApiLink.js";
 import LoadingBtn from "../../../Components/LoadingBtn.js";
 import Cookies from "js-cookie";
@@ -12,7 +12,6 @@ export default function Compounds() {
 
   const navigate = useNavigate();
   const role = Cookies.get("role")
-  // const role = localStorage.getItem("role")
   const token = Cookies.get("token");
   const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({
@@ -31,27 +30,15 @@ export default function Compounds() {
   const [overlay, setOverlay] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
-  const [show, setShow] = useState(false);
   const [governorates, setGovernorates] = useState([]);
   const [cities, setCities] = useState([]);
   const [compounds, setCompounds] = useState([]);
   const [govUrL, setGovUrl] = useState('');
   const [cityUrL, setCityUrl] = useState('');
 
-  const handleClose = () => setShow(false);
+  
   const [selectedItemId, setSelectedItemId] = useState(null);
-  const [loadEdit, setLoadEdit] = useState(false);
-  const [newImage, setNewImage] = useState(null);
-  //
-  const [editData, setEditData] = useState({
-    name: "",
-    english_name: "",
-    meta_title: "",
-    h1_title: "",
-    meta_description: "",
-    image: "",
-    url: "",
-  });
+
   const resetData = () => {
     setFormData({
       ...formData,
@@ -63,20 +50,6 @@ export default function Compounds() {
       image: "",
       url: "",
     });
-  };
-  const handleShow = (id, compound) => {
-    console.log(compound);
-    setSelectedItemId(id);
-    setEditData({
-      name: compound.name,
-      english_name: compound.english_name,
-      meta_title: compound.meta_title,
-      h1_title: compound.h1_title,
-      meta_description: compound.meta_description,
-      image: compound.image,
-      url: compound.url,
-    });
-    setShow(true);
   };
 
   const handleGetChange = (e) => {
@@ -183,45 +156,7 @@ export default function Compounds() {
       fetchCompound();
     }
   }, [formData.governorate, formData.city]);
-  //  تعديل الكومباوند
-  const handleEdite = async () => {
-    if (editData.name) {
-      setLoadEdit(true);
-      const allFormData = new FormData();
-      // Append form fields
-      for (const [key, value] of Object.entries(editData)) {
-        if (key !== "image" && value) {
-          allFormData.append(key, value);
-        }
-      }
-      if (newImage) {
-        allFormData.append("image", editData.image[0]);
-      }
-      try {
-        const response = await api.post(
-          `/update-compound/${selectedItemId}`,
-          allFormData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        fetchCompound();
-        setNewImage(null);
-        setShow(false);
-      } catch (err) {
-        if (err.response.data.status == 422) {
-          console.log("first");
-          setAlert({ msg: "هناك رابط اخر مشابهه لهذا", variant: 3 });
-          setShowAlert(true);
-        }
-      } finally {
-        setLoadEdit(false);
-      }
-    }
-  };
+
   // حذف كومباوند
   const handleDelete = async (id) => {
     try {
@@ -232,7 +167,6 @@ export default function Compounds() {
         },
       });
       fetchCompound();
-      console.log(response.data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -263,13 +197,11 @@ export default function Compounds() {
               "Content-Type": "multipart/form-data",
             },
           });
-          console.log(response.data);
           fetchCompound();
           resetData();
           setImage(null);
         } catch (err) {
           if (err.response.data.status == 422) {
-            console.log("first");
             setAlert({ msg: "هناك رابط اخر مشابهه لهذا", variant: 3 });
             setShowAlert(true);
           }
@@ -297,18 +229,6 @@ export default function Compounds() {
     }
   }
 
-  function handelEditeChange(e) {
-    const { name, value, type, files } = e.target;
-    if (type === "file" && name === "image") {
-      setNewImage(files[0]);
-      setEditData({
-        ...editData,
-        [name]: files,
-      });
-    } else {
-      setEditData({ ...editData, [name]: value });
-    }
-  }
 
   return (
     <>

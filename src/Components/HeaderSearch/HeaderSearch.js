@@ -5,13 +5,12 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import { Navbar} from 'react-bootstrap';
 export default function HeaderSearch() {
   const [selectedOption, setSelectedOption] = useState("sale");
   const [rentalDuration, setRentalDuration] = useState("");
   const [propertyType, setPropertyType] = useState("سكنى");
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showDropdownArea, setShowDropdownArea] = useState(false);
   const [showDropdownPrice, setShowDropdownPrice] = useState(false);
   const [showPropertyTypeDropdown, setShowPropertyTypeDropdown] =
     useState(false);
@@ -63,19 +62,6 @@ export default function HeaderSearch() {
         : [...prevSelectedBathRooms, bathroom]
     );
   };
-
-  const resetSelections = () => {
-    setSelectedRooms([]);
-    setSelectedBathRooms([]);
-  };
-
-  // const getDropdownTitle = () => {
-  //   const roomsTitle = ` الغرف: ${selectedRooms.join(", ")}`;
-  //   const bathroomsTitle = ` الحمامات: ${selectedBathRooms.join(", ")}`;
-  //   return `${roomsTitle} | ${bathroomsTitle}`;
-  
-
-  // };
 
   const [showDropdownSpeed, setShowDropdownSpeed] = useState(false);
   const [selectedTime, setSelectedTime] = useState("30 دقيقة");

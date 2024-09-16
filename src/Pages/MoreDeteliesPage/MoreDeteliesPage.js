@@ -4,7 +4,6 @@ import Footer from "../../Components/Footer/Footer";
 import { Container } from "react-bootstrap";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./MoreDeteliesPage.css";
 import Cookies from 'js-cookie';
 import api from "../../API/ApiLink.js";
 import CardDetails from "../../Components/CardDetails/CardDetails.js";
@@ -31,7 +30,6 @@ const[data,setData]=useState("")
             }
           })
           const adsData=response.data.data
-          console.log(response.data.data)
           setData(adsData)
         }catch(err){
           if(err.response.data.status===404){

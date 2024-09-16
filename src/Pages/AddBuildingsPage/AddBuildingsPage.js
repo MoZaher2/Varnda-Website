@@ -98,10 +98,6 @@ const AddBuildingsPage = () => {
   const [cities, setCities] = useState([]);
   const [regions, setRegions] = useState([]);
   const [streets, setStreets] = useState([]);
-  const [compounds, setCompounds] = useState([
-    { id: 1, name: "com1" },
-    { id: 2, name: "com2" },
-  ]);
   const [position, setPosition] = useState([
     30.044376903556085, 31.235749743857397,
   ]); //ابعته ف ال API  latitude longitude
@@ -109,20 +105,6 @@ const AddBuildingsPage = () => {
   const [validated2, setValidated2] = useState(false);
 
   const [priceText, setPriceText] = useState("");
-
-  const categories = {
-    مرافق: ["عداد كهرباء", "عداد مياه", "غاز طبيعي", "تليفون أرضي"],
-    ميزات: [
-      "شرفة",
-      "غرف خدم",
-      "غرفة غسيل",
-      "غرفة ملابس",
-      "حديقة خاصة",
-      "موقف سيارات مغطي",
-    ],
-    خدمات: ["حمام سباحة", "أسانسير", "أمن"],
-    أجهزة: ["تدفئة", "تكييف", "اجهزة المطبخ", "أجهزة كشف الحريق"],
-  };
 
   const [governorates, setGovernorates] = useState([]);
   // API for get data to choose from it
@@ -204,7 +186,6 @@ const AddBuildingsPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data.data);
         setStreets(response.data.data);
       } catch (error) {
         console.log(error);
@@ -234,7 +215,6 @@ const AddBuildingsPage = () => {
         setPrimary_picture(files[0]);
       } else if (name === "images[]") {
         setImages(Array.from(files));
-        console.log(images);
       }
       setFormData({
         ...formData,
@@ -246,23 +226,6 @@ const AddBuildingsPage = () => {
         [name]: value,
       });
     }
-  };
-  const fieldMapping = {
-    مرافق: "facilities[]",
-    ميزات: "features[]",
-    خدمات: "services[]",
-    أجهزة: "devices[]",
-  };
-  const toggleAmenity = (category, amenity) => {
-    const fieldName = fieldMapping[category];
-
-    setFormData((prevState) => ({
-      ...prevState,
-      [fieldName]: prevState[fieldName].includes(amenity)
-        ? prevState[fieldName].filter((item) => item !== amenity)
-        : [...prevState[fieldName], amenity],
-    }));
-    console.log(formData["facilities[]"]);
   };
 
   const handleChange2 = (e) => {
@@ -283,7 +246,7 @@ const AddBuildingsPage = () => {
       const response = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`
       );
-      console.log(response);
+       
       const address = response.data.features[0].properties.formatted;
       setFormData({
         ...formData,
@@ -370,7 +333,6 @@ const AddBuildingsPage = () => {
         console.log(error);
 
         if (error.response.status === 422) {
-          console.log(error.response.data.data)
           setAlertArError(error.response.data.data)
           setShowArError(true)
         }
@@ -433,7 +395,6 @@ const AddBuildingsPage = () => {
         setTimeout(() => {
           navigate("/submit-property");
         }, 2000);
-        console.log(response.data);
       } catch (err) {
         console.log(err);
       }
@@ -474,7 +435,7 @@ const AddBuildingsPage = () => {
   // لتنسيق شكل الرقم
   const handlePriceChange = (e) => {
     const { value } = e.target;
-    console.log(value);
+     
     const price = value.replace(/,/g, "");
     if (!isNaN(price)) {
       setPriceText(Number(price).toLocaleString("en-US")); //For view

@@ -63,7 +63,6 @@ const AddApartmentsAndDuplexesPage = () => {
     email: Cookies.get("email"),
     whats_phone: Cookies.get("whats_phone"),
   });
-  console.log(Cookies.get("user_id"));
   const [formData, setFormData] = useState({
     user_id: Cookies.get("user_id"), //👍
     category: "شقق", //👍
@@ -207,7 +206,6 @@ const AddApartmentsAndDuplexesPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data.data);
         setStreets(response.data.data);
       } catch (error) {
         console.log(error);
@@ -260,7 +258,6 @@ const AddApartmentsAndDuplexesPage = () => {
         setPrimary_picture(files[0]);
       } else if (name === "images[]") {
         setImages(Array.from(files));
-        console.log(images);
       }
       setFormData({
         ...formData,
@@ -288,7 +285,6 @@ const AddApartmentsAndDuplexesPage = () => {
         ? prevState[fieldName].filter((item) => item !== amenity)
         : [...prevState[fieldName], amenity],
     }));
-    console.log(formData["facilities[]"]);
   };
 
   const handleChange2 = (e) => {
@@ -309,7 +305,7 @@ const AddApartmentsAndDuplexesPage = () => {
       const response = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`
       );
-      console.log(response);
+       
       const address = response.data.features[0].properties.formatted;
       setFormData({
         ...formData,
@@ -397,7 +393,6 @@ const AddApartmentsAndDuplexesPage = () => {
         console.log(error);
 
         if (error.response.status === 422) {
-          console.log(error.response.data.data)
           setAlertArError(error.response.data.data)
           setShowArError(true)
         }
@@ -444,19 +439,13 @@ const AddApartmentsAndDuplexesPage = () => {
         const user_type = Cookies.get("user_type") || null;
         const phone = Cookies.get("phone") || null;
         const whats_phone = Cookies.get("whats_phone") || null;
-        console.log(phone);
-        console.log(whats_phone);
-        console.log(user_type);
         if (phone === null) {
-          console.log("inside phone");
           Cookies.set("phone", formData2.phone);
         }
         if (user_type === null) {
-          console.log("inside userType");
           Cookies.set("user_type", formData2.advertiser_type);
         }
         if (whats_phone === null) {
-          console.log("inside whats");
           Cookies.set("whats_phone", formData2.whats_phone);
         }
 
@@ -466,7 +455,6 @@ const AddApartmentsAndDuplexesPage = () => {
         setTimeout(() => {
           navigate("/submit-property");
         }, 2000);
-        console.log(response.data);
       } catch (err) {
         console.log(err);
       }
@@ -503,7 +491,6 @@ const AddApartmentsAndDuplexesPage = () => {
   // لتنسيق شكل الرقم
   const handlePriceChange = (e) => {
     const { value } = e.target;
-    console.log(value);
     const price = value.replace(/,/g, "");
     if (!isNaN(price)) {
       setPriceText(Number(price).toLocaleString("en-US")); //For view

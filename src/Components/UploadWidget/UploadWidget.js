@@ -29,7 +29,6 @@ const UploadWidget = () => {
 
   const saveImages = () => {
     // Implement the save functionality
-    console.log("Images saved:", images);
     closeModal();
   };
 
