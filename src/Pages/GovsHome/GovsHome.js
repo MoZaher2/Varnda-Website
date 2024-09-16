@@ -6,6 +6,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import usePageSEO from "../../hooks/usePageSEO";
 import "./GovsHome.css"
+import OverPage from "../../Components/OverPage/OverPage";
 export default function GovsHome() {
 
     // Set SEO settings
@@ -15,13 +16,17 @@ export default function GovsHome() {
       keywords:["المحافظات"],
     });
   const [allGov, setAllGov] = useState([]);
+  const [overlay, setOverlay] = useState(false);
   useEffect(() => {
     const fetchAllGov = async () => {
       try {
+        setOverlay(true)
         const response = await api.get("/getAllGovernoratesForHomepage");
         setAllGov(response.data.data);
       } catch (err) {
         console.log(err);
+      }finally{
+        setOverlay(false)
       }
     };
     fetchAllGov();
@@ -34,25 +39,29 @@ export default function GovsHome() {
         <h1 className="text-center title-page py-1 pb-2 container my-3">
           المحافظات
         </h1>
-        {allGov.length > 0 && (
-          <Row
-          className="g-3"
-          >
-            {allGov.map(
-              (gov) =>
-                gov.url && (
-                  <Col sm={6} md={4} lg={3} className="text-center">
-                    <Link to={`/${gov.url}`} key={gov.url}
-                    className="govs-link">
-                      <button 
-                     className="govs-btn">
-                        {gov.name}
-                      </button>
-                    </Link>
-                  </Col>
-                )
+        {overlay ? (
+          <OverPage />
+        ) : (
+          <>
+            {allGov.length > 0 && (
+              <Row className="g-3">
+                {allGov.map(
+                  (gov) =>
+                    gov.url && (
+                      <Col sm={6} md={4} lg={3} className="text-center">
+                        <Link
+                          to={`/${gov.url}`}
+                          key={gov.url}
+                          className="govs-link"
+                        >
+                          <button className="govs-btn">{gov.name}</button>
+                        </Link>
+                      </Col>
+                    )
+                )}
+              </Row>
             )}
-          </Row>
+          </>
         )}
       </Container>
       <Footer />

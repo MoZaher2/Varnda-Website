@@ -279,11 +279,13 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
 
   return (
     <>
-      <Container >
-        <Navbar expand="lg">
-          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between show" style={{ paddingRight: "20px" }}>
+  
+        {/* <Navbar expand="lg">
+          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between show" style={{ paddingRight: "20px" }}> */}
+
+          <div id="basic-navbar-nav" className="justify-content-between show mt-2" >
             <Form dir="rtl" className="w-100">
-              <Row className="mb-3 d-flex align-items-center justify-content-start formInfoAdvanced">
+              <Row className="d-flex align-items-center justify-content-start formInfoAdvanced m-0 mb-3 ">
                 <Col lg="2" md="2" className="mb-2" >
                   <Form.Group className="inputSelectAdvanced">
                     <Dropdown
@@ -447,7 +449,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                   </Form.Group>
                 </Col>
 
-                <Col lg="2" md="3" className="mb-2" >
+                <Col lg="2" md="3" xs={6} className="mb-2" >
                   <Form.Group className="inputSelectAdvanced">
                     <Dropdown
                       show={showRoomsDropdown}
@@ -498,7 +500,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                   </Form.Group>
                 </Col>
 
-                <Col lg="1" md="3" className="mb-2" >
+                <Col lg="1" md="3" xs={6} className="mb-2" >
                   <Form.Group className="inputSelectAdvanced">
                     <Dropdown
                       show={showPriceDropdown}
@@ -618,9 +620,9 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                 </Col> */}
               </Row>
             </Form>
-          </Navbar.Collapse>
-        </Navbar>
-      </Container>
+          </div>
+
+    
       <hr />
       <Container>
         <Row className="d-flex justify-content-between">

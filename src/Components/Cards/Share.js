@@ -1,12 +1,13 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import ShareIcon from '@mui/icons-material/Share';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import PinterestIcon from '@mui/icons-material/Pinterest';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
+// import { FaPinterest } from 'react-icons/fa';
 
 export default function Share({url,text=""}) {
 
@@ -36,6 +37,13 @@ export default function Share({url,text=""}) {
     name: 'Facebook', 
     url: `http://www.facebook.com/sharer.php?u=${encodeURIComponent(url)}/`,
       color:'#1877F2'
+    },
+    { 
+      icon: <PinterestIcon />,
+      name: 'Pinterest', 
+      url: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(text)}`,
+  
+      color: '#E60023'
     },
   ];
   

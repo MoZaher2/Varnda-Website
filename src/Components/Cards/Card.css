@@ -24,3 +24,10 @@
     width: 100% !important;
 }
 }
+
+.SocialContactCont{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}

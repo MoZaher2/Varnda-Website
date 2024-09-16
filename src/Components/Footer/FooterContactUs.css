@@ -1,12 +1,12 @@
-html,
+/* html,
 body {
   height: 100%;
-}
+} */
 
-body {
+/* body {
   display: flex;
   flex-direction: column;
-}
+} */
 
 .footer {
   background: #0d6efd  ;
