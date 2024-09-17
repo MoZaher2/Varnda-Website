@@ -63,9 +63,8 @@ const[data,setData]=useState("")
           {data && (
             <Share
               text={data.property["Arabic Name"]}
-              url={`http://varnda.com/property/${encodeURIComponent(
-                id
-              )}`}
+              // url={`http://varnda.com/property/${encodeURIComponent(id)}`}
+              url={`https://varnda-website.vercel.app/${encodeURIComponent(id)}`}
             />
           )}
           {over && <OverPage />}

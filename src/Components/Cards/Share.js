@@ -41,7 +41,6 @@ export default function Share({url,text=""}) {
       icon: <PinterestIcon />,
       name: 'Pinterest', 
       url: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(text)}`,
-  
       color: '#E60023'
     },
   ];

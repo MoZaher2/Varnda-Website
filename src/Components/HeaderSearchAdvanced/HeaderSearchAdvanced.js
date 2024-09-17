@@ -473,7 +473,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                         title="بحث متقدم"
                         onClick={() => setShowPriceDropdown(!showPriceDropdown)}
                         variant="light"
-                        style={{ width: "300px" }}
+                        // style={{ width: "300px" }}
                       >
                         <div className="p-3 menuValue w-200 style-menu-h5">
                           <h5>السعر ( ج.م )</h5>

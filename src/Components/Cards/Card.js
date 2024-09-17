@@ -171,7 +171,7 @@ export default function PropertyCard({ properties = [], loading }) {
                         ))}
                       </Slider>
                     ) : (
-                      <div className="SocialContactCont">
+                      <div>
                         <img
                           src={property.property.primary_picture}
                           alt={`صوره الاعلان الرئيسيه`}
@@ -184,7 +184,7 @@ export default function PropertyCard({ properties = [], loading }) {
                   <h6 style={{ color: "#0d6efd" }} className="my-1">
                     الصور المتاحة لهذا العقار
                   </h6>
-                  <div>
+                  <div className="SocialContactCont">
                     <a href={`tel:+2${property.phone}`}>
                       <Button variant="primary" className="m-2 btn-lg">
                         <FontAwesomeIcon icon={faPhone} /> اتصل
