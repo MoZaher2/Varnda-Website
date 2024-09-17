@@ -186,13 +186,13 @@ export default function PropertyCard({ properties = [], loading }) {
                   </h6>
                   <div className="SocialContactCont">
                     <a href={`tel:+2${property.phone}`}>
-                      <Button variant="primary" className="m-2 btn-lg">
+                      <Button variant="primary" className="m-1 btn-lg">
                         <FontAwesomeIcon icon={faPhone} /> اتصل
                       </Button>
                     </a>
                     <Button
                       variant="secondary"
-                      className="m-2 btn-lg"
+                      className="m-1 btn-lg"
                       onClick={() => {
                         const mailtoLink = `mailto:${
                           property.email
@@ -219,7 +219,7 @@ export default function PropertyCard({ properties = [], loading }) {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Button variant="success" className="m-2 btn-lg">
+                      <Button variant="success" className="m-1 btn-lg">
                         <FontAwesomeIcon icon={faWhatsapp} /> واتساب
                       </Button>
                     </a>
