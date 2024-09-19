@@ -59,8 +59,8 @@ export default function Share({url,text=""}) {
         ariaLabel="SpeedDial basic"
         sx={{ 
           position: 'fixed',
-          bottom: '20px',
-          left: '20px'}}
+          bottom: '10px',
+          left: '10px'}}
         icon={<ShareIcon />}
         direction="left"
         onClick={handleToggle}

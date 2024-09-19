@@ -43,6 +43,7 @@ const CardDetails = ({ propertyDetails }) => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3500,
+    arrows: false,
   };
 
   const [subCategoryName, setSubCategoryName] = useState("");

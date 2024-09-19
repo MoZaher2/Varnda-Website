@@ -62,29 +62,51 @@ usePageSEO({
           <>
             <ArticleCards articles={articles} />
             {/* Pagination */}
+            {/* Pagination */}
             <div className="d-flex justify-content-center mt-3">
               <Pagination dir="ltr">
+                <Pagination.First
+                  onClick={() => handlePageChange(1)}
+                  disabled={currentPage === 1}
+                />
+
                 <Pagination.Prev
                   onClick={() =>
                     handlePageChange(currentPage > 1 ? currentPage - 1 : 1)
                   }
                   disabled={currentPage === 1}
                 />
-                {[...Array(totalPages)].map((_, index) => (
-                  <Pagination.Item
-                    key={index + 1}
-                    active={index + 1 === currentPage}
-                    onClick={() => handlePageChange(index + 1)}
-                  >
-                    {index + 1}
-                  </Pagination.Item>
-                ))}
+
+                {currentPage > 3 && <Pagination.Ellipsis />}
+
+                {/* Show pages around the current page */}
+                {[...Array(totalPages)]
+                  .map((_, index) => index + 1)
+                  .filter(
+                    (page) => page >= currentPage - 1 && page <= currentPage + 1
+                  )
+                  .map((page) => (
+                    <Pagination.Item
+                      key={page}
+                      active={page === currentPage}
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </Pagination.Item>
+                  ))}
+
+                {currentPage < totalPages - 2 && <Pagination.Ellipsis />}
                 <Pagination.Next
                   onClick={() =>
                     handlePageChange(
                       currentPage < totalPages ? currentPage + 1 : totalPages
                     )
                   }
+                  disabled={currentPage === totalPages}
+                />
+
+                <Pagination.Last
+                  onClick={() => handlePageChange(totalPages)}
                   disabled={currentPage === totalPages}
                 />
               </Pagination>
