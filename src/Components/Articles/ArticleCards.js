@@ -24,7 +24,7 @@ export default function ArticleCards({ articles }) {
                 <Card.Title>{article.Title}</Card.Title>
                 <Card.Text className='article-body'>
                   <div className="rtl">
-                    {stripHtml(article.Article_body, 170)}
+                    {stripHtml(article.Article_body, 180)}
                   </div>
                 </Card.Text>
               </Card.Body>
