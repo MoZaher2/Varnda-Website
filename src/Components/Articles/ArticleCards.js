@@ -23,8 +23,8 @@ export default function ArticleCards({ articles }) {
               <Card.Body>
                 <Card.Title>{article.Title}</Card.Title>
                 <Card.Text className='article-body'>
-                  <div className="rtl miniwords">
-                    {stripHtml(article.Article_body, 250)}
+                  <div className="rtl">
+                    {stripHtml(article.Article_body, 170)}
                   </div>
                 </Card.Text>
               </Card.Body>
