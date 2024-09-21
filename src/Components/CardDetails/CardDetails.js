@@ -177,7 +177,7 @@ const CardDetails = ({ propertyDetails }) => {
                           <th className="w-50 p-3 leftTablePart">
                             {propertyDetails.property.Type === "sale"
                               ? "للبيع"
-                              : "للاجار"}
+                              : "للايجار"}
                           </th>
                         </tr>
                         <tr>
@@ -740,3 +740,5 @@ const CardDetails = ({ propertyDetails }) => {
 };
 
 export default CardDetails;
+
+

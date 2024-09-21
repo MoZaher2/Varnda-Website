@@ -50,9 +50,9 @@ export default function ArticleDetailes() {
         <>
           {article ? (
             <>
-              <h2 className="text-center title-page py-1 pb-2 container my-3">
+              <h1 className="text-center title-page py-1 pb-2 container my-3">
                 {article.Title}
-              </h2>
+              </h1>
               <Container dir="rtl">
                 <Row className="detailes-page">
                   <Col>

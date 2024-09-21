@@ -102,7 +102,7 @@ function App() {
         <Route path="/governorates" element={<GovsHome />} />
         <Route path="/projects" element={<ProjectsHome />} />
         <Route path="/projects/:compound" element={<CompoundPage />} />
-        
+
         <Route path="/Blogs" element={<Articles />} />
         <Route path="/Blogs/:category" element={<ArticlesInCategory />} />
         <Route path="/Blogs/tags/:tag" element={<ArticlesWithTag />} />
@@ -386,7 +386,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
         </Route>
 
         {/* User Routes */}
@@ -569,3 +568,4 @@ function App() {
 }
 
 export default App;
+
