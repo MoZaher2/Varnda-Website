@@ -480,7 +480,7 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                 <Dropdown
                   show={showPriceDropdown}
                   onToggle={(isOpen) => setShowPriceDropdown(isOpen)}
-                  align="start"
+                  align="end"
                 >
                   <DropdownButton
                     id="dropdown-basic-button"
