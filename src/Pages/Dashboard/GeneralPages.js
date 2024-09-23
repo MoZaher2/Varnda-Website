@@ -31,7 +31,7 @@ export default function GeneralPages() {
       },
       {
         id: 3,
-        url: "Blogs",
+        url: "blog",
         name: "المدونات",
         meta_description: "",
         key_words: "المدونات",

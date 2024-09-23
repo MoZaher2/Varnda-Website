@@ -36,10 +36,6 @@ useEffect(() => {
     fetchToken();
 }, [token]);
 
-
-
-
-
   const role = Cookies.get("role")
   // const role = localStorage.getItem("role")
   const navigate = useNavigate()

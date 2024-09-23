@@ -141,7 +141,7 @@ return (
                     </td>
                     <td>{item.key_words}</td>
                     <td>
-                      <Link to={`/Blog/${item.Article_url}`}>
+                      <Link to={`/blog/${item.Article_url}`}>
                         {item.Article_url}
                       </Link>
                     </td>

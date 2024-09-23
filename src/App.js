@@ -103,10 +103,15 @@ function App() {
         <Route path="/projects" element={<ProjectsHome />} />
         <Route path="/projects/:compound" element={<CompoundPage />} />
 
-        <Route path="/Blogs" element={<Articles />} />
-        <Route path="/Blogs/:category" element={<ArticlesInCategory />} />
-        <Route path="/Blogs/tags/:tag" element={<ArticlesWithTag />} />
+        {/* <Route path="/Blogs" element={<Articles />} />
         <Route path="/Blog/:id" element={<ArticleDetailes />} />
+        <Route path="/Blogs/:category" element={<ArticlesInCategory />} />
+        <Route path="/Blogs/tags/:tag" element={<ArticlesWithTag />} /> */}
+
+        <Route path="/blog" element={<Articles />} />
+        <Route path="/blog/:id" element={<ArticleDetailes />} />
+        <Route path="/blog/categories/:category" element={<ArticlesInCategory />} />
+        <Route path="/blog/tags/:tag" element={<ArticlesWithTag />} />
 
         <Route path="/about-us" element={<AboutPage />} />
         <Route path="/contact-us" element={<ContactPage />} />

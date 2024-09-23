@@ -71,7 +71,7 @@ export default function ArticleDetailes() {
                           }}
                         >
                           <Link
-                            to={`/Blogs/${article.category_name}`}
+                            to={`/blog/categories/${article.category_name}`}
                             className="categoryLink"
                           >
                             {article.category_name.replace(/-/g, " ")}
@@ -93,7 +93,7 @@ export default function ArticleDetailes() {
                         {article.tags.map((tag) => (
                           <Button
                             as={Link}
-                            to={`/Blogs/tags/${tag.replace(/ /g, "-")}`}
+                            to={`/blog/tags/${tag.replace(/ /g, "-")}`}
                             variant="outline-info"
                             className="tagBtn"
                           >
@@ -133,7 +133,7 @@ export default function ArticleDetailes() {
           <Footer />
           <Share
             text={`مدونه عن ${article.Title} فى موقع فارندا`}
-            url={`http://varnda.com/Blog/${encodeURIComponent(id)}`}
+            url={`http://varnda.com/blog/${encodeURIComponent(id)}`}
           />
         </>
       )}

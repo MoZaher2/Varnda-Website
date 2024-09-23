@@ -22,19 +22,19 @@ export default function Share({url,text=""}) {
     { 
       icon: <TwitterIcon />, 
       name: 'Twitter', 
-      url: `https://twitter.com/intent/tweet?text=${text} &url=${encodeURIComponent(url)}/`,
+      url: `https://twitter.com/intent/tweet?text=${text} &url=${encodeURIComponent(url)}`,
       color:'#1DA1F2'
     },
     { 
       icon: <WhatsAppIcon />, 
       name: 'WhatsApp', 
-      url: `whatsapp://send?text=${text} ${encodeURIComponent(url)}/`,
+      url: `whatsapp://send?text=${text} ${encodeURIComponent(url)}`,
       color:'#25D366'
     },
     { 
     icon: <FacebookIcon />, 
     name: 'Facebook', 
-    url: `http://www.facebook.com/sharer.php?u=${encodeURIComponent(url)}/`,
+    url: `http://www.facebook.com/sharer.php?u=${encodeURIComponent(url)}`,
       color:'#1877F2'
     },
     { 

@@ -18,7 +18,7 @@ export default function ArticleCards({ articles }) {
       <Row className="g-3">
         {articles.map((article) => (
           <Col sm={12} md={6} lg={4} key={article.id}>
-            <Card as={Link} to={`/Blog/${article.Article_url}`}>
+            <Card as={Link} to={`/blog/${article.Article_url}`}>
               <Card.Img variant="top" src={article.Article_image} />
               <Card.Body>
                 <Card.Title>{article.Title}</Card.Title>
@@ -50,7 +50,7 @@ export default function ArticleCards({ articles }) {
 //       <Row className="g-3">
 //         {articles.map((article) => (
 //           <Col sm={12} md={6} lg={4} key={article.id}>
-//             <Card as={Link} to={`/Blog/${article.Article_url}`} >
+//             <Card as={Link} to={`/blog/${article.Article_url}`} >
 //               <Card.Img variant="top" src={article.Article_image} />
 //               <Card.Body>
 //                 <Card.Title>{article.Title}</Card.Title>

@@ -157,7 +157,7 @@ export default function Header() {
                 <FontAwesomeIcon icon={faPlus} className="ms-2" />
                 اضف عقار
               </Nav.Link>
-              <Nav.Link as={Link} to="/Blogs"  style={{color: 'white'}}>
+              <Nav.Link as={Link} to="/blog"  style={{color: 'white'}}>
                 <FontAwesomeIcon icon={faFileAlt} className="ms-2" />
                 المدونة
               </Nav.Link>

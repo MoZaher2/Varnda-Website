@@ -141,7 +141,7 @@ export default function ShowPostsComments({ role }) {
                     </td>
                     <td>{item.user_role}</td>
                     <td>
-                      <Link to={`/Blog/${item.post_url}`}>
+                      <Link to={`/blog/${item.post_url}`}>
                         <FontAwesomeIcon icon={faEye} /> عرض
                       </Link>
                     </td>

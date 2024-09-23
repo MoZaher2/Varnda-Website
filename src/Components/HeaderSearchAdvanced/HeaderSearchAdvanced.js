@@ -245,57 +245,62 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
 
   return (
     <>
-          <div id="basic-navbar-nav" className="justify-content-between show mt-2" >
-            <Form dir="rtl" className="w-100">
-              <Row className="d-flex align-items-center justify-content-start formInfoAdvanced m-0 mb-3 ">
-                <Col lg="2" md="2" className="mb-2" >
-                  <Form.Group className="inputSelectAdvanced">
-                    <Dropdown
-                      show={showDropdown}
-                      onToggle={(isOpen) => setShowDropdown(isOpen)}
-                      align="end"
-                    >
-                      <Button
-                        variant="light"
-                        id="dropdown-basic"
-                        onClick={() => setShowDropdown(!showDropdown)}
-                        className="w-100"
-                      >
-                        {selectedOption === "rent" ? "للايجار" :selectedOption === "sale"? "للبيع":"بيع و ايجار"}
-                      </Button>
+      <div id="basic-navbar-nav" className="justify-content-between show mt-2">
+        <Form dir="rtl" className="w-100">
+          <Row className="d-flex align-items-center justify-content-start formInfoAdvanced m-0 mb-3 ">
+            <Col lg="2" md="3" className="mb-2">
+              <Form.Group className="inputSelectAdvanced">
+                <Dropdown
+                  show={showDropdown}
+                  onToggle={(isOpen) => setShowDropdown(isOpen)}
+                  align="end"
+                >
+                  <Button
+                    variant="light"
+                    id="dropdown-basic"
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    className="w-100"
+                  >
+                    {selectedOption === "rent"
+                      ? "للايجار"
+                      : selectedOption === "sale"
+                      ? "للبيع"
+                      : "بيع و ايجار"}
+                  </Button>
 
-                      <Dropdown.Menu
-                        className="dropdown-menu-right menu-sale"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="p-3">
-                          <h5 className="mb-3 type-ofer">نوع العرض</h5>
-                          <div className="d-flex justify-content-around text-center">
-
-                          <Dropdown.Item
-                                  key="1"
-                                  className="btn"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    handleOptionChange("sale");
-                                  }}
-                                  active={selectedOption === "sale"}
-                                >
-                                   للبيع
-                                </Dropdown.Item>
-                          <Dropdown.Item
-                                  key="2"
-                                  className="btn"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    handleOptionChange("rent");
-                                  }}
-                                  active={selectedOption === "rent"}
-                                >
-                                   للايجار
-                                </Dropdown.Item>
-                          </div>
-                          {/* <div className="d-flex justify-content-between mt-3">
+                  <Dropdown.Menu
+                    className="dropdown-menu-right menu-sale w-100"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="p-3 p-md-2">
+                      <h5 className="mb-3 type-ofer">نوع العرض</h5>
+                      <div className="d-flex justify-content-around text-center">
+                        <Dropdown.Item
+                          key="1"
+                          className="btn mx-1"
+                          style={{border:'1px solid #0d6efd'}}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleOptionChange("sale");
+                          }}
+                          active={selectedOption === "sale"}
+                        >
+                          للبيع
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          key="2"
+                          className="btn mx-1"
+                          style={{border:'1px solid #0d6efd'}}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleOptionChange("rent");
+                          }}
+                          active={selectedOption === "rent"}
+                        >
+                          للايجار
+                        </Dropdown.Item>
+                      </div>
+                      {/* <div className="d-flex justify-content-between mt-3">
                             <Button variant="secondary" onClick={handleReset}>
                               إعادة ضبط
                             </Button>
@@ -307,93 +312,93 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                               تم
                             </Button>
                           </div> */}
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Form.Group>
+            </Col>
+
+            <Col lg="4" md="6" className="mb-2">
+              <Search className="search" setAddress={setAddress} />
+            </Col>
+
+            <Col lg="1" md="2" className="mb-2">
+              <Form.Group className="inputSelectAdvanced">
+                <Dropdown
+                  show={showPropertyTypeDropdown}
+                  onToggle={(isOpen) => setShowPropertyTypeDropdown(isOpen)}
+                  align="end"
+                >
+                  <Button
+                    variant="light"
+                    id="dropdown-basic"
+                    onClick={() =>
+                      setShowPropertyTypeDropdown(!showPropertyTypeDropdown)
+                    }
+                    className="w-100"
+                  >
+                    {propertyType}
+                  </Button>
+
+                  <Dropdown.Menu
+                    className="menu-sale"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="p-3">
+                      <div className="d-flex justify-content-around">
+                        <Button
+                          className="btn btn-primary select-option"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePropertyTypeChange("سكنى");
+                          }}
+                          active={propertyType === "سكنى"}
+                        >
+                          سكنى
+                        </Button>
+                        <Button
+                          className="btn btn-primary select-option"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePropertyTypeChange("تجارى");
+                          }}
+                          active={propertyType === "تجارى"}
+                        >
+                          تجارى
+                        </Button>
+                      </div>
+
+                      {propertyType === "سكنى" && (
+                        <div className="menu-option">
+                          <h5 className="mt-3 mb-3">خيارات السكنى</h5>
+                          {residentialOptions.map((option) => (
+                            <Dropdown.Item
+                              key={option}
+                              onClick={() => handleSubCategoryChange(option)}
+                              active={subCategory === option}
+                            >
+                              {option}
+                            </Dropdown.Item>
+                          ))}
                         </div>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </Form.Group>
-                </Col>
+                      )}
 
-                <Col lg="4" md="6" className="mb-2" >
-                  <Search className="search" setAddress={setAddress} />
-                </Col>
-
-                <Col lg="1" md="2" className="mb-2" >
-                  <Form.Group className="inputSelectAdvanced">
-                    <Dropdown
-                      show={showPropertyTypeDropdown}
-                      onToggle={(isOpen) => setShowPropertyTypeDropdown(isOpen)}
-                      align="end"
-                    >
-                      <Button
-                        variant="light"
-                        id="dropdown-basic"
-                        onClick={() =>
-                          setShowPropertyTypeDropdown(!showPropertyTypeDropdown)
-                        }
-                        className="w-100"
-                      >
-                        {propertyType}
-                      </Button>
-
-                      <Dropdown.Menu
-                        className="menu-sale"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="p-3">
-                          <div className="d-flex justify-content-around">
-                            <Button
-                              className="btn btn-primary select-option"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handlePropertyTypeChange("سكنى");
-                              }}
-                              active={propertyType === "سكنى"}
+                      {propertyType === "تجارى" && (
+                        <div className="menu-option">
+                          <h5 className="mt-3 mb-3">خيارات التجارى</h5>
+                          {commercialOptions.map((option) => (
+                            <Dropdown.Item
+                              key={option}
+                              onClick={() => handleSubCategoryChange(option)}
+                              active={subCategory === option}
                             >
-                              سكنى
-                            </Button>
-                            <Button
-                              className="btn btn-primary select-option"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handlePropertyTypeChange("تجارى");
-                              }}
-                              active={propertyType === "تجارى"}
-                            >
-                              تجارى
-                            </Button>
-                          </div>
+                              {option}
+                            </Dropdown.Item>
+                          ))}
+                        </div>
+                      )}
 
-                          {propertyType === "سكنى" && (
-                            <div className="menu-option">
-                              <h5 className="mt-3 mb-3">خيارات السكنى</h5>
-                              {residentialOptions.map((option) => (
-                                <Dropdown.Item
-                                  key={option}
-                                  onClick={() => handleSubCategoryChange(option)}
-                                  active={subCategory === option}
-                                >
-                                  {option}
-                                </Dropdown.Item>
-                              ))}
-                            </div>
-                          )}
-
-                          {propertyType === "تجارى" && (
-                            <div className="menu-option">
-                              <h5 className="mt-3 mb-3">خيارات التجارى</h5>
-                              {commercialOptions.map((option) => (
-                                <Dropdown.Item
-                                  key={option}
-                                  onClick={() => handleSubCategoryChange(option)}
-                                  active={subCategory === option}
-                                >
-                                  {option}
-                                </Dropdown.Item>
-                              ))}
-                            </div>
-                          )}
-
-                          {/* <div className="d-flex justify-content-between mt-3">
+                      {/* <div className="d-flex justify-content-between mt-3">
                             <Button variant="secondary" onClick={handleReset}>
                               إعادة ضبط
                             </Button>
@@ -405,157 +410,181 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                               تم
                             </Button>
                           </div> */}
-                        </div>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </Form.Group>
-                </Col>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Form.Group>
+            </Col>
 
-                <Col lg="2" md="3" xs={6} className="mb-2" >
-                  <Form.Group className="inputSelectAdvanced">
-                    <Dropdown
-                      show={showRoomsDropdown}
-                      onToggle={(isOpen) => setShowRoomsDropdown(isOpen)}
-                      align="end"
-                    >
-                      <DropdownButton
-                        id="dropdown-basic-button"
-                        title="الغرف | الحمامات"
-                        onClick={() => setShowRoomsDropdown(!showRoomsDropdown)}
-                        variant="light"
-                      >
-                        <div className="p-3 numRoomsAndBath">
-                          <h5>عدد الغرف</h5>
-                          <div className="d-flex align-items-center justify-content-center mb-3 flex-wrap">
-                            {roomValues.map((room, idx) => (
-                              <div key={idx} className="me-2">
-                                <Form.Check
-                                  type="checkbox"
-                                  label={room === "0" ? "استوديو" : room === "10" ? `+10` : room}
-                                  checked={rooms.includes(room)}
-                                  onChange={() => handleRoomChange(room)}
-                                />
-                              </div>
-                            ))}
+            <Col lg="2" md="3" xs={6} className="mb-2">
+              <Form.Group className="inputSelectAdvanced">
+                <Dropdown
+                  show={showRoomsDropdown}
+                  onToggle={(isOpen) => setShowRoomsDropdown(isOpen)}
+                  align="end"
+                >
+                  <DropdownButton
+                    id="dropdown-basic-button"
+                    title="الغرف | الحمامات"
+                    onClick={() => setShowRoomsDropdown(!showRoomsDropdown)}
+                    variant="light"
+                  >
+                    <div className="p-3 numRoomsAndBath">
+                      <h5>عدد الغرف</h5>
+                      <div className="d-flex align-items-center justify-content-center mb-3 flex-wrap">
+                        {roomValues.map((room, idx) => (
+                          <div key={idx} className="me-2">
+                            <Form.Check
+                              type="checkbox"
+                              label={
+                                room === "0"
+                                  ? "استوديو"
+                                  : room === "10"
+                                  ? `+10`
+                                  : room
+                              }
+                              checked={rooms.includes(room)}
+                              onChange={() => handleRoomChange(room)}
+                            />
                           </div>
-                          <h5>عدد الحمامات</h5>
-                          <div className="d-flex align-items-center justify-content-start">
-                            {bathroomValues.map((bathroom, idx) => (
-                              <div key={idx} className="me-2 roomAndBath">
-                                <Form.Check
-                                  type="checkbox"
-                                  label={bathroom === "6" ? `+${bathroom}` : bathroom}
-                                  checked={bathrooms.includes(bathroom)}
-                                  onChange={() => handleBathRoomChange(bathroom)}
-                                />
-                              </div>
-                            ))}
+                        ))}
+                      </div>
+                      <h5>عدد الحمامات</h5>
+                      <div className="d-flex align-items-center justify-content-start">
+                        {bathroomValues.map((bathroom, idx) => (
+                          <div key={idx} className="me-2 roomAndBath">
+                            <Form.Check
+                              type="checkbox"
+                              label={
+                                bathroom === "6" ? `+${bathroom}` : bathroom
+                              }
+                              checked={bathrooms.includes(bathroom)}
+                              onChange={() => handleBathRoomChange(bathroom)}
+                            />
                           </div>
-                          {/* <div className="d-flex justify-content-end mt-3">
+                        ))}
+                      </div>
+                      {/* <div className="d-flex justify-content-end mt-3">
                             <Button variant="primary" onClick={resetSelections}>
                               إعادة ضبط
                             </Button>
                           </div> */}
-                        </div>
-                      </DropdownButton>
-                    </Dropdown>
-                  </Form.Group>
-                </Col>
+                    </div>
+                  </DropdownButton>
+                </Dropdown>
+              </Form.Group>
+            </Col>
 
-                <Col lg="1" md="3" xs={6} className="mb-2" >
-                  <Form.Group className="inputSelectAdvanced">
-                    <Dropdown
-                      show={showPriceDropdown}
-                      onToggle={(isOpen) => setShowPriceDropdown(isOpen)}
-                    >
-                      <DropdownButton
-                        id="dropdown-basic-button"
-                        title="بحث متقدم"
-                        onClick={() => setShowPriceDropdown(!showPriceDropdown)}
-                        variant="light"
-                        // style={{ width: "300px" }}
-                      >
-                        <div className="p-3 menuValue w-200 style-menu-h5">
-                          <h5>السعر ( ج.م )</h5>
-                          <div className="d-flex align-items-center justify-content-between">
-                            <Form.Group className="minAndMaxValue ms-3">
-                              <Form.Label className="heading-value">الحد الأدنى</Form.Label>
-                              <Form.Select
-                                value={price.min}
-                                onChange={(e) => setPrice({ ...price, min: e.target.value })}
-                              >
-                                <option>100</option>
-                                <option>200</option>
-                                <option>300</option>
-                                <option>400</option>
-                                <option>500</option>
-                              </Form.Select>
-                            </Form.Group>
-                            <Form.Group className="minAndMaxValue me-3">
-                              <Form.Label className="heading-value">الحد الأعلى</Form.Label>
-                              <Form.Select
-                                value={price.max}
-                                onChange={(e) => setPrice({ ...price, max: e.target.value })}
-                              >
-                                <option>1000</option>
-                                <option>2000</option>
-                                <option>2000</option>
-                                <option>50000</option>
-                                <option>100000</option>
-                              </Form.Select>
-                            </Form.Group>
-                          </div>
-                          <h5>المساحة ( متر مربع )</h5>
-                          <div className="d-flex align-items-center justify-content-between">
-                            <Form.Group className="minAndMaxValue ms-3">
-                              <Form.Label className="heading-value">أقل مساحة</Form.Label>
-                              <Form.Select
-                                value={area.min}
-                                onChange={(e) => setArea({ ...area, min: e.target.value })}
-                              >
-                                <option>100</option>
-                                <option>200</option>
-                                <option>300</option>
-                                <option>400</option>
-                                <option>500</option>
-                              </Form.Select>
-                            </Form.Group>
-                            <Form.Group className="minAndMaxValue me-3">
-                              <Form.Label className="heading-value">أكبر مساحة</Form.Label>
-                              <Form.Select
-                                value={area.max}
-                                onChange={(e) => setArea({ ...area, max: e.target.value })}
-                              >
-                                <option>1000</option>
-                                <option>2000</option>
-                                <option>3000</option>
-                                <option>4000</option>
-                                <option>5000</option>
-                              </Form.Select>
-                            </Form.Group>
-                          </div>
-                          {/* <div className="d-flex align-items-center justify-content-between">
+            <Col lg="1" md="3" xs={6} className="mb-2">
+              <Form.Group className="inputSelectAdvanced">
+                <Dropdown
+                  show={showPriceDropdown}
+                  onToggle={(isOpen) => setShowPriceDropdown(isOpen)}
+                >
+                  <DropdownButton
+                    id="dropdown-basic-button"
+                    title="بحث متقدم"
+                    onClick={() => setShowPriceDropdown(!showPriceDropdown)}
+                    variant="light"
+                    // style={{ width: "300px" }}
+                  >
+                    <div className="p-3 menuValue w-200 style-menu-h5">
+                      <h5>السعر ( ج.م )</h5>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <Form.Group className="minAndMaxValue ms-3">
+                          <Form.Label className="heading-value">
+                            الحد الأدنى
+                          </Form.Label>
+                          <Form.Select
+                            value={price.min}
+                            onChange={(e) =>
+                              setPrice({ ...price, min: e.target.value })
+                            }
+                          >
+                            <option>100</option>
+                            <option>200</option>
+                            <option>300</option>
+                            <option>400</option>
+                            <option>500</option>
+                          </Form.Select>
+                        </Form.Group>
+                        <Form.Group className="minAndMaxValue me-3">
+                          <Form.Label className="heading-value">
+                            الحد الأعلى
+                          </Form.Label>
+                          <Form.Select
+                            value={price.max}
+                            onChange={(e) =>
+                              setPrice({ ...price, max: e.target.value })
+                            }
+                          >
+                            <option>1000</option>
+                            <option>2000</option>
+                            <option>2000</option>
+                            <option>50000</option>
+                            <option>100000</option>
+                          </Form.Select>
+                        </Form.Group>
+                      </div>
+                      <h5>المساحة ( متر مربع )</h5>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <Form.Group className="minAndMaxValue ms-3">
+                          <Form.Label className="heading-value">
+                            أقل مساحة
+                          </Form.Label>
+                          <Form.Select
+                            value={area.min}
+                            onChange={(e) =>
+                              setArea({ ...area, min: e.target.value })
+                            }
+                          >
+                            <option>100</option>
+                            <option>200</option>
+                            <option>300</option>
+                            <option>400</option>
+                            <option>500</option>
+                          </Form.Select>
+                        </Form.Group>
+                        <Form.Group className="minAndMaxValue me-3">
+                          <Form.Label className="heading-value">
+                            أكبر مساحة
+                          </Form.Label>
+                          <Form.Select
+                            value={area.max}
+                            onChange={(e) =>
+                              setArea({ ...area, max: e.target.value })
+                            }
+                          >
+                            <option>1000</option>
+                            <option>2000</option>
+                            <option>3000</option>
+                            <option>4000</option>
+                            <option>5000</option>
+                          </Form.Select>
+                        </Form.Group>
+                      </div>
+                      {/* <div className="d-flex align-items-center justify-content-between">
                             <Button variant="secondary" onClick={handleReset}>
                               إعادة الضبط
                             </Button>
                           </div> */}
-                        </div>
-                      </DropdownButton>
-                    </Dropdown>
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <div className="d-flex flex-row-reverse pr-3">
-                    <Button variant="secondary" onClick={handleReset}>
-                      إعادة ضبط
-                    </Button>
-                  </div>
-                </Col>
-              </Row>
-            </Form>
-          </div>
+                    </div>
+                  </DropdownButton>
+                </Dropdown>
+              </Form.Group>
+            </Col>
 
-    
+            <Col>
+              <div className="d-flex flex-row-reverse pr-3">
+                <Button variant="secondary" onClick={handleReset}>
+                  إعادة ضبط
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+
       <hr />
       <Container>
         <Row className="d-flex justify-content-between">
@@ -577,7 +606,8 @@ export default function HeaderSearchAdvanced({query,navigate,setProperties,setLo
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-          </Col></Row>
+          </Col>
+        </Row>
       </Container>
     </>
   );

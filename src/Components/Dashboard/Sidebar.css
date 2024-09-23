@@ -36,11 +36,11 @@
 }
 
 /*  */
-.dropdown-menu{
+.sidebar .dropdown-menu{
     width: 100%;
     text-align: center;
 }
-.dropdown-item{
+.sidebar .dropdown-item{
     border-bottom: 1px solid #808080ad;
 }
 /*  */
