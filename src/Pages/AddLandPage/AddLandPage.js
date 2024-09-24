@@ -892,7 +892,7 @@ const AddLandPage = () => {
                           placeholder="فى حاله عدم وجود الشارع يرجى كتابته هنا"
                           value={formData.street}
                           onChange={handleChange}
-                          maxLength="30"
+                           
                         />
                       </Form.Group>
                       <div className="text-center d-flex justify-content-between">

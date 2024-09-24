@@ -837,7 +837,7 @@ const AddNewCemeteries = () => {
                           placeholder="فى حاله عدم وجود الشارع يرجى كتابته هنا"
                           value={formData.street}
                           onChange={handleChange}
-                          maxLength="30"
+                           
                         />
                       </Form.Group>
 

@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom"; //
 import DeleteImage from "../../../Components/DeleteImage/DeleteImage.js";//
 import AlertArError from '../../../Components/Alert/AlertArError.js';
+import { Autocomplete, TextField } from '@mui/joy';
 
 const EditCommercialUnitsPage = () => {
 
@@ -510,7 +511,14 @@ const handlePriceChange = (e) => {
     });
   }
 }
- 
+
+const handleOptionSelect = (value) => {
+  setFormData({
+    ...formData,
+    mall_name: value
+  });
+};
+
   return (
     <>
       <Header />
@@ -1211,31 +1219,31 @@ const handlePriceChange = (e) => {
                           placeholder="فى حاله عدم وجود الشارع يرجى كتابته هنا"
                           value={formData.street}
                           onChange={handleChange}
-                          maxLength="30"
+                           
                         />
                       </Form.Group>
 
                       <Form.Group controlId="mall" className="mb-3">
                         <Form.Label>
-                          {mollLoad && <span className="loader"></span>}
                           اسم المبني( تجاري - اداري - طبي - فندقي) (إن وجد)
                         </Form.Label>
-                        <Form.Select
-                          name="mall_name"
-                          value={formData.mall_name}
-                          onChange={handleChange}
-                        >
-                          {!mollLoad && (
-                            <>
-                              <option value="">اختر المول</option>
-                              {molls.map((moll) => (
-                                <option key={moll.id} value={moll.name}>
-                                  {moll.name}
-                                </option>
-                              ))}
-                            </>
+                        {Ad.property.mall_name && (
+                          <p>اختيارك القديم:({Ad.property.mall_name})</p>
+                        )}
+                        <Autocomplete
+                          disablePortal
+                          onChange={(event, newValue) => {
+                            handleOptionSelect(newValue ? newValue.name : "");
+                          }}
+                          options={molls}
+                          getOptionLabel={(option) => option.name}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="اختر المول"
+                            />
                           )}
-                        </Form.Select>
+                        />
                       </Form.Group>
 
                       <div className="text-center d-flex justify-content-between">
