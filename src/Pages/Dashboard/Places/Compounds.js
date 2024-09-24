@@ -63,8 +63,8 @@ export default function Compounds() {
       } else {
         setCityUrl("");
       }
-      setFormData({ ...formData, governorate: value, city: "" });
-      setCities([]);
+      setFormData({ ...formData, city: value });
+      // setCities([]);
       setCompounds([]);
     } 
 

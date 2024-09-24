@@ -54,8 +54,18 @@ export default function CityPage() {
         <>
           <Header />
           <h1 className="text-center title-page py-1 pb-2 container my-3">
-            {data.h1_title}
+            {data.h1_title ? data.h1_title : data.name}
           </h1>
+          {data.image && (
+            <div className="container mb-3">
+              <img
+                src={data.image}
+                alt={data.h1_title}
+                style={{ width: "100%", height: "400px" }}
+              />
+            </div>
+          )}
+
           {overlay ? (
             <OverPage />
           ) : (

@@ -40,7 +40,7 @@ export default function CardPage({ properties=[] ,loading}) {
         slidesToScroll: 1,
         autoplay: true, // حركة تلقائية
         autoplaySpeed: 3500, // الوقت بين كل حركة تلقائية (بالملي ثانية)
-        // arrows: true, // تفعيل الأسهم الجانبية
+        arrows: false, // تفعيل الأسهم الجانبية
     };
     const [favorites, setFavorites] = useState([]);
     const [loadId, setLoadId] = useState(null)
@@ -135,7 +135,7 @@ export default function CardPage({ properties=[] ,loading}) {
             ))
         ) : (
           <>
-            <Row className="justify-content-center">
+            <Row className="justify-content-center m-0">
               {properties.map((property, index) =>
                 // Normal Ads
                 property.ad_type === 0 ? (

@@ -31,7 +31,7 @@ export default function HeaderPageLink({activeCategory}) {
               return (
                 <div className="page-link" key={category.id}>
                   <Nav.Link
-                    href={`/blog/categories/${category.category_name}`}
+                    href={`/blog/type/${category.category_name}`}
                     className={`link ${
                       category.category_name === activeCategory
                         ? "activelink"

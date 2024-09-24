@@ -110,7 +110,7 @@ function App() {
 
         <Route path="/blog" element={<Articles />} />
         <Route path="/blog/:id" element={<ArticleDetailes />} />
-        <Route path="/blog/categories/:category" element={<ArticlesInCategory />} />
+        <Route path="/blog/type/:category" element={<ArticlesInCategory />} />
         <Route path="/blog/tags/:tag" element={<ArticlesWithTag />} />
 
         <Route path="/about-us" element={<AboutPage />} />

@@ -71,7 +71,7 @@ export default function ArticleDetailes() {
                           }}
                         >
                           <Link
-                            to={`/blog/categories/${article.category_name}`}
+                            to={`/blog/type/${article.category_name}`}
                             className="categoryLink"
                           >
                             {article.category_name.replace(/-/g, " ")}
