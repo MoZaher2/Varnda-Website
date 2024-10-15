@@ -305,7 +305,7 @@ const AddApartmentsAndDuplexesPage = () => {
       const response = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`
       );
-       
+
       const address = response.data.features[0].properties.formatted;
       setFormData({
         ...formData,
@@ -393,15 +393,14 @@ const AddApartmentsAndDuplexesPage = () => {
         console.log(error);
 
         if (error.response.status === 422) {
-          setAlertArError(error.response.data.data)
-          setShowArError(true)
-        }
-        else{
-        setAlert({
-          msg: "حدث خطا اثناء حفظ الاعلان يرجى المحاوله مره ثانيه",
-          variant: 2,
-        });
-        setShow(true);
+          setAlertArError(error.response.data.data);
+          setShowArError(true);
+        } else {
+          setAlert({
+            msg: "حدث خطا اثناء حفظ الاعلان يرجى المحاوله مره ثانيه",
+            variant: 2,
+          });
+          setShow(true);
         }
         window.scrollTo({ top: 0, behavior: "smooth" });
       } finally {
@@ -1129,7 +1128,6 @@ const AddApartmentsAndDuplexesPage = () => {
                           placeholder="فى حاله عدم وجود الشارع يرجى كتابته هنا"
                           value={formData.street}
                           onChange={handleChange}
-                           
                         />
                       </Form.Group>
 
@@ -1272,10 +1270,7 @@ const AddApartmentsAndDuplexesPage = () => {
         </Container>
         {showArError && (
           <>
-            <AlertArError
-              msg={alertArError}
-              setShowArError={setShowArError}
-            />
+            <AlertArError msg={alertArError} setShowArError={setShowArError} />
           </>
         )}
         {show && (

@@ -44,6 +44,7 @@ export default function CompoundPage() {
   usePageSEO({
     title: data.meta_title|| "مشروع عقارى",
     description: data.meta_description || "",
+    canonical: `https://varnda.com/${gov}/${city}/${compound}`
   });
 
   return (

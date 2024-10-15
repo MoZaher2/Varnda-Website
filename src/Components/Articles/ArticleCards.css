@@ -32,3 +32,7 @@
     line-clamp: 3; /* Number of lines before truncating */
     max-height: 4.5em; /* Adjust the max height based on the number of lines */
 }
+
+.article-main-image{
+  height: 350px;
+}

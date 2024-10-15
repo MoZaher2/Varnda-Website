@@ -62,7 +62,7 @@ export default function FooterContactUs() {
           <Col>
             <div className="contact-icon-social-container">
               <Link
-                to="https://youtube.com/@varndaeg"
+                to="https://youtube.com/@varndagreats?si=lE4Gv9qkzKEkSrvV"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="icon-social"

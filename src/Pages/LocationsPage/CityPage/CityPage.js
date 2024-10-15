@@ -44,8 +44,8 @@ export default function CityPage() {
   usePageSEO({
     title: data.meta_title|| "مدينة",
     description: data.meta_description || "",
+    canonical: `https://varnda.com/${gov}/${city}`
   });
-
   return (
     <>
       {notFound ? (

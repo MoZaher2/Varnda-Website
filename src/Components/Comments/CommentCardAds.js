@@ -16,6 +16,7 @@ import api from "../../API/ApiLink";
 import Cookies from "js-cookie";
 import LoadingBtn from "../LoadingBtn";
 import AlertMessage from "../Alert/Alert";
+import DeleteComment from "../DeleteItem/DeleteComment";
 export default function CommentCardAds({ ads_id }) {
   const userId = Cookies.get("user_id");
   const token = Cookies.get("token");
@@ -23,6 +24,7 @@ export default function CommentCardAds({ ads_id }) {
   const [open, setOpen] = useState(false);
   const [load, setLoad] = useState(false);
   const [comments, setComments] = useState([]);
+  const [comment_id, setComment_id] = useState();
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ msg: "", variant: 0 });
   // التعليقات الخاصه بالشيئ
@@ -41,7 +43,7 @@ export default function CommentCardAds({ ads_id }) {
   }, [ads_id]);
 
   // حذف التعليق
-  const handleDeleteComment = async (comment_id) => {
+  const handleDeleteComment = async () => {
     setLoad(true);
     try {
       await api.post(
@@ -111,70 +113,7 @@ export default function CommentCardAds({ ads_id }) {
                   {(role === "admin" ||
                     (userId == comment.user_id &&
                       comment.user_role === "user")) && (
-                    <>
-                      <IconButton
-                        color="danger"
-                        variant="plain"
-                        size="sm"
-                        sx={{
-                          zIndex: "100",
-                          position: "absolute",
-                          top: "5px",
-                          left: "5px",
-                        }}
-                        onClick={() => setOpen(true)}
-                      >
-                        <Delete />
-                      </IconButton>
-                      <Modal open={open} onClose={() => setOpen(false)}>
-                        <ModalDialog
-                          aria-labelledby="nested-modal-title"
-                          aria-describedby="nested-modal-description"
-                          sx={(theme) => ({
-                            [theme.breakpoints.only("xs")]: {
-                              top: "unset",
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              borderRadius: 0,
-                              transform: "none",
-                              maxWidth: "unset",
-                            },
-                          })}
-                        >
-                          <Typography id="nested-modal-title" level="h2">
-                            هل انت متأكد من حذف التعليق؟
-                          </Typography>
-                          <Box
-                            sx={{
-                              mt: 1,
-                              display: "flex",
-                              gap: 1,
-                              flexDirection: {
-                                xs: "column",
-                                sm: "row-reverse",
-                              },
-                            }}
-                          >
-                            <Button
-                              variant="solid"
-                              color="danger"
-                              disabled={load}
-                              onClick={() => handleDeleteComment(comment.id)}
-                            >
-                              {load ? <LoadingBtn /> : "حذف"}
-                            </Button>
-                            <Button
-                              variant="outlined"
-                              color="neutral"
-                              onClick={() => setOpen(false)}
-                            >
-                              إلغاء
-                            </Button>
-                          </Box>
-                        </ModalDialog>
-                      </Modal>
-                    </>
+                      <DeleteComment load={load} handleDeleteComment={handleDeleteComment} open={open} setOpen={setOpen} setComment_id={setComment_id} id={comment.id} />
                   )}
                 </Card>
               </Col>

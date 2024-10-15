@@ -56,7 +56,7 @@ export default function Footer() {
             </div>
 
             <div className="icon-social-container">
-              <Link to="https://youtube.com/@varndaeg" target="_blank" rel="noopener noreferrer" className="icon-social">
+              <Link to="https://youtube.com/@varndagreats?si=lE4Gv9qkzKEkSrvV" target="_blank" rel="noopener noreferrer" className="icon-social">
                 <FontAwesomeIcon icon={faYoutube} />
               </Link>
               <Link to="https://www.instagram.com/varnda76" target="_blank" rel="noopener noreferrer" className="icon-social" >

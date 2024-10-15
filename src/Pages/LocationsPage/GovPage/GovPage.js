@@ -41,6 +41,7 @@ export default function GovPage() {
   usePageSEO({
     title: data.meta_title || "محافظة",
     description: data.meta_description || "",
+    canonical: `https://varnda.com/${gov}`
   });
 
   return (

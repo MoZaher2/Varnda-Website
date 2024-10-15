@@ -2,7 +2,7 @@
 .rtl ol {
     direction: rtl;
     text-align: right;
-    list-style-position: inside;
+    /* list-style-position: inside; */
 }
 
 .rtl ol>li {
